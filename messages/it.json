@@ -152,7 +152,11 @@
     "fieldBreak": "Pausa (minuti)",
     "fieldNotes": "Note",
     "cancel": "Annulla",
-    "save": "Salva"
+    "save": "Salva",
+    "statAwaitingApproval": "In attesa di approvazione",
+    "statApprovedThisWeek": "Approvati questa settimana",
+    "statNeedsCorrection": "Da correggere",
+    "statTotalEntries": "Totale voci"
   },
   "employees": {
     "eyebrow": "Team",

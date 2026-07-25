@@ -152,7 +152,11 @@
     "fieldBreak": "Pauză (minute)",
     "fieldNotes": "Note",
     "cancel": "Anulează",
-    "save": "Salvează"
+    "save": "Salvează",
+    "statAwaitingApproval": "În așteptarea aprobării",
+    "statApprovedThisWeek": "Aprobate săptămâna aceasta",
+    "statNeedsCorrection": "Necesită corectare",
+    "statTotalEntries": "Total înregistrări"
   },
   "employees": {
     "eyebrow": "Echipă",

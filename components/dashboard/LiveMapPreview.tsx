@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import type { LiveOperationsPoint } from "@/src/features/operations/data";
 
@@ -18,6 +21,7 @@ function layout(points: LiveOperationsPoint[]) {
 }
 
 export default function LiveMapPreview({ points }: { points: LiveOperationsPoint[] }) {
+  const [selected, setSelected] = useState<string | null>(null);
   const shown = points.slice(0, 6);
   const placed = layout(shown);
 
@@ -36,20 +40,52 @@ export default function LiveMapPreview({ points }: { points: LiveOperationsPoint
           No one has clocked in with location sharing today.
         </div>
       ) : (
-        <div className="relative mt-5 h-40 overflow-hidden rounded-xl border border-white/10 bg-[#0F172A]">
-          <div
-            className="absolute inset-0 opacity-20"
-            style={{ backgroundImage: "linear-gradient(#22C55E 1px,transparent 1px),linear-gradient(90deg,#22C55E 1px,transparent 1px)", backgroundSize: "1.5rem 1.5rem" }}
-          />
-          {placed.map(({ point, left, top }) => (
-            <div key={point.userId} className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: `${left}%`, top: `${top}%` }} title={`${point.name} · ${point.siteName ?? "No site"}`}>
-              <span className="relative flex h-3 w-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#22C55E] opacity-60" />
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-[#4ADE80]" />
-              </span>
-            </div>
-          ))}
-        </div>
+        <>
+          <div className="relative mt-5 h-40 overflow-visible rounded-xl border border-white/10 bg-[#0F172A]">
+            <div
+              className="absolute inset-0 overflow-hidden rounded-xl opacity-20"
+              style={{ backgroundImage: "linear-gradient(#22C55E 1px,transparent 1px),linear-gradient(90deg,#22C55E 1px,transparent 1px)", backgroundSize: "1.5rem 1.5rem" }}
+            />
+            {placed.map(({ point, left, top }) => {
+              const isSelected = selected === point.userId;
+              return (
+                <button
+                  key={point.userId}
+                  type="button"
+                  onClick={() => setSelected(isSelected ? null : point.userId)}
+                  className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1 bg-transparent p-0"
+                  style={{ left: `${left}%`, top: `${top}%`, zIndex: isSelected ? 10 : 1 }}
+                >
+                  <span className="relative flex h-3 w-3">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#22C55E] opacity-60" />
+                    <span className="relative inline-flex h-3 w-3 rounded-full bg-[#4ADE80]" />
+                  </span>
+                  {isSelected ? (
+                    <span className="whitespace-nowrap rounded-lg border border-white/15 bg-[#0B1220] px-2.5 py-1.5 text-xs font-semibold text-[#F1F5F9] shadow-lg shadow-black/40">
+                      {point.name} · {point.siteName ?? "No site"}
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+          <div className="mt-3 flex flex-col gap-1">
+            {shown.map((point) => (
+              <button
+                key={point.userId}
+                type="button"
+                onClick={() => setSelected(selected === point.userId ? null : point.userId)}
+                className="flex items-center justify-between rounded-lg px-1.5 py-1 text-left hover:bg-white/5"
+              >
+                <span className="flex items-center gap-2 text-xs font-medium text-[#E5E7EB]">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4ADE80]" />
+                  {point.name}
+                </span>
+                <span className="text-xs text-[#4ADE80]">Active</span>
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </section>
   );

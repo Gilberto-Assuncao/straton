@@ -152,7 +152,11 @@
     "fieldBreak": "Break (minutes)",
     "fieldNotes": "Notes",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "statAwaitingApproval": "Awaiting approval",
+    "statApprovedThisWeek": "Approved this week",
+    "statNeedsCorrection": "Needs correction",
+    "statTotalEntries": "Total entries"
   },
   "employees": {
     "eyebrow": "Team",

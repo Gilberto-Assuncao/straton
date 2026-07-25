@@ -152,7 +152,11 @@
     "fieldBreak": "Descanso (minutos)",
     "fieldNotes": "Notas",
     "cancel": "Cancelar",
-    "save": "Guardar"
+    "save": "Guardar",
+    "statAwaitingApproval": "Pendiente de aprobación",
+    "statApprovedThisWeek": "Aprobados esta semana",
+    "statNeedsCorrection": "Necesitan corrección",
+    "statTotalEntries": "Total de registros"
   },
   "employees": {
     "eyebrow": "Equipo",

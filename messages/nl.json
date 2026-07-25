@@ -152,7 +152,11 @@
     "fieldBreak": "Pauze (minuten)",
     "fieldNotes": "Notities",
     "cancel": "Annuleren",
-    "save": "Opslaan"
+    "save": "Opslaan",
+    "statAwaitingApproval": "Wacht op goedkeuring",
+    "statApprovedThisWeek": "Deze week goedgekeurd",
+    "statNeedsCorrection": "Moet gecorrigeerd worden",
+    "statTotalEntries": "Totaal aantal registraties"
   },
   "employees": {
     "eyebrow": "Team",

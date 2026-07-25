@@ -152,7 +152,11 @@
     "fieldBreak": "Przerwa (minuty)",
     "fieldNotes": "Notatki",
     "cancel": "Anuluj",
-    "save": "Zapisz"
+    "save": "Zapisz",
+    "statAwaitingApproval": "Oczekuje na zatwierdzenie",
+    "statApprovedThisWeek": "Zatwierdzone w tym tygodniu",
+    "statNeedsCorrection": "Wymaga poprawy",
+    "statTotalEntries": "Łączna liczba wpisów"
   },
   "employees": {
     "eyebrow": "Zespół",

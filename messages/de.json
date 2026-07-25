@@ -152,7 +152,11 @@
     "fieldBreak": "Pause (Minuten)",
     "fieldNotes": "Notizen",
     "cancel": "Abbrechen",
-    "save": "Speichern"
+    "save": "Speichern",
+    "statAwaitingApproval": "Wartet auf Genehmigung",
+    "statApprovedThisWeek": "Diese Woche genehmigt",
+    "statNeedsCorrection": "Muss korrigiert werden",
+    "statTotalEntries": "Einträge insgesamt"
   },
   "employees": {
     "eyebrow": "Team",
