@@ -127,13 +127,14 @@ function toTimesheetStatus(status: string): TimesheetStatus {
   if (status === "rejected") return "Rejected";
   return "Pending";
 }
-function timeAgo(iso: string): string {
+type DashboardT = Awaited<ReturnType<typeof getTranslations<"dashboard">>>;
+function timeAgo(iso: string, t: DashboardT): string {
   const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
-  if (minutes < 1) return "Just now";
-  if (minutes < 60) return `${minutes} min ago`;
+  if (minutes < 1) return t("timeJustNow");
+  if (minutes < 60) return t("timeMinAgo", { count: minutes });
   const hours = Math.round(minutes / 60);
-  if (hours < 24) return `${hours} hr ago`;
-  return `${Math.round(hours / 24)} days ago`;
+  if (hours < 24) return t("timeHrAgo", { count: hours });
+  return t("timeDaysAgo", { count: Math.round(hours / 24) });
 }
 
 interface EntryRow { starts_at: string; ends_at: string; break_minutes: number; status: string }
@@ -173,6 +174,7 @@ export async function getDashboardOverview(): Promise<{
   kpis: DashboardKpi[]; weeklyHours: WeeklyHoursEntry[]; teamActivities: TeamActivityItem[]; recentTimesheets: RecentTimesheet[];
 }> {
   const { companyId } = await requireActiveCompany();
+  const [t, locale] = await Promise.all([getTranslations("dashboard"), getLocale()]);
   const supabase = await createClient();
 
   const weekStart = mondayOf(new Date());
@@ -204,8 +206,8 @@ export async function getDashboardOverview(): Promise<{
   const entries = (weekEntries ?? []) as EntryRow[];
   const totalWeekMinutes = entries.reduce((sum, row) => sum + workedMinutes(row.starts_at, row.ends_at, row.break_minutes), 0);
 
-  const dayFormatter = new Intl.DateTimeFormat("en", { weekday: "short" });
-  const fullDayFormatter = new Intl.DateTimeFormat("en", { weekday: "long" });
+  const dayFormatter = new Intl.DateTimeFormat(locale, { weekday: "short" });
+  const fullDayFormatter = new Intl.DateTimeFormat(locale, { weekday: "long" });
   const weeklyHours: WeeklyHoursEntry[] = weekDays.map((day) => {
     const key = toDateKey(day);
     const minutes = entries.filter((row) => toDateKey(new Date(row.starts_at)) === key).reduce((sum, row) => sum + workedMinutes(row.starts_at, row.ends_at, row.break_minutes), 0);
@@ -213,10 +215,10 @@ export async function getDashboardOverview(): Promise<{
   });
 
   const kpis: DashboardKpi[] = [
-    { id: "hours", label: "Hours This Week", value: `${Math.round((totalWeekMinutes / 60) * 10) / 10}h`, comparison: "Company-wide, current week", state: "neutral", icon: "clock" },
-    { id: "employees", label: "Active Employees", value: String(activeEmployees ?? 0), comparison: "Current company", state: "neutral", icon: "users" },
-    { id: "approvals", label: "Pending Approvals", value: String(pendingApprovals ?? 0), comparison: (pendingApprovals ?? 0) > 0 ? "Needs your attention" : "All caught up", state: (pendingApprovals ?? 0) > 0 ? "attention" : "positive", icon: "approval" },
-    { id: "projects", label: "Active Projects", value: String(activeProjects ?? 0), comparison: "Current company", state: "neutral", icon: "projects" },
+    { id: "hours", label: t("kpiHoursLabel"), value: `${Math.round((totalWeekMinutes / 60) * 10) / 10}h`, comparison: t("kpiHoursComparison"), state: "neutral", icon: "clock" },
+    { id: "employees", label: t("kpiEmployeesLabel"), value: String(activeEmployees ?? 0), comparison: t("kpiCurrentCompany"), state: "neutral", icon: "users" },
+    { id: "approvals", label: t("kpiApprovalsLabel"), value: String(pendingApprovals ?? 0), comparison: (pendingApprovals ?? 0) > 0 ? t("kpiApprovalsAttention") : t("kpiApprovalsOk"), state: (pendingApprovals ?? 0) > 0 ? "attention" : "positive", icon: "approval" },
+    { id: "projects", label: t("kpiProjectsLabel"), value: String(activeProjects ?? 0), comparison: t("kpiCurrentCompany"), state: "neutral", icon: "projects" },
   ];
 
   const recentTimesheets: RecentTimesheet[] = ((timesheetRows ?? []) as TimesheetRow[]).flatMap((row) => {
@@ -225,7 +227,7 @@ export async function getDashboardOverview(): Promise<{
     const rowEntries = row.timesheet_entries ?? [];
     const hours = Math.round((rowEntries.reduce((sum, entry) => sum + workedMinutes(entry.starts_at, entry.ends_at, entry.break_minutes), 0) / 60) * 10) / 10;
     const projectNames = [...new Set(rowEntries.flatMap((entry) => { const project = first(entry.projects); return project ? [project.name] : []; }))];
-    const project = projectNames.length === 0 ? "—" : projectNames.length === 1 ? projectNames[0] : "Multiple projects";
+    const project = projectNames.length === 0 ? "—" : projectNames.length === 1 ? projectNames[0] : t("projectMultiple");
     return [{ id: row.id, employee: user.name, project, hours, date: row.period_end, status: toTimesheetStatus(row.status) }];
   });
 
@@ -233,10 +235,10 @@ export async function getDashboardOverview(): Promise<{
     const user = first(row.users);
     if (!user || !row.submitted_at) return [];
     const type = row.status === "approved" ? "timesheet_approved" : "timesheet_submitted";
-    return [{ id: `timesheet-${row.id}`, person: user.name, action: row.status === "approved" ? "had a timesheet approved" : "submitted a timesheet", context: `Week ending ${row.period_end}`, time: timeAgo(row.submitted_at), type, occurredAt: row.submitted_at }];
+    return [{ id: `timesheet-${row.id}`, person: user.name, action: row.status === "approved" ? t("activityApproved") : t("activitySubmitted"), context: t("activityWeekEnding", { date: row.period_end }), time: timeAgo(row.submitted_at, t), type, occurredAt: row.submitted_at }];
   });
   const projectActivities: (TeamActivityItem & { occurredAt: string })[] = ((recentProjects ?? []) as ProjectUpdateRow[]).map((row) => ({
-    id: `project-${row.id}`, person: "Team", action: "updated project", context: row.name, time: timeAgo(row.updated_at), type: "project_updated", occurredAt: row.updated_at,
+    id: `project-${row.id}`, person: t("activityTeam"), action: t("activityUpdatedProject"), context: row.name, time: timeAgo(row.updated_at, t), type: "project_updated", occurredAt: row.updated_at,
   }));
   // Sort by the raw timestamp, not the already-formatted "N min/hr/days ago"
   // string — comparing those strings lexicographically would not produce

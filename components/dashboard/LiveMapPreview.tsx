@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import type { LiveOperationsPoint } from "@/src/features/operations/data";
 
@@ -21,6 +22,7 @@ function layout(points: LiveOperationsPoint[]) {
 }
 
 export default function LiveMapPreview({ points }: { points: LiveOperationsPoint[] }) {
+  const t = useTranslations("dashboard");
   const [selected, setSelected] = useState<string | null>(null);
   const shown = points.slice(0, 6);
   const placed = layout(shown);
@@ -29,15 +31,15 @@ export default function LiveMapPreview({ points }: { points: LiveOperationsPoint
     <section aria-labelledby="live-map-preview-title" className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h3 id="live-map-preview-title" className="text-lg font-semibold text-[#E5E7EB]">Live Map</h3>
-          <p className="mt-1 text-xs text-[#9CA3AF]">Where team members clocked in today</p>
+          <h3 id="live-map-preview-title" className="text-lg font-semibold text-[#E5E7EB]">{t("liveMapTitle")}</h3>
+          <p className="mt-1 text-xs text-[#9CA3AF]">{t("liveMapSubtitle")}</p>
         </div>
-        <Link href="/dashboard/map" className="text-xs font-semibold text-[#4ADE80] hover:text-[#22C55E]">View full map →</Link>
+        <Link href="/dashboard/map" className="text-xs font-semibold text-[#4ADE80] hover:text-[#22C55E]">{t("liveMapViewFull")} →</Link>
       </div>
 
       {shown.length === 0 ? (
         <div className="mt-6 flex h-40 items-center justify-center rounded-xl border border-dashed border-white/10 text-center text-sm text-[#6B7280]">
-          No one has clocked in with location sharing today.
+          {t("liveMapEmpty")}
         </div>
       ) : (
         <>
@@ -62,7 +64,7 @@ export default function LiveMapPreview({ points }: { points: LiveOperationsPoint
                   </span>
                   {isSelected ? (
                     <span className="whitespace-nowrap rounded-lg border border-white/15 bg-[#0B1220] px-2.5 py-1.5 text-xs font-semibold text-[#F1F5F9] shadow-lg shadow-black/40">
-                      {point.name} · {point.siteName ?? "No site"}
+                      {point.name} · {point.siteName ?? t("liveMapNoSite")}
                     </span>
                   ) : null}
                 </button>
@@ -81,7 +83,7 @@ export default function LiveMapPreview({ points }: { points: LiveOperationsPoint
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4ADE80]" />
                   {point.name}
                 </span>
-                <span className="text-xs text-[#4ADE80]">Active</span>
+                <span className="text-xs text-[#4ADE80]">{t("liveMapActive")}</span>
               </button>
             ))}
           </div>
