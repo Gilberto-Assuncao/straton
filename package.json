@@ -9,7 +9,10 @@
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "demo:seed": "psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -f supabase/seed-demo.sql",
+    "demo:down": "psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -f supabase/seed-demo-down.sql",
+    "demo:reset": "npm run demo:down && npm run demo:seed"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
