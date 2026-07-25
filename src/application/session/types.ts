@@ -22,4 +22,4 @@ export interface AuthenticatedSession {
   activeCompany: SessionCompany | null;
 }
 
-export const ACTIVE_COMPANY_COOKIE = "nextime-active-company";
+export const ACTIVE_COMPANY_COOKIE = "straton-active-company";

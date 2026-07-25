@@ -13,7 +13,7 @@ export default async function Sidebar() {
   return (
     <aside className="hidden h-screen w-64 shrink-0 flex-col border-r border-white/10 bg-[#161A34] lg:fixed lg:inset-y-0 lg:left-0 lg:flex">
       <Link href="/dashboard" className="flex h-20 items-center px-6 focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-[#22C55E]">
-        <span className="text-xl font-bold tracking-[0.16em] text-[#E5E7EB]">NEXTIME</span>
+        <span className="text-xl font-bold tracking-[0.16em] text-[#E5E7EB]">STRATON</span>
       </Link>
       <DashboardNav />
       <div className="border-t border-white/10 p-4">

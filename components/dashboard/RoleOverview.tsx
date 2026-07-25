@@ -3,7 +3,7 @@ import type { RoleDashboardOverview } from "@/src/features/dashboard/data";
 
 export default function RoleOverview({ overview }: { overview: RoleDashboardOverview }) {
   if (!overview.roleView) return null;
-  const { headline, subheadline, kpis, attention } = overview;
+  const { headline, subheadline, attentionTitle, kpis, attention } = overview;
 
   return (
     <div className="mb-4 grid min-w-0 gap-4">
@@ -27,7 +27,7 @@ export default function RoleOverview({ overview }: { overview: RoleDashboardOver
 
       {attention.length ? (
         <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5">
-          <p className="mb-3.5 text-sm font-semibold text-[#E5E7EB]">Precisa da sua atenção</p>
+          <p className="mb-3.5 text-sm font-semibold text-[#E5E7EB]">{attentionTitle}</p>
           <div className="grid gap-2.5">
             {attention.map((item) => (
               <div key={item.id} className="flex items-center justify-between rounded-lg bg-[#111C33] py-3.5 pl-4 pr-4" style={{ borderLeft: `3px solid ${item.accent}` }}>

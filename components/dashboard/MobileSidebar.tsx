@@ -30,7 +30,7 @@ export default function MobileSidebar({ open, onClose }: MobileSidebarProps) {
       <button type="button" aria-label="Close navigation" onClick={onClose} className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
       <aside id="mobile-dashboard-navigation" role="dialog" aria-modal="true" aria-label="Mobile navigation" className="relative flex h-full w-[min(18rem,88vw)] flex-col border-r border-white/10 bg-[#161A34] shadow-2xl">
         <div className="flex h-20 items-center justify-between px-5">
-          <Link href="/dashboard" onClick={onClose} className="text-xl font-bold tracking-[0.16em] text-[#E5E7EB]">NEXTIME</Link>
+          <Link href="/dashboard" onClick={onClose} className="text-xl font-bold tracking-[0.16em] text-[#E5E7EB]">STRATON</Link>
           <button ref={closeButtonRef} type="button" onClick={onClose} className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-[#9CA3AF] hover:bg-white/5 hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]" aria-label="Close menu"><span aria-hidden="true" className="text-2xl">×</span></button>
         </div>
         <DashboardNav />

@@ -14,8 +14,8 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "NEXTIME — Time Well Managed",
-    template: "%s — NEXTIME",
+    default: "STRATON — Time Well Managed",
+    template: "%s — STRATON",
   },
   description: "Plataforma SaaS para controle de horas, equipes e projetos.",
 };

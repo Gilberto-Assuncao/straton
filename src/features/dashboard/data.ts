@@ -1,5 +1,6 @@
 import "server-only";
 
+import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany, requireAuthenticatedSession } from "@/src/application/session/server";
 import type { DashboardKpi, RecentTimesheet, TeamActivityItem, TimesheetStatus, WeeklyHoursEntry } from "@/lib/types/dashboard";
@@ -19,7 +20,7 @@ export interface DashboardAttentionItem {
 }
 export interface RoleDashboardOverview {
   roleView: DashboardRoleView | null;
-  headline: string; subheadline: string;
+  headline: string; subheadline: string; attentionTitle: string;
   kpis: DashboardKpiCard[];
   attention: DashboardAttentionItem[];
 }
@@ -30,9 +31,10 @@ export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview>
   const isAdmin = roles.some((role) => adminRoles.includes(role));
   const isManager = roles.some((role) => managerRoles.includes(role));
   const isHr = roles.some((role) => hrRoles.includes(role));
-  if (!isManager && !isHr) return { roleView: null, headline: "", subheadline: "", kpis: [], attention: [] };
+  if (!isManager && !isHr) return { roleView: null, headline: "", subheadline: "", attentionTitle: "", kpis: [], attention: [] };
   const roleView: DashboardRoleView = isAdmin ? "admin" : isHr ? "hr" : "supervisor";
 
+  const [t, locale] = await Promise.all([getTranslations("roleDashboard"), getLocale()]);
   const companyId = session.activeCompany!.id;
   const supabase = await createClient();
   const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
@@ -63,28 +65,27 @@ export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview>
   type TeamMemberRow = { team_id: string; company_memberships: { user_id: string } | { user_id: string }[] | null };
   const teamActiveToday = new Set(((teamMembers ?? []) as TeamMemberRow[]).flatMap((row) => { const m = first(row.company_memberships); return m && checkedInUserIds.has(m.user_id) ? [row.team_id] : []; })).size;
 
-  const payrollNow = new Date();
-  const payrollLabel = new Intl.DateTimeFormat("pt", { month: "long", year: "numeric" }).format(payrollNow);
+  const payrollLabel = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric" }).format(new Date());
 
   const headlines: Record<DashboardRoleView, { headline: string; subheadline: string }> = {
-    supervisor: { headline: "A minha equipa hoje", subheadline: "Aprovações pendentes e quem ainda não registou hoje." },
-    admin: { headline: "Visão geral da operação", subheadline: "Saúde da operação e pendências administrativas." },
-    hr: { headline: "Folha do período", subheadline: `Horas aprovadas em ${payrollLabel} — nada aqui é calculado como definitivo sem revisão.` },
+    supervisor: { headline: t("headlineSupervisor"), subheadline: t("subheadlineSupervisor") },
+    admin: { headline: t("headlineAdmin"), subheadline: t("subheadlineAdmin") },
+    hr: { headline: t("headlineHr"), subheadline: t("subheadlineHr", { period: payrollLabel }) },
   };
 
   const kpis: DashboardKpiCard[] = [];
   const attention: DashboardAttentionItem[] = [];
 
   if (isManager) {
-    kpis.push({ id: "approvals", label: "Aguardando aprovação", value: String(pendingApprovals ?? 0), color: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: "Rever agora", ctaHref: "/dashboard/timesheets", trend: (pendingApprovals ?? 0) > 0 ? "Precisa de atenção" : "Tudo em dia", trendColor: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80" });
-    kpis.push({ id: "no-checkin", label: "Sem registo hoje", value: String(noCheckinToday), color: noCheckinToday > 0 ? "#F87171" : "#4ADE80", cta: "Ver mapa", ctaHref: "/dashboard/map", trend: `${activeUserIds.size} ativos`, trendColor: "#94A3B8" });
-    if ((pendingApprovals ?? 0) > 0) attention.push({ id: "att-approvals", text: `${pendingApprovals} folhas de horas aguardam a sua aprovação`, cta: "Aprovar", ctaHref: "/dashboard/timesheets", accent: "#F59E0B" });
-    if (noCheckinToday > 0) attention.push({ id: "att-no-checkin", text: `${noCheckinToday} colaborador(es) sem registo hoje`, cta: "Ver mapa", ctaHref: "/dashboard/map", accent: "#F87171" });
+    kpis.push({ id: "approvals", label: t("kpiApprovalsLabel"), value: String(pendingApprovals ?? 0), color: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: t("kpiApprovalsCta"), ctaHref: "/dashboard/timesheets", trend: (pendingApprovals ?? 0) > 0 ? t("kpiApprovalsTrendAttention") : t("kpiApprovalsTrendOk"), trendColor: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80" });
+    kpis.push({ id: "no-checkin", label: t("kpiNoCheckinLabel"), value: String(noCheckinToday), color: noCheckinToday > 0 ? "#F87171" : "#4ADE80", cta: t("kpiNoCheckinCta"), ctaHref: "/dashboard/map", trend: t("kpiNoCheckinTrend", { active: activeUserIds.size }), trendColor: "#94A3B8" });
+    if ((pendingApprovals ?? 0) > 0) attention.push({ id: "att-approvals", text: t("attentionApprovals", { count: pendingApprovals ?? 0 }), cta: t("kpiApprovalsCta"), ctaHref: "/dashboard/timesheets", accent: "#F59E0B" });
+    if (noCheckinToday > 0) attention.push({ id: "att-no-checkin", text: t("attentionNoCheckin", { count: noCheckinToday }), cta: t("kpiNoCheckinCta"), ctaHref: "/dashboard/map", accent: "#F87171" });
   }
   if (isAdmin) {
-    kpis.push({ id: "teams", label: "Equipas ativas hoje", value: `${teamActiveToday}/${totalTeams ?? 0}`, color: "#4ADE80", cta: "Ver equipas", ctaHref: "/dashboard/teams", trend: (totalTeams ?? 0) > 0 ? `${Math.round((teamActiveToday / (totalTeams ?? 1)) * 100)}% em campo` : "—", trendColor: "#94A3B8" });
-    kpis.push({ id: "invites", label: "Pendências administrativas", value: String(pendingInvites ?? 0), color: (pendingInvites ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: "Ver equipa", ctaHref: "/dashboard/employees", trend: (pendingInvites ?? 0) > 0 ? "Convites por aceitar" : "Nenhuma pendência", trendColor: "#94A3B8" });
-    if ((pendingInvites ?? 0) > 0) attention.push({ id: "att-invites", text: `${pendingInvites} convite(s) de funcionário ainda pendente(s)`, cta: "Ver equipa", ctaHref: "/dashboard/employees", accent: "#F59E0B" });
+    kpis.push({ id: "teams", label: t("kpiTeamsLabel"), value: `${teamActiveToday}/${totalTeams ?? 0}`, color: "#4ADE80", cta: t("kpiTeamsCta"), ctaHref: "/dashboard/teams", trend: (totalTeams ?? 0) > 0 ? t("kpiTeamsTrend", { pct: Math.round((teamActiveToday / (totalTeams ?? 1)) * 100) }) : t("kpiTeamsTrendEmpty"), trendColor: "#94A3B8" });
+    kpis.push({ id: "invites", label: t("kpiInvitesLabel"), value: String(pendingInvites ?? 0), color: (pendingInvites ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: t("kpiInvitesCta"), ctaHref: "/dashboard/employees", trend: (pendingInvites ?? 0) > 0 ? t("kpiInvitesTrendPending") : t("kpiInvitesTrendNone"), trendColor: "#94A3B8" });
+    if ((pendingInvites ?? 0) > 0) attention.push({ id: "att-invites", text: t("attentionInvites", { count: pendingInvites ?? 0 }), cta: t("kpiInvitesCta"), ctaHref: "/dashboard/employees", accent: "#F59E0B" });
   }
   if (isHr) {
     const [{ totalMinutes, employees }, excessShifts] = await Promise.all([
@@ -92,13 +93,13 @@ export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview>
       getExcessShiftsCount(),
     ]);
     const hours = `${Math.floor(totalMinutes / 60)}h`;
-    kpis.push({ id: "payroll-hours", label: "Horas aprovadas (período)", value: hours, color: "#F1F5F9", cta: "Ver folha", ctaHref: "/dashboard/finance", trend: `${employees.length} colaborador(es)`, trendColor: "#94A3B8" });
-    kpis.push({ id: "excess-shifts", label: "Divergências de horas", value: String(excessShifts), color: excessShifts > 0 ? "#F87171" : "#4ADE80", cta: "Rever", ctaHref: "/dashboard/finance", trend: excessShifts > 0 ? "turnos acima de 10h" : "nenhuma divergência", trendColor: excessShifts > 0 ? "#F59E0B" : "#4ADE80" });
-    if (excessShifts > 0) attention.push({ id: "att-excess", text: `${excessShifts} turno(s) com mais de 10h registadas neste período`, cta: "Rever", ctaHref: "/dashboard/finance", accent: "#F59E0B" });
+    kpis.push({ id: "payroll-hours", label: t("kpiPayrollLabel"), value: hours, color: "#F1F5F9", cta: t("kpiPayrollCta"), ctaHref: "/dashboard/finance", trend: t("kpiPayrollTrend", { count: employees.length }), trendColor: "#94A3B8" });
+    kpis.push({ id: "excess-shifts", label: t("kpiExcessLabel"), value: String(excessShifts), color: excessShifts > 0 ? "#F87171" : "#4ADE80", cta: t("kpiExcessCta"), ctaHref: "/dashboard/finance", trend: excessShifts > 0 ? t("kpiExcessTrend") : t("kpiExcessTrendNone"), trendColor: excessShifts > 0 ? "#F59E0B" : "#4ADE80" });
+    if (excessShifts > 0) attention.push({ id: "att-excess", text: t("attentionExcess", { count: excessShifts }), cta: t("kpiExcessCta"), ctaHref: "/dashboard/finance", accent: "#F59E0B" });
   }
 
   const { headline, subheadline } = headlines[roleView];
-  return { roleView, headline, subheadline, kpis, attention };
+  return { roleView, headline, subheadline, attentionTitle: t("attentionTitle"), kpis, attention };
 }
 
 type RelatedOne<T> = T | T[] | null;

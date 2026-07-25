@@ -20,7 +20,7 @@ export default function LoginForm({ next = "/dashboard", callbackError = false }
     : initialAuthState;
   const [state, action] = useActionState(signInAction, initialState);
   return (
-    <AuthCard action={action} title={t("title")} description={t("description")} footer={<>{t("newToNextime")} <Link href="/register" className="inline-flex min-h-11 items-center font-semibold text-[#22C55E] hover:text-[#16A34A] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("createAccount")}</Link></>}>
+    <AuthCard action={action} title={t("title")} description={t("description")} footer={<>{t("newToStraton")} <Link href="/register" className="inline-flex min-h-11 items-center font-semibold text-[#22C55E] hover:text-[#16A34A] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("createAccount")}</Link></>}>
       <input type="hidden" name="next" value={next} />
       <AuthInput id="login-email" name="email" type="email" label={t("email")} autoComplete="email" placeholder="you@company.com" required />
       <PasswordInput id="login-password" name="password" label={t("password")} autoComplete="current-password" placeholder="Enter your password" />

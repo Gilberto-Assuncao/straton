@@ -5,7 +5,7 @@ import DashboardShell from "@/components/dashboard/DashboardShell";
 export const metadata: Metadata = {
   title: {
     default: "Dashboard",
-    template: "%s — NEXTIME",
+    template: "%s — STRATON",
   },
 };
 
