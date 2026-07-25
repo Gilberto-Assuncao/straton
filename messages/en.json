@@ -495,5 +495,28 @@
     "colNight": "Night",
     "colTotal": "Total",
     "emptyState": "No approved hours for this period yet."
+  },
+  "settings": {
+    "eyebrow": "Account",
+    "title": "Settings",
+    "description": "Manage company setup and your personal preferences.",
+    "clientsTitle": "Clients",
+    "clientsDescription": "{clients} registered clients, {projects} active projects.",
+    "manageClients": "Manage clients",
+    "sitesTitle": "Sites",
+    "sitesDescription": "{sites} sites tracked with weather and delay risk.",
+    "manageSites": "Manage sites",
+    "templatesTitle": "Report templates",
+    "templatesDescription": "Custom templates for construction, cleaning, maintenance and general reports.",
+    "comingSoon": "Coming soon",
+    "languagesTitle": "Languages",
+    "languagesDescription": "Every employee can choose from 9 supported languages.",
+    "perEmployeeChoice": "Set per employee",
+    "permissionsTitle": "Permissions",
+    "permissionsDescription": "{members} members across {roles} manageable roles.",
+    "managePermissions": "Manage permissions",
+    "complianceTitle": "GDPR compliance",
+    "complianceDescription": "Location tracking runs only with explicit consent.",
+    "viewConsent": "View consent settings"
   }
 }

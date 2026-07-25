@@ -495,5 +495,28 @@
     "colNight": "Nacht",
     "colTotal": "Gesamt",
     "emptyState": "Noch keine genehmigten Stunden für diesen Zeitraum."
+  },
+  "settings": {
+    "eyebrow": "Konto",
+    "title": "Einstellungen",
+    "description": "Verwalten Sie die Unternehmenskonfiguration und Ihre persönlichen Einstellungen.",
+    "clientsTitle": "Kunden",
+    "clientsDescription": "{clients} registrierte Kunden, {projects} aktive Projekte.",
+    "manageClients": "Kunden verwalten",
+    "sitesTitle": "Standorte",
+    "sitesDescription": "{sites} überwachte Standorte mit Wetter- und Verzögerungsrisiko.",
+    "manageSites": "Standorte verwalten",
+    "templatesTitle": "Berichtsvorlagen",
+    "templatesDescription": "Individuelle Vorlagen für Bau, Reinigung, Wartung und allgemeine Berichte.",
+    "comingSoon": "Demnächst verfügbar",
+    "languagesTitle": "Sprachen",
+    "languagesDescription": "Jeder Mitarbeiter kann aus 9 unterstützten Sprachen wählen.",
+    "perEmployeeChoice": "Pro Mitarbeiter festgelegt",
+    "permissionsTitle": "Berechtigungen",
+    "permissionsDescription": "{members} Mitglieder in {roles} verwaltbaren Rollen.",
+    "managePermissions": "Berechtigungen verwalten",
+    "complianceTitle": "DSGVO-Konformität",
+    "complianceDescription": "Standortdaten werden nur mit ausdrücklicher Einwilligung erfasst.",
+    "viewConsent": "Einwilligungseinstellungen anzeigen"
   }
 }

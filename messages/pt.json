@@ -495,5 +495,28 @@
     "colNight": "Noturno",
     "colTotal": "Total",
     "emptyState": "Ainda não há horas aprovadas para este período."
+  },
+  "settings": {
+    "eyebrow": "Conta",
+    "title": "Configurações",
+    "description": "Faça a gestão da configuração da empresa e das suas preferências pessoais.",
+    "clientsTitle": "Clientes",
+    "clientsDescription": "{clients} clientes registados, {projects} projetos ativos.",
+    "manageClients": "Gerir clientes",
+    "sitesTitle": "Locais",
+    "sitesDescription": "{sites} locais monitorizados com meteorologia e risco de atraso.",
+    "manageSites": "Gerir locais",
+    "templatesTitle": "Modelos de relatório",
+    "templatesDescription": "Modelos personalizados para construção, limpeza, manutenção e relatórios gerais.",
+    "comingSoon": "Em breve",
+    "languagesTitle": "Idiomas",
+    "languagesDescription": "Cada colaborador pode escolher entre 9 idiomas suportados.",
+    "perEmployeeChoice": "Definido por colaborador",
+    "permissionsTitle": "Permissões",
+    "permissionsDescription": "{members} membros distribuídos por {roles} papéis geríveis.",
+    "managePermissions": "Gerir permissões",
+    "complianceTitle": "Conformidade RGPD",
+    "complianceDescription": "A localização só é registada com consentimento explícito.",
+    "viewConsent": "Ver definições de consentimento"
   }
 }

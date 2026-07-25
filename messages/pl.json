@@ -495,5 +495,28 @@
     "colNight": "Nocne",
     "colTotal": "Razem",
     "emptyState": "Brak jeszcze zatwierdzonych godzin dla tego okresu."
+  },
+  "settings": {
+    "eyebrow": "Konto",
+    "title": "Ustawienia",
+    "description": "Zarządzaj konfiguracją firmy i swoimi preferencjami osobistymi.",
+    "clientsTitle": "Klienci",
+    "clientsDescription": "{clients} zarejestrowanych klientów, {projects} aktywnych projektów.",
+    "manageClients": "Zarządzaj klientami",
+    "sitesTitle": "Lokalizacje",
+    "sitesDescription": "{sites} monitorowanych lokalizacji z pogodą i ryzykiem opóźnień.",
+    "manageSites": "Zarządzaj lokalizacjami",
+    "templatesTitle": "Szablony raportów",
+    "templatesDescription": "Niestandardowe szablony dla budownictwa, sprzątania, konserwacji i raportów ogólnych.",
+    "comingSoon": "Wkrótce",
+    "languagesTitle": "Języki",
+    "languagesDescription": "Każdy pracownik może wybrać spośród 9 obsługiwanych języków.",
+    "perEmployeeChoice": "Ustawiane dla każdego pracownika",
+    "permissionsTitle": "Uprawnienia",
+    "permissionsDescription": "{members} członków w {roles} zarządzalnych rolach.",
+    "managePermissions": "Zarządzaj uprawnieniami",
+    "complianceTitle": "Zgodność z RODO",
+    "complianceDescription": "Lokalizacja jest rejestrowana wyłącznie za wyraźną zgodą.",
+    "viewConsent": "Zobacz ustawienia zgody"
   }
 }

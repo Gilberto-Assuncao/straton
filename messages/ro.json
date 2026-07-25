@@ -495,5 +495,28 @@
     "colNight": "Noapte",
     "colTotal": "Total",
     "emptyState": "Încă nu există ore aprobate pentru această perioadă."
+  },
+  "settings": {
+    "eyebrow": "Cont",
+    "title": "Setări",
+    "description": "Gestionați configurația companiei și preferințele personale.",
+    "clientsTitle": "Clienți",
+    "clientsDescription": "{clients} clienți înregistrați, {projects} proiecte active.",
+    "manageClients": "Gestionează clienții",
+    "sitesTitle": "Șantiere",
+    "sitesDescription": "{sites} șantiere monitorizate cu vreme și risc de întârziere.",
+    "manageSites": "Gestionează șantierele",
+    "templatesTitle": "Modele de raport",
+    "templatesDescription": "Modele personalizate pentru construcții, curățenie, întreținere și rapoarte generale.",
+    "comingSoon": "În curând",
+    "languagesTitle": "Limbi",
+    "languagesDescription": "Fiecare angajat poate alege dintre 9 limbi acceptate.",
+    "perEmployeeChoice": "Setat per angajat",
+    "permissionsTitle": "Permisiuni",
+    "permissionsDescription": "{members} membri repartizați în {roles} roluri gestionabile.",
+    "managePermissions": "Gestionează permisiunile",
+    "complianceTitle": "Conformitate GDPR",
+    "complianceDescription": "Locația este înregistrată doar cu consimțământ explicit.",
+    "viewConsent": "Vezi setările de consimțământ"
   }
 }

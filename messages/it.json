@@ -495,5 +495,28 @@
     "colNight": "Notte",
     "colTotal": "Totale",
     "emptyState": "Ancora nessuna ora approvata per questo periodo."
+  },
+  "settings": {
+    "eyebrow": "Account",
+    "title": "Impostazioni",
+    "description": "Gestisci la configurazione aziendale e le tue preferenze personali.",
+    "clientsTitle": "Clienti",
+    "clientsDescription": "{clients} clienti registrati, {projects} progetti attivi.",
+    "manageClients": "Gestisci clienti",
+    "sitesTitle": "Cantieri",
+    "sitesDescription": "{sites} cantieri monitorati con meteo e rischio di ritardo.",
+    "manageSites": "Gestisci cantieri",
+    "templatesTitle": "Modelli di report",
+    "templatesDescription": "Modelli personalizzati per edilizia, pulizie, manutenzione e report generali.",
+    "comingSoon": "Prossimamente",
+    "languagesTitle": "Lingue",
+    "languagesDescription": "Ogni dipendente può scegliere tra 9 lingue supportate.",
+    "perEmployeeChoice": "Impostato per dipendente",
+    "permissionsTitle": "Permessi",
+    "permissionsDescription": "{members} membri distribuiti su {roles} ruoli gestibili.",
+    "managePermissions": "Gestisci permessi",
+    "complianceTitle": "Conformità GDPR",
+    "complianceDescription": "La posizione viene registrata solo con consenso esplicito.",
+    "viewConsent": "Visualizza impostazioni di consenso"
   }
 }

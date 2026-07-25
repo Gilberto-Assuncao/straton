@@ -495,5 +495,28 @@
     "colNight": "Nacht",
     "colTotal": "Totaal",
     "emptyState": "Nog geen goedgekeurde uren voor deze periode."
+  },
+  "settings": {
+    "eyebrow": "Account",
+    "title": "Instellingen",
+    "description": "Beheer de bedrijfsinstellingen en uw persoonlijke voorkeuren.",
+    "clientsTitle": "Klanten",
+    "clientsDescription": "{clients} geregistreerde klanten, {projects} actieve projecten.",
+    "manageClients": "Klanten beheren",
+    "sitesTitle": "Locaties",
+    "sitesDescription": "{sites} locaties gevolgd met weer en vertragingsrisico.",
+    "manageSites": "Locaties beheren",
+    "templatesTitle": "Rapportsjablonen",
+    "templatesDescription": "Aangepaste sjablonen voor bouw, schoonmaak, onderhoud en algemene rapporten.",
+    "comingSoon": "Binnenkort beschikbaar",
+    "languagesTitle": "Talen",
+    "languagesDescription": "Elke medewerker kan kiezen uit 9 ondersteunde talen.",
+    "perEmployeeChoice": "Per medewerker ingesteld",
+    "permissionsTitle": "Rechten",
+    "permissionsDescription": "{members} leden verdeeld over {roles} beheerbare rollen.",
+    "managePermissions": "Rechten beheren",
+    "complianceTitle": "AVG-naleving",
+    "complianceDescription": "Locatiegegevens worden alleen bijgehouden met expliciete toestemming.",
+    "viewConsent": "Toestemmingsinstellingen bekijken"
   }
 }
