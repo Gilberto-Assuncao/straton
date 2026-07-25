@@ -87,18 +87,11 @@ export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview>
     if ((pendingInvites ?? 0) > 0) attention.push({ id: "att-invites", text: `${pendingInvites} convite(s) de funcionário ainda pendente(s)`, cta: "Ver equipa", ctaHref: "/dashboard/employees", accent: "#F59E0B" });
   }
   if (isHr) {
-    const [{ totalMinutes, employees, periodStart, periodEnd }, { data: periodEntries }] = await Promise.all([
+    const [{ totalMinutes, employees }, excessShifts] = await Promise.all([
       getPayrollPeriodSummary(),
-      supabase.from("timesheets").select("timesheet_entries!inner(starts_at,ends_at,break_minutes)").eq("company_id", companyId).eq("status", "approved"),
+      getExcessShiftsCount(),
     ]);
     const hours = `${Math.floor(totalMinutes / 60)}h`;
-    type PeriodEntryRow = { timesheet_entries: { starts_at: string; ends_at: string; break_minutes: number }[] };
-    const excessShifts = ((periodEntries ?? []) as PeriodEntryRow[]).flatMap((row) => row.timesheet_entries).filter((entry) => {
-      const key = entry.starts_at.slice(0, 10);
-      if (key < periodStart || key > periodEnd) return false;
-      const minutes = Math.round((new Date(entry.ends_at).getTime() - new Date(entry.starts_at).getTime()) / 60000) - entry.break_minutes;
-      return minutes > 600;
-    }).length;
     kpis.push({ id: "payroll-hours", label: "Horas aprovadas (período)", value: hours, color: "#F1F5F9", cta: "Ver folha", ctaHref: "/dashboard/finance", trend: `${employees.length} colaborador(es)`, trendColor: "#94A3B8" });
     kpis.push({ id: "excess-shifts", label: "Divergências de horas", value: String(excessShifts), color: excessShifts > 0 ? "#F87171" : "#4ADE80", cta: "Rever", ctaHref: "/dashboard/finance", trend: excessShifts > 0 ? "turnos acima de 10h" : "nenhuma divergência", trendColor: excessShifts > 0 ? "#F59E0B" : "#4ADE80" });
     if (excessShifts > 0) attention.push({ id: "att-excess", text: `${excessShifts} turno(s) com mais de 10h registadas neste período`, cta: "Rever", ctaHref: "/dashboard/finance", accent: "#F59E0B" });
@@ -149,6 +142,22 @@ interface TimesheetRow {
   timesheet_entries: { starts_at: string; ends_at: string; break_minutes: number; projects: RelatedOne<{ name: string }> }[] | null;
 }
 interface ProjectUpdateRow { id: string; name: string; updated_at: string }
+
+export async function getExcessShiftsCount(): Promise<number> {
+  const session = await requireAuthenticatedSession();
+  if (!session.activeCompany) return 0;
+  const companyId = session.activeCompany.id;
+  const supabase = await createClient();
+  const { periodStart, periodEnd } = await getPayrollPeriodSummary();
+  const { data: periodEntries } = await supabase.from("timesheets").select("timesheet_entries!inner(starts_at,ends_at,break_minutes)").eq("company_id", companyId).eq("status", "approved");
+  type PeriodEntryRow = { timesheet_entries: { starts_at: string; ends_at: string; break_minutes: number }[] };
+  return ((periodEntries ?? []) as PeriodEntryRow[]).flatMap((row) => row.timesheet_entries).filter((entry) => {
+    const key = entry.starts_at.slice(0, 10);
+    if (key < periodStart || key > periodEnd) return false;
+    const minutes = Math.round((new Date(entry.ends_at).getTime() - new Date(entry.starts_at).getTime()) / 60000) - entry.break_minutes;
+    return minutes > 600;
+  }).length;
+}
 
 export async function getPendingApprovalsCount(): Promise<number> {
   const session = await requireAuthenticatedSession();

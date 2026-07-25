@@ -5,10 +5,10 @@ import { defaultAppNavigation } from "@/src/components/app-shell/config";
 import { requireAuthenticatedSession } from "@/src/application/session/server";
 import { SessionProvider } from "@/src/application/session/session-provider";
 import { getNotifications } from "@/src/features/notifications/data";
-import { getPendingApprovalsCount } from "@/src/features/dashboard/data";
+import { getExcessShiftsCount, getPendingApprovalsCount } from "@/src/features/dashboard/data";
 
 export default async function DashboardShell({ children }: { children: ReactNode }) {
-  const [session, notifications, pendingApprovals] = await Promise.all([requireAuthenticatedSession(), getNotifications(), getPendingApprovalsCount()]);
+  const [session, notifications, pendingApprovals, excessShifts] = await Promise.all([requireAuthenticatedSession(), getNotifications(), getPendingApprovalsCount(), getExcessShiftsCount()]);
   const t = await getTranslations("nav");
   const roles = session.activeCompany?.roles ?? [];
   const navigation = defaultAppNavigation
@@ -16,7 +16,9 @@ export default async function DashboardShell({ children }: { children: ReactNode
     .map((item) => ({
       ...item,
       label: t(item.id as Parameters<typeof t>[0]),
-      badge: item.badge === "approvals" ? (pendingApprovals > 0 ? String(pendingApprovals) : undefined) : item.badge,
+      badge: item.badge === "approvals" ? (pendingApprovals > 0 ? String(pendingApprovals) : undefined)
+        : item.badge === "divergences" ? (excessShifts > 0 ? String(excessShifts) : undefined)
+        : item.badge,
     }));
   return (
     <SessionProvider value={session}>
