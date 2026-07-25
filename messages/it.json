@@ -206,7 +206,11 @@
     "noneFilteredTitle": "Nessun dipendente corrisponde a questi filtri",
     "noneTitle": "Ancora nessun dipendente",
     "noneFilteredDescription": "Prova un’altra ricerca, stato o team.",
-    "noneDescription": "Aggiungi il tuo primo dipendente per iniziare a costruire il team."
+    "noneDescription": "Aggiungi il tuo primo dipendente per iniziare a costruire il team.",
+    "statActiveTeams": "Team attivi",
+    "statTotalEmployees": "Totale dipendenti",
+    "statActive": "Attivi",
+    "statPendingInvites": "Inviti in sospeso"
   },
   "projects": {
     "eyebrow": "Area di lavoro",

@@ -206,7 +206,11 @@
     "noneFilteredTitle": "Aucun employé ne correspond à ces filtres",
     "noneTitle": "Aucun employé pour l’instant",
     "noneFilteredDescription": "Essayez une autre recherche, un autre statut ou une autre équipe.",
-    "noneDescription": "Ajoutez votre premier employé pour commencer à constituer l’équipe."
+    "noneDescription": "Ajoutez votre premier employé pour commencer à constituer l’équipe.",
+    "statActiveTeams": "Équipes actives",
+    "statTotalEmployees": "Total des employés",
+    "statActive": "Actifs",
+    "statPendingInvites": "Invitations en attente"
   },
   "projects": {
     "eyebrow": "Espace de travail",

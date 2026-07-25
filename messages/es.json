@@ -206,7 +206,11 @@
     "noneFilteredTitle": "Ningún empleado coincide con estos filtros",
     "noneTitle": "Aún no hay empleados",
     "noneFilteredDescription": "Prueba con otra búsqueda, estado o equipo.",
-    "noneDescription": "Añade tu primer empleado para empezar a formar el equipo."
+    "noneDescription": "Añade tu primer empleado para empezar a formar el equipo.",
+    "statActiveTeams": "Equipos activos",
+    "statTotalEmployees": "Total de empleados",
+    "statActive": "Activos",
+    "statPendingInvites": "Invitaciones pendientes"
   },
   "projects": {
     "eyebrow": "Espacio de trabajo",

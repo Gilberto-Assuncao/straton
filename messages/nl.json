@@ -206,7 +206,11 @@
     "noneFilteredTitle": "Geen werknemers komen overeen met deze filters",
     "noneTitle": "Nog geen werknemers",
     "noneFilteredDescription": "Probeer een andere zoekopdracht, status of team.",
-    "noneDescription": "Voeg uw eerste werknemer toe om het team op te bouwen."
+    "noneDescription": "Voeg uw eerste werknemer toe om het team op te bouwen.",
+    "statActiveTeams": "Actieve teams",
+    "statTotalEmployees": "Totaal medewerkers",
+    "statActive": "Actief",
+    "statPendingInvites": "Openstaande uitnodigingen"
   },
   "projects": {
     "eyebrow": "Werkruimte",

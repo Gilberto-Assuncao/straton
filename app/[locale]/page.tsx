@@ -155,7 +155,7 @@ export default async function Home() {
       </section>
 
       {/* Feature grid */}
-      <section id="funcionalidades" className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
+      <section id="funcionalidades" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 sm:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex rounded-full border border-[#22C55E]/30 bg-[#22C55E]/10 px-4 py-1.5 text-sm font-semibold text-[#4ADE80]">{t("features.eyebrow")}</span>
           <h2 className="mt-5 text-4xl font-bold sm:text-5xl">{t("features.title")}</h2>
@@ -226,7 +226,7 @@ export default async function Home() {
       </section>
 
       {/* Dashboard section with a full browser-window style mock */}
-      <section id="relatorios" className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
+      <section id="relatorios" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 sm:px-10">
         <div className="mb-12 max-w-2xl">
           <span className="text-sm font-semibold uppercase tracking-wider text-[#4ADE80]">{t("dashboardMock.eyebrow")}</span>
           <h2 className="mt-4 text-4xl font-bold sm:text-5xl">{t("dashboardMock.title")}</h2>
@@ -305,7 +305,7 @@ export default async function Home() {
       </section>
 
       {/* Live map with pulsing dots */}
-      <section id="georreferenciamento" className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
+      <section id="georreferenciamento" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 sm:px-10">
         <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
           <div>
             <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-[#4ADE80]">
@@ -408,7 +408,7 @@ export default async function Home() {
       </section>
 
       {/* Final CTA */}
-      <section id="precos" className="mx-auto max-w-6xl px-6 py-24 text-center sm:px-10">
+      <section id="precos" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 text-center sm:px-10">
         <h2 className="text-4xl font-bold sm:text-5xl">{t("finalCta.title")}</h2>
         <p className="mx-auto mt-4 max-w-md text-base text-[#94A3B8] sm:text-lg">{t("finalCta.description")}</p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">

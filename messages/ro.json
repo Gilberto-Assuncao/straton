@@ -206,7 +206,11 @@
     "noneFilteredTitle": "Niciun angajat nu corespunde acestor filtre",
     "noneTitle": "Încă nu există angajați",
     "noneFilteredDescription": "Încearcă o altă căutare, stare sau echipă.",
-    "noneDescription": "Adaugă primul tău angajat pentru a începe să construiești echipa."
+    "noneDescription": "Adaugă primul tău angajat pentru a începe să construiești echipa.",
+    "statActiveTeams": "Echipe active",
+    "statTotalEmployees": "Total angajați",
+    "statActive": "Activi",
+    "statPendingInvites": "Invitații în așteptare"
   },
   "projects": {
     "eyebrow": "Spațiu de lucru",

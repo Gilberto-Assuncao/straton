@@ -206,7 +206,11 @@
     "noneFilteredTitle": "Żaden pracownik nie pasuje do tych filtrów",
     "noneTitle": "Brak jeszcze pracowników",
     "noneFilteredDescription": "Spróbuj innego wyszukiwania, statusu lub zespołu.",
-    "noneDescription": "Dodaj pierwszego pracownika, aby zacząć budować zespół."
+    "noneDescription": "Dodaj pierwszego pracownika, aby zacząć budować zespół.",
+    "statActiveTeams": "Aktywne zespoły",
+    "statTotalEmployees": "Łączna liczba pracowników",
+    "statActive": "Aktywni",
+    "statPendingInvites": "Oczekujące zaproszenia"
   },
   "projects": {
     "eyebrow": "Przestrzeń robocza",

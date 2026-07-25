@@ -206,7 +206,11 @@
     "noneFilteredTitle": "Keine Mitarbeiter entsprechen diesen Filtern",
     "noneTitle": "Noch keine Mitarbeiter",
     "noneFilteredDescription": "Versuchen Sie eine andere Suche, einen anderen Status oder ein anderes Team.",
-    "noneDescription": "Fügen Sie Ihren ersten Mitarbeiter hinzu, um das Team aufzubauen."
+    "noneDescription": "Fügen Sie Ihren ersten Mitarbeiter hinzu, um das Team aufzubauen.",
+    "statActiveTeams": "Aktive Teams",
+    "statTotalEmployees": "Mitarbeiter insgesamt",
+    "statActive": "Aktiv",
+    "statPendingInvites": "Ausstehende Einladungen"
   },
   "projects": {
     "eyebrow": "Arbeitsbereich",

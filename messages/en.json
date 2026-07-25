@@ -206,7 +206,11 @@
     "noneFilteredTitle": "No employees match these filters",
     "noneTitle": "No employees yet",
     "noneFilteredDescription": "Try another search, status, or team.",
-    "noneDescription": "Add your first employee to start building the team."
+    "noneDescription": "Add your first employee to start building the team.",
+    "statActiveTeams": "Active teams",
+    "statTotalEmployees": "Total employees",
+    "statActive": "Active",
+    "statPendingInvites": "Pending invites"
   },
   "projects": {
     "eyebrow": "Workspace",
