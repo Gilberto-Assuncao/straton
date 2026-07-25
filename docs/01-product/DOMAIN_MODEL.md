@@ -1,10 +1,10 @@
-# NEXTIME --- DOMAIN MODEL
+# STRATON --- DOMAIN MODEL
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the core business domain model of the NEXTIME
+This document defines the core business domain model of the STRATON
 platform.
 
 It describes the primary entities, their relationships, business rules
@@ -25,7 +25,7 @@ and ubiquitous language used across the product.
 
 ## Tenant
 
-Represents a customer organization using NEXTIME.
+Represents a customer organization using STRATON.
 
 Owns:
 
@@ -180,5 +180,5 @@ These terms should remain consistent across documentation and code.
 # Goal
 
 Provide a shared business model that aligns product, architecture and
-implementation while ensuring a common language across the NEXTIME
+implementation while ensuring a common language across the STRATON
 platform.

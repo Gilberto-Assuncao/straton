@@ -1,4 +1,4 @@
-# NEXTIME --- SPRINT 4.0 --- PROJECTS MANAGEMENT (SPECIFICATION)
+# STRATON --- SPRINT 4.0 --- PROJECTS MANAGEMENT (SPECIFICATION)
 
 Version: 1.0 Status: Completed per git log (`feat: add projects and clients module`), documentation-only gap Last Updated: 2026-07-21
 
@@ -8,7 +8,7 @@ Version: 1.0 Status: Completed per git log (`feat: add projects and clients modu
 
 Trabalhe no repositório:
 
-Gilberto-Assuncao/nextime
+Gilberto-Assuncao/straton
 
 Branch:
 
@@ -148,7 +148,7 @@ Executar:
 
 Sprint 4.0 — Projects Management
 
-Criar o módulo oficial de Projetos do NEXTIME.
+Criar o módulo oficial de Projetos do STRATON.
 
 Este módulo será o núcleo operacional da plataforma.
 
@@ -1545,7 +1545,7 @@ Manter:
 44. FORMULÁRIOS
 ==================================================
 
-Seguir o padrão já adotado no NEXTIME.
+Seguir o padrão já adotado no STRATON.
 
 O formulário deve possuir:
 
@@ -2801,7 +2801,7 @@ Não criar estilos isolados que contradigam:
 - layout.
 
 ==================================================
-88. IDENTIDADE VISUAL NEXTIME
+88. IDENTIDADE VISUAL STRATON
 ==================================================
 
 Preservar a identidade visual definida:
@@ -3301,7 +3301,7 @@ Seguir o padrão de ADR existente.
 107. ROADMAP
 ==================================================
 
-Atualizar o roadmap oficial do NEXTIME.
+Atualizar o roadmap oficial do STRATON.
 
 Marcar:
 
@@ -3923,7 +3923,7 @@ Executar na seguinte ordem:
 126. RESULTADO FINAL ESPERADO
 ==================================================
 
-Ao final da Sprint 4.0, o NEXTIME deve possuir um módulo Projects:
+Ao final da Sprint 4.0, o STRATON deve possuir um módulo Projects:
 
 - funcional;
 - seguro;

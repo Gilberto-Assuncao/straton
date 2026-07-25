@@ -1,10 +1,10 @@
-# NEXTIME --- AUTHENTICATION
+# STRATON --- AUTHENTICATION
 
 Version: 1.1 Status: Completed (Sprint 3.7 foundation) Last Updated: 2026-07-21
 
 # Purpose
 
-NEXTIME uses Supabase Auth through the official `@supabase/ssr` cookie pattern. It does not maintain a second credential or session system. See [AUTHORIZATION.md](AUTHORIZATION.md) for what happens after identity is established.
+STRATON uses Supabase Auth through the official `@supabase/ssr` cookie pattern. It does not maintain a second credential or session system. See [AUTHORIZATION.md](AUTHORIZATION.md) for what happens after identity is established.
 
 ## Runtime flow
 
@@ -25,7 +25,7 @@ Unauthenticated internal requests redirect to `/login` with a validated relative
 ## Security rules
 
 - Session tokens live only in Supabase-managed cookies.
-- Passwords are sent directly to Supabase Auth and are never stored by NEXTIME.
+- Passwords are sent directly to Supabase Auth and are never stored by STRATON.
 - Server Actions and data access revalidate the user instead of trusting client state.
 - The service-role client remains server-only and is not used by normal authentication flows.
 - The Proxy is an optimistic redirect layer, not the sole authorization control.

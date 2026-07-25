@@ -1,10 +1,10 @@
-# NEXTIME --- SECURITY ARCHITECTURE
+# STRATON --- SECURITY ARCHITECTURE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official security architecture for the NEXTIME
+This document defines the official security architecture for the STRATON
 platform.
 
 Security is a foundational requirement and must be considered in every
@@ -151,4 +151,4 @@ Document lessons learned after every incident.
 
 Provide a secure, scalable and resilient security architecture that
 protects customer data, supports regulatory compliance and enables
-long-term growth of the NEXTIME platform.
+long-term growth of the STRATON platform.

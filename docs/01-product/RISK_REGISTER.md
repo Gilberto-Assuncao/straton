@@ -1,11 +1,11 @@
-# NEXTIME --- RISK REGISTER
+# STRATON --- RISK REGISTER
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document is the official register of identified risks for the
-NEXTIME platform. It provides a structured approach to identifying,
+STRATON platform. It provides a structured approach to identifying,
 assessing, mitigating, and monitoring risks throughout the product
 lifecycle.
 

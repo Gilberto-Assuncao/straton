@@ -1,10 +1,10 @@
-# NEXTIME --- PRODUCT README
+# STRATON --- PRODUCT README
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Product Documentation
 
-Welcome to the official product documentation for **NEXTIME**.
+Welcome to the official product documentation for **STRATON**.
 
 This directory contains the documents that define the product vision,
 requirements, roadmap, business rules, and strategic decisions that
@@ -82,6 +82,6 @@ Update this documentation whenever:
 
 # Goal
 
-Provide a clear and structured entry point to the NEXTIME product
+Provide a clear and structured entry point to the STRATON product
 documentation, ensuring every contributor understands the product
 strategy before writing code.

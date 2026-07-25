@@ -1,10 +1,10 @@
-# NEXTIME --- DEPLOYMENT GUIDE
+# STRATON --- DEPLOYMENT GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This guide defines the official deployment strategy for NEXTIME,
+This guide defines the official deployment strategy for STRATON,
 ensuring safe, repeatable, and reliable releases across all
 environments.
 

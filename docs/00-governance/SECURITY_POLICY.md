@@ -1,10 +1,10 @@
-# NEXTIME --- SECURITY POLICY
+# STRATON --- SECURITY POLICY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 Binding security rules. See [../02-architecture/SECURITY_ARCHITECTURE.md](../02-architecture/SECURITY_ARCHITECTURE.md) and [../04-development/SECURITY_GUIDE.md](../04-development/SECURITY_GUIDE.md) for broader architecture and tooling detail.
 
-NEXTIME is secure by default. UI visibility is never authorization.
+STRATON is secure by default. UI visibility is never authorization.
 
 ## Authentication and authorization
 

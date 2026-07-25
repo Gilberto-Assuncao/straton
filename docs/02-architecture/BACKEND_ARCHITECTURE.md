@@ -1,10 +1,10 @@
-# NEXTIME --- BACKEND ARCHITECTURE
+# STRATON --- BACKEND ARCHITECTURE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official backend architecture for the NEXTIME
+This document defines the official backend architecture for the STRATON
 platform.
 
 The backend is designed around a scalable, secure and maintainable SaaS
@@ -126,4 +126,4 @@ All authorization must be enforced on the server.
 # Goal
 
 Provide a secure, scalable and maintainable backend foundation capable
-of supporting the long-term growth of NEXTIME.
+of supporting the long-term growth of STRATON.

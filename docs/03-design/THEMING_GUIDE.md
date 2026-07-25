@@ -1,10 +1,10 @@
-# NEXTIME --- THEMING GUIDE
+# STRATON --- THEMING GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This guide defines the official theming strategy for NEXTIME, ensuring
+This guide defines the official theming strategy for STRATON, ensuring
 visual consistency while enabling future customization for customers and
 enterprise tenants.
 
@@ -125,5 +125,5 @@ Branding must never affect accessibility or usability.
 # Goal
 
 Provide a scalable theming architecture that supports future
-customization while preserving the NEXTIME visual identity and
+customization while preserving the STRATON visual identity and
 accessibility standards.

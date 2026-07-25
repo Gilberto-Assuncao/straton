@@ -1,11 +1,11 @@
-# NEXTIME --- ARCHITECTURE PRINCIPLES
+# STRATON --- ARCHITECTURE PRINCIPLES
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document establishes the architectural principles that guide every
-technical decision in NEXTIME.
+technical decision in STRATON.
 
 ------------------------------------------------------------------------
 
@@ -56,7 +56,7 @@ Avoid breaking existing features without approval.
 
 # Identity and companies
 
-`User` and `ProfessionalProfile` represent the permanent NEXTIME identity. `Company` is independent. `CompanyMembership` is the time-bounded link between them — never model a user as owned directly by one company. `CompanyRelationship` connects organizations without merging their data.
+`User` and `ProfessionalProfile` represent the permanent STRATON identity. `Company` is independent. `CompanyMembership` is the time-bounded link between them — never model a user as owned directly by one company. `CompanyRelationship` connects organizations without merging their data.
 
 ------------------------------------------------------------------------
 
@@ -102,4 +102,4 @@ Every permanent architectural decision must be reflected in:
 # Goal
 
 Maintain a robust architecture capable of supporting the long-term
-evolution of NEXTIME.
+evolution of STRATON.

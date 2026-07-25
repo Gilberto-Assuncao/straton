@@ -1,11 +1,11 @@
-# NEXTIME --- MICROINTERACTIONS
+# STRATON --- MICROINTERACTIONS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official microinteraction guidelines for
-NEXTIME, ensuring every user action receives clear, consistent and
+STRATON, ensuring every user action receives clear, consistent and
 meaningful feedback.
 
 ------------------------------------------------------------------------

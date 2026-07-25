@@ -1,11 +1,11 @@
-# NEXTIME --- ACCESSIBILITY GUIDELINES
+# STRATON --- ACCESSIBILITY GUIDELINES
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document establishes the official accessibility standards for the
-NEXTIME platform, ensuring an inclusive experience for all users and
+STRATON platform, ensuring an inclusive experience for all users and
 compliance with WCAG 2.2 AA.
 
 ------------------------------------------------------------------------
@@ -148,4 +148,4 @@ Accessibility should be verified before every production release.
 # Goal
 
 Build an inclusive platform where every user can efficiently access and
-use NEXTIME regardless of ability or assistive technology.
+use STRATON regardless of ability or assistive technology.

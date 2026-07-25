@@ -1,10 +1,10 @@
-# NEXTIME --- AUTHORIZATION
+# STRATON --- AUTHORIZATION
 
 Version: 1.1 Status: In Progress (foundation implemented, full RBAC planned) Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the authorization model for NEXTIME: what is enforced today versus what is still planned. See [AUTHENTICATION.md](AUTHENTICATION.md) for identity verification, and [MULTITENANCY.md](MULTITENANCY.md) for the Company-as-tenant model this document assumes.
+This document defines the authorization model for STRATON: what is enforced today versus what is still planned. See [AUTHENTICATION.md](AUTHENTICATION.md) for identity verification, and [MULTITENANCY.md](MULTITENANCY.md) for the Company-as-tenant model this document assumes.
 
 ------------------------------------------------------------------------
 

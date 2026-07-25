@@ -1,18 +1,18 @@
-# NEXTIME --- ICONOGRAPHY
+# STRATON --- ICONOGRAPHY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official iconography guidelines for the
-NEXTIME platform to ensure consistency, clarity, and accessibility
+STRATON platform to ensure consistency, clarity, and accessibility
 across all interfaces.
 
 ------------------------------------------------------------------------
 
 # Official Icon Library
 
-NEXTIME adopts **Lucide Icons** as the official icon set.
+STRATON adopts **Lucide Icons** as the official icon set.
 
 Reasons:
 
@@ -145,4 +145,4 @@ Decorative icons should not introduce additional colors.
 # Goal
 
 Provide a unified iconography system that improves usability,
-consistency, and maintainability across the NEXTIME ecosystem.
+consistency, and maintainability across the STRATON ecosystem.

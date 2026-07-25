@@ -1,16 +1,16 @@
-# NEXTIME Domain Architecture
+# STRATON Domain Architecture
 
 ## Purpose
 
-`src/domain` is the framework-independent core of NEXTIME. It contains domain contracts only: no React, Next.js, persistence, Supabase, or presentation concerns. Application services and adapters can consume the public barrel at `src/domain/index.ts` without coupling business concepts to infrastructure.
+`src/domain` is the framework-independent core of STRATON. It contains domain contracts only: no React, Next.js, persistence, Supabase, or presentation concerns. Application services and adapters can consume the public barrel at `src/domain/index.ts` without coupling business concepts to infrastructure.
 
 ## Core ownership model
 
-A **User** belongs to NEXTIME, never directly to a company. A **CompanyMembership** links a user to a company for a defined period and carries roles plus explicit permission overrides. This supports multiple concurrent companies, company switching, and professional history without duplicating identity.
+A **User** belongs to STRATON, never directly to a company. A **CompanyMembership** links a user to a company for a defined period and carries roles plus explicit permission overrides. This supports multiple concurrent companies, company switching, and professional history without duplicating identity.
 
 **ProfessionalProfile** extends the global identity with specialties, experience, certificates, languages, portfolio, availability, résumé, and public links. A **Certificate** belongs to the user and may be referenced by the profile.
 
-A **Company** is an independent organization with its own identity, localization defaults, currency, address, status, and settings. **CompanyRelationship** connects two companies as client, contractor, subcontractor, or partner, providing the foundation for NEXTIME Connect and the Contractor Network.
+A **Company** is an independent organization with its own identity, localization defaults, currency, address, status, and settings. **CompanyRelationship** connects two companies as client, contractor, subcontractor, or partner, providing the foundation for STRATON Connect and the Contractor Network.
 
 ## Operational model
 

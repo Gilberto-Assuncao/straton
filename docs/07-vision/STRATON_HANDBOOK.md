@@ -1,14 +1,14 @@
-# NEXTIME --- PRODUCT HANDBOOK
+# STRATON --- PRODUCT HANDBOOK
 
 Version: 1.1 Status: Active Last Updated: 2026-07-21
 
 ## Vision
 
-NEXTIME is a time and workforce platform built around one promise: **Time Well Managed**. It should help professionals and organizations understand where time goes, coordinate work, document delivery, and make better operational decisions without sacrificing trust, privacy, or usability.
+STRATON is a time and workforce platform built around one promise: **Time Well Managed**. It should help professionals and organizations understand where time goes, coordinate work, document delivery, and make better operational decisions without sacrificing trust, privacy, or usability.
 
 ## Audience and editions
 
-**NEXTIME Solo** serves independent professionals and contractors who need personal time tracking, timesheets, projects, documents, certificates, and a portable professional identity. **NEXTIME Business** serves companies, supervisors, operational teams, accountants, and owners managing people, projects, chantiers, approvals, reporting, and multi-company collaboration.
+**STRATON Solo** serves independent professionals and contractors who need personal time tracking, timesheets, projects, documents, certificates, and a portable professional identity. **STRATON Business** serves companies, supervisors, operational teams, accountants, and owners managing people, projects, chantiers, approvals, reporting, and multi-company collaboration.
 
 ## Core platform
 
@@ -22,7 +22,7 @@ NEXTIME is a time and workforce platform built around one promise: **Time Well M
 
 ## Networks and ecosystem
 
-NEXTIME Connect is the planned collaboration layer between users and organizations. Contractor Network will support explicit client, contractor, subcontractor, and partner relationships while preserving tenant isolation. A future marketplace may help organizations discover trusted capabilities and professionals present verified profiles.
+STRATON Connect is the planned collaboration layer between users and organizations. Contractor Network will support explicit client, contractor, subcontractor, and partner relationships while preserving tenant isolation. A future marketplace may help organizations discover trusted capabilities and professionals present verified profiles.
 
 ## Intelligence modules
 

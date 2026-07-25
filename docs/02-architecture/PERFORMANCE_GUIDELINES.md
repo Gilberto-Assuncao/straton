@@ -1,11 +1,11 @@
-# NEXTIME --- PERFORMANCE GUIDELINES
+# STRATON --- PERFORMANCE GUIDELINES
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official performance guidelines for the
-NEXTIME platform.
+STRATON platform.
 
 The objective is to maintain a fast, responsive and scalable application
 while supporting long-term growth.
@@ -126,4 +126,4 @@ Performance reviews should be part of:
 
 Deliver a consistently fast and scalable experience while ensuring that
 performance remains a first-class concern throughout the evolution of
-the NEXTIME platform.
+the STRATON platform.

@@ -1,10 +1,10 @@
-# NEXTIME --- PRODUCT ROADMAP
+# STRATON --- PRODUCT ROADMAP
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the long-term product roadmap for the NEXTIME
+This document defines the long-term product roadmap for the STRATON
 platform.
 
 The roadmap provides strategic direction while allowing flexibility as
@@ -154,5 +154,5 @@ The roadmap should be reviewed:
 
 # Goal
 
-Provide a clear strategic direction for NEXTIME while supporting
+Provide a clear strategic direction for STRATON while supporting
 iterative delivery and continuous product evolution.

@@ -1,4 +1,4 @@
-# NEXTIME --- TEAM MANAGEMENT
+# STRATON --- TEAM MANAGEMENT
 
 Version: 1.1 Status: Completed (Sprint 3.9) Last Updated: 2026-07-21
 

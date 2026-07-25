@@ -1,11 +1,11 @@
-# NEXTIME --- DESIGN TOKENS
+# STRATON --- DESIGN TOKENS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document specifies the official design tokens used across the
-NEXTIME ecosystem. Design tokens provide a single source of truth for
+STRATON ecosystem. Design tokens provide a single source of truth for
 visual properties and ensure consistency between Figma, Tailwind CSS,
 and application code.
 
@@ -143,4 +143,4 @@ Animations should communicate state changes without distracting users.
 # Goal
 
 Ensure visual consistency, simplify maintenance, and enable scalable UI
-development across all NEXTIME applications.
+development across all STRATON applications.

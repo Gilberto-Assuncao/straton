@@ -1,10 +1,10 @@
-# NEXTIME --- TECHNICAL ROADMAP
+# STRATON --- TECHNICAL ROADMAP
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the long-term technical evolution of the NEXTIME
+This document defines the long-term technical evolution of the STRATON
 platform, ensuring that architecture, infrastructure, and engineering
 practices scale with product growth.
 
@@ -110,4 +110,4 @@ Review this roadmap quarterly or after major architectural changes.
 # Goal
 
 Maintain a scalable, secure, and maintainable technical foundation that
-supports the long-term vision of NEXTIME.
+supports the long-term vision of STRATON.

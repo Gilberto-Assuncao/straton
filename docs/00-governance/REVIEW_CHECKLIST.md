@@ -1,4 +1,4 @@
-# NEXTIME --- REVIEW CHECKLIST
+# STRATON --- REVIEW CHECKLIST
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
@@ -102,4 +102,4 @@ been verified.
 # Goal
 
 Ensure consistent, predictable and high-quality reviews throughout the
-NEXTIME project lifecycle.
+STRATON project lifecycle.

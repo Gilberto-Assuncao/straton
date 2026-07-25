@@ -1,10 +1,10 @@
-# NEXTIME --- USER PERSONAS
+# STRATON --- USER PERSONAS
 
 Version: 1.1 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the primary user personas for NEXTIME, ported from the detailed persona work in `Documentacao Projeto NEXTIME/NEXTIME_MASTER_DOCUMENTATION_7.md` (chapter 6) — the earlier generic draft of this file (Business Owner / Operations Manager / Team Supervisor / Field Employee) is replaced by the four named personas below, which are the ones actually used to resolve product conflicts.
+This document defines the primary user personas for STRATON, ported from the detailed persona work in `Documentacao Projeto STRATON/STRATON_MASTER_DOCUMENTATION_7.md` (chapter 6) — the earlier generic draft of this file (Business Owner / Operations Manager / Team Supervisor / Field Employee) is replaced by the four named personas below, which are the ones actually used to resolve product conflicts.
 
 ------------------------------------------------------------------------
 
@@ -92,5 +92,5 @@ Users should be able to:
 
 # Goal
 
-Provide a clear understanding of the users served by NEXTIME, ensuring
+Provide a clear understanding of the users served by STRATON, ensuring
 product development remains focused on solving real business problems.

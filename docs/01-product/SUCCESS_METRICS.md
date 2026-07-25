@@ -1,11 +1,11 @@
-# NEXTIME --- SUCCESS METRICS
+# STRATON --- SUCCESS METRICS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the key metrics used to evaluate the success of
-the NEXTIME platform.
+the STRATON platform.
 
 The objective is to align product, engineering and business teams around
 measurable outcomes.
@@ -124,4 +124,4 @@ Adjust priorities based on measurable outcomes.
 # Goal
 
 Provide objective measurements that guide continuous improvement and
-ensure NEXTIME delivers long-term value to customers and stakeholders.
+ensure STRATON delivers long-term value to customers and stakeholders.

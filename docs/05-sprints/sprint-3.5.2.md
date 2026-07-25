@@ -4,7 +4,7 @@
 
 ## Objective
 
-Organize durable NEXTIME documentation and establish the reusable visual shell for authenticated application screens.
+Organize durable STRATON documentation and establish the reusable visual shell for authenticated application screens.
 
 ## Scope
 

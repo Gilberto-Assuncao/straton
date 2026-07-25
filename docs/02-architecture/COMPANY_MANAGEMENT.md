@@ -1,4 +1,4 @@
-# NEXTIME --- COMPANY MANAGEMENT
+# STRATON --- COMPANY MANAGEMENT
 
 Version: 1.3 Status: Completed (Sprint 3.8); VAT autofill via VIES Completed (Sprint 6.8) Last Updated: 2026-07-22
 

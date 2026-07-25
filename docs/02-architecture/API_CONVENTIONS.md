@@ -1,10 +1,10 @@
-# NEXTIME --- API CONVENTIONS
+# STRATON --- API CONVENTIONS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official API standards for the NEXTIME
+This document defines the official API standards for the STRATON
 platform.
 
 All internal and future public APIs must follow these conventions to
@@ -141,4 +141,4 @@ Example:
 # Goal
 
 Provide a consistent, secure and scalable API standard for the long-term
-evolution of NEXTIME.
+evolution of STRATON.

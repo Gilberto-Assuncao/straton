@@ -1,10 +1,10 @@
-# NEXTIME --- FILE STRUCTURE
+# STRATON --- FILE STRUCTURE
 
 Version: 1.1 Status: Completed (foundation), evolving Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the **actual** repository and folder organization implemented in NEXTIME today. It must stay in sync with `00 Governance/PROJECT_STRUCTURE.md` — if they ever disagree, re-check the real repo, since neither document overrides observed code.
+This document defines the **actual** repository and folder organization implemented in STRATON today. It must stay in sync with `00 Governance/PROJECT_STRUCTURE.md` — if they ever disagree, re-check the real repo, since neither document overrides observed code.
 
 ------------------------------------------------------------------------
 

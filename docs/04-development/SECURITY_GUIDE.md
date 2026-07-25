@@ -1,10 +1,10 @@
-# NEXTIME --- SECURITY GUIDE
+# STRATON --- SECURITY GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This guide defines the official security standards for the NEXTIME
+This guide defines the official security standards for the STRATON
 platform, protecting user data, infrastructure, and business operations.
 
 ------------------------------------------------------------------------
@@ -123,4 +123,4 @@ Never log passwords, tokens or service keys.
 # Goal
 
 Maintain a secure, compliant, and resilient platform that protects
-customer data and supports the long-term growth of NEXTIME.
+customer data and supports the long-term growth of STRATON.

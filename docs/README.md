@@ -1,8 +1,8 @@
-# NEXTIME Documentation
+# STRATON Documentation
 
 Version: 2.0 Status: Active Last Updated: 2026-07-21
 
-This directory is the canonical technical and product context for NEXTIME — for developers and for any AI assistant (Claude Code, Codex, Cursor, ChatGPT, GitHub Copilot) working on the project. Implemented capabilities are distinguished from planned modules throughout: every document states a Status of **Completed**, **In Progress**, **Planned**, **Experimental**, or **Deprecated**, and none claims a capability exists before it is actually implemented.
+This directory is the canonical technical and product context for STRATON — for developers and for any AI assistant (Claude Code, Codex, Cursor, ChatGPT, GitHub Copilot) working on the project. Implemented capabilities are distinguished from planned modules throughout: every document states a Status of **Completed**, **In Progress**, **Planned**, **Experimental**, or **Deprecated**, and none claims a capability exists before it is actually implemented.
 
 Each subject has exactly one canonical file. If you find two documents about the same topic, that is a bug — consolidate them rather than adding a third.
 
@@ -14,7 +14,7 @@ Start here. [00-governance/README.md](00-governance/README.md) indexes the rules
 
 ## 01-product/ — what is built and why
 
-[01-product/PRODUCT_README.md](01-product/PRODUCT_README.md) indexes vision, personas, PRD, business rules, and roadmap-adjacent product documents. Read [PRODUCT_VISION.md](01-product/PRODUCT_VISION.md), [USER_PERSONAS.md](01-product/USER_PERSONAS.md), [PRODUCT_REQUIREMENTS_DOCUMENT.md](01-product/PRODUCT_REQUIREMENTS_DOCUMENT.md), [BUSINESS_RULES.md](01-product/BUSINESS_RULES.md), and [PRICING_STRATEGY.md](01-product/PRICING_STRATEGY.md) first — these were rewritten from the detailed product work in `../Documentacao Projeto NEXTIME/NEXTIME_MASTER_DOCUMENTATION_7.md` (chapters 1–7) rather than left as generic placeholders. The remaining files in this folder (DOMAIN_MODEL, COMPETITIVE_ANALYSIS, MVP_SCOPE, RISK_REGISTER, SUCCESS_METRICS, PRODUCT_GLOSSARY, PRODUCT_DECISIONS_LOG, PRODUCT_CHANGE_REQUESTS, RELEASE_STRATEGY, GO_TO_MARKET_STRATEGY, FUNCTIONAL_REQUIREMENTS, NON_FUNCTIONAL_REQUIREMENTS, USER_STORIES) still need the same treatment — see the consolidation report for this Sprint.
+[01-product/PRODUCT_README.md](01-product/PRODUCT_README.md) indexes vision, personas, PRD, business rules, and roadmap-adjacent product documents. Read [PRODUCT_VISION.md](01-product/PRODUCT_VISION.md), [USER_PERSONAS.md](01-product/USER_PERSONAS.md), [PRODUCT_REQUIREMENTS_DOCUMENT.md](01-product/PRODUCT_REQUIREMENTS_DOCUMENT.md), [BUSINESS_RULES.md](01-product/BUSINESS_RULES.md), and [PRICING_STRATEGY.md](01-product/PRICING_STRATEGY.md) first — these were rewritten from the detailed product work in `../Documentacao Projeto STRATON/STRATON_MASTER_DOCUMENTATION_7.md` (chapters 1–7) rather than left as generic placeholders. The remaining files in this folder (DOMAIN_MODEL, COMPETITIVE_ANALYSIS, MVP_SCOPE, RISK_REGISTER, SUCCESS_METRICS, PRODUCT_GLOSSARY, PRODUCT_DECISIONS_LOG, PRODUCT_CHANGE_REQUESTS, RELEASE_STRATEGY, GO_TO_MARKET_STRATEGY, FUNCTIONAL_REQUIREMENTS, NON_FUNCTIONAL_REQUIREMENTS, USER_STORIES) still need the same treatment — see the consolidation report for this Sprint.
 
 ## 02-architecture/ — how the system is built
 
@@ -38,7 +38,7 @@ Start here. [00-governance/README.md](00-governance/README.md) indexes the rules
 
 ## 07-vision/ — product handbook
 
-[NEXTIME_HANDBOOK.md](07-vision/NEXTIME_HANDBOOK.md) — NEXTIME Solo vs. Business editions, core platform concepts, and the "Time Well Managed" product principle.
+[STRATON_HANDBOOK.md](07-vision/STRATON_HANDBOOK.md) — STRATON Solo vs. Business editions, core platform concepts, and the "Time Well Managed" product principle.
 
 ## assets/
 

@@ -1,4 +1,4 @@
-# NEXTIME --- SPRINT 4.3 --- TIMESHEETS (SPECIFICATION)
+# STRATON --- SPRINT 4.3 --- TIMESHEETS (SPECIFICATION)
 
 Version: 1.0 Status: Completed per git log (`feat: add timesheets module`), documentation-only gap Last Updated: 2026-07-21
 
@@ -7,7 +7,7 @@ Version: 1.0 Status: Completed per git log (`feat: add timesheets module`), docu
 ---
 
 ###############################################################
-# NEXTIME
+# STRATON
 # Sprint 4.3 — Timesheets
 # Parte 1/3
 ###############################################################
@@ -18,7 +18,7 @@ OBJETIVO
 
 Executar exclusivamente a Sprint 4.3.
 
-Implementar o módulo oficial de Timesheets do NEXTIME.
+Implementar o módulo oficial de Timesheets do STRATON.
 
 Este módulo será responsável por consolidar os registros de horas
 gerados pelo Time Tracking Engine em folhas de horas organizadas,

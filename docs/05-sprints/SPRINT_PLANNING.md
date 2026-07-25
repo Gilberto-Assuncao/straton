@@ -1,10 +1,10 @@
-# NEXTIME --- SPRINT PLANNING
+# STRATON --- SPRINT PLANNING
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official Sprint planning process for NEXTIME,
+This document defines the official Sprint planning process for STRATON,
 ensuring predictable delivery, continuous improvement, and alignment
 with product goals.
 

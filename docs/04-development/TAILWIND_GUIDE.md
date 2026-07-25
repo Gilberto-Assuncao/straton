@@ -1,11 +1,11 @@
-# NEXTIME --- TAILWIND GUIDE
+# STRATON --- TAILWIND GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This guide defines the official standards for using Tailwind CSS
-throughout the NEXTIME platform, ensuring consistency, maintainability,
+throughout the STRATON platform, ensuring consistency, maintainability,
 and performance.
 
 ------------------------------------------------------------------------
@@ -140,5 +140,5 @@ Reserve complex animations for Framer Motion when necessary.
 
 # Goal
 
-Provide a scalable Tailwind CSS architecture that keeps the NEXTIME
+Provide a scalable Tailwind CSS architecture that keeps the STRATON
 interface consistent, performant, and easy to maintain.

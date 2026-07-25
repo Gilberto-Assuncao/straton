@@ -1,11 +1,11 @@
-# NEXTIME --- MVP SCOPE
+# STRATON --- MVP SCOPE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official scope of the Minimum Viable Product
-(MVP) for the NEXTIME platform.
+(MVP) for the STRATON platform.
 
 Its goal is to keep development focused on delivering a valuable first
 release while preventing scope creep.
@@ -143,5 +143,5 @@ Features outside the MVP require explicit prioritization.
 
 # Goal
 
-Deliver a focused, production-ready MVP that validates the NEXTIME
+Deliver a focused, production-ready MVP that validates the STRATON
 product while establishing a solid foundation for future releases.

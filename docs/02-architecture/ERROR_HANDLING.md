@@ -1,11 +1,11 @@
-# NEXTIME --- ERROR HANDLING
+# STRATON --- ERROR HANDLING
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official error handling strategy for the
-NEXTIME platform.
+STRATON platform.
 
 The objective is to ensure errors are handled consistently, securely,
 and predictably across the application.
@@ -170,4 +170,4 @@ Track:
 # Goal
 
 Provide a reliable, secure, and consistent error handling strategy that
-improves maintainability and user experience across NEXTIME.
+improves maintainability and user experience across STRATON.

@@ -1,10 +1,10 @@
-# NEXTIME --- WORKFORCE MANAGEMENT
+# STRATON --- WORKFORCE MANAGEMENT
 
 Version: 1.1 Status: In Progress (data model completed Sprint 3.6; dashboard UI still on mock data — see Sprint 5 plan) Last Updated: 2026-07-21
 
 ## Identity model
 
-Profile is the permanent NEXTIME identity and maps to the existing `public.users` record linked to Supabase Auth. It is not duplicated per employer. Company remains an independent tenant. Company Membership is the historical relationship between Profile and Company, allowing one person to hold different roles in several organizations without losing their account when a relationship ends.
+Profile is the permanent STRATON identity and maps to the existing `public.users` record linked to Supabase Auth. It is not duplicated per employer. Company remains an independent tenant. Company Membership is the historical relationship between Profile and Company, allowing one person to hold different roles in several organizations without losing their account when a relationship ends.
 
 The existing `professional_profiles` table remains the optional public professional identity extension. Sprint 3.6 does not create a competing authentication or profile system.
 

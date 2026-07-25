@@ -1,11 +1,11 @@
-# NEXTIME --- FRONTEND GUIDE
+# STRATON --- FRONTEND GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This guide defines the official frontend development standards for the
-NEXTIME platform using Next.js 16, React, TypeScript and Tailwind CSS.
+STRATON platform using Next.js 16, React, TypeScript and Tailwind CSS.
 
 ------------------------------------------------------------------------
 
@@ -120,4 +120,4 @@ Organize code by feature whenever practical. Keep shared UI inside
 # Goal
 
 Provide a consistent, maintainable and scalable frontend codebase
-aligned with the NEXTIME architecture and design standards.
+aligned with the STRATON architecture and design standards.

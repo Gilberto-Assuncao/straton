@@ -1,11 +1,11 @@
-# NEXTIME --- GO TO MARKET STRATEGY
+# STRATON --- GO TO MARKET STRATEGY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official Go-to-Market (GTM) strategy for the
-NEXTIME platform, describing how the product will be introduced,
+STRATON platform, describing how the product will be introduced,
 acquired, and scaled.
 
 ------------------------------------------------------------------------
@@ -38,7 +38,7 @@ Secondary:
 
 # Value Proposition
 
-NEXTIME delivers:
+STRATON delivers:
 
 -   Fast and intuitive time tracking
 -   Team and project management
@@ -153,5 +153,5 @@ Potential partners:
 # Goal
 
 Provide a structured strategy for launching, growing, and expanding
-NEXTIME while aligning product, marketing, sales, and customer success
+STRATON while aligning product, marketing, sales, and customer success
 efforts.

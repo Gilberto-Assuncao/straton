@@ -1,11 +1,11 @@
-# NEXTIME --- Governance
+# STRATON --- Governance
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Overview
 
 The `00-governance` directory contains the official governance documents
-for the NEXTIME project.
+for the STRATON project.
 
 These documents define how the project is planned, developed, reviewed
 and maintained. They are the primary reference for both human
@@ -66,4 +66,4 @@ If two documents conflict, use the following priority:
 # Goal
 
 Provide a consistent, maintainable and scalable governance model for the
-long-term evolution of NEXTIME.
+long-term evolution of STRATON.

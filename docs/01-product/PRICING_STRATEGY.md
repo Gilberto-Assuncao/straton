@@ -1,10 +1,10 @@
-# NEXTIME --- PRICING STRATEGY
+# STRATON --- PRICING STRATEGY
 
 Version: 1.1 Status: Planned (no billing/plan enforcement is implemented yet — see [../02-architecture/DATABASE_ARCHITECTURE.md](../02-architecture/DATABASE_ARCHITECTURE.md), no `subscriptions`/`plans` table exists in the current schema) Last Updated: 2026-07-21
 
 # Purpose
 
-This document replaces an earlier, unrelated draft plan structure (Free/Starter/Pro/Business/Enterprise) with the deliberately-designed model from `Documentacao Projeto NEXTIME/NEXTIME_MASTER_DOCUMENTATION_7.md` (chapter 4), which is the one product decisions should follow. **Nothing described here is implemented in the database or application yet.**
+This document replaces an earlier, unrelated draft plan structure (Free/Starter/Pro/Business/Enterprise) with the deliberately-designed model from `Documentacao Projeto STRATON/STRATON_MASTER_DOCUMENTATION_7.md` (chapter 4), which is the one product decisions should follow. **Nothing described here is implemented in the database or application yet.**
 
 ------------------------------------------------------------------------
 

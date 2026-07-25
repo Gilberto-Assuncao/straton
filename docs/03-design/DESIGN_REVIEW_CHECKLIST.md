@@ -1,4 +1,4 @@
-# NEXTIME --- DESIGN REVIEW CHECKLIST
+# STRATON --- DESIGN REVIEW CHECKLIST
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
@@ -6,7 +6,7 @@ Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 This checklist defines the mandatory review criteria for all user
 interface changes before merge and release. It ensures every screen
-follows the NEXTIME Design System and delivers a consistent user
+follows the STRATON Design System and delivers a consistent user
 experience.
 
 ------------------------------------------------------------------------
@@ -113,5 +113,5 @@ Before merge:
 
 # Goal
 
-Ensure every UI delivered in NEXTIME meets the project's standards for
+Ensure every UI delivered in STRATON meets the project's standards for
 quality, accessibility, consistency, and maintainability.

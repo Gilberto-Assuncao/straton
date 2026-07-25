@@ -1,11 +1,11 @@
-# NEXTIME --- TECH DECISIONS
+# STRATON --- TECH DECISIONS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document records the major architectural and technical decisions
-made throughout the NEXTIME project.
+made throughout the STRATON project.
 
 Its objective is to preserve context, document trade-offs, and help
 future contributors understand why specific technologies and patterns

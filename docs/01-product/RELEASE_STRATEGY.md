@@ -1,10 +1,10 @@
-# NEXTIME --- RELEASE STRATEGY
+# STRATON --- RELEASE STRATEGY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official release strategy for the NEXTIME
+This document defines the official release strategy for the STRATON
 platform.
 
 Its goal is to provide a predictable, low-risk process for delivering
@@ -24,7 +24,7 @@ new functionality while maintaining platform stability.
 
 # Versioning
 
-NEXTIME follows Semantic Versioning (SemVer):
+STRATON follows Semantic Versioning (SemVer):
 
 -   MAJOR: Breaking changes
 -   MINOR: New backward-compatible features

@@ -1,4 +1,4 @@
-# NEXTIME --- WEATHER INTELLIGENCE
+# STRATON --- WEATHER INTELLIGENCE
 
 Version: 1.1 Status: First slice shipped (Sprint 6.7, 2026-07-22) Last Updated: 2026-07-22
 

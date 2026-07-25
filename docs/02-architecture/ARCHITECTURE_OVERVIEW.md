@@ -1,17 +1,17 @@
-# NEXTIME --- ARCHITECTURE OVERVIEW
+# STRATON --- ARCHITECTURE OVERVIEW
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document provides a high-level view of the NEXTIME architecture and
+This document provides a high-level view of the STRATON architecture and
 serves as the primary entry point for understanding the platform.
 
 ------------------------------------------------------------------------
 
 # Platform Overview
 
-NEXTIME is a multi-tenant SaaS platform for workforce, time tracking and
+STRATON is a multi-tenant SaaS platform for workforce, time tracking and
 project management.
 
 Technology stack:
@@ -135,4 +135,4 @@ Architecture should evolve incrementally through documented decisions
 # Goal
 
 Provide a single reference that connects every architectural document
-and offers developers a clear understanding of the NEXTIME platform.
+and offers developers a clear understanding of the STRATON platform.

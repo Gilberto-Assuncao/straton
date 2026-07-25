@@ -1,11 +1,11 @@
-# NEXTIME --- Development Documentation
+# STRATON --- Development Documentation
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This directory contains the official development standards for the
-NEXTIME platform. It defines how the application should be implemented,
+STRATON platform. It defines how the application should be implemented,
 tested, secured, deployed, and maintained.
 
 ------------------------------------------------------------------------
@@ -64,4 +64,4 @@ Update this documentation whenever:
 # Goal
 
 Provide a single reference for developers and AI assistants to implement
-NEXTIME consistently, securely, and efficiently.
+STRATON consistently, securely, and efficiently.

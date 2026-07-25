@@ -1,10 +1,10 @@
-# NEXTIME --- DESIGN README
+# STRATON --- DESIGN README
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Design Documentation
 
-Welcome to the official design documentation for NEXTIME.
+Welcome to the official design documentation for STRATON.
 
 This directory contains the standards that define the visual language,
 user experience, accessibility, responsiveness and reusable interface
@@ -75,6 +75,6 @@ Update this documentation whenever:
 
 # Goal
 
-Provide a single entry point to the NEXTIME Design documentation,
+Provide a single entry point to the STRATON Design documentation,
 enabling designers, developers and AI assistants to build consistent,
 accessible and high-quality user interfaces.

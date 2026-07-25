@@ -1,10 +1,10 @@
-# NEXTIME --- API GUIDE
+# STRATON --- API GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official API standards for NEXTIME. It ensures
+This document defines the official API standards for STRATON. It ensures
 consistency, security, and maintainability across all backend endpoints
 and integrations.
 
@@ -180,5 +180,5 @@ Every public endpoint should document:
 
 # Goal
 
-Provide a predictable, secure and scalable API layer for the NEXTIME
+Provide a predictable, secure and scalable API layer for the STRATON
 platform.

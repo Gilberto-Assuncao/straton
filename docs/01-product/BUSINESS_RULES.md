@@ -1,10 +1,10 @@
-# NEXTIME --- BUSINESS RULES
+# STRATON --- BUSINESS RULES
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official business rules for the NEXTIME
+This document defines the official business rules for the STRATON
 platform.
 
 Business rules represent the operational logic of the platform and must
@@ -170,4 +170,4 @@ Business rules must be:
 
 Provide a single, authoritative source for business rules, ensuring
 consistent platform behavior and reliable implementation across all
-NEXTIME modules.
+STRATON modules.

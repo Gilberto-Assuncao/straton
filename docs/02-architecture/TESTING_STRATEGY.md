@@ -1,10 +1,10 @@
-# NEXTIME --- TESTING STRATEGY
+# STRATON --- TESTING STRATEGY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official testing strategy for the NEXTIME
+This document defines the official testing strategy for the STRATON
 platform.
 
 The goal is to ensure software quality, reduce regressions, and enable
@@ -156,4 +156,4 @@ Before releasing:
 # Goal
 
 Provide a reliable testing strategy that supports continuous development
-while maintaining high quality across the NEXTIME platform.
+while maintaining high quality across the STRATON platform.

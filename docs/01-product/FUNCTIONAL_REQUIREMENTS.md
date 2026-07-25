@@ -1,10 +1,10 @@
-# NEXTIME --- FUNCTIONAL REQUIREMENTS
+# STRATON --- FUNCTIONAL REQUIREMENTS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the functional requirements for the NEXTIME
+This document defines the functional requirements for the STRATON
 platform.
 
 Each requirement has a unique identifier to support planning,

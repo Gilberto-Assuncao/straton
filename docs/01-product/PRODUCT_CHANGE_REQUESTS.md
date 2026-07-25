@@ -1,11 +1,11 @@
-# NEXTIME --- PRODUCT CHANGE REQUESTS
+# STRATON --- PRODUCT CHANGE REQUESTS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official process for requesting, evaluating,
-approving, and tracking product changes within the NEXTIME platform.
+approving, and tracking product changes within the STRATON platform.
 
 Its objective is to ensure that every proposed change is documented,
 evaluated consistently, and aligned with the product vision.

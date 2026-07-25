@@ -1,10 +1,10 @@
-# NEXTIME --- PRODUCT REQUIREMENTS DOCUMENT (PRD)
+# STRATON --- PRODUCT REQUIREMENTS DOCUMENT (PRD)
 
 Version: 1.1 Status: In Progress (v1.0 "Core Release" scope defined; see per-requirement status below) Last Updated: 2026-07-21
 
 # Purpose
 
-This PRD translates the Vision ([PRODUCT_VISION.md](PRODUCT_VISION.md)) into concrete requirements for NEXTIME's first stable version (**v1.0 — "Core Release"**), ported from `Documentacao Projeto NEXTIME/NEXTIME_MASTER_DOCUMENTATION_7.md` (chapter 5). It replaces an earlier generic draft of this file.
+This PRD translates the Vision ([PRODUCT_VISION.md](PRODUCT_VISION.md)) into concrete requirements for STRATON's first stable version (**v1.0 — "Core Release"**), ported from `Documentacao Projeto STRATON/STRATON_MASTER_DOCUMENTATION_7.md` (chapter 5). It replaces an earlier generic draft of this file.
 
 ------------------------------------------------------------------------
 

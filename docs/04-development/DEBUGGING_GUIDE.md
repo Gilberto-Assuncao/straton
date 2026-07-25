@@ -4,7 +4,7 @@ Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This guide standardizes debugging practices across the NEXTIME platform,
+This guide standardizes debugging practices across the STRATON platform,
 enabling faster diagnosis, reproducible investigations, and safer fixes.
 
 ------------------------------------------------------------------------

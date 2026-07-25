@@ -1,16 +1,16 @@
-# NEXTIME --- MULTITENANCY
+# STRATON --- MULTITENANCY
 
 Version: 1.1 Status: Completed (foundation) / Planned (cross-company features) Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the actual multi-tenancy architecture implemented in NEXTIME as of Sprint 3.7–3.9, plus the parts that remain planned.
+This document defines the actual multi-tenancy architecture implemented in STRATON as of Sprint 3.7–3.9, plus the parts that remain planned.
 
 ------------------------------------------------------------------------
 
 # Core Concept: Company is the tenant
 
-NEXTIME does **not** have a separate "Tenant" entity above Company. **`Company` is the tenant boundary.** A permanent `User` (`public.users`, one row per `auth.users` identity) never belongs to a company directly — it holds zero or more `company_memberships`, each linking the user to exactly one company with a status (`invited`, `active`, `suspended`) and one or more roles.
+STRATON does **not** have a separate "Tenant" entity above Company. **`Company` is the tenant boundary.** A permanent `User` (`public.users`, one row per `auth.users` identity) never belongs to a company directly — it holds zero or more `company_memberships`, each linking the user to exactly one company with a status (`invited`, `active`, `suspended`) and one or more roles.
 
 ``` text
 User (public.users)
@@ -30,7 +30,7 @@ Every tenant-owned table carries an explicit `company_id`. A user with active me
 
 # Active-company session
 
-After server-side authentication, `getAuthenticatedSession()` (`src/application/session/server.ts`) loads only the caller's **active** memberships (joined with `companies` and roles) and exposes them as a minimal session DTO. The active company is selected from an `HttpOnly`, `SameSite=Lax` cookie (`nextime-active-company`, 30-day expiry) or falls back to the first membership.
+After server-side authentication, `getAuthenticatedSession()` (`src/application/session/server.ts`) loads only the caller's **active** memberships (joined with `companies` and roles) and exposes them as a minimal session DTO. The active company is selected from an `HttpOnly`, `SameSite=Lax` cookie (`straton-active-company`, 30-day expiry) or falls back to the first membership.
 
 The cookie is a preference, not an authorization grant: every request re-validates that its value is still one of the user's active memberships (`requireActiveCompany()`), and an invalid/stale value falls back automatically. Switching companies (`CompanySwitcher` → Server Action) revalidates the user and checks membership before writing the cookie — it never widens what the user can see.
 

@@ -1,11 +1,11 @@
-# NEXTIME --- SPRINT EXECUTION
+# STRATON --- SPRINT EXECUTION
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official execution process for every Sprint in
-the NEXTIME project, ensuring disciplined delivery, transparency, and
+the STRATON project, ensuring disciplined delivery, transparency, and
 continuous progress.
 
 ------------------------------------------------------------------------
@@ -121,5 +121,5 @@ A Sprint is complete when:
 # Goal
 
 Provide a repeatable execution process that improves delivery quality,
-reduces interruptions, and keeps every Sprint aligned with the NEXTIME
+reduces interruptions, and keeps every Sprint aligned with the STRATON
 roadmap.

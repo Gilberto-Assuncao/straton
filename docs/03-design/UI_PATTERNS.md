@@ -1,11 +1,11 @@
-# NEXTIME --- UI PATTERNS
+# STRATON --- UI PATTERNS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official user interface (UI) patterns for
-NEXTIME. These patterns ensure a consistent user experience across all
+STRATON. These patterns ensure a consistent user experience across all
 web and future mobile applications.
 
 ------------------------------------------------------------------------
@@ -167,4 +167,4 @@ Toast messages should:
 # Goal
 
 Provide repeatable UI patterns that improve usability, reduce cognitive
-load, and create a cohesive experience throughout the NEXTIME platform.
+load, and create a cohesive experience throughout the STRATON platform.

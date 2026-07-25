@@ -1,4 +1,4 @@
-# NEXTIME --- SPRINT METRICS
+# STRATON --- SPRINT METRICS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
@@ -6,7 +6,7 @@ Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 This document defines the official metrics used to evaluate Sprint
 execution, engineering performance, and continuous improvement within
-the NEXTIME project.
+the STRATON project.
 
 ------------------------------------------------------------------------
 

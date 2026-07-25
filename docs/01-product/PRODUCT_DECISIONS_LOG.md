@@ -1,11 +1,11 @@
-# NEXTIME --- PRODUCT DECISIONS LOG
+# STRATON --- PRODUCT DECISIONS LOG
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document records the major product decisions made throughout the
-lifecycle of the NEXTIME platform.
+lifecycle of the STRATON platform.
 
 It serves as the official historical reference for strategic, functional
 and architectural product decisions.
@@ -158,4 +158,4 @@ Every significant product decision should:
 # Goal
 
 Maintain a transparent and traceable history of product decisions,
-ensuring consistency as NEXTIME evolves.
+ensuring consistency as STRATON evolves.

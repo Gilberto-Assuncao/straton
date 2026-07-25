@@ -1,10 +1,10 @@
-# NEXTIME --- CHANGELOG POLICY
+# STRATON --- CHANGELOG POLICY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-Define the official policy for recording changes made to the NEXTIME
+Define the official policy for recording changes made to the STRATON
 project.
 
 A well-maintained changelog improves traceability, communication and
@@ -101,5 +101,5 @@ Before publishing:
 
 # Goal
 
-Maintain a reliable historical record of NEXTIME's evolution for
+Maintain a reliable historical record of STRATON's evolution for
 developers, reviewers and future maintenance.

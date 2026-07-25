@@ -1,10 +1,10 @@
-# NEXTIME --- DATABASE ARCHITECTURE
+# STRATON --- DATABASE ARCHITECTURE
 
 Version: 1.1 Status: Completed (foundation, Sprint 3.5.2–3.9.1) Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the actual database architecture implemented for NEXTIME: the real schema in `supabase/migrations/`, not a generic template.
+This document defines the actual database architecture implemented for STRATON: the real schema in `supabase/migrations/`, not a generic template.
 
 ------------------------------------------------------------------------
 

@@ -1,10 +1,10 @@
-# NEXTIME --- DESIGN PRINCIPLES (POLICY)
+# STRATON --- DESIGN PRINCIPLES (POLICY)
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 Binding design rules every contributor and AI must follow. See [../03-design/DESIGN_README.md](../03-design/DESIGN_README.md) for the full design documentation set.
 
-NEXTIME expresses **TIME WELL MANAGED** through clarity, confidence, efficiency, and restraint.
+STRATON expresses **TIME WELL MANAGED** through clarity, confidence, efficiency, and restraint.
 
 ## Visual direction
 

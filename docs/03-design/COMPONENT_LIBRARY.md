@@ -1,10 +1,10 @@
-# NEXTIME --- COMPONENT LIBRARY
+# STRATON --- COMPONENT LIBRARY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the reusable UI component library for NEXTIME.
+This document defines the reusable UI component library for STRATON.
 Every shared component should be implemented consistently, be accessible
 by default, and avoid embedding business logic.
 
@@ -183,4 +183,4 @@ All components must:
 # Goal
 
 Provide a consistent, scalable and maintainable component library for
-every NEXTIME application.
+every STRATON application.

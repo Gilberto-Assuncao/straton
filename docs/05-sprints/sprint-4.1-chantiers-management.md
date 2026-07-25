@@ -1,4 +1,4 @@
-# NEXTIME --- SPRINT 4.1 --- CHANTIERS MANAGEMENT (SPECIFICATION)
+# STRATON --- SPRINT 4.1 --- CHANTIERS MANAGEMENT (SPECIFICATION)
 
 Version: 1.0 Status: Uncertain — no matching commit identified in git log as of this consolidation; verify before relying on this Last Updated: 2026-07-21
 
@@ -10,7 +10,7 @@ Version: 1.0 Status: Uncertain — no matching commit identified in git log as o
 
 Sprint 4.1 — Chantiers Management
 ###############################################################
-# NEXTIME
+# STRATON
 # Sprint 4.1 — Chantiers Management
 # Parte 1/3
 ###############################################################
@@ -504,7 +504,7 @@ Não implementar funcionalidades da Sprint 4.2 nesta etapa.
 
 Continuar na Parte 2.
 ###############################################################
-# NEXTIME
+# STRATON
 # Sprint 4.1 — Chantiers Management
 # Parte 2/3
 ###############################################################
@@ -1177,7 +1177,7 @@ Ao concluir esta Parte 2 deverá existir:
 
 Continuar na Parte 3.
 ###############################################################
-# NEXTIME
+# STRATON
 # Sprint 4.1 — Chantiers Management
 # Parte 3/3
 ###############################################################
@@ -1772,7 +1772,7 @@ OBJETIVO FINAL DA SPRINT 4.1
 
 Ao término desta Sprint deverá existir um módulo completo de
 gerenciamento de Chantiers, totalmente integrado ao ecossistema
-NEXTIME.
+STRATON.
 
 O módulo deverá permitir que empresas gerenciem seus locais de
 trabalho de forma organizada, segura e escalável, servindo como

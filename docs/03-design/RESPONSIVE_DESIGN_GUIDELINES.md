@@ -1,18 +1,18 @@
-# NEXTIME --- RESPONSIVE DESIGN GUIDELINES
+# STRATON --- RESPONSIVE DESIGN GUIDELINES
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official responsive design strategy for
-NEXTIME, ensuring a consistent experience across mobile, tablet,
+STRATON, ensuring a consistent experience across mobile, tablet,
 desktop, and ultrawide displays.
 
 ------------------------------------------------------------------------
 
 # Design Philosophy
 
-NEXTIME follows a **Mobile First** approach:
+STRATON follows a **Mobile First** approach:
 
 -   Design for small screens first.
 -   Enhance layouts progressively for larger devices.

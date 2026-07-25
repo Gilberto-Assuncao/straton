@@ -1,11 +1,11 @@
-# NEXTIME --- COMPONENT GUIDE
+# STRATON --- COMPONENT GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This guide defines the official standards for designing, implementing,
-and maintaining React components in the NEXTIME platform.
+and maintaining React components in the STRATON platform.
 
 ------------------------------------------------------------------------
 
@@ -172,5 +172,5 @@ Recommended tests:
 # Goal
 
 Create a consistent, scalable, and maintainable component architecture
-that supports rapid feature development while preserving the NEXTIME
+that supports rapid feature development while preserving the STRATON
 Design System.

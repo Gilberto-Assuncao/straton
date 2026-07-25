@@ -1,4 +1,4 @@
-# NEXTIME --- PROJECT DECISIONS
+# STRATON --- PROJECT DECISIONS
 
 Use this file to record permanent architectural decisions.
 

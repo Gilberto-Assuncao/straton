@@ -1,11 +1,11 @@
-# NEXTIME --- DOCUMENTATION STANDARD
+# STRATON --- DOCUMENTATION STANDARD
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official documentation standards for the
-NEXTIME project.
+STRATON project.
 
 Good documentation is considered part of the product and must evolve
 together with the codebase.
@@ -118,4 +118,4 @@ Before publishing documentation:
 # Goal
 
 Maintain a professional, organized and reliable documentation system
-that supports long-term development of NEXTIME.
+that supports long-term development of STRATON.

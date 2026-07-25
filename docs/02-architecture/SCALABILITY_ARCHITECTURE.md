@@ -1,10 +1,10 @@
-# NEXTIME --- SCALABILITY ARCHITECTURE
+# STRATON --- SCALABILITY ARCHITECTURE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the scalability strategy for the NEXTIME platform.
+This document defines the scalability strategy for the STRATON platform.
 
 The architecture must support growth from a small MVP to a global
 multi-tenant SaaS without requiring major architectural rewrites.
@@ -143,6 +143,6 @@ Architecture decisions should remain pragmatic and evidence-based.
 
 # Goal
 
-Provide a scalable architecture that allows NEXTIME to grow from an MVP
+Provide a scalable architecture that allows STRATON to grow from an MVP
 into a large-scale SaaS platform while maintaining simplicity,
 reliability and maintainability.

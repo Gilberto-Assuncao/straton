@@ -1,11 +1,11 @@
-# NEXTIME --- PRODUCT GLOSSARY
+# STRATON --- PRODUCT GLOSSARY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This glossary defines the official terminology used throughout the
-NEXTIME platform, ensuring consistent communication across product,
+STRATON platform, ensuring consistent communication across product,
 engineering, design and documentation.
 
 ------------------------------------------------------------------------
@@ -136,4 +136,4 @@ The glossary should be updated whenever:
 # Goal
 
 Maintain a single source of truth for terminology used across the
-NEXTIME ecosystem.
+STRATON ecosystem.

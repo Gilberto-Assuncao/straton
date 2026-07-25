@@ -1,10 +1,10 @@
-# NEXTIME --- FRONTEND ARCHITECTURE
+# STRATON --- FRONTEND ARCHITECTURE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official frontend architecture of NEXTIME.
+This document defines the official frontend architecture of STRATON.
 
 It establishes the standards for building scalable, maintainable and
 performant user interfaces.
@@ -87,4 +87,4 @@ Components should be:
 # Goal
 
 Provide a consistent frontend architecture that supports the long-term
-evolution of NEXTIME.
+evolution of STRATON.

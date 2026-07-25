@@ -1,10 +1,10 @@
-# NEXTIME --- OBSERVABILITY
+# STRATON --- OBSERVABILITY
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the observability strategy for the NEXTIME
+This document defines the observability strategy for the STRATON
 platform.
 
 Observability enables teams to understand the health, performance and
@@ -139,5 +139,5 @@ Review SLOs periodically as the platform evolves.
 
 # Goal
 
-Provide complete visibility into the health and performance of NEXTIME,
+Provide complete visibility into the health and performance of STRATON,
 enabling rapid diagnosis, continuous improvement and reliable operation.

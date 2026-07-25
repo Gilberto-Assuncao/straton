@@ -1,4 +1,4 @@
-# NEXTIME --- APP SHELL
+# STRATON --- APP SHELL
 
 Version: 1.1 Status: Completed Last Updated: 2026-07-21
 

@@ -1,10 +1,10 @@
-# NEXTIME --- RELEASE ROADMAP
+# STRATON --- RELEASE ROADMAP
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official release strategy for NEXTIME, from
+This document defines the official release strategy for STRATON, from
 early development to production-ready releases.
 
 ------------------------------------------------------------------------
@@ -50,7 +50,7 @@ early development to production-ready releases.
 
 # Versioning
 
-NEXTIME follows Semantic Versioning:
+STRATON follows Semantic Versioning:
 
 -   MAJOR: Breaking changes
 -   MINOR: New features

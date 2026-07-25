@@ -1,10 +1,10 @@
-# NEXTIME --- CLAUDE GUIDE
+# STRATON --- CLAUDE GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines how Claude Code must work inside the NEXTIME
+This document defines how Claude Code must work inside the STRATON
 project.
 
 It complements:

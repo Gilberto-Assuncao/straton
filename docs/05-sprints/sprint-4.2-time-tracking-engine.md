@@ -1,4 +1,4 @@
-# NEXTIME --- SPRINT 4.2 --- TIME TRACKING ENGINE (SPECIFICATION)
+# STRATON --- SPRINT 4.2 --- TIME TRACKING ENGINE (SPECIFICATION)
 
 Version: 1.0 Status: Completed per git log (`feat: add time tracking module`), documentation-only gap Last Updated: 2026-07-21
 
@@ -7,7 +7,7 @@ Version: 1.0 Status: Completed per git log (`feat: add time tracking module`), d
 ---
 
 ###############################################################
-# NEXTIME
+# STRATON
 # Sprint 4.2 — Time Tracking Engine
 # Parte 1/3
 ###############################################################
@@ -18,7 +18,7 @@ OBJETIVO
 
 Executar exclusivamente a Sprint 4.2.
 
-Implementar o motor oficial de registro de horas do NEXTIME.
+Implementar o motor oficial de registro de horas do STRATON.
 
 Este módulo será responsável por registrar toda a jornada de
 trabalho dos colaboradores.
@@ -460,7 +460,7 @@ Não implementar funcionalidades da Sprint 4.3 nesta etapa.
 
 Continuar na Parte 2.
 ###############################################################
-# NEXTIME
+# STRATON
 # Sprint 4.2 — Time Tracking Engine
 # Parte 2/3
 ###############################################################
@@ -1137,7 +1137,7 @@ Ao concluir esta Parte 2 deverá existir:
 
 Continuar na Parte 3.
 ###############################################################
-# NEXTIME
+# STRATON
 # Sprint 4.2 — Time Tracking Engine
 # Parte 3/3
 ###############################################################
@@ -1812,7 +1812,7 @@ OBJETIVO FINAL DA SPRINT 4.2
 
 Ao término desta Sprint deverá existir um motor de registro de
 horas robusto, seguro, escalável e totalmente integrado ao
-ecossistema NEXTIME.
+ecossistema STRATON.
 
 O Time Tracking deverá servir como fonte única da verdade para
 todos os registros de jornada, permitindo que os módulos de

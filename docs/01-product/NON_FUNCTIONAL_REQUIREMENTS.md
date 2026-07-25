@@ -1,11 +1,11 @@
-# NEXTIME --- NON-FUNCTIONAL REQUIREMENTS
+# STRATON --- NON-FUNCTIONAL REQUIREMENTS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the non-functional requirements (NFRs) for the
-NEXTIME platform.
+STRATON platform.
 
 These requirements establish the expected quality attributes of the
 system beyond its functional capabilities.
@@ -147,5 +147,5 @@ Every release should verify:
 
 # Goal
 
-Define measurable quality standards that ensure NEXTIME remains secure,
+Define measurable quality standards that ensure STRATON remains secure,
 reliable, scalable and maintainable throughout its lifecycle.

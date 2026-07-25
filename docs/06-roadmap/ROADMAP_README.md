@@ -1,11 +1,11 @@
-# NEXTIME --- Roadmap Documentation
+# STRATON --- Roadmap Documentation
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This directory contains the official roadmap documentation for the
-NEXTIME project. It connects the long-term product vision with tactical
+STRATON project. It connects the long-term product vision with tactical
 planning, Sprint execution, and release management.
 
 ------------------------------------------------------------------------
@@ -64,5 +64,5 @@ Each document should remain consistent with the others.
 
 # Goal
 
-Maintain a single source of truth for the strategic evolution of NEXTIME
+Maintain a single source of truth for the strategic evolution of STRATON
 while supporting transparent planning and predictable delivery.

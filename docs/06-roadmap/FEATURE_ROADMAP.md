@@ -1,11 +1,11 @@
-# NEXTIME --- FEATURE ROADMAP
+# STRATON --- FEATURE ROADMAP
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document tracks the implementation status of every major functional
-module in NEXTIME.
+module in STRATON.
 
   Module               Status        Target Sprint   Dependencies
   -------------------- ------------- --------------- --------------------
@@ -71,4 +71,4 @@ accordingly.
 # Goal
 
 Provide a single source of truth for the implementation progress of all
-functional areas in NEXTIME.
+functional areas in STRATON.

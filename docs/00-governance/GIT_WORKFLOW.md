@@ -1,10 +1,10 @@
-# NEXTIME --- GIT WORKFLOW
+# STRATON --- GIT WORKFLOW
 
 Version: 1.1 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-Define the official Git workflow for the NEXTIME project — both the branch/release policy and the concrete per-Sprint sequence every contributor (human or AI) follows.
+Define the official Git workflow for the STRATON project — both the branch/release policy and the concrete per-Sprint sequence every contributor (human or AI) follows.
 
 ------------------------------------------------------------------------
 

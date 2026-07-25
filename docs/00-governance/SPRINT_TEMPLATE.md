@@ -1,4 +1,4 @@
-# NEXTIME --- SPRINT TEMPLATE
+# STRATON --- SPRINT TEMPLATE
 
 ## Pre-check
 

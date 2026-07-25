@@ -1,10 +1,10 @@
-# NEXTIME --- DEVELOPMENT HANDBOOK
+# STRATON --- DEVELOPMENT HANDBOOK
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 ## Product and purpose
 
-NEXTIME is a time and workforce platform guided by **TIME WELL MANAGED.** It supports independent professionals and organizations that coordinate hours, timesheets, projects, sites, teams, documents, reporting, and trusted multi-company collaboration. The long-term vision includes NEXTIME Solo, NEXTIME Business, NEXTIME Connect, Contractor Network, finance, accounting, marketplace, internationalization, operational intelligence, and responsible AI.
+STRATON is a time and workforce platform guided by **TIME WELL MANAGED.** It supports independent professionals and organizations that coordinate hours, timesheets, projects, sites, teams, documents, reporting, and trusted multi-company collaboration. The long-term vision includes STRATON Solo, STRATON Business, STRATON Connect, Contractor Network, finance, accounting, marketplace, internationalization, operational intelligence, and responsible AI.
 
 The platform must provide clarity without sacrificing privacy, tenant isolation, accessibility, or user control. Planned modules are not treated as implemented until code, validation, documentation, and review confirm delivery.
 
@@ -70,4 +70,4 @@ Developers own the same diligence as automation: read context, inspect before ch
 
 ## Standards for other AI tools
 
-ChatGPT, Claude, Cursor, GitHub Copilot, and any other AI assistant must follow the official NEXTIME documentation, repository instructions, explicit task scope, and human authorization boundaries. Generated output is a proposal until inspected and validated. No AI may invent completed capabilities, production data, credentials, legal rules, payroll results, or security guarantees.
+ChatGPT, Claude, Cursor, GitHub Copilot, and any other AI assistant must follow the official STRATON documentation, repository instructions, explicit task scope, and human authorization boundaries. Generated output is a proposal until inspected and validated. No AI may invent completed capabilities, production data, credentials, legal rules, payroll results, or security guarantees.

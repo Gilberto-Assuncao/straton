@@ -1,11 +1,11 @@
-# NEXTIME --- DEPLOYMENT ARCHITECTURE
+# STRATON --- DEPLOYMENT ARCHITECTURE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official deployment architecture for the
-NEXTIME platform.
+STRATON platform.
 
 The deployment process must be predictable, secure, repeatable and
 minimize downtime.

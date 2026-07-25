@@ -1,10 +1,10 @@
-# NEXTIME --- CODING PRINCIPLES
+# STRATON --- CODING PRINCIPLES
 
 Version: 1.1 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the coding principles that every contributor and AI must follow when implementing features in NEXTIME.
+This document defines the coding principles that every contributor and AI must follow when implementing features in STRATON.
 
 ------------------------------------------------------------------------
 
@@ -60,4 +60,4 @@ Avoid premature abstractions and speculative dependencies. Optimize only after m
 
 # Objective
 
-Every line of code should make NEXTIME easier to understand, safer to change, and simpler to maintain.
+Every line of code should make STRATON easier to understand, safer to change, and simpler to maintain.

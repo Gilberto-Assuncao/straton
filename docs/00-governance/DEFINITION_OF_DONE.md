@@ -1,4 +1,4 @@
-# NEXTIME --- DEFINITION OF DONE
+# STRATON --- DEFINITION OF DONE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
@@ -122,5 +122,5 @@ A task is NOT complete if:
 
 # Goal
 
-Ensure every completed Sprint leaves the NEXTIME codebase stable,
+Ensure every completed Sprint leaves the STRATON codebase stable,
 maintainable and ready for future development.

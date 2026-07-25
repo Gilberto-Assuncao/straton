@@ -11,7 +11,7 @@ Validate migrations, PostgreSQL integrity, Supabase RLS, RPCs, triggers, and Mul
 ## Environment and tools
 
 - Repository branch: `main`, aligned with `origin/main` at `a73ef88` when validation started.
-- Supabase configuration: `supabase/config.toml`, project id `nextime`, PostgreSQL target `17`.
+- Supabase configuration: `supabase/config.toml`, project id `straton`, PostgreSQL target `17`.
 - Seed: `supabase/seed.sql`, development-only deterministic data.
 - Supabase CLI: not installed; `npx supabase --version` could not initialize in the restricted environment.
 - Docker: not installed or unavailable on `PATH`.

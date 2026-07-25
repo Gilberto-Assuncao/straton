@@ -1,11 +1,11 @@
-# NEXTIME --- STATE MANAGEMENT
+# STRATON --- STATE MANAGEMENT
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This document defines the official state management strategy for the
-NEXTIME platform.
+STRATON platform.
 
 The primary objective is to keep state simple, predictable and
 performant while leveraging the capabilities of Next.js App Router.

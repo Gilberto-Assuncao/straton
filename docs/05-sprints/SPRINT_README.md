@@ -1,11 +1,11 @@
-# NEXTIME --- Sprint Documentation
+# STRATON --- Sprint Documentation
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This directory contains the official Sprint management documentation for
-the NEXTIME project. It standardizes planning, execution, measurement,
+the STRATON project. It standardizes planning, execution, measurement,
 and continuous improvement across all development iterations.
 
 ------------------------------------------------------------------------

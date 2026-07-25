@@ -1,11 +1,11 @@
-# NEXTIME --- AI DEVELOPMENT GUIDE
+# STRATON --- AI DEVELOPMENT GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This guide defines how Artificial Intelligence assistants participate in
-the development workflow of NEXTIME, ensuring consistent, secure, and
+the development workflow of STRATON, ensuring consistent, secure, and
 high-quality contributions.
 
 ------------------------------------------------------------------------
@@ -131,4 +131,4 @@ Before accepting AI-generated code:
 
 Enable safe, efficient collaboration between developers and AI
 assistants while preserving the quality, maintainability, and long-term
-vision of the NEXTIME platform.
+vision of the STRATON platform.

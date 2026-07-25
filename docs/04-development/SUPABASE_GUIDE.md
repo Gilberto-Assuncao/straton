@@ -1,10 +1,10 @@
-# NEXTIME --- SUPABASE GUIDE
+# STRATON --- SUPABASE GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This guide defines how Supabase must be used throughout the NEXTIME
+This guide defines how Supabase must be used throughout the STRATON
 platform, ensuring a secure, scalable, and consistent implementation.
 
 ------------------------------------------------------------------------
@@ -151,5 +151,5 @@ Never commit secrets to the repository.
 # Goal
 
 Provide a standardized approach for integrating Supabase across the
-NEXTIME platform while maintaining security, performance, and long-term
+STRATON platform while maintaining security, performance, and long-term
 maintainability.

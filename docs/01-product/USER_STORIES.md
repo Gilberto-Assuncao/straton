@@ -1,10 +1,10 @@
-# NEXTIME --- USER STORIES
+# STRATON --- USER STORIES
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the primary user stories for the NEXTIME MVP.
+This document defines the primary user stories for the STRATON MVP.
 
 User stories describe functionality from the user's perspective and
 guide sprint planning and implementation.

@@ -1,11 +1,11 @@
-# NEXTIME --- BACKEND GUIDE
+# STRATON --- BACKEND GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This guide defines the official backend development standards for
-NEXTIME. It establishes how business logic, data access, authentication
+STRATON. It establishes how business logic, data access, authentication
 and integrations must be implemented using Next.js, Supabase and
 PostgreSQL.
 
@@ -138,4 +138,4 @@ Avoid logging sensitive information.
 # Goal
 
 Provide a secure, maintainable and scalable backend implementation
-aligned with the NEXTIME architecture.
+aligned with the STRATON architecture.

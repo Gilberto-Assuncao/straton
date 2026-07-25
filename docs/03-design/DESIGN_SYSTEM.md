@@ -1,4 +1,4 @@
-# NEXTIME --- DESIGN SYSTEM
+# STRATON --- DESIGN SYSTEM
 
 Version: 1.1 Status: Completed (foundation), evolving Last Updated: 2026-07-21
 
@@ -23,7 +23,7 @@ Use `@/src/components` for the public barrel or a category barrel when limiting 
 
 ## Design tokens
 
-`src/design-system/tokens.ts` centralizes colors, spacing, radii, typography, shadows, animation metadata, z-index, breakpoints, durations, and shared component classes. New components should extend these tokens instead of introducing repeated values. The palette preserves NEXTIME’s dark canvas, premium surface, green action color, Poppins typography, and accessible foreground colors.
+`src/design-system/tokens.ts` centralizes colors, spacing, radii, typography, shadows, animation metadata, z-index, breakpoints, durations, and shared component classes. New components should extend these tokens instead of introducing repeated values. The palette preserves STRATON’s dark canvas, premium surface, green action color, Poppins typography, and accessible foreground colors.
 
 ## Component practices
 

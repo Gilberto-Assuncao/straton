@@ -1,4 +1,4 @@
-# NEXTIME --- AI_CONTEXT.md
+# STRATON --- AI_CONTEXT.md
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
@@ -7,7 +7,7 @@ Version: 1.0 Status: Active Last Updated: 2026-07-21
 # Purpose
 
 This document is the permanent architectural context for AI assistants
-working on the NEXTIME project.
+working on the STRATON project.
 
 Read this file before making architectural decisions.
 
@@ -20,7 +20,7 @@ of truth.
 
 # Project
 
-**Name:** NEXTIME
+**Name:** STRATON
 
 **Type:** Multi-tenant SaaS
 

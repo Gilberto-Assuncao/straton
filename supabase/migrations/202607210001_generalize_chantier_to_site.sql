@@ -1,5 +1,5 @@
 -- Sprint: generalize the Chantier concept into a vertical-agnostic Site entity.
--- Product decision: NEXTIME now targets any service business (Cleaning, Electrical,
+-- Product decision: STRATON now targets any service business (Cleaning, Electrical,
 -- HVAC, Security, Logistics, Hospitality, Facility Management, etc.), not only
 -- construction. "Chantier" (Belgian/French for construction site) is renamed to the
 -- neutral "Site" everywhere. No data is lost — this is a pure rename plus one new

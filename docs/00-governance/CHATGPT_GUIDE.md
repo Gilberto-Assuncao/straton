@@ -1,10 +1,10 @@
-# NEXTIME --- CHATGPT GUIDE
+# STRATON --- CHATGPT GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the responsibilities of ChatGPT within the NEXTIME
+This document defines the responsibilities of ChatGPT within the STRATON
 project.
 
 ChatGPT acts as the Lead Software Architect and Technical Planner.
@@ -129,4 +129,4 @@ Always prioritize:
 # Long-Term Goal
 
 Maintain a consistent architecture, high-quality documentation and a
-predictable development process for NEXTIME.
+predictable development process for STRATON.

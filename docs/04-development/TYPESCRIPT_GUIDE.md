@@ -1,10 +1,10 @@
-# NEXTIME --- TYPESCRIPT GUIDE
+# STRATON --- TYPESCRIPT GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This guide defines the official TypeScript standards for the NEXTIME
+This guide defines the official TypeScript standards for the STRATON
 project, ensuring type safety, maintainability, and consistency across
 the codebase.
 

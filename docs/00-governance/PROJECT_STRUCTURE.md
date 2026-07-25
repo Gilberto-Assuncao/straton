@@ -1,4 +1,4 @@
-# NEXTIME --- PROJECT_STRUCTURE
+# STRATON --- PROJECT_STRUCTURE
 
 Version: 1.0 Status: Living Document Last Updated: 2026-07-21
 

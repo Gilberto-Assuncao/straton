@@ -1,11 +1,11 @@
-# NEXTIME --- DATABASE GUIDE
+# STRATON --- DATABASE GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
 This guide defines the official standards for designing, implementing,
-and maintaining the NEXTIME database using PostgreSQL and Supabase.
+and maintaining the STRATON database using PostgreSQL and Supabase.
 
 ------------------------------------------------------------------------
 
@@ -127,4 +127,4 @@ Avoid storing sensitive information in logs.
 # Goal
 
 Provide a secure, scalable, and maintainable database foundation for the
-NEXTIME platform.
+STRATON platform.

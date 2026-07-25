@@ -1,10 +1,10 @@
-# NEXTIME --- TESTING GUIDE
+# STRATON --- TESTING GUIDE
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This guide defines the official testing strategy for NEXTIME to ensure
+This guide defines the official testing strategy for STRATON to ensure
 quality, reliability, and confidence when delivering new features.
 
 ------------------------------------------------------------------------
@@ -145,4 +145,4 @@ Critical business logic should exceed these targets.
 # Goal
 
 Deliver a reliable, maintainable platform by applying consistent
-automated testing throughout the NEXTIME development lifecycle.
+automated testing throughout the STRATON development lifecycle.

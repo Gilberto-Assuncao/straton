@@ -1,4 +1,4 @@
-# NEXTIME --- ROADMAP (CONFIRMED DELIVERY)
+# STRATON --- ROADMAP (CONFIRMED DELIVERY)
 
 Version: 1.1 Status: Active Last Updated: 2026-07-21
 
@@ -20,7 +20,7 @@ The Git history confirms delivery of the landing page and mobile navigation, aut
 
 ## Product decision: multi-segment, not construction-only (2026-07-21)
 
-NEXTIME's target market widened from construction-only to any service business managing people, time, and physical work locations (Construction, Cleaning, Electrical, HVAC, Security, Logistics, Hospitality, Facility Management, etc.). Construction stays a primary segment. The one construction-specific name in the codebase, `Chantier` (table, domain type, nav label), was renamed to the neutral `Site` — see `supabase/migrations/202607210001_generalize_chantier_to_site.sql`. A free-text `reference` field was added to Site at the same time (common Belgian business practice, distinct from the existing `po_number`).
+STRATON's target market widened from construction-only to any service business managing people, time, and physical work locations (Construction, Cleaning, Electrical, HVAC, Security, Logistics, Hospitality, Facility Management, etc.). Construction stays a primary segment. The one construction-specific name in the codebase, `Chantier` (table, domain type, nav label), was renamed to the neutral `Site` — see `supabase/migrations/202607210001_generalize_chantier_to_site.sql`. A free-text `reference` field was added to Site at the same time (common Belgian business practice, distinct from the existing `po_number`).
 
 ## Sprints 4.0–4.3 (specifications executed, UI wiring incomplete)
 
@@ -36,4 +36,4 @@ Detailed RBAC, invitations, schedules, sensitive employment data, billing, payro
 
 ## Planned modules
 
-NEXTIME Connect, Contractor Network, finance, accounting, marketplace, document workflows, certificate verification, Weather Intelligence, Workforce Cost & Profitability Intelligence, Payroll & Social Rules Engine, internationalization, and AI assistance are planned concepts. This roadmap does not claim they are implemented.
+STRATON Connect, Contractor Network, finance, accounting, marketplace, document workflows, certificate verification, Weather Intelligence, Workforce Cost & Profitability Intelligence, Payroll & Social Rules Engine, internationalization, and AI assistance are planned concepts. This roadmap does not claim they are implemented.

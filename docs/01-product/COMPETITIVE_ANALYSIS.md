@@ -1,17 +1,17 @@
-# NEXTIME --- COMPETITIVE ANALYSIS
+# STRATON --- COMPETITIVE ANALYSIS
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document summarizes the competitive landscape for NEXTIME and
+This document summarizes the competitive landscape for STRATON and
 identifies opportunities for product differentiation.
 
 ------------------------------------------------------------------------
 
 # Market Overview
 
-NEXTIME targets businesses that need simple, scalable workforce and time
+STRATON targets businesses that need simple, scalable workforce and time
 management, with an initial focus on construction and field service
 companies.
 
@@ -39,7 +39,7 @@ Key market trends:
 
 # Competitive Advantages
 
-NEXTIME aims to differentiate through:
+STRATON aims to differentiate through:
 
 -   Modern, intuitive interface
 -   Construction-oriented workflows
@@ -94,7 +94,7 @@ NEXTIME aims to differentiate through:
 
 # Product Positioning
 
-NEXTIME positions itself as:
+STRATON positions itself as:
 
 > "A modern workforce and time management platform built for operational
 > teams that need simplicity, reliability, and scalability."
@@ -124,5 +124,5 @@ Review this analysis:
 # Goal
 
 Provide strategic guidance for product evolution by understanding the
-competitive landscape and reinforcing NEXTIME's unique value
+competitive landscape and reinforcing STRATON's unique value
 proposition.

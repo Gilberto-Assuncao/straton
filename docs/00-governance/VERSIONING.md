@@ -1,10 +1,10 @@
-# NEXTIME --- VERSIONING
+# STRATON --- VERSIONING
 
 Version: 1.0 Status: Active Last Updated: 2026-07-21
 
 # Purpose
 
-This document defines the official versioning strategy for the NEXTIME
+This document defines the official versioning strategy for the STRATON
 project.
 
 The objective is to ensure predictable releases, compatibility and
@@ -14,7 +14,7 @@ traceability across the entire platform.
 
 # Semantic Versioning
 
-NEXTIME follows Semantic Versioning (SemVer):
+STRATON follows Semantic Versioning (SemVer):
 
 MAJOR.MINOR.PATCH
 
@@ -136,4 +136,4 @@ v2.0.0
 
 Maintain a clear, predictable and professional versioning strategy for
 code, documentation, APIs and database evolution throughout the
-lifecycle of NEXTIME.
+lifecycle of STRATON.
