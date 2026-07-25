@@ -3,6 +3,98 @@ import "server-only";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany, requireAuthenticatedSession } from "@/src/application/session/server";
 import type { DashboardKpi, RecentTimesheet, TeamActivityItem, TimesheetStatus, WeeklyHoursEntry } from "@/lib/types/dashboard";
+import { getPayrollPeriodSummary } from "@/src/features/payroll/data";
+
+const adminRoles = ["owner", "admin", "administrator"];
+const managerRoles = [...adminRoles, "manager", "supervisor"];
+const hrRoles = [...adminRoles, "hr", "finance", "accountant"];
+
+export type DashboardRoleView = "supervisor" | "admin" | "hr";
+
+export interface DashboardKpiCard {
+  id: string; label: string; value: string; color: string; cta: string; ctaHref: string; trend: string; trendColor: string;
+}
+export interface DashboardAttentionItem {
+  id: string; text: string; cta: string; ctaHref: string; accent: string;
+}
+export interface RoleDashboardOverview {
+  roleView: DashboardRoleView | null;
+  headline: string; subheadline: string;
+  kpis: DashboardKpiCard[];
+  attention: DashboardAttentionItem[];
+}
+
+export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview> {
+  const session = await requireAuthenticatedSession();
+  const roles = session.activeCompany?.roles ?? [];
+  const isAdmin = roles.some((role) => adminRoles.includes(role));
+  const isManager = roles.some((role) => managerRoles.includes(role));
+  const isHr = roles.some((role) => hrRoles.includes(role));
+  if (!isManager && !isHr) return { roleView: null, headline: "", subheadline: "", kpis: [], attention: [] };
+  const roleView: DashboardRoleView = isAdmin ? "admin" : isHr ? "hr" : "supervisor";
+
+  const companyId = session.activeCompany!.id;
+  const supabase = await createClient();
+  const todayStart = new Date(); todayStart.setHours(0, 0, 0, 0);
+  const todayEnd = new Date(); todayEnd.setHours(23, 59, 59, 999);
+
+  const [
+    { count: pendingApprovals },
+    { data: activeMembers },
+    { data: todaysTimesheets },
+    { count: totalTeams },
+    { data: teamMembers },
+    { count: pendingInvites },
+  ] = await Promise.all([
+    supabase.from("timesheet_entries").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("status", "submitted"),
+    supabase.from("employee_records").select("company_membership_id,company_memberships!inner(user_id)").eq("company_id", companyId).eq("employment_status", "active"),
+    supabase.from("timesheets").select("user_id,timesheet_entries!inner(starts_at)").eq("company_id", companyId).gte("timesheet_entries.starts_at", todayStart.toISOString()).lte("timesheet_entries.starts_at", todayEnd.toISOString()),
+    supabase.from("teams").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("status", "active"),
+    supabase.from("team_memberships").select("team_id,company_memberships!inner(user_id)").eq("company_id", companyId).is("left_at", null),
+    supabase.from("company_memberships").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("status", "invited"),
+  ]);
+
+  type MemberRow = { company_membership_id: string; company_memberships: { user_id: string } | { user_id: string }[] | null };
+  const first = <T,>(v: T | T[] | null): T | null => (Array.isArray(v) ? (v[0] ?? null) : v);
+  const activeUserIds = new Set(((activeMembers ?? []) as MemberRow[]).flatMap((row) => { const m = first(row.company_memberships); return m ? [m.user_id] : []; }));
+  const checkedInUserIds = new Set(((todaysTimesheets ?? []) as { user_id: string }[]).map((row) => row.user_id));
+  const noCheckinToday = [...activeUserIds].filter((id) => !checkedInUserIds.has(id)).length;
+
+  type TeamMemberRow = { team_id: string; company_memberships: { user_id: string } | { user_id: string }[] | null };
+  const teamActiveToday = new Set(((teamMembers ?? []) as TeamMemberRow[]).flatMap((row) => { const m = first(row.company_memberships); return m && checkedInUserIds.has(m.user_id) ? [row.team_id] : []; })).size;
+
+  const payrollNow = new Date();
+  const payrollLabel = new Intl.DateTimeFormat("pt", { month: "long", year: "numeric" }).format(payrollNow);
+
+  const headlines: Record<DashboardRoleView, { headline: string; subheadline: string }> = {
+    supervisor: { headline: "A minha equipa hoje", subheadline: "Aprovações pendentes e quem ainda não registou hoje." },
+    admin: { headline: "Visão geral da operação", subheadline: "Saúde da operação e pendências administrativas." },
+    hr: { headline: "Folha do período", subheadline: `Horas aprovadas em ${payrollLabel} — nada aqui é calculado como definitivo sem revisão.` },
+  };
+
+  const kpis: DashboardKpiCard[] = [];
+  const attention: DashboardAttentionItem[] = [];
+
+  if (isManager) {
+    kpis.push({ id: "approvals", label: "Aguardando aprovação", value: String(pendingApprovals ?? 0), color: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: "Rever agora", ctaHref: "/dashboard/timesheets", trend: (pendingApprovals ?? 0) > 0 ? "Precisa de atenção" : "Tudo em dia", trendColor: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80" });
+    kpis.push({ id: "no-checkin", label: "Sem registo hoje", value: String(noCheckinToday), color: noCheckinToday > 0 ? "#F87171" : "#4ADE80", cta: "Ver mapa", ctaHref: "/dashboard/map", trend: `${activeUserIds.size} ativos`, trendColor: "#94A3B8" });
+    if ((pendingApprovals ?? 0) > 0) attention.push({ id: "att-approvals", text: `${pendingApprovals} folhas de horas aguardam a sua aprovação`, cta: "Aprovar", ctaHref: "/dashboard/timesheets", accent: "#F59E0B" });
+    if (noCheckinToday > 0) attention.push({ id: "att-no-checkin", text: `${noCheckinToday} colaborador(es) sem registo hoje`, cta: "Ver mapa", ctaHref: "/dashboard/map", accent: "#F87171" });
+  }
+  if (isAdmin) {
+    kpis.push({ id: "teams", label: "Equipas ativas hoje", value: `${teamActiveToday}/${totalTeams ?? 0}`, color: "#4ADE80", cta: "Ver equipas", ctaHref: "/dashboard/teams", trend: (totalTeams ?? 0) > 0 ? `${Math.round((teamActiveToday / (totalTeams ?? 1)) * 100)}% em campo` : "—", trendColor: "#94A3B8" });
+    kpis.push({ id: "invites", label: "Convites pendentes", value: String(pendingInvites ?? 0), color: (pendingInvites ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: "Ver equipa", ctaHref: "/dashboard/employees", trend: (pendingInvites ?? 0) > 0 ? "Aguardando aceitação" : "Nenhum pendente", trendColor: "#94A3B8" });
+    if ((pendingInvites ?? 0) > 0) attention.push({ id: "att-invites", text: `${pendingInvites} convite(s) de funcionário ainda pendente(s)`, cta: "Ver equipa", ctaHref: "/dashboard/employees", accent: "#F59E0B" });
+  }
+  if (isHr) {
+    const { totalMinutes, employees } = await getPayrollPeriodSummary();
+    const hours = `${Math.floor(totalMinutes / 60)}h`;
+    kpis.push({ id: "payroll-hours", label: "Horas aprovadas (período)", value: hours, color: "#F1F5F9", cta: "Ver folha", ctaHref: "/dashboard/finance", trend: `${employees.length} colaborador(es)`, trendColor: "#94A3B8" });
+  }
+
+  const { headline, subheadline } = headlines[roleView];
+  return { roleView, headline, subheadline, kpis, attention };
+}
 
 type RelatedOne<T> = T | T[] | null;
 function first<T>(value: RelatedOne<T>): T | null { return Array.isArray(value) ? (value[0] ?? null) : value; }
