@@ -279,7 +279,9 @@
     "members": "Members",
     "progress": "Progress",
     "teamMembers": "Team members",
-    "projectHoursProgress": "Project hours progress"
+    "projectHoursProgress": "Project hours progress",
+    "hoursLogged": "logged",
+    "membersAllocated": "{count} team members allocated"
   },
   "roster": {
     "eyebrow": "Company",

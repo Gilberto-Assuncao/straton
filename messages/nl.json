@@ -279,7 +279,9 @@
     "members": "Leden",
     "progress": "Voortgang",
     "teamMembers": "Teamleden",
-    "projectHoursProgress": "Voortgang projecturen"
+    "projectHoursProgress": "Voortgang projecturen",
+    "hoursLogged": "geregistreerd",
+    "membersAllocated": "{count} teamleden toegewezen"
   },
   "roster": {
     "eyebrow": "Bedrijf",

@@ -279,7 +279,9 @@
     "members": "Membri",
     "progress": "Progres",
     "teamMembers": "Membrii echipei",
-    "projectHoursProgress": "Progresul orelor proiectului"
+    "projectHoursProgress": "Progresul orelor proiectului",
+    "hoursLogged": "înregistrate",
+    "membersAllocated": "{count} membri alocați"
   },
   "roster": {
     "eyebrow": "Companie",

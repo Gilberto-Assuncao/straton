@@ -279,7 +279,9 @@
     "members": "Membros",
     "progress": "Progresso",
     "teamMembers": "Membros da equipa",
-    "projectHoursProgress": "Progresso de horas do projeto"
+    "projectHoursProgress": "Progresso de horas do projeto",
+    "hoursLogged": "registadas",
+    "membersAllocated": "{count} colaboradores alocados"
   },
   "roster": {
     "eyebrow": "Empresa",
