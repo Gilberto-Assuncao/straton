@@ -83,13 +83,25 @@ export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview>
   }
   if (isAdmin) {
     kpis.push({ id: "teams", label: "Equipas ativas hoje", value: `${teamActiveToday}/${totalTeams ?? 0}`, color: "#4ADE80", cta: "Ver equipas", ctaHref: "/dashboard/teams", trend: (totalTeams ?? 0) > 0 ? `${Math.round((teamActiveToday / (totalTeams ?? 1)) * 100)}% em campo` : "—", trendColor: "#94A3B8" });
-    kpis.push({ id: "invites", label: "Convites pendentes", value: String(pendingInvites ?? 0), color: (pendingInvites ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: "Ver equipa", ctaHref: "/dashboard/employees", trend: (pendingInvites ?? 0) > 0 ? "Aguardando aceitação" : "Nenhum pendente", trendColor: "#94A3B8" });
+    kpis.push({ id: "invites", label: "Pendências administrativas", value: String(pendingInvites ?? 0), color: (pendingInvites ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: "Ver equipa", ctaHref: "/dashboard/employees", trend: (pendingInvites ?? 0) > 0 ? "Convites por aceitar" : "Nenhuma pendência", trendColor: "#94A3B8" });
     if ((pendingInvites ?? 0) > 0) attention.push({ id: "att-invites", text: `${pendingInvites} convite(s) de funcionário ainda pendente(s)`, cta: "Ver equipa", ctaHref: "/dashboard/employees", accent: "#F59E0B" });
   }
   if (isHr) {
-    const { totalMinutes, employees } = await getPayrollPeriodSummary();
+    const [{ totalMinutes, employees, periodStart, periodEnd }, { data: periodEntries }] = await Promise.all([
+      getPayrollPeriodSummary(),
+      supabase.from("timesheets").select("timesheet_entries!inner(starts_at,ends_at,break_minutes)").eq("company_id", companyId).eq("status", "approved"),
+    ]);
     const hours = `${Math.floor(totalMinutes / 60)}h`;
+    type PeriodEntryRow = { timesheet_entries: { starts_at: string; ends_at: string; break_minutes: number }[] };
+    const excessShifts = ((periodEntries ?? []) as PeriodEntryRow[]).flatMap((row) => row.timesheet_entries).filter((entry) => {
+      const key = entry.starts_at.slice(0, 10);
+      if (key < periodStart || key > periodEnd) return false;
+      const minutes = Math.round((new Date(entry.ends_at).getTime() - new Date(entry.starts_at).getTime()) / 60000) - entry.break_minutes;
+      return minutes > 600;
+    }).length;
     kpis.push({ id: "payroll-hours", label: "Horas aprovadas (período)", value: hours, color: "#F1F5F9", cta: "Ver folha", ctaHref: "/dashboard/finance", trend: `${employees.length} colaborador(es)`, trendColor: "#94A3B8" });
+    kpis.push({ id: "excess-shifts", label: "Divergências de horas", value: String(excessShifts), color: excessShifts > 0 ? "#F87171" : "#4ADE80", cta: "Rever", ctaHref: "/dashboard/finance", trend: excessShifts > 0 ? "turnos acima de 10h" : "nenhuma divergência", trendColor: excessShifts > 0 ? "#F59E0B" : "#4ADE80" });
+    if (excessShifts > 0) attention.push({ id: "att-excess", text: `${excessShifts} turno(s) com mais de 10h registadas neste período`, cta: "Rever", ctaHref: "/dashboard/finance", accent: "#F59E0B" });
   }
 
   const { headline, subheadline } = headlines[roleView];
