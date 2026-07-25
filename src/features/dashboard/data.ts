@@ -1,7 +1,7 @@
 import "server-only";
 
 import { createClient } from "@/src/infrastructure/supabase/server";
-import { requireActiveCompany } from "@/src/application/session/server";
+import { requireActiveCompany, requireAuthenticatedSession } from "@/src/application/session/server";
 import type { DashboardKpi, RecentTimesheet, TeamActivityItem, TimesheetStatus, WeeklyHoursEntry } from "@/lib/types/dashboard";
 
 type RelatedOne<T> = T | T[] | null;
@@ -47,7 +47,9 @@ interface TimesheetRow {
 interface ProjectUpdateRow { id: string; name: string; updated_at: string }
 
 export async function getPendingApprovalsCount(): Promise<number> {
-  const { companyId } = await requireActiveCompany();
+  const session = await requireAuthenticatedSession();
+  if (!session.activeCompany) return 0;
+  const companyId = session.activeCompany.id;
   const supabase = await createClient();
   const { count } = await supabase.from("timesheet_entries").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("status", "submitted");
   return count ?? 0;
