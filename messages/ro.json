@@ -479,5 +479,21 @@
       "footerSecurity": "Securitate",
       "copyright": "© {year} STRATON. Toate drepturile rezervate."
     }
+  },
+  "payroll": {
+    "eyebrow": "Salarizare",
+    "title": "Salarizare — {period}",
+    "description": "Ore aprobate pentru această perioadă, agregate din pontaje. Aceasta este o previzualizare a cifrelor, nu un fluturaș de salariu final.",
+    "previewNoticeTitle": "Doar previzualizare",
+    "previewNoticeBody": "Închiderea perioadei, exportul și generarea fluturașilor de salariu nu sunt încă disponibile. Urmăriți progresul în sistemul nostru de issues.",
+    "statApprovedHours": "Ore aprobate",
+    "statNightHours": "Ore de noapte",
+    "statWeekendHours": "Ore de weekend",
+    "tableTitle": "Ore pe angajat",
+    "colEmployee": "Angajat",
+    "colRegular": "Normale",
+    "colNight": "Noapte",
+    "colTotal": "Total",
+    "emptyState": "Încă nu există ore aprobate pentru această perioadă."
   }
 }

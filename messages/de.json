@@ -479,5 +479,21 @@
       "footerSecurity": "Sicherheit",
       "copyright": "© {year} STRATON. Alle Rechte vorbehalten."
     }
+  },
+  "payroll": {
+    "eyebrow": "Lohnabrechnung",
+    "title": "Lohnabrechnung — {period}",
+    "description": "Genehmigte Stunden für diesen Zeitraum, aggregiert aus Stundenzetteln. Dies ist eine Vorschau der Zahlen, keine endgültige Lohnabrechnung.",
+    "previewNoticeTitle": "Nur Vorschau",
+    "previewNoticeBody": "Periodenabschluss, Export und Lohnabrechnungserstellung sind noch nicht verfügbar. Verfolgen Sie den Fortschritt in unserem Issue-Tracker.",
+    "statApprovedHours": "Genehmigte Stunden",
+    "statNightHours": "Nachtstunden",
+    "statWeekendHours": "Wochenendstunden",
+    "tableTitle": "Stunden pro Mitarbeiter",
+    "colEmployee": "Mitarbeiter",
+    "colRegular": "Regulär",
+    "colNight": "Nacht",
+    "colTotal": "Gesamt",
+    "emptyState": "Noch keine genehmigten Stunden für diesen Zeitraum."
   }
 }

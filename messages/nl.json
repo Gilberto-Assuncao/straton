@@ -479,5 +479,21 @@
       "footerSecurity": "Beveiliging",
       "copyright": "© {year} STRATON. Alle rechten voorbehouden."
     }
+  },
+  "payroll": {
+    "eyebrow": "Loonadministratie",
+    "title": "Loonadministratie — {period}",
+    "description": "Goedgekeurde uren voor deze periode, samengevoegd uit tijdregistraties. Dit is een voorbeeld van de cijfers, geen definitieve loonstrook.",
+    "previewNoticeTitle": "Alleen voorbeeld",
+    "previewNoticeBody": "Periode afsluiten, export en loonstrook genereren zijn nog niet beschikbaar. Volg de voortgang in onze issue tracker.",
+    "statApprovedHours": "Goedgekeurde uren",
+    "statNightHours": "Nachturen",
+    "statWeekendHours": "Weekenduren",
+    "tableTitle": "Uren per medewerker",
+    "colEmployee": "Medewerker",
+    "colRegular": "Normaal",
+    "colNight": "Nacht",
+    "colTotal": "Totaal",
+    "emptyState": "Nog geen goedgekeurde uren voor deze periode."
   }
 }

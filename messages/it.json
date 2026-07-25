@@ -479,5 +479,21 @@
       "footerSecurity": "Sicurezza",
       "copyright": "© {year} STRATON. Tutti i diritti riservati."
     }
+  },
+  "payroll": {
+    "eyebrow": "Buste paga",
+    "title": "Buste paga — {period}",
+    "description": "Ore approvate per questo periodo, aggregate dai fogli ore. Questa è un'anteprima dei numeri, non una busta paga definitiva.",
+    "previewNoticeTitle": "Solo anteprima",
+    "previewNoticeBody": "La chiusura del periodo, l'esportazione e la generazione delle buste paga non sono ancora disponibili. Segui i progressi nel nostro issue tracker.",
+    "statApprovedHours": "Ore approvate",
+    "statNightHours": "Ore notturne",
+    "statWeekendHours": "Ore weekend",
+    "tableTitle": "Ore per dipendente",
+    "colEmployee": "Dipendente",
+    "colRegular": "Normali",
+    "colNight": "Notte",
+    "colTotal": "Totale",
+    "emptyState": "Ancora nessuna ora approvata per questo periodo."
   }
 }

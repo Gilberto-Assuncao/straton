@@ -15,9 +15,8 @@ export const defaultAppNavigation: AppNavigationItem[] = [
   { id: "sites", label: "Sites", href: "/dashboard/sites", icon: "location", section: "operations" },
   { id: "reports", label: "Reports", href: "/dashboard/reports", icon: "chevron", section: "operations", roles: managerRoles },
 
-  { id: "finance", label: "Payroll & Accounting", href: "/dashboard/finance", icon: "plus", disabled: true, section: "finance", roles: [...adminRoles, "hr", "finance"] },
+  { id: "finance", label: "Payroll & Accounting", href: "/dashboard/finance", icon: "plus", section: "finance", roles: [...adminRoles, "hr", "finance"] },
   { id: "expenses", label: "Expenses", href: "/dashboard/expenses", icon: "plus", disabled: true, section: "finance", roles: [...adminRoles, "hr", "finance"] },
-  { id: "payroll-periods", label: "Payroll Periods", href: "/dashboard/payroll-periods", icon: "plus", disabled: true, section: "finance", roles: [...adminRoles, "hr", "finance"] },
 
   { id: "workforce", label: "Workforce", href: "/dashboard/workforce", icon: "menu", section: "company", roles: managerRoles },
   { id: "companies", label: "Companies & Partners", href: "/dashboard/companies", icon: "menu", section: "company", roles: adminRoles },

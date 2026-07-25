@@ -479,5 +479,21 @@
       "footerSecurity": "Seguridad",
       "copyright": "© {year} STRATON. Todos los derechos reservados."
     }
+  },
+  "payroll": {
+    "eyebrow": "Nómina",
+    "title": "Nómina — {period}",
+    "description": "Horas aprobadas para este período, agregadas de los partes de horas. Esta es una vista previa de las cifras, no una nómina final.",
+    "previewNoticeTitle": "Solo vista previa",
+    "previewNoticeBody": "El cierre de período, la exportación y la generación de nóminas aún no están disponibles. Sigue el progreso en nuestro rastreador de incidencias.",
+    "statApprovedHours": "Horas aprobadas",
+    "statNightHours": "Horas nocturnas",
+    "statWeekendHours": "Horas de fin de semana",
+    "tableTitle": "Horas por empleado",
+    "colEmployee": "Empleado",
+    "colRegular": "Normales",
+    "colNight": "Noche",
+    "colTotal": "Total",
+    "emptyState": "Aún no hay horas aprobadas para este período."
   }
 }

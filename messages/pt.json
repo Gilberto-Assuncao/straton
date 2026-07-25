@@ -479,5 +479,21 @@
       "footerSecurity": "Segurança",
       "copyright": "© {year} STRATON. Todos os direitos reservados."
     }
+  },
+  "payroll": {
+    "eyebrow": "Folha de pagamento",
+    "title": "Folha de pagamento — {period}",
+    "description": "Horas aprovadas neste período, agregadas a partir das folhas de horas. Esta é uma pré-visualização dos números, não um recibo de vencimento final.",
+    "previewNoticeTitle": "Apenas pré-visualização",
+    "previewNoticeBody": "O fecho do período, exportação e geração de recibos ainda não estão disponíveis. Acompanhe o progresso no nosso rastreador de issues.",
+    "statApprovedHours": "Horas aprovadas",
+    "statNightHours": "Horas noturnas",
+    "statWeekendHours": "Horas de fim de semana",
+    "tableTitle": "Horas por colaborador",
+    "colEmployee": "Colaborador",
+    "colRegular": "Normais",
+    "colNight": "Noturno",
+    "colTotal": "Total",
+    "emptyState": "Ainda não há horas aprovadas para este período."
   }
 }

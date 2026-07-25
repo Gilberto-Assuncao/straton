@@ -479,5 +479,21 @@
       "footerSecurity": "Bezpieczeństwo",
       "copyright": "© {year} STRATON. Wszelkie prawa zastrzeżone."
     }
+  },
+  "payroll": {
+    "eyebrow": "Płace",
+    "title": "Płace — {period}",
+    "description": "Zatwierdzone godziny w tym okresie, zagregowane z kart czasu pracy. To podgląd liczb, a nie ostateczny odcinek wypłaty.",
+    "previewNoticeTitle": "Tylko podgląd",
+    "previewNoticeBody": "Zamykanie okresu, eksport i generowanie odcinków wypłaty nie są jeszcze dostępne. Śledź postęp w naszym systemie zgłoszeń.",
+    "statApprovedHours": "Zatwierdzone godziny",
+    "statNightHours": "Godziny nocne",
+    "statWeekendHours": "Godziny weekendowe",
+    "tableTitle": "Godziny wg pracownika",
+    "colEmployee": "Pracownik",
+    "colRegular": "Zwykłe",
+    "colNight": "Nocne",
+    "colTotal": "Razem",
+    "emptyState": "Brak jeszcze zatwierdzonych godzin dla tego okresu."
   }
 }

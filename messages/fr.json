@@ -479,5 +479,21 @@
       "footerSecurity": "Sécurité",
       "copyright": "© {year} STRATON. Tous droits réservés."
     }
+  },
+  "payroll": {
+    "eyebrow": "Paie",
+    "title": "Paie — {period}",
+    "description": "Heures approuvées pour cette période, agrégées à partir des feuilles de temps. Ceci est un aperçu des chiffres, pas une fiche de paie finale.",
+    "previewNoticeTitle": "Aperçu uniquement",
+    "previewNoticeBody": "La clôture de période, l'export et la génération de fiches de paie ne sont pas encore disponibles. Suivez l'avancement sur notre suivi des tickets.",
+    "statApprovedHours": "Heures approuvées",
+    "statNightHours": "Heures de nuit",
+    "statWeekendHours": "Heures de week-end",
+    "tableTitle": "Heures par employé",
+    "colEmployee": "Employé",
+    "colRegular": "Normales",
+    "colNight": "Nuit",
+    "colTotal": "Total",
+    "emptyState": "Aucune heure approuvée pour cette période."
   }
 }

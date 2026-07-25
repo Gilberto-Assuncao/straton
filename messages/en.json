@@ -479,5 +479,21 @@
       "footerSecurity": "Security",
       "copyright": "© {year} STRATON. All rights reserved."
     }
+  },
+  "payroll": {
+    "eyebrow": "Payroll",
+    "title": "Payroll — {period}",
+    "description": "Approved hours for this period, aggregated from timesheets. This is a preview of the numbers, not a final payslip.",
+    "previewNoticeTitle": "Preview only",
+    "previewNoticeBody": "Period closing, export and payslip generation are not available yet. Track progress on this in our issue tracker.",
+    "statApprovedHours": "Approved hours",
+    "statNightHours": "Night hours",
+    "statWeekendHours": "Weekend hours",
+    "tableTitle": "Hours by employee",
+    "colEmployee": "Employee",
+    "colRegular": "Regular",
+    "colNight": "Night",
+    "colTotal": "Total",
+    "emptyState": "No approved hours for this period yet."
   }
 }
