@@ -47,8 +47,11 @@ assignments
 
 assignment_assignees
   assignment_id
-  company_membership_id      e/ou team_id — ver questão em aberto
+  company_membership_id      sempre preenchido, um por pessoa
+  source                     'direct' | 'team'
 ```
+
+Ver secção 5 para a granularidade da atribuição.
 
 O `parent_assignment_id` é o que torna a cadeia possível sem casos especiais no
 código: a empresa que recebe vê a atribuição como **sua**, apenas ligada à
@@ -114,21 +117,45 @@ pode aparecer duas vezes na mesma cadeia.
 
 ---
 
-## 5. Questão em aberto ⏳
+## 5. Granularidade da atribuição ✅ decidido
 
-**Atribui-se a pessoas, a equipas, ou a ambos?**
+**Ambos** — atribui-se a pessoas e a equipas.
 
-Recomendação: **ambos**. Atribuir à *Equipa Solar* e o sistema expande para os
-membros dela na data. Dá a conveniência de marcar por equipa sem perder o
-registo de quem esteve lá — que é o que a folha de horas e a conformidade
-precisam.
+Atribuir à *Equipa Solar* e o sistema expande para os membros dela **na data da
+atribuição**. Dá a conveniência de marcar por equipa sem perder o registo de
+quem esteve lá — que é o que a folha de horas e a conformidade exigem.
 
-Impacto da decisão:
+```
+assignments
+  team_id                    opcional: a equipa marcada, se foi assim que se marcou
 
-- **Ambos** → `assignment_assignees` com `company_membership_id` e um `team_id`
-  opcional na atribuição
-- **Só equipas** → `assignment_assignees` desaparece, fica um `team_id` na
-  atribuição
+assignment_assignees
+  assignment_id
+  company_membership_id      sempre preenchido, um por pessoa
+  source                     'direct' | 'team'   ← como esta pessoa aqui chegou
+```
+
+### O ponto crítico: expandir e congelar
+
+A expansão da equipa para pessoas tem de ser **materializada no momento da
+atribuição**, não calculada quando alguém abre o ecrã.
+
+Se for calculada em tempo real, uma pessoa que saia da equipa amanhã desaparece
+retroativamente do trabalho que fez ontem — e a folha de horas deixa de bater
+certo com quem lá esteve. Para conformidade belga, isso é inaceitável: tem de
+haver registo de quem estava atribuído naquele dia.
+
+Por isso `assignment_assignees` guarda sempre as pessoas, mesmo quando a marcação
+foi feita por equipa. O campo `source` preserva a intenção original (marcado por
+equipa vs pessoa a pessoa), o que permite à interface mostrar "Equipa Solar" em
+vez de cinco nomes, sem perder o dado.
+
+### Alterações posteriores à equipa
+
+Se a composição da equipa mudar **antes** da data, a atribuição não se atualiza
+sozinha — seria uma alteração silenciosa a trabalho já planeado. Em vez disso, a
+interface deve sinalizar a divergência e deixar o supervisor decidir se
+re-expande.
 
 ---
 
