@@ -1,6 +1,7 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+import { useTranslations } from "next-intl";
 import Link from "next/link"; import type { AppUserSummary } from "./types";
 import { signOutAction } from "@/app/[locale]/auth/actions";
-export async function UserMenu({ user }: { user:AppUserSummary }) {
-  const tShell = await getTranslations("appShell");
+export function UserMenu({ user }: { user:AppUserSummary }) {
+  const tShell = useTranslations("appShell");
   return <details className="relative"><summary aria-label={tShell("openUserMenu")} className="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-lg px-1 sm:px-2 focus-visible:outline-2 focus-visible:outline-[#22C55E]"><span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#22C55E]/10 text-xs font-bold text-[#22C55E]">{user.initials}</span><span className="hidden text-left xl:block"><span className="block text-sm font-semibold text-[#E5E7EB]">{user.name}</span><span className="block text-xs text-[#9CA3AF]">{user.email}</span></span></summary><div className="absolute right-0 z-30 mt-2 w-56 rounded-xl border border-white/10 bg-[#161A34] p-2 shadow-xl">{[[tShell("profile"),"#"],[tShell("settings"),"/dashboard/settings"],[tShell("support"),"#"]].map(([label,href])=><Link key={label} href={href} className="flex min-h-11 items-center rounded-lg px-3 text-sm text-[#D1D5DB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]">{label}</Link>)}<form action={signOutAction}><button type="submit" className="flex min-h-11 w-full items-center rounded-lg px-3 text-sm text-[#D1D5DB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]">{tShell("logout")}</button></form></div></details>; }
