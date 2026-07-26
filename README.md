@@ -2,7 +2,7 @@
 
 Plataforma SaaS multi-tenant para controle de horas, equipes, projetos e sites — Bélgica-first, multi-idioma, pronta para qualquer segmento (não só construção civil).
 
-**Produção:** https://nextime-three.vercel.app
+**Produção:** https://straton.be
 
 ## Stack
 
