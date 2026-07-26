@@ -25,13 +25,14 @@ export type VatLookupOutcome =
 export async function lookupVatAction(countryCode: string, vatNumber: string): Promise<VatLookupOutcome> {
   await requireAuthenticatedSession();
 
+  // The CBE is tried first for Belgium, but never gets the last word: its
+  // free tier serves a monthly frozen snapshot, so a recently registered
+  // company can be missing from it while VIES already knows the VAT number.
+  // Whatever the reason for failing — not found, key rejected, service down —
+  // VIES still gets a turn.
   if (countryCode.toUpperCase() === "BE" && isCbeConfigured()) {
     const outcome = await lookupBelgianCompany(vatNumber);
     if (outcome.valid) return { valid: true, source: "cbe", ...outcome.company };
-    if (outcome.reason === "not_found") {
-      return { valid: false, message: "This enterprise number was not found in the Belgian register." };
-    }
-    // unauthorized or unavailable: fall through to VIES below
   }
 
   const result = await lookupVat(countryCode, vatNumber);
