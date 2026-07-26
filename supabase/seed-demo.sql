@@ -159,24 +159,24 @@ insert into public.companies (
   country, country_code, city, region, street_address, postal_code,
   phone, email, website, default_language, currency, timezone, status, activity_start_date
 ) values
-  ('d0000001-0000-4000-8000-000000000001','BELNEX ENERGY','Belnex Energy SRL','Belnex Energy','belnex-energy',
+  ('d0000001-0000-4000-8000-000000000001','BELNEX ENERGY','Belnex Energy SRL','Belnex Energy','belnex-energy-demo',
    'BE0784512963','0784.512.963','Belgium','BE','Brussels','Brussels-Capital','Avenue Louise 143','1050',
    '+32 2 512 44 90','contact@belnex.straton.demo','https://belnex.straton.demo','fr','EUR','Europe/Brussels','active','2019-04-01'),
 
-  ('d0000001-0000-4000-8000-000000000002','NORDCLEAN SERVICES','Nordclean Services BV','Nordclean','nordclean-services',
+  ('d0000001-0000-4000-8000-000000000002','NORDCLEAN SERVICES','Nordclean Services BV','Nordclean','nordclean-services-demo',
    'BE0655231478','0655.231.478','Belgium','BE','Antwerp','Flanders','Noorderlaan 88','2030',
    '+32 3 445 12 70','contact@nordclean.straton.demo','https://nordclean.straton.demo','nl','EUR','Europe/Brussels','active','2016-09-15'),
 
-  ('d0000001-0000-4000-8000-000000000003','GEOTECH ENGINEERING','GeoTech Engineering SA','GeoTech','geotech-engineering',
+  ('d0000001-0000-4000-8000-000000000003','GEOTECH ENGINEERING','GeoTech Engineering SA','GeoTech','geotech-engineering-demo',
    'BE0712894553','0712.894.553','Belgium','BE','Liège','Wallonia','Rue de la Station 22','4000',
    '+32 4 223 78 15','contact@geotech.straton.demo','https://geotech.straton.demo','fr','EUR','Europe/Brussels','active','2013-02-20'),
 
   -- Client-only companies (no users; used as project/site clients)
-  ('d0000001-0000-4000-8000-000000000004','Résidence Le Parc','Résidence Le Parc SA','Le Parc','residence-le-parc',
+  ('d0000001-0000-4000-8000-000000000004','Résidence Le Parc','Résidence Le Parc SA','Le Parc','residence-le-parc-demo',
    'BE0699112233','0699.112.233','Belgium','BE','Namur','Wallonia','Chaussée de Dinant 410','5000',
    '+32 81 22 11 44','syndic@leparc.straton.demo',null,'fr','EUR','Europe/Brussels','active','2008-06-01'),
 
-  ('d0000001-0000-4000-8000-000000000005','Havenbedrijf Noord','Havenbedrijf Noord NV','Haven Noord','havenbedrijf-noord',
+  ('d0000001-0000-4000-8000-000000000005','Havenbedrijf Noord','Havenbedrijf Noord NV','Haven Noord','havenbedrijf-noord-demo',
    'BE0633445566','0633.445.566','Belgium','BE','Antwerp','Flanders','Scheldelaan 12','2040',
    '+32 3 205 66 00','info@havennoord.straton.demo',null,'nl','EUR','Europe/Brussels','active','2001-01-10')
 on conflict (id) do nothing;
