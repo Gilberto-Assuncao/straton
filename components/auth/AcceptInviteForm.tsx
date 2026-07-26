@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ import PasswordInput from "./PasswordInput";
 const initialState: AcceptInviteState = { status: "idle", message: "" };
 
 export default function AcceptInviteForm() {
+  const t = useTranslations("auth");
   const [state, formAction] = useActionState(acceptInviteAction, initialState);
   const router = useRouter();
   const [ready, setReady] = useState(false);
@@ -47,18 +49,18 @@ export default function AcceptInviteForm() {
 
   if (!accessToken) {
     return (
-      <AuthCard title="This link has expired" description="Ask whoever invited you to send a new one.">
-        <Link href="/login" className="inline-flex min-h-11 items-center justify-center font-semibold text-[#22C55E] hover:text-[#16A34A] focus-visible:outline-2 focus-visible:outline-[#22C55E]">Go to sign in</Link>
+      <AuthCard title={t("inviteExpiredTitle")} description={t("inviteExpiredDescription")}>
+        <Link href="/login" className="inline-flex min-h-11 items-center justify-center font-semibold text-[#22C55E] hover:text-[#16A34A] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("goToSignIn")}</Link>
       </AuthCard>
     );
   }
 
   return (
-    <AuthCard action={formAction} title="Welcome to the team" description="Set a password to activate your account.">
+    <AuthCard action={formAction} title={t("inviteTitle")} description={t("inviteDescription")}>
       <input type="hidden" name="accessToken" value={accessToken} />
-      <PasswordInput id="accept-invite-password" name="password" label="New password" autoComplete="new-password" placeholder="At least 8 characters" />
+      <PasswordInput id="accept-invite-password" name="password" label={t("newPassword")} autoComplete="new-password" placeholder={t("atLeast8")} />
       <AuthStatus state={state} />
-      <AuthSubmitButton pendingLabel="Activating…">Activate account</AuthSubmitButton>
+      <AuthSubmitButton pendingLabel={t("inviteActivating")}>{t("inviteSubmit")}</AuthSubmitButton>
     </AuthCard>
   );
 }

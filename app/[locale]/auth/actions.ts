@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { ACTIVE_COMPANY_COOKIE } from "@/src/application/session/types";
 import { hasPublicEnvironment } from "@/src/infrastructure/config/env";
-import type { AuthActionState } from "./state";
+import type { AuthActionState, AuthMessageKey } from "./state";
 
 function text(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -24,20 +24,20 @@ async function origin() {
 }
 
 export async function signInAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
-  if (!hasPublicEnvironment()) return { status: "error", message: "Authentication is not configured in this environment." };
+  if (!hasPublicEnvironment()) return { status: "error", messageKey: "errNotConfigured" };
   const email = text(formData, "email");
   const password = text(formData, "password");
   const next = safeNext(text(formData, "next") || "/dashboard");
-  if (!email || !password) return { status: "error", message: "Enter your email and password." };
+  if (!email || !password) return { status: "error", messageKey: "errMissingCredentials" };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return { status: "error", message: "The email or password is incorrect." };
+  if (error) return { status: "error", messageKey: "errBadCredentials" };
   redirect(next);
 }
 
 export async function registerAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
-  if (!hasPublicEnvironment()) return { status: "error", message: "Authentication is not configured in this environment." };
+  if (!hasPublicEnvironment()) return { status: "error", messageKey: "errNotConfigured" };
   const fullName = text(formData, "fullName");
   const email = text(formData, "email");
   const password = text(formData, "password");
@@ -45,10 +45,10 @@ export async function registerAction(_: AuthActionState, formData: FormData): Pr
   const accountType = text(formData, "accountType");
 
   if (fullName.length < 2 || !email || password.length < 8) {
-    return { status: "error", message: "Use a valid name, email, and a password with at least 8 characters." };
+    return { status: "error", messageKey: "errInvalidRegistration" };
   }
-  if (password !== confirmation) return { status: "error", message: "Passwords do not match." };
-  if (formData.get("terms") !== "on") return { status: "error", message: "Accept the Terms and Privacy Policy to continue." };
+  if (password !== confirmation) return { status: "error", messageKey: "errPasswordMismatch" };
+  if (formData.get("terms") !== "on") return { status: "error", messageKey: "errTermsRequired" };
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
@@ -60,35 +60,35 @@ export async function registerAction(_: AuthActionState, formData: FormData): Pr
     },
   });
 
-  if (error) return { status: "error", message: error.message };
+  if (error) return { status: "error", messageKey: "errNotConfigured" };
   if (data.session) redirect("/dashboard");
-  return { status: "success", message: "Check your inbox to confirm your account." };
+  return { status: "success", messageKey: "okConfirmInbox" };
 }
 
 export async function requestPasswordResetAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
-  if (!hasPublicEnvironment()) return { status: "error", message: "Authentication is not configured in this environment." };
+  if (!hasPublicEnvironment()) return { status: "error", messageKey: "errNotConfigured" };
   const email = text(formData, "email");
-  if (!email) return { status: "error", message: "Enter a valid email address." };
+  if (!email) return { status: "error", messageKey: "errInvalidEmail" };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${await origin()}/auth/callback?next=/reset-password`,
   });
-  if (error) return { status: "error", message: error.message };
-  return { status: "success", message: "If the account exists, reset instructions have been sent." };
+  if (error) return { status: "error", messageKey: "errNotConfigured" };
+  return { status: "success", messageKey: "okResetSent" };
 }
 
 export async function updatePasswordAction(_: AuthActionState, formData: FormData): Promise<AuthActionState> {
-  if (!hasPublicEnvironment()) return { status: "error", message: "Authentication is not configured in this environment." };
+  if (!hasPublicEnvironment()) return { status: "error", messageKey: "errNotConfigured" };
   const password = text(formData, "password");
   const confirmation = text(formData, "confirmPassword");
-  if (password.length < 8) return { status: "error", message: "Use at least 8 characters." };
-  if (password !== confirmation) return { status: "error", message: "Passwords do not match." };
+  if (password.length < 8) return { status: "error", messageKey: "errPasswordTooShort" };
+  if (password !== confirmation) return { status: "error", messageKey: "errPasswordMismatch" };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({ password });
-  if (error) return { status: "error", message: error.message };
-  return { status: "success", message: "Password updated. You can now sign in." };
+  if (error) return { status: "error", messageKey: "errNotConfigured" };
+  return { status: "success", messageKey: "okPasswordUpdated" };
 }
 
 export async function signOutAction() {
@@ -102,11 +102,11 @@ export async function signOutAction() {
   redirect("/login");
 }
 
-export async function switchCompanyAction(companyId: string): Promise<{ ok: boolean; message?: string }> {
-  if (!hasPublicEnvironment()) return { ok: false, message: "Authentication is not configured in this environment." };
+export async function switchCompanyAction(companyId: string): Promise<{ ok: boolean; messageKey?: AuthMessageKey }> {
+  if (!hasPublicEnvironment()) return { ok: false, messageKey: "errNotConfigured" };
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) return { ok: false, message: "Your session has expired." };
+  if (!userData.user) return { ok: false, messageKey: "errSessionExpired" };
 
   const { data: membership } = await supabase
     .from("company_memberships")
@@ -117,7 +117,7 @@ export async function switchCompanyAction(companyId: string): Promise<{ ok: bool
     .neq("companies.status", "archived")
     .maybeSingle();
 
-  if (!membership) return { ok: false, message: "You do not have access to this company." };
+  if (!membership) return { ok: false, messageKey: "errNoCompanyAccess" };
 
   (await cookies()).set(ACTIVE_COMPANY_COOKIE, companyId, {
     httpOnly: true,

@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useLocale } from "next-intl";
 import { useTransition } from "react";
@@ -17,6 +18,7 @@ const languages = [
 ];
 
 export function LanguageSwitcher() {
+  const tShell = useTranslations("appShell");
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
@@ -28,7 +30,7 @@ export function LanguageSwitcher() {
 
   return (
     <div>
-      <label htmlFor="language-switcher" className="sr-only">Language</label>
+      <label htmlFor="language-switcher" className="sr-only">{tShell("language")}</label>
       <select
         id="language-switcher"
         value={locale}

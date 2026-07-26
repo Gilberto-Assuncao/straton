@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 
@@ -12,6 +13,7 @@ type PasswordInputProps = {
 
 export default function PasswordInput({ id, label, ...props }: PasswordInputProps) {
   const [visible, setVisible] = useState(false);
+  const t = useTranslations("auth");
 
   return (
     <div>
@@ -28,7 +30,7 @@ export default function PasswordInput({ id, label, ...props }: PasswordInputProp
         <button
           type="button"
           onClick={() => setVisible((current) => !current)}
-          aria-label={visible ? `Hide ${label.toLowerCase()}` : `Show ${label.toLowerCase()}`}
+          aria-label={visible ? t("hidePassword", { label: label.toLowerCase() }) : t("showPassword", { label: label.toLowerCase() })}
           aria-pressed={visible}
           className="absolute right-1 top-1/2 flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-md text-[#9CA3AF] transition hover:bg-white/5 hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]"
         >
