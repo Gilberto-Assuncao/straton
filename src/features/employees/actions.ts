@@ -134,3 +134,143 @@ export async function acceptInviteAction(_: AcceptInviteState, formData: FormDat
 
   return { status: "success", message: "Account activated." };
 }
+
+export type UpdateEmployeeState = { status: "idle" | "error"; message: string };
+
+// The employee id used across the UI is `employee_records.id`. Editing one
+// person touches three tables — the person (`users`), their place in the
+// company (`company_memberships`) and their employment terms
+// (`employee_records`) — so everything is resolved from that single id here.
+async function loadEditableEmployee(employeeId: string, companyId: string) {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("employee_records")
+    .select("id,company_membership_id,company_memberships!employee_records_company_membership_id_fkey(id,user_id,status)")
+    .eq("id", employeeId)
+    .eq("company_id", companyId)
+    .maybeSingle();
+  if (!data) return null;
+  const membership = Array.isArray(data.company_memberships) ? data.company_memberships[0] : data.company_memberships;
+  if (!membership) return null;
+  return { recordId: data.id as string, membershipId: membership.id as string, userId: membership.user_id as string, membershipStatus: membership.status as string };
+}
+
+export async function updateEmployeeAction(_: UpdateEmployeeState, formData: FormData): Promise<UpdateEmployeeState> {
+  const { session, companyId } = await requireActiveCompany();
+  if (!session.activeCompany!.roles.some((role) => managerRoles.includes(role))) {
+    return { status: "error", message: "You do not have permission to edit employees." };
+  }
+
+  const employeeId = String(formData.get("employeeId") ?? "");
+  const firstName = String(formData.get("firstName") ?? "").trim();
+  const lastName = String(formData.get("lastName") ?? "").trim();
+  const phone = String(formData.get("phone") ?? "").trim();
+  const jobTitle = String(formData.get("jobTitle") ?? "").trim();
+  const team = String(formData.get("team") ?? "").trim();
+  const employmentType = String(formData.get("employmentType") ?? "employee");
+  const startDate = String(formData.get("startDate") ?? "");
+
+  if (!firstName || !lastName || !jobTitle || !startDate) {
+    return { status: "error", message: "Fill in all required fields." };
+  }
+
+  const target = await loadEditableEmployee(employeeId, companyId);
+  if (!target) return { status: "error", message: "Employee not found." };
+
+  const admin = createAdminClient();
+  const supabase = await createClient();
+
+  const { error: userError } = await admin
+    .from("users")
+    .update({ first_name: firstName, last_name: lastName, phone: phone || null })
+    .eq("id", target.userId);
+  if (userError) return { status: "error", message: userError.message };
+
+  const { error: membershipError } = await admin
+    .from("company_memberships")
+    .update({ job_title: jobTitle })
+    .eq("id", target.membershipId);
+  if (membershipError) return { status: "error", message: membershipError.message };
+
+  const { error: recordError } = await admin
+    .from("employee_records")
+    .update({ job_title: jobTitle, employment_type: employmentType, start_date: startDate })
+    .eq("id", target.recordId);
+  if (recordError) return { status: "error", message: recordError.message };
+
+  // Team moves close the current link instead of deleting it, so the history
+  // of who was on which team stays intact for payroll and compliance.
+  if (team) {
+    const [{ data: teamRow }, { data: currentLink }] = await Promise.all([
+      supabase.from("teams").select("id").eq("company_id", companyId).eq("name", team).maybeSingle(),
+      supabase.from("team_memberships").select("id,team_id,team_role").eq("company_membership_id", target.membershipId).is("left_at", null).maybeSingle(),
+    ]);
+    if (!teamRow) return { status: "error", message: "Select a valid team." };
+
+    if (currentLink?.team_id !== teamRow.id) {
+      if (currentLink?.team_role === "leader") {
+        return { status: "error", message: "This person leads their current team. Assign another leader before moving them." };
+      }
+      if (currentLink) {
+        const now = new Date().toISOString();
+        const { error } = await admin.from("team_memberships").update({ left_at: now, removed_at: now }).eq("id", currentLink.id);
+        if (error) return { status: "error", message: error.message };
+      }
+      // Only active memberships may join a team (enforced by
+      // validate_team_operational_membership); invited people keep the team on
+      // pending_team_id until they accept.
+      if (target.membershipStatus === "active") {
+        const { error } = await admin.from("team_memberships").insert({
+          company_id: companyId, team_id: teamRow.id,
+          company_membership_id: target.membershipId, team_role: "member",
+        });
+        if (error) return { status: "error", message: error.message };
+      } else {
+        const { error } = await admin.from("company_memberships").update({ pending_team_id: teamRow.id }).eq("id", target.membershipId);
+        if (error) return { status: "error", message: error.message };
+      }
+    }
+  }
+
+  revalidatePath("/dashboard/employees");
+  revalidatePath(`/dashboard/employees/${employeeId}`);
+  redirect(`/dashboard/employees/${employeeId}`);
+}
+
+// Deactivation suspends the membership and closes the team link, keeping every
+// past timesheet, assignment and team record intact. Reactivation is included
+// deliberately: a one-way switch would strand people with no route back.
+export async function setEmployeeActiveAction(employeeId: string, active: boolean): Promise<{ ok: boolean; message: string }> {
+  const { session, companyId } = await requireActiveCompany();
+  if (!session.activeCompany!.roles.some((role) => managerRoles.includes(role))) {
+    return { ok: false, message: "You do not have permission to change employee status." };
+  }
+
+  const target = await loadEditableEmployee(employeeId, companyId);
+  if (!target) return { ok: false, message: "Employee not found." };
+  if (target.userId === session.user.id) return { ok: false, message: "You cannot deactivate your own account." };
+
+  const admin = createAdminClient();
+  const now = new Date().toISOString();
+
+  const { error: membershipError } = await admin
+    .from("company_memberships")
+    .update(active ? { status: "active", ends_at: null } : { status: "suspended", ends_at: now })
+    .eq("id", target.membershipId);
+  if (membershipError) return { ok: false, message: membershipError.message };
+
+  const { error: recordError } = await admin
+    .from("employee_records")
+    .update({ employment_status: active ? "active" : "inactive" })
+    .eq("id", target.recordId);
+  if (recordError) return { ok: false, message: recordError.message };
+
+  if (!active) {
+    await admin.from("team_memberships").update({ left_at: now, removed_at: now })
+      .eq("company_membership_id", target.membershipId).is("left_at", null);
+  }
+
+  revalidatePath("/dashboard/employees");
+  revalidatePath(`/dashboard/employees/${employeeId}`);
+  return { ok: true, message: active ? "Employee reactivated." : "Employee deactivated; history was preserved." };
+}
