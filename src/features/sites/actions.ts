@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { SITE_STATUSES } from "./types";
+import { geocodeAddress } from "@/src/infrastructure/geocoding/client";
 
 export type SiteFormState = { status: "idle" | "error"; message: string };
 
@@ -123,4 +124,27 @@ export async function archiveSiteAction(siteId: string, archived: boolean): Prom
 
   revalidatePath("/dashboard/sites");
   return { ok: true, message: archived ? "Site archived; history was preserved." : "Site reactivated." };
+}
+
+export type GeocodeActionResult =
+  | { ok: true; latitude: number; longitude: number; matchedAddress: string }
+  | { ok: false; reason: "no_match" | "unavailable" | "incomplete_address" };
+
+// Coordinates are what make a site visible to the weather forecast and the
+// live map, and nobody knows the coordinates of a roof. This turns the address
+// the user already typed into the pair they would otherwise have to look up
+// somewhere else.
+export async function geocodeSiteAddressAction(address: {
+  street?: string;
+  postalCode?: string;
+  city?: string;
+  countryCode?: string;
+}): Promise<GeocodeActionResult> {
+  const { allowed } = await guard();
+  if (!allowed) return { ok: false, reason: "unavailable" };
+
+  const result = await geocodeAddress(address);
+  return result.found
+    ? { ok: true, latitude: result.latitude, longitude: result.longitude, matchedAddress: result.matchedAddress }
+    : { ok: false, reason: result.reason };
 }

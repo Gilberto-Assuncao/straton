@@ -1,6 +1,6 @@
 # STRATON --- AI_CONTEXT.md
 
-Version: 1.0 Status: Active Last Updated: 2026-07-21
+Version: 1.1 Status: Active Last Updated: 2026-07-26
 
 ------------------------------------------------------------------------
 
@@ -10,6 +10,10 @@ This document is the permanent architectural context for AI assistants
 working on the STRATON project.
 
 Read this file before making architectural decisions.
+
+Read `docs/04-development/LATEST_HANDOFF.md` before continuing current
+implementation or debugging work. It records the latest verified runtime
+state and outstanding operational limitations.
 
 Do not rediscover information already documented here.
 
