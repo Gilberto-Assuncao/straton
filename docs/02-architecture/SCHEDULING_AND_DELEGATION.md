@@ -49,9 +49,16 @@ assignment_assignees
   assignment_id
   company_membership_id      sempre preenchido, um por pessoa
   source                     'direct' | 'team'
+
+worker_availability          ver secção 8
+  company_membership_id
+  starts_at, ends_at
+  kind                       'available' | 'unavailable'
+  reason                     opcional
+  recurrence                 opcional: semanal
 ```
 
-Ver secção 5 para a granularidade da atribuição.
+Ver secção 5 para a granularidade e secção 8 para a disponibilidade.
 
 O `parent_assignment_id` é o que torna a cadeia possível sem casos especiais no
 código: a empresa que recebe vê a atribuição como **sua**, apenas ligada à
@@ -230,14 +237,103 @@ O código de alertas já está escrito. Falta mostrá-lo no momento da decisão.
 
 ---
 
-## 8. Sequência recomendada
+## 8. Disponibilidade ⚠️ lacuna identificada
+
+O modelo acima deixa o gestor marcar às cegas: nada impede atribuir trabalho a
+quem está de férias, de baixa, ou já colocado noutra obra à mesma hora. O
+conflito só aparece quando alguém reclama.
+
+Sem disponibilidade, "escalar" é adivinhar. É a lacuna mais séria do desenho e
+convém resolvê-la **antes** de implementar a agenda — acrescentar depois obriga
+a rever ecrãs e validações já feitos.
+
+### O que é preciso
+
+```
+worker_availability
+  company_membership_id
+  starts_at, ends_at
+  kind          'available' | 'unavailable'
+  reason        férias, baixa, formação, preferência pessoal
+  recurrence    opcional: ex. indisponível às sextas
+```
+
+Duas validações no momento da atribuição:
+
+1. **Indisponibilidade declarada** — bloqueia ou avisa, conforme o motivo
+2. **Sobreposição** — a mesma pessoa em duas atribuições no mesmo intervalo
+
+A segunda é a mais valiosa e não precisa da tabela nova: já é derivável de
+`assignments` + `assignment_assignees`. Vale a pena implementá-la desde o
+primeiro dia.
+
+### Troca de turnos
+
+O trabalhador propõe trocar uma atribuição com um colega, sujeito a aprovação do
+supervisor. Não está no modelo atual. Menos urgente que a disponibilidade, mas
+implica um estado adicional na atribuição — melhor prevê-lo agora do que
+retrofitar.
+
+---
+
+## 9. Referência competitiva: Deputy
+
+O [Deputy](https://www.deputy.com/) foi a inspiração inicial do produto. Vale a
+pena registar o que valida e o que não cobre.
+
+### O que valida
+
+O ciclo central deles é *"from first hire to final pay"*: escala → ponto → folha
+de horas → folha de pagamento. É exatamente o ciclo identificado na secção 1
+como estando cortado a meio. O desenho vai na direção certa.
+
+### Onde o STRATON é genuinamente diferente
+
+O Deputy suporta multi-localização e franquias, com *roll-up e drill-down a
+todos os níveis*. Mas isso é **uma organização com muitos locais** — um dono,
+várias lojas. Não há problema de consentimento porque os dados são todos do
+mesmo proprietário.
+
+A cadeia do STRATON é de **entidades jurídicas independentes**, cada uma com os
+seus trabalhadores, contratos e responsabilidade legal. A regra de visibilidade
+da secção 3 — delegação fecha, convite ao projeto abre — não tem equivalente no
+Deputy, e a arquitetura deles não a comporta.
+
+**O diferencial é a cadeia entre empresas, não a escala.**
+
+### Onde não se deve competir
+
+O Deputy tem escalonamento automático, previsão de procura, regras de pagamento
+configuráveis, comunicação de equipa, gestão de desempenho e onboarding. Tem
+centenas de engenheiros e anos de maturidade.
+
+Tentar igualar funcionalidade a funcionalidade é uma corrida que não se ganha. A
+vantagem está no nicho que eles não servem: **cadeias de subcontratação belgas**,
+com responsabilidade solidária, conformidade local e delegação entre empresas.
+Uma empresa belga de construção com três subcontratados não tem hoje boa opção —
+e o Deputy não vai construí-la, porque o mercado dele é retalho e hotelaria
+multi-loja.
+
+Competir em profundidade nesse nicho, não em largura.
+
+### Dependência que isto expõe
+
+O Deputy tem app de relógio de ponto. Os trabalhadores do STRATON estão em
+telhados e obras — não abrem um portátil. O mobile está como *planeado, não
+especificado* ([#12](https://github.com/Gilberto-Assuncao/straton/issues/12)),
+mas para a Agenda funcionar em campo é **pré-requisito, não extra**.
+
+---
+
+## 10. Sequência recomendada
 
 1. **Fechar os bloqueadores atuais** ([#1](https://github.com/Gilberto-Assuncao/straton/issues/1), [#4](https://github.com/Gilberto-Assuncao/straton/issues/4), [#21](https://github.com/Gilberto-Assuncao/straton/issues/21)) — um menu reorganizado com botões que não funcionam continua a não servir
 2. **Página de projeto com separadores** — a página já existe, precisa de estrutura
 3. **Meteorologia na agenda** — o código já existe, é ligá-lo
-4. **Agenda: modelo + RLS + ecrãs** — a peça grande
-5. **Delegação entre empresas** — depende de [#20](https://github.com/Gilberto-Assuncao/straton/issues/20) (convidar empresa sem conta)
-6. **Reorganizar o menu** — só no fim, quando houver o que reorganizar
+4. **Disponibilidade** (secção 8) — antes da agenda, não depois
+5. **Agenda: modelo + RLS + ecrãs** — a peça grande. Depende de mobile ([#12](https://github.com/Gilberto-Assuncao/straton/issues/12)) para uso real em campo
+6. **Delegação entre empresas** — depende de [#20](https://github.com/Gilberto-Assuncao/straton/issues/20) (convidar empresa sem conta)
+7. **Reorganizar o menu** — só no fim, quando houver o que reorganizar
 
 Nota: a Agenda é a maior funcionalidade discutida até agora. Exige migração,
 RLS entre empresas e ecrãs novos. É a coisa certa a construir — mas convém
