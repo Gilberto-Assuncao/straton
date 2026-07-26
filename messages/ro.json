@@ -353,8 +353,7 @@
     "nav": {
       "features": "Funcționalități",
       "geolocation": "Geolocalizare",
-      "reports": "Rapoarte",
-      "pricing": "Prețuri",
+      "dashboard": "Panou",
       "login": "Conectare",
       "cta": "Începe gratuit"
     },

@@ -353,8 +353,7 @@
     "nav": {
       "features": "Funzionalità",
       "geolocation": "Geolocalizzazione",
-      "reports": "Report",
-      "pricing": "Prezzi",
+      "dashboard": "Pannello",
       "login": "Accedi",
       "cta": "Inizia gratis"
     },

@@ -57,8 +57,7 @@ export default async function Home() {
           <nav className="hidden items-center gap-9 text-base font-medium text-[#94A3B8] md:flex">
             <a href="#funcionalidades" className="transition hover:text-white">{t("nav.features")}</a>
             <a href="#georreferenciamento" className="transition hover:text-white">{t("nav.geolocation")}</a>
-            <a href="#relatorios" className="transition hover:text-white">{t("nav.reports")}</a>
-            <a href="#precos" className="transition hover:text-white">{t("nav.pricing")}</a>
+            <a href="#painel" className="transition hover:text-white">{t("nav.dashboard")}</a>
           </nav>
           <div className="hidden items-center gap-5 sm:flex">
             <Link href="/login" className="text-base font-semibold text-[#94A3B8] transition hover:text-white">{t("nav.login")}</Link>
@@ -77,8 +76,7 @@ export default async function Home() {
               <nav className="grid">
                 <a href="#funcionalidades" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.features")}</a>
                 <a href="#georreferenciamento" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.geolocation")}</a>
-                <a href="#relatorios" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.reports")}</a>
-                <a href="#precos" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.pricing")}</a>
+                <a href="#painel" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.dashboard")}</a>
               </nav>
               <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
                 <Link href="/login" className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-3 text-sm font-semibold text-[#F1F5F9]">{t("nav.login")}</Link>
@@ -226,7 +224,7 @@ export default async function Home() {
       </section>
 
       {/* Dashboard section with a full browser-window style mock */}
-      <section id="relatorios" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 sm:px-10">
+      <section id="painel" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 sm:px-10">
         <div className="mb-12 max-w-2xl">
           <span className="text-sm font-semibold uppercase tracking-wider text-[#4ADE80]">{t("dashboardMock.eyebrow")}</span>
           <h2 className="mt-4 text-4xl font-bold sm:text-5xl">{t("dashboardMock.title")}</h2>
@@ -408,7 +406,7 @@ export default async function Home() {
       </section>
 
       {/* Final CTA */}
-      <section id="precos" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 text-center sm:px-10">
+      <section className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 text-center sm:px-10">
         <h2 className="text-4xl font-bold sm:text-5xl">{t("finalCta.title")}</h2>
         <p className="mx-auto mt-4 max-w-md text-base text-[#94A3B8] sm:text-lg">{t("finalCta.description")}</p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
@@ -432,8 +430,7 @@ export default async function Home() {
             <ul className="mt-4 space-y-2.5 text-sm text-[#94A3B8]">
               <li><a href="#funcionalidades" className="hover:text-white">{t("nav.features")}</a></li>
               <li><a href="#georreferenciamento" className="hover:text-white">{t("nav.geolocation")}</a></li>
-              <li><a href="#relatorios" className="hover:text-white">{t("nav.reports")}</a></li>
-              <li><a href="#precos" className="hover:text-white">{t("nav.pricing")}</a></li>
+              <li><a href="#painel" className="hover:text-white">{t("nav.dashboard")}</a></li>
             </ul>
           </div>
           <div>
