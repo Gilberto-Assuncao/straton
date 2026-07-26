@@ -3,6 +3,7 @@
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { createOperationalReportAction, updateOperationalReportAction, type FieldValueInput } from "@/src/features/operational-reports/actions";
 import type { FieldValue, OperationalReportDetail, ReportTemplate } from "@/lib/types/operational-reports";
 
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export default function OperationalReportForm({ templates, projects, sites, existingReport }: Props) {
+  const t = useTranslations("operationalReports");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [feedback, setFeedback] = useState("");
@@ -41,7 +43,7 @@ export default function OperationalReportForm({ templates, projects, sites, exis
   }
 
   function submit() {
-    if (!reportDate) { setFeedback("Report date is required."); return; }
+    if (!reportDate) { setFeedback(t("reportDateRequired")); return; }
     const fieldValues: FieldValueInput[] = (activeTemplate?.fields ?? []).map((templateField) => ({
       fieldId: templateField.id,
       fieldType: templateField.fieldType,
@@ -72,55 +74,55 @@ export default function OperationalReportForm({ templates, projects, sites, exis
     <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label className={label} htmlFor="report-template">Template</label>
+          <label className={label} htmlFor="report-template">{t("template")}</label>
           <select id="report-template" className={field} value={templateId} onChange={(event) => setTemplateId(event.target.value)}>
-            <option value="">Generic (no template)</option>
+            <option value="">{t("genericNoTemplate")}</option>
             {templates.map((template) => <option key={template.id} value={template.id}>{template.name}</option>)}
           </select>
         </div>
         <div>
-          <label className={label} htmlFor="report-date">Date</label>
+          <label className={label} htmlFor="report-date">{t("date")}</label>
           <input id="report-date" type="date" required className={field} value={reportDate} onChange={(event) => setReportDate(event.target.value)} />
         </div>
         <div>
-          <label className={label} htmlFor="report-start">Start</label>
+          <label className={label} htmlFor="report-start">{t("start")}</label>
           <input id="report-start" type="datetime-local" className={field} value={startsAt} onChange={(event) => setStartsAt(event.target.value)} />
         </div>
         <div>
-          <label className={label} htmlFor="report-end">End</label>
+          <label className={label} htmlFor="report-end">{t("end")}</label>
           <input id="report-end" type="datetime-local" className={field} value={endsAt} onChange={(event) => setEndsAt(event.target.value)} />
         </div>
         <div>
-          <label className={label} htmlFor="report-break">Break (minutes)</label>
+          <label className={label} htmlFor="report-break">{t("breakMinutes")}</label>
           <input id="report-break" type="number" min="0" className={field} value={breakMinutes} onChange={(event) => setBreakMinutes(event.target.value)} />
         </div>
         <div>
-          <label className={label} htmlFor="report-project">Project</label>
+          <label className={label} htmlFor="report-project">{t("project")}</label>
           <select id="report-project" className={field} value={projectId} onChange={(event) => setProjectId(event.target.value)}>
             <option value="">—</option>
             {projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
           </select>
         </div>
         <div>
-          <label className={label} htmlFor="report-site">Work site</label>
+          <label className={label} htmlFor="report-site">{t("site")}</label>
           <select id="report-site" className={field} value={siteId} onChange={(event) => setSiteId(event.target.value)}>
             <option value="">—</option>
             {sites.map((site) => <option key={site.id} value={site.id}>{site.name}</option>)}
           </select>
         </div>
         <div className="sm:col-span-2">
-          <label className={label} htmlFor="report-activity">Activity performed</label>
+          <label className={label} htmlFor="report-activity">{t("activity")}</label>
           <input id="report-activity" className={field} value={activity} onChange={(event) => setActivity(event.target.value)} />
         </div>
         <div className="sm:col-span-2">
-          <label className={label} htmlFor="report-notes">Notes</label>
+          <label className={label} htmlFor="report-notes">{t("notes")}</label>
           <textarea id="report-notes" rows={3} className={`${field} min-h-24 py-3`} value={notes} onChange={(event) => setNotes(event.target.value)} />
         </div>
       </div>
 
       {activeTemplate && activeTemplate.fields.length > 0 ? (
         <div className="mt-7 border-t border-white/10 pt-6">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[#6B7280]">{activeTemplate.name} fields</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-[#6B7280]">{t("templateFields", { name: activeTemplate.name })}</p>
           <div className="mt-4 grid gap-5 sm:grid-cols-2">
             {activeTemplate.fields.map((templateField) => {
               const current = values[templateField.key] ?? values[templateField.id] ?? null;
@@ -171,7 +173,7 @@ export default function OperationalReportForm({ templates, projects, sites, exis
                 return (
                   <div key={templateField.id}>
                     <label className={label}>{templateField.label}{templateField.required ? " *" : ""}</label>
-                    <input placeholder="File upload not available yet — paste a URL" className={field} value={typeof current === "string" ? current : ""} onChange={(event) => setFieldValue(templateField.key, event.target.value)} />
+                    <input placeholder={t("fileUrlPlaceholder")} className={field} value={typeof current === "string" ? current : ""} onChange={(event) => setFieldValue(templateField.key, event.target.value)} />
                   </div>
                 );
               }
@@ -194,9 +196,9 @@ export default function OperationalReportForm({ templates, projects, sites, exis
       {feedback ? <p role="status" className="mt-6 rounded-lg bg-[#22C55E]/8 p-4 text-sm leading-6 text-[#9CA3AF]">{feedback}</p> : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href="/dashboard/field-reports" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5">Cancel</Link>
+        <Link href="/dashboard/field-reports" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5">{t("cancel")}</Link>
         <button type="button" disabled={pending} onClick={submit} className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] disabled:opacity-60">
-          {existingReport ? "Save changes" : "Save draft"}
+          {existingReport ? t("saveChanges") : t("saveDraft")}
         </button>
       </div>
     </div>

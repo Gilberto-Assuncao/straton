@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { MapContainer, GpsBadge } from "@/src/components/maps";
 import { Icon } from "@/src/components/ui";
 import { EmptyState } from "@/src/components/data-display";
 import type { LiveOperationsPoint } from "@/src/features/operations/data";
 
-function minutesAgo(iso: string): string {
+function minutesAgo(iso: string, t: ReturnType<typeof useTranslations<"liveMap">>): string {
   const minutes = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
-  if (minutes < 1) return "just now";
-  if (minutes < 60) return `${minutes} min ago`;
-  return `${Math.round(minutes / 60)}h ago`;
+  if (minutes < 1) return t("justNow");
+  if (minutes < 60) return t("minutesAgo", { count: minutes });
+  return t("hoursAgo", { count: Math.round(minutes / 60) });
 }
 
 // No mapping library is wired up yet (a real basemap is a separate provider
@@ -31,16 +32,17 @@ function layout(points: LiveOperationsPoint[]) {
 }
 
 export default function LiveOperationsMap({ points }: { points: LiveOperationsPoint[] }) {
+  const t = useTranslations("liveMap");
   const [selected, setSelected] = useState<string | null>(null);
 
   if (!points.length) {
-    return <EmptyState title="No one has clocked in with location sharing today" description="Points appear here once a team member with location sharing enabled stops a timer session." />;
+    return <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />;
   }
 
   const placed = layout(points);
   return (
     <div className="grid gap-5">
-      <MapContainer label="Live team locations">
+      <MapContainer label={t("mapLabel")}>
         <div className="relative h-72 w-full">
           <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
             <polyline
@@ -92,7 +94,7 @@ export default function LiveOperationsMap({ points }: { points: LiveOperationsPo
               >
                 <div>
                   <p className="font-semibold text-[#E5E7EB]">{point.name}</p>
-                  <p className="text-sm text-[#9CA3AF]">{point.siteName ?? "No site"} · started {minutesAgo(point.startedAt)}</p>
+                  <p className="text-sm text-[#9CA3AF]">{point.siteName ?? t("noSite")} · {t("started", { time: minutesAgo(point.startedAt, t) })}</p>
                 </div>
                 <GpsBadge latitude={point.latitude} longitude={point.longitude} />
               </button>
