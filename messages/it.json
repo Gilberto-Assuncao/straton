@@ -355,7 +355,8 @@
       "geolocation": "Geolocalizzazione",
       "dashboard": "Pannello",
       "login": "Accedi",
-      "cta": "Inizia gratis"
+      "cta": "Inizia gratis",
+      "chain": "Subappalto"
     },
     "hero": {
       "badge": "Geolocalizzazione in tempo reale",
@@ -516,6 +517,25 @@
       "footerTerms": "Termini di utilizzo",
       "footerSecurity": "Sicurezza",
       "copyright": "© {year} STRATON. Tutti i diritti riservati."
+    },
+    "chain": {
+      "badge": "Catena di subappalto",
+      "title": "Le ore dei tuoi subappaltatori, sul tuo foglio ore",
+      "subtitle": "Affida il lavoro a un'altra azienda e continua a vederlo. Le ore registrate dalle loro persone entrano direttamente nei tuoi archivi — senza fogli di calcolo scambiati via email, senza aspettare la fattura.",
+      "oneTitle": "Deleghi il lavoro",
+      "oneBody": "Assegni il lavoro a un'azienda partner come lo assegni al tuo team. Lo riceve come lavoro proprio, collegato al tuo.",
+      "twoTitle": "Loro assegnano il personale",
+      "twoBody": "Il partner impiega le proprie persone — o delega più avanti nella catena. Fino a cinque livelli, ogni azienda gestisce il proprio organico.",
+      "threeTitle": "Le ore tornano",
+      "threeBody": "Ogni ora registrata in qualsiasi punto della catena arriva sul tuo foglio ore, pronta per approvazione e paghe. Vedi il lavoro, non solo la fattura.",
+      "flowYou": "Passo 1",
+      "flowYouLabel": "Assegni il lavoro",
+      "flowPartner": "Passo 2",
+      "flowPartnerLabel": "Il partner assegna il team",
+      "flowBack": "Passo 3",
+      "flowBackLabel": "Le ore arrivano da te",
+      "privacyLabel": "Privacy by design.",
+      "privacyBody": "Delegare ti mostra l'avanzamento, non il personale. I dati dei loro dipendenti restano loro — a meno che non scelgano di unirsi al tuo progetto e assegnarvi le proprie persone. Il consenso è un atto esplicito dell'altra azienda, mai un effetto collaterale del contratto."
     }
   },
   "payroll": {

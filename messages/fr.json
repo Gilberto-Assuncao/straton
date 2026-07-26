@@ -355,7 +355,8 @@
       "geolocation": "Géolocalisation",
       "dashboard": "Tableau de bord",
       "login": "Connexion",
-      "cta": "Commencer gratuitement"
+      "cta": "Commencer gratuitement",
+      "chain": "Sous-traitance"
     },
     "hero": {
       "badge": "Géolocalisation en temps réel",
@@ -516,6 +517,25 @@
       "footerTerms": "Conditions d'utilisation",
       "footerSecurity": "Sécurité",
       "copyright": "© {year} STRATON. Tous droits réservés."
+    },
+    "chain": {
+      "badge": "Chaîne de sous-traitance",
+      "title": "Les heures de vos sous-traitants, sur votre feuille de temps",
+      "subtitle": "Confiez le travail à une autre entreprise et continuez à le voir. Les heures saisies par ses équipes arrivent directement dans vos registres — sans tableurs échangés par e-mail, sans attendre la facture pour savoir ce qui s'est passé.",
+      "oneTitle": "Vous déléguez la mission",
+      "oneBody": "Attribuez le travail à une entreprise partenaire comme à votre propre équipe. Elle la reçoit comme sa propre mission, reliée à la vôtre.",
+      "twoTitle": "Elle affecte son équipe",
+      "twoBody": "Le partenaire y place ses propres collaborateurs — ou délègue plus loin dans la chaîne. Jusqu'à cinq niveaux, chaque entreprise gérant ses effectifs.",
+      "threeTitle": "Les heures reviennent",
+      "threeBody": "Chaque heure saisie n'importe où dans la chaîne arrive sur votre feuille de temps, prête pour validation et paie. Vous voyez le travail, pas seulement la facture.",
+      "flowYou": "Étape 1",
+      "flowYouLabel": "Vous attribuez la mission",
+      "flowPartner": "Étape 2",
+      "flowPartnerLabel": "Le partenaire affecte son équipe",
+      "flowBack": "Étape 3",
+      "flowBackLabel": "Les heures arrivent chez vous",
+      "privacyLabel": "Confidentialité par conception.",
+      "privacyBody": "Déléguer vous montre l'avancement, pas le personnel. Les données des employés du partenaire restent les siennes — sauf s'il choisit de rejoindre votre projet et d'y placer ses équipes. Le consentement est un acte explicite de l'autre entreprise, jamais une conséquence du contrat."
     }
   },
   "payroll": {

@@ -355,7 +355,8 @@
       "geolocation": "Georreferenciação",
       "dashboard": "Painel",
       "login": "Entrar",
-      "cta": "Começar grátis"
+      "cta": "Começar grátis",
+      "chain": "Subcontratação"
     },
     "hero": {
       "badge": "Georreferenciação em tempo real",
@@ -516,6 +517,25 @@
       "footerTerms": "Termos de utilização",
       "footerSecurity": "Segurança",
       "copyright": "© {year} STRATON. Todos os direitos reservados."
+    },
+    "chain": {
+      "badge": "Cadeia de subcontratação",
+      "title": "As horas dos seus subcontratados, na sua folha",
+      "subtitle": "Passe trabalho a outra empresa e continue a vê-lo. As horas que as pessoas dela registam entram diretamente nos seus registos — sem folhas de cálculo trocadas por email, sem esperar pela fatura para saber o que aconteceu.",
+      "oneTitle": "Delega o serviço",
+      "oneBody": "Atribui trabalho a uma empresa parceira da mesma forma que o atribui à sua equipa. Ela recebe-o como serviço próprio, ligado ao seu.",
+      "twoTitle": "Ela coloca a equipa",
+      "twoBody": "A parceira põe as suas próprias pessoas — ou delega mais abaixo na cadeia. Até cinco níveis, cada empresa a gerir os seus trabalhadores.",
+      "threeTitle": "As horas voltam",
+      "threeBody": "Cada hora registada em qualquer ponto da cadeia chega à sua folha, pronta para aprovação e processamento. Vê o trabalho, não apenas a fatura.",
+      "flowYou": "Passo 1",
+      "flowYouLabel": "Atribui o serviço",
+      "flowPartner": "Passo 2",
+      "flowPartnerLabel": "A parceira coloca a equipa",
+      "flowBack": "Passo 3",
+      "flowBackLabel": "As horas entram na sua folha",
+      "privacyLabel": "Privacidade por desenho.",
+      "privacyBody": "Delegar mostra-lhe o progresso, não as pessoas. Os dados dos funcionários da outra empresa continuam dela — a não ser que ela escolha aderir ao seu projeto e lá colocar a sua equipa. O consentimento é um ato explícito da outra empresa, nunca um efeito secundário do contrato."
     }
   },
   "payroll": {

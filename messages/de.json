@@ -355,7 +355,8 @@
       "geolocation": "Geolokalisierung",
       "dashboard": "Übersicht",
       "login": "Anmelden",
-      "cta": "Kostenlos starten"
+      "cta": "Kostenlos starten",
+      "chain": "Subunternehmer"
     },
     "hero": {
       "badge": "Geolokalisierung in Echtzeit",
@@ -516,6 +517,25 @@
       "footerTerms": "Nutzungsbedingungen",
       "footerSecurity": "Sicherheit",
       "copyright": "© {year} STRATON. Alle Rechte vorbehalten."
+    },
+    "chain": {
+      "badge": "Subunternehmer-Kette",
+      "title": "Die Stunden Ihrer Subunternehmer, auf Ihrem Stundenzettel",
+      "subtitle": "Geben Sie Arbeit an ein anderes Unternehmen ab und behalten Sie den Überblick. Die erfassten Stunden fließen direkt in Ihre Aufzeichnungen — keine hin- und hergeschickten Tabellen, kein Warten auf die Rechnung.",
+      "oneTitle": "Sie delegieren den Auftrag",
+      "oneBody": "Weisen Sie einem Partnerunternehmen Arbeit zu wie Ihrem eigenen Team. Es erhält sie als eigenen Auftrag, verknüpft mit Ihrem.",
+      "twoTitle": "Es setzt sein Personal ein",
+      "twoBody": "Der Partner setzt eigene Leute ein — oder delegiert weiter in der Kette. Bis zu fünf Ebenen tief, jedes Unternehmen verwaltet seine eigene Belegschaft.",
+      "threeTitle": "Die Stunden kommen zurück",
+      "threeBody": "Jede irgendwo in der Kette erfasste Stunde landet auf Ihrem Stundenzettel, bereit für Genehmigung und Abrechnung. Sie sehen die Arbeit, nicht nur die Rechnung.",
+      "flowYou": "Schritt 1",
+      "flowYouLabel": "Sie vergeben den Auftrag",
+      "flowPartner": "Schritt 2",
+      "flowPartnerLabel": "Partner setzt sein Team ein",
+      "flowBack": "Schritt 3",
+      "flowBackLabel": "Stunden landen bei Ihnen",
+      "privacyLabel": "Datenschutz von Anfang an.",
+      "privacyBody": "Delegieren zeigt Ihnen den Fortschritt, nicht das Personal. Die Daten der Mitarbeitenden bleiben beim Partner — es sei denn, er tritt Ihrem Projekt bei und ordnet seine Leute zu. Die Einwilligung ist eine ausdrückliche Entscheidung des anderen Unternehmens, nie eine Nebenwirkung des Vertrags."
     }
   },
   "payroll": {

@@ -58,6 +58,7 @@ export default async function Home() {
             <a href="#funcionalidades" className="transition hover:text-white">{t("nav.features")}</a>
             <a href="#georreferenciamento" className="transition hover:text-white">{t("nav.geolocation")}</a>
             <a href="#painel" className="transition hover:text-white">{t("nav.dashboard")}</a>
+            <a href="#cadeia" className="transition hover:text-white">{t("nav.chain")}</a>
           </nav>
           <div className="hidden items-center gap-5 sm:flex">
             <Link href="/login" className="text-base font-semibold text-[#94A3B8] transition hover:text-white">{t("nav.login")}</Link>
@@ -77,6 +78,7 @@ export default async function Home() {
                 <a href="#funcionalidades" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.features")}</a>
                 <a href="#georreferenciamento" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.geolocation")}</a>
                 <a href="#painel" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.dashboard")}</a>
+                <a href="#cadeia" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.chain")}</a>
               </nav>
               <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
                 <Link href="/login" className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-3 text-sm font-semibold text-[#F1F5F9]">{t("nav.login")}</Link>
@@ -349,6 +351,52 @@ export default async function Home() {
         </div>
       </section>
 
+
+      {/* Subcontracting chain: A delegates to B, B staffs it, and the hours
+          land back on A's timesheet. This is the capability competitors built
+          for single organisations do not have, so it gets its own section. */}
+      <section id="cadeia" className="scroll-mt-24 border-y border-white/10 bg-[#0F172A]/40">
+        <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="inline-flex rounded-full border border-[#22C55E]/30 bg-[#22C55E]/10 px-4 py-1.5 text-sm font-semibold text-[#4ADE80]">{t("chain.badge")}</span>
+            <h2 className={`${styles.heading} mt-5 text-4xl font-bold sm:text-5xl`}>{t("chain.title")}</h2>
+            <p className="mt-5 text-lg leading-8 text-[#94A3B8]">{t("chain.subtitle")}</p>
+          </div>
+
+          <ol className="mt-16 grid gap-6 md:grid-cols-3">
+            {["one", "two", "three"].map((step, index) => (
+              <li key={step} className="relative rounded-2xl border border-white/10 bg-[#0B1220] p-7">
+                <span className={`${styles.mono} inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#22C55E]/10 text-sm font-bold text-[#4ADE80]`}>{index + 1}</span>
+                <h3 className="mt-5 text-xl font-semibold text-white">{t(`chain.${step}Title`)}</h3>
+                <p className="mt-3 text-base leading-7 text-[#94A3B8]">{t(`chain.${step}Body`)}</p>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-10 rounded-2xl border border-white/10 bg-[#0B1220] p-7 sm:p-9">
+            <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-center">
+              <div className="flex-1 rounded-xl border border-[#22C55E]/25 bg-[#22C55E]/[0.06] p-5 text-center">
+                <p className={`${styles.mono} text-xs uppercase tracking-wide text-[#4ADE80]`}>{t("chain.flowYou")}</p>
+                <p className="mt-2 text-base font-semibold text-white">{t("chain.flowYouLabel")}</p>
+              </div>
+              <span aria-hidden="true" className="self-center text-2xl text-[#4ADE80] lg:rotate-0 rotate-90">→</span>
+              <div className="flex-1 rounded-xl border border-white/15 bg-[#111C33] p-5 text-center">
+                <p className={`${styles.mono} text-xs uppercase tracking-wide text-[#94A3B8]`}>{t("chain.flowPartner")}</p>
+                <p className="mt-2 text-base font-semibold text-white">{t("chain.flowPartnerLabel")}</p>
+              </div>
+              <span aria-hidden="true" className="self-center text-2xl text-[#4ADE80] lg:rotate-0 rotate-90">→</span>
+              <div className="flex-1 rounded-xl border border-[#22C55E]/25 bg-[#22C55E]/[0.06] p-5 text-center">
+                <p className={`${styles.mono} text-xs uppercase tracking-wide text-[#4ADE80]`}>{t("chain.flowBack")}</p>
+                <p className="mt-2 text-base font-semibold text-white">{t("chain.flowBackLabel")}</p>
+              </div>
+            </div>
+            <p className="mt-7 border-t border-white/10 pt-6 text-sm leading-7 text-[#94A3B8]">
+              <span className="font-semibold text-[#E5E7EB]">{t("chain.privacyLabel")}</span> {t("chain.privacyBody")}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* App section: the mobile experience, shown as three phone states */}
       <section className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
         <div className="mx-auto max-w-2xl text-center">
@@ -431,6 +479,7 @@ export default async function Home() {
               <li><a href="#funcionalidades" className="hover:text-white">{t("nav.features")}</a></li>
               <li><a href="#georreferenciamento" className="hover:text-white">{t("nav.geolocation")}</a></li>
               <li><a href="#painel" className="hover:text-white">{t("nav.dashboard")}</a></li>
+              <li><a href="#cadeia" className="hover:text-white">{t("nav.chain")}</a></li>
             </ul>
           </div>
           <div>

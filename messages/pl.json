@@ -355,7 +355,8 @@
       "geolocation": "Geolokalizacja",
       "dashboard": "Panel",
       "login": "Zaloguj się",
-      "cta": "Zacznij za darmo"
+      "cta": "Zacznij za darmo",
+      "chain": "Podwykonawstwo"
     },
     "hero": {
       "badge": "Geolokalizacja w czasie rzeczywistym",
@@ -516,6 +517,25 @@
       "footerTerms": "Warunki korzystania",
       "footerSecurity": "Bezpieczeństwo",
       "copyright": "© {year} STRATON. Wszelkie prawa zastrzeżone."
+    },
+    "chain": {
+      "badge": "Łańcuch podwykonawstwa",
+      "title": "Godziny Twoich podwykonawców na Twojej karcie pracy",
+      "subtitle": "Przekaż pracę innej firmie i nadal ją widz. Godziny rejestrowane przez ich ludzi trafiają wprost do Twoich rejestrów — bez przesyłanych arkuszy, bez czekania na fakturę.",
+      "oneTitle": "Zlecasz pracę",
+      "oneBody": "Przydzielasz pracę firmie partnerskiej tak samo jak własnemu zespołowi. Otrzymuje ją jako własne zlecenie, powiązane z Twoim.",
+      "twoTitle": "Oni obsadzają zespół",
+      "twoBody": "Partner kieruje własnych pracowników — albo zleca dalej w łańcuchu. Do pięciu poziomów, każda firma zarządza swoim personelem.",
+      "threeTitle": "Godziny wracają",
+      "threeBody": "Każda godzina zarejestrowana w dowolnym miejscu łańcucha trafia na Twoją kartę pracy, gotowa do zatwierdzenia i rozliczenia. Widzisz pracę, nie tylko fakturę.",
+      "flowYou": "Krok 1",
+      "flowYouLabel": "Przydzielasz zlecenie",
+      "flowPartner": "Krok 2",
+      "flowPartnerLabel": "Partner obsadza zespół",
+      "flowBack": "Krok 3",
+      "flowBackLabel": "Godziny trafiają do Ciebie",
+      "privacyLabel": "Prywatność od podstaw.",
+      "privacyBody": "Delegowanie pokazuje postęp, nie personel. Dane pracowników partnera pozostają jego — chyba że zdecyduje się dołączyć do Twojego projektu i przypisać do niego swoich ludzi. Zgoda to wyraźna decyzja drugiej firmy, nigdy skutek uboczny umowy."
     }
   },
   "payroll": {

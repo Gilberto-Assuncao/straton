@@ -355,7 +355,8 @@
       "geolocation": "Geolocation",
       "dashboard": "Dashboard",
       "login": "Log in",
-      "cta": "Start for free"
+      "cta": "Start for free",
+      "chain": "Subcontracting"
     },
     "hero": {
       "badge": "Real-time geolocation",
@@ -516,6 +517,25 @@
       "footerTerms": "Terms of use",
       "footerSecurity": "Security",
       "copyright": "© {year} STRATON. All rights reserved."
+    },
+    "chain": {
+      "badge": "Subcontracting chain",
+      "title": "Your subcontractors' hours, on your timesheet",
+      "subtitle": "Hand work to another company and keep seeing it. The hours their people log flow straight into your records — no spreadsheets passed back and forth, no waiting until invoicing to find out what happened.",
+      "oneTitle": "You delegate the job",
+      "oneBody": "Assign work to a partner company the same way you assign it to your own team. They receive it as their own job, linked back to yours.",
+      "twoTitle": "They staff it",
+      "twoBody": "The partner puts their own people on it — or delegates further down the chain. Up to five levels deep, each company managing its own workforce.",
+      "threeTitle": "The hours come back",
+      "threeBody": "Every hour logged anywhere in the chain lands on your timesheet, ready for approval and payroll. You see the work, not just the invoice.",
+      "flowYou": "Step 1",
+      "flowYouLabel": "You assign the job",
+      "flowPartner": "Step 2",
+      "flowPartnerLabel": "Partner company staffs it",
+      "flowBack": "Step 3",
+      "flowBackLabel": "Hours land on your timesheet",
+      "privacyLabel": "Privacy by design.",
+      "privacyBody": "Delegating shows you progress, not personnel. Their employees' details stay theirs — unless they choose to join your project and put their people on it. Consent is an explicit act by the other company, never a side effect of the contract."
     }
   },
   "payroll": {

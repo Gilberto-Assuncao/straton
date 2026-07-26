@@ -355,7 +355,8 @@
       "geolocation": "Geolocalizare",
       "dashboard": "Panou",
       "login": "Conectare",
-      "cta": "Începe gratuit"
+      "cta": "Începe gratuit",
+      "chain": "Subcontractare"
     },
     "hero": {
       "badge": "Geolocalizare în timp real",
@@ -516,6 +517,25 @@
       "footerTerms": "Termeni de utilizare",
       "footerSecurity": "Securitate",
       "copyright": "© {year} STRATON. Toate drepturile rezervate."
+    },
+    "chain": {
+      "badge": "Lanț de subcontractare",
+      "title": "Orele subcontractorilor dvs., pe fișa dvs. de pontaj",
+      "subtitle": "Predați lucrarea altei firme și continuați să o vedeți. Orele înregistrate de oamenii lor intră direct în evidențele dvs. — fără tabele trimise înainte și înapoi, fără să așteptați factura.",
+      "oneTitle": "Delegați lucrarea",
+      "oneBody": "Atribuiți munca unei firme partenere la fel ca propriei echipe. O primește ca lucrare proprie, legată de a dvs.",
+      "twoTitle": "Ei pun echipa",
+      "twoBody": "Partenerul își trimite proprii oameni — sau deleagă mai departe în lanț. Până la cinci niveluri, fiecare firmă își gestionează personalul.",
+      "threeTitle": "Orele se întorc",
+      "threeBody": "Fiecare oră înregistrată oriunde în lanț ajunge pe fișa dvs., gata de aprobare și salarizare. Vedeți munca, nu doar factura.",
+      "flowYou": "Pasul 1",
+      "flowYouLabel": "Atribuiți lucrarea",
+      "flowPartner": "Pasul 2",
+      "flowPartnerLabel": "Partenerul pune echipa",
+      "flowBack": "Pasul 3",
+      "flowBackLabel": "Orele ajung la dvs.",
+      "privacyLabel": "Confidențialitate prin proiectare.",
+      "privacyBody": "Delegarea vă arată progresul, nu personalul. Datele angajaților lor rămân ale lor — cu excepția cazului în care aleg să se alăture proiectului dvs. și să își repartizeze oamenii. Consimțământul este un act explicit al celeilalte firme, niciodată un efect secundar al contractului."
     }
   },
   "payroll": {

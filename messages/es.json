@@ -355,7 +355,8 @@
       "geolocation": "Geolocalización",
       "dashboard": "Panel",
       "login": "Iniciar sesión",
-      "cta": "Empezar gratis"
+      "cta": "Empezar gratis",
+      "chain": "Subcontratación"
     },
     "hero": {
       "badge": "Geolocalización en tiempo real",
@@ -516,6 +517,25 @@
       "footerTerms": "Términos de uso",
       "footerSecurity": "Seguridad",
       "copyright": "© {year} STRATON. Todos los derechos reservados."
+    },
+    "chain": {
+      "badge": "Cadena de subcontratación",
+      "title": "Las horas de sus subcontratistas, en su hoja de horas",
+      "subtitle": "Ceda el trabajo a otra empresa y siga viéndolo. Las horas que registra su personal llegan directamente a sus registros — sin hojas de cálculo de ida y vuelta, sin esperar a la factura para saber qué pasó.",
+      "oneTitle": "Usted delega el trabajo",
+      "oneBody": "Asigne trabajo a una empresa asociada igual que a su propio equipo. Lo recibe como trabajo propio, vinculado al suyo.",
+      "twoTitle": "Ellos ponen el equipo",
+      "twoBody": "El socio asigna a su propia gente — o delega más abajo en la cadena. Hasta cinco niveles, cada empresa gestionando su plantilla.",
+      "threeTitle": "Las horas vuelven",
+      "threeBody": "Cada hora registrada en cualquier punto de la cadena llega a su hoja de horas, lista para aprobación y nómina. Ve el trabajo, no solo la factura.",
+      "flowYou": "Paso 1",
+      "flowYouLabel": "Usted asigna el trabajo",
+      "flowPartner": "Paso 2",
+      "flowPartnerLabel": "El socio pone su equipo",
+      "flowBack": "Paso 3",
+      "flowBackLabel": "Las horas llegan a su hoja",
+      "privacyLabel": "Privacidad desde el diseño.",
+      "privacyBody": "Delegar le muestra el avance, no al personal. Los datos de sus empleados siguen siendo suyos — salvo que decidan unirse a su proyecto y asignar a su gente. El consentimiento es un acto explícito de la otra empresa, nunca un efecto secundario del contrato."
     }
   },
   "payroll": {
