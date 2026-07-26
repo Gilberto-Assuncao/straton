@@ -12,7 +12,7 @@ import { validateCompanyForm, validateSettingsForm } from "./validation";
 import type { CompanyActionState } from "./types";
 
 export type VatLookupOutcome =
-  | { valid: true; source: "cbe" | "vies"; legalName: string; addressLine1: string; postalCode: string; city: string;
+  | { valid: true; source: "cbe" | "vies"; legalName: string; displayName?: string; addressLine1: string; postalCode: string; city: string;
       registrationNumber?: string; activityStartDate?: string; juridicalForm?: string; phone?: string; email?: string; website?: string }
   | { valid: false; message: string };
 

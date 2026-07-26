@@ -25,6 +25,10 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
   const [postalCode, setPostalCode] = useState(values.postalCode);
   const [city, setCity] = useState(values.city);
   const [registrationNumber, setRegistrationNumber] = useState(values.registrationNumber ?? "");
+  const [displayName, setDisplayName] = useState(values.displayName ?? "");
+  const [email, setEmail] = useState(values.email ?? "");
+  const [phone, setPhone] = useState(values.phone ?? "");
+  const [website, setWebsite] = useState(values.website ?? "");
   const [vatStatus, setVatStatus] = useState<{ kind: "idle" | "loading" | "error" | "success"; message?: string }>({ kind: "idle" });
 
   async function handleVatLookup() {
@@ -38,6 +42,13 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
     // The Belgian register also returns the enterprise number; VIES does not,
     // which is why this field stayed empty until now.
     if (result.registrationNumber) setRegistrationNumber(result.registrationNumber);
+    // Display name is required and was the one field the lookup left empty,
+    // blocking the save. Only filled when blank, so a name the user chose
+    // deliberately is never overwritten by the registry's version.
+    if (result.displayName && !displayName.trim()) setDisplayName(result.displayName);
+    if (result.email && !email.trim()) setEmail(result.email);
+    if (result.phone && !phone.trim()) setPhone(result.phone);
+    if (result.website && !website.trim()) setWebsite(result.website);
     setVatStatus({
       kind: "success",
       message: result.source === "cbe"
@@ -48,7 +59,7 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
 
   return <form action={formAction} className="space-y-6">
     <fieldset disabled={!canEdit} className="grid gap-5 sm:grid-cols-2 disabled:opacity-75">
-      <Input name="displayName" label="Display name" defaultValue={values.displayName} error={error("displayName")} required maxLength={160}/>
+      <Input name="displayName" label="Display name" value={displayName} onChange={(event) => setDisplayName(event.target.value)} error={error("displayName")} required maxLength={160}/>
       <Input name="legalName" label="Legal name" value={legalName} onChange={(event) => setLegalName(event.target.value)} error={error("legalName")} required maxLength={160}/>
       <Input name="registrationNumber" label="Registration number" value={registrationNumber} onChange={(event) => setRegistrationNumber(event.target.value)} error={error("registrationNumber")} maxLength={64}/>
       <div>
@@ -65,9 +76,9 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
       <Select name="defaultLanguage" label="Default language" defaultValue={values.defaultLanguage} options={languages} error={error("defaultLanguage")}/>
       <Select name="timezone" label="Timezone" defaultValue={values.timezone} options={timezones} error={error("timezone")}/>
       <Select name="currencyCode" label="Currency" defaultValue={values.currencyCode} options={currencies} error={error("currencyCode")}/>
-      <EmailInput name="email" label="Company email" defaultValue={values.email} error={error("email")}/>
-      <PhoneInput name="phone" label="Phone" defaultValue={values.phone} error={error("phone")}/>
-      <Input name="website" type="url" label="Website" defaultValue={values.website} error={error("website")} placeholder="https://"/>
+      <EmailInput name="email" label="Company email" value={email} onChange={(event) => setEmail(event.target.value)} error={error("email")}/>
+      <PhoneInput name="phone" label="Phone" value={phone} onChange={(event) => setPhone(event.target.value)} error={error("phone")}/>
+      <Input name="website" type="url" label="Website" value={website} onChange={(event) => setWebsite(event.target.value)} error={error("website")} placeholder="https://"/>
       <Input name="city" label="City" value={city} onChange={(event) => setCity(event.target.value)}/>
       <Input name="addressLine1" label="Address line 1" value={addressLine1} onChange={(event) => setAddressLine1(event.target.value)}/>
       <Input name="addressLine2" label="Address line 2" defaultValue={values.addressLine2}/>

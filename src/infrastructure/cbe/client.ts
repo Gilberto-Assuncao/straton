@@ -44,6 +44,8 @@ interface CbeCompany {
 
 export interface CompanyLookupResult {
   legalName: string;
+  /** What to show in lists. The registry's commercial name when it has one. */
+  displayName: string;
   addressLine1: string;
   postalCode: string;
   city: string;
@@ -75,6 +77,9 @@ function toResult(company: CbeCompany): CompanyLookupResult {
     // denomination_with_legal_form reads like "ACME SRL"; the bare
     // denomination is the name people actually recognise, so prefer it.
     legalName: company.denomination || company.denomination_with_legal_form || company.commercial_name || "",
+    // The commercial name is what customers actually call the company; the
+    // abbreviation is the next best short form. Falls back to the legal name.
+    displayName: company.commercial_name || company.abbreviation || company.denomination || "",
     addressLine1: joinStreet(address),
     postalCode: address?.post_code ?? "",
     city: address?.city ?? "",
