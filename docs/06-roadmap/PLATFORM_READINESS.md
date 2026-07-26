@@ -43,28 +43,28 @@ Ordenados por impacto. Sem estes, a plataforma não pode receber clientes reais.
 
 | # | Item | Porquê bloqueia | Issue |
 |---|---|---|---|
-| 1 | **SMTP próprio (Resend)** | Sem isto ninguém recupera a palavra-passe nem confirma a conta. O Supabase partilhado tem limite baixo e entrega pouco fiável. Já confirmado em produção: o email não chega. | [#16](https://github.com/Gilberto-Assuncao/nextime/issues/16) |
-| 2 | **Editar/desativar funcionário** | A UI existe mas não está ligada a nenhuma action — o botão não faz nada. CRUD de pessoas incompleto. | [#1](https://github.com/Gilberto-Assuncao/nextime/issues/1) |
-| 3 | **Obras (Sites) só de leitura** | Não há forma de criar, editar ou apagar uma obra pela interface. Só por SQL. | [#4](https://github.com/Gilberto-Assuncao/nextime/issues/4) |
-| 4 | **Templates de relatório sem UI** | Não há forma de criar formulários de campo pela interface. Sem templates, o módulo não funciona. | [#21](https://github.com/Gilberto-Assuncao/nextime/issues/21) |
+| 1 | **SMTP próprio (Resend)** | Sem isto ninguém recupera a palavra-passe nem confirma a conta. O Supabase partilhado tem limite baixo e entrega pouco fiável. Já confirmado em produção: o email não chega. | [#16](https://github.com/Gilberto-Assuncao/straton/issues/16) |
+| 2 | **Editar/desativar funcionário** | A UI existe mas não está ligada a nenhuma action — o botão não faz nada. CRUD de pessoas incompleto. | [#1](https://github.com/Gilberto-Assuncao/straton/issues/1) |
+| 3 | **Obras (Sites) só de leitura** | Não há forma de criar, editar ou apagar uma obra pela interface. Só por SQL. | [#4](https://github.com/Gilberto-Assuncao/straton/issues/4) |
+| 4 | **Templates de relatório sem UI** | Não há forma de criar formulários de campo pela interface. Sem templates, o módulo não funciona. | [#21](https://github.com/Gilberto-Assuncao/straton/issues/21) |
 
 ### 🟠 Importante
 
 | # | Item | Porquê | Issue |
 |---|---|---|---|
-| 5 | **Convidar empresa sem conta STRATON** | O fluxo de parceiros assume que a outra empresa já está registada. | [#20](https://github.com/Gilberto-Assuncao/nextime/issues/20) |
-| 6 | **Mapa ao vivo não é tempo real** | Mostra o último check-in, não presença real. O nome induz em erro. | [#5](https://github.com/Gilberto-Assuncao/nextime/issues/5) |
-| 7 | **Tradução fora do dashboard** | `components/auth/` 1/13 ficheiros, `app-shell/` 1/11, `companies/` 1/16. Também as 18 mensagens de erro de auth. | [#22](https://github.com/Gilberto-Assuncao/nextime/issues/22), [#13](https://github.com/Gilberto-Assuncao/nextime/issues/13), [#14](https://github.com/Gilberto-Assuncao/nextime/issues/14) |
-| 8 | **Rebrand — painéis externos** | Código e docs já feitos. Falta renomear: repositório GitHub `nextime`, projeto Vercel `nextime`, projeto Supabase, pasta local. | [#18](https://github.com/Gilberto-Assuncao/nextime/issues/18) |
-| 9 | **Modo "ver como" (suporte)** | Sem isto não há forma de dar apoio a um cliente sem pedir as credenciais dele. | [#19](https://github.com/Gilberto-Assuncao/nextime/issues/19) |
-| 10 | **Roster + relatório de conformidade belga** | Requisito legal para o mercado-alvo. | [#3](https://github.com/Gilberto-Assuncao/nextime/issues/3) |
+| 5 | **Convidar empresa sem conta STRATON** | O fluxo de parceiros assume que a outra empresa já está registada. | [#20](https://github.com/Gilberto-Assuncao/straton/issues/20) |
+| 6 | **Mapa ao vivo não é tempo real** | Mostra o último check-in, não presença real. O nome induz em erro. | [#5](https://github.com/Gilberto-Assuncao/straton/issues/5) |
+| 7 | **Tradução fora do dashboard** | `components/auth/` 1/13 ficheiros, `app-shell/` 1/11, `companies/` 1/16. Também as 18 mensagens de erro de auth. | [#22](https://github.com/Gilberto-Assuncao/straton/issues/22), [#13](https://github.com/Gilberto-Assuncao/straton/issues/13), [#14](https://github.com/Gilberto-Assuncao/straton/issues/14) |
+| 8 | **Rebrand — o que resta** | ✅ Código, docs, repositório GitHub (`straton`), projeto Vercel (`straton`) e domínio (`straton.be`) já feitos. Falta apenas: renomear o projeto Supabase (`supabase-beige-horizon`) e a pasta local. | [#18](https://github.com/Gilberto-Assuncao/straton/issues/18) |
+| 9 | **Modo "ver como" (suporte)** | Sem isto não há forma de dar apoio a um cliente sem pedir as credenciais dele. | [#19](https://github.com/Gilberto-Assuncao/straton/issues/19) |
+| 10 | **Roster + relatório de conformidade belga** | Requisito legal para o mercado-alvo. | [#3](https://github.com/Gilberto-Assuncao/straton/issues/3) |
 
 ### 🟡 Menor
 
 | # | Item | Issue |
 |---|---|---|
-| 11 | Login social (Google, Apple, Microsoft) | [#15](https://github.com/Gilberto-Assuncao/nextime/issues/15) |
-| 12 | Lembretes de pontualidade: override por utilizador + limite de cron do plano Hobby | [#6](https://github.com/Gilberto-Assuncao/nextime/issues/6) |
+| 11 | Login social (Google, Apple, Microsoft) | [#15](https://github.com/Gilberto-Assuncao/straton/issues/15) |
+| 12 | Lembretes de pontualidade: override por utilizador + limite de cron do plano Hobby | [#6](https://github.com/Gilberto-Assuncao/straton/issues/6) |
 
 ---
 
@@ -177,10 +177,10 @@ Os domínios `.straton.demo` não existem — nenhum email real é enviado.
 ## 6. Ordem de trabalho sugerida
 
 1. **Aplicar `seed-demo.sql`** — desbloqueia a validação de todos os módulos de uma vez
-2. **SMTP Resend** ([#16](https://github.com/Gilberto-Assuncao/nextime/issues/16)) — sem isto não há onboarding real
-3. **Fechar o CRUD**: funcionários ([#1](https://github.com/Gilberto-Assuncao/nextime/issues/1)), obras ([#4](https://github.com/Gilberto-Assuncao/nextime/issues/4)), templates ([#21](https://github.com/Gilberto-Assuncao/nextime/issues/21))
-4. **Terminar a tradução** ([#22](https://github.com/Gilberto-Assuncao/nextime/issues/22))
-5. **Rebrand nos painéis** ([#18](https://github.com/Gilberto-Assuncao/nextime/issues/18))
+2. **SMTP Resend** ([#16](https://github.com/Gilberto-Assuncao/straton/issues/16)) — sem isto não há onboarding real
+3. **Fechar o CRUD**: funcionários ([#1](https://github.com/Gilberto-Assuncao/straton/issues/1)), obras ([#4](https://github.com/Gilberto-Assuncao/straton/issues/4)), templates ([#21](https://github.com/Gilberto-Assuncao/straton/issues/21))
+4. **Terminar a tradução** ([#22](https://github.com/Gilberto-Assuncao/straton/issues/22))
+5. **Rebrand nos painéis** ([#18](https://github.com/Gilberto-Assuncao/straton/issues/18))
 6. **Testes dos fluxos críticos** + prova de isolamento RLS
 7. **Observabilidade** antes do primeiro cliente real
 8. Decidir o destino dos módulos desativados (Expenses, Connect, Marketplace)
