@@ -634,7 +634,7 @@ on conflict (id) do nothing;
 insert into public.report_template_fields (id, template_id, company_id, key, label, field_type, required, options, display_order, active) values
   -- Belnex — Daily Installation Report
   ('d000000b-0000-4000-8000-000000000101','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','panels_installed','Panels installed','number', true, '[]'::jsonb, 1, true),
-  ('d000000b-0000-4000-8000-000000000102','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','weather','Weather conditions','select', true,'["Clear","Cloudy","Rain","Wind > 40 km/h"]'::jsonb, 2, true),
+  ('d000000b-0000-4000-8000-000000000102','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','weather','Weather conditions','select', true,'[{"value": "Clear", "label": "Clear"}, {"value": "Cloudy", "label": "Cloudy"}, {"value": "Rain", "label": "Rain"}, {"value": "Wind > 40 km/h", "label": "Wind > 40 km/h"}]'::jsonb, 2, true),
   ('d000000b-0000-4000-8000-000000000103','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','safety_ok','Safety briefing completed','boolean', true, '[]'::jsonb, 3, true),
   ('d000000b-0000-4000-8000-000000000104','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','incidents','Incidents / blockers','text', false, '[]'::jsonb, 4, true),
   -- Belnex — Commissioning
@@ -642,7 +642,7 @@ insert into public.report_template_fields (id, template_id, company_id, key, lab
   ('d000000b-0000-4000-8000-000000000106','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','insulation_mohm','Insulation resistance (MΩ)','number', true, '[]'::jsonb, 2, true),
   ('d000000b-0000-4000-8000-000000000107','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','grid_ok','Grid synchronisation OK','boolean', true, '[]'::jsonb, 3, true),
   -- Nordclean
-  ('d000000b-0000-4000-8000-000000000201','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','areas_done','Areas completed','multiselect', true,'["Offices","Sanitary","Canteen","Loading bay","Warehouse floor"]'::jsonb, 1, true),
+  ('d000000b-0000-4000-8000-000000000201','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','areas_done','Areas completed','multiselect', true,'[{"value": "Offices", "label": "Offices"}, {"value": "Sanitary", "label": "Sanitary"}, {"value": "Canteen", "label": "Canteen"}, {"value": "Loading bay", "label": "Loading bay"}, {"value": "Warehouse floor", "label": "Warehouse floor"}]'::jsonb, 1, true),
   ('d000000b-0000-4000-8000-000000000202','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','consumables','Consumables restocked','boolean', true, '[]'::jsonb, 2, true),
   ('d000000b-0000-4000-8000-000000000203','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','client_signature','Client signature','signature', false, '[]'::jsonb, 3, true),
   ('d000000b-0000-4000-8000-000000000204','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','remarks','Remarks','text', false, '[]'::jsonb, 4, true),
@@ -739,11 +739,11 @@ insert into public.operational_report_values (id, report_id, field_id, company_i
   (gen_random_uuid(),'d000000c-0000-4000-8000-000000000104','d000000b-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','Cloudy', null, null, null),
   (gen_random_uuid(),'d000000c-0000-4000-8000-000000000104','d000000b-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001', null, null, true, null),
 
-  (gen_random_uuid(),'d000000c-0000-4000-8000-000000000201','d000000b-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002', null, null, null,'["Offices","Sanitary","Canteen"]'::jsonb),
+  (gen_random_uuid(),'d000000c-0000-4000-8000-000000000201','d000000b-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002', null, null, null,'["Offices", "Sanitary", "Canteen"]'::jsonb),
   (gen_random_uuid(),'d000000c-0000-4000-8000-000000000201','d000000b-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002', null, null, true, null),
   (gen_random_uuid(),'d000000c-0000-4000-8000-000000000201','d000000b-0000-4000-8000-000000000204','d0000001-0000-4000-8000-000000000002','Floor 5 meeting rooms occupied, moved to next round.', null, null, null),
 
-  (gen_random_uuid(),'d000000c-0000-4000-8000-000000000202','d000000b-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002', null, null, null,'["Warehouse floor","Loading bay"]'::jsonb),
+  (gen_random_uuid(),'d000000c-0000-4000-8000-000000000202','d000000b-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002', null, null, null,'["Warehouse floor", "Loading bay"]'::jsonb),
   (gen_random_uuid(),'d000000c-0000-4000-8000-000000000202','d000000b-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002', null, null, false, null),
   (gen_random_uuid(),'d000000c-0000-4000-8000-000000000202','d000000b-0000-4000-8000-000000000204','d0000001-0000-4000-8000-000000000002','Scrubber battery holds ~40% of rated runtime.', null, null, null),
 

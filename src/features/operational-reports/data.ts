@@ -36,8 +36,16 @@ interface TemplateRow {
   report_template_fields: TemplateFieldRow[] | null;
 }
 
+// Options are stored as {value,label} objects, but a plain list of strings is
+// accepted too: it is the shape a human reaches for when writing SQL by hand,
+// and silently dropping every choice is a worse failure than normalising it.
 function mapField(row: TemplateFieldRow): ReportTemplateField {
-  const options = Array.isArray(row.options) ? (row.options as { value: string; label: string }[]) : [];
+  const raw = Array.isArray(row.options) ? row.options : [];
+  const options = raw.map((option) =>
+    typeof option === "string"
+      ? { value: option, label: option }
+      : (option as { value: string; label: string }),
+  ).filter((option) => option && typeof option.value === "string");
   return { id: row.id, key: row.key, label: row.label, fieldType: row.field_type, required: row.required, options, displayOrder: row.display_order };
 }
 
@@ -225,4 +233,47 @@ export async function getProjectAndSiteOptions(): Promise<{ projects: { id: stri
     supabase.from("sites").select("id,name").eq("company_id", companyId).order("name"),
   ]);
   return { projects: projects ?? [], sites: sites ?? [] };
+}
+
+// The management view differs from getReportTemplates in two ways: it includes
+// inactive templates, and it reports how many reports already use each one —
+// which is what makes deletion unsafe and archiving the right default.
+export type ManagedTemplate = ReportTemplate & { active: boolean; reportCount: number };
+
+export async function getManagedTemplates(): Promise<ManagedTemplate[]> {
+  const { companyId } = await requireActiveCompany();
+  const supabase = await createClient();
+
+  const [{ data, error }, { data: usage }] = await Promise.all([
+    supabase
+      .from("report_templates")
+      .select("id,segment,name,description,active,report_template_fields(id,key,label,field_type,required,options,display_order,active)")
+      .eq("company_id", companyId)
+      .order("name"),
+    supabase.from("operational_reports").select("template_id").eq("company_id", companyId),
+  ]);
+  if (error) throw new Error("Unable to load report templates.");
+
+  const counts = new Map<string, number>();
+  for (const row of (usage ?? []) as { template_id: string | null }[]) {
+    if (row.template_id) counts.set(row.template_id, (counts.get(row.template_id) ?? 0) + 1);
+  }
+
+  return ((data ?? []) as (TemplateRow & { active: boolean })[]).map((row) => ({
+    id: row.id,
+    segment: row.segment,
+    name: row.name,
+    description: row.description,
+    active: row.active,
+    reportCount: counts.get(row.id) ?? 0,
+    fields: (row.report_template_fields ?? [])
+      .filter((field) => field && (field as TemplateFieldRow & { active?: boolean }).active !== false)
+      .sort((a, b) => a.display_order - b.display_order)
+      .map(mapField),
+  }));
+}
+
+export async function getManagedTemplateById(templateId: string): Promise<ManagedTemplate | null> {
+  const templates = await getManagedTemplates();
+  return templates.find((template) => template.id === templateId) ?? null;
 }
