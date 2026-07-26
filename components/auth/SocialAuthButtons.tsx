@@ -8,7 +8,6 @@ import { hasPublicEnvironment } from "@/src/infrastructure/config/env";
 
 const providers = [
   { name: "Google", mark: "G", provider: "google" },
-  { name: "Apple", mark: "●", provider: "apple" },
   { name: "Microsoft", mark: "⊞", provider: "azure" },
 ] as const;
 
@@ -22,7 +21,10 @@ export default function SocialAuthButtons() {
     const supabase = createClient();
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
-      options: { redirectTo: `${window.location.origin}/auth/callback?next=/dashboard` },
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+        ...(provider === "azure" ? { scopes: "email" } : {}),
+      },
     });
     if (error) setPending(null);
   }
