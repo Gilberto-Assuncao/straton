@@ -41,7 +41,41 @@ Supported states are active, inactive, suspended, and archived. Operational stat
 
 Future branches must model an explicit hierarchy or relationship instead of duplicating tenants. Billing, payroll, GPS, geofencing, weather, accounting, and fiscal validation remain isolated future modules and must not weaken this tenant boundary.
 
-## VAT-based company autofill (VIES) — implemented
+## VAT-based company autofill — CBE for Belgium, VIES elsewhere
+
+**Updated 2026-07-26.** The original decision (below) chose VIES over scraping
+`kbopub.economie.fgov.be`, and that reasoning still holds — the scraping option
+was never on the table. What changed is that a documented API for the Belgian
+register now exists.
+
+**Decision:** route `BE` lookups to [CBE API](https://cbeapi.be) and keep VIES
+for every other country. VIES is not removed; it stops being the primary path
+for Belgium and remains the fallback when the CBE is unreachable or its key is
+missing, so a degraded lookup still beats making the user type everything.
+
+**Why:** VIES returns the address as a single free-text blob that
+`src/infrastructure/vies/client.ts` has to split with a regular expression —
+fragile by construction. It also returns nothing Belgium-specific, so
+`registration_number`, `establishment_number` and `activity_start_date` on
+`companies` stayed permanently empty despite existing as columns. The CBE
+returns structured fields: street and number apart, enterprise number, legal
+form, start date, juridical situation, NACE codes and contact details.
+
+**Implementation:** `src/infrastructure/cbe/client.ts`, bearer auth against
+`https://cbeapi.be/api`, `GET /v1/company/{cbeNumber}`. Contract taken from the
+OpenAPI document at https://cbeapi.be/docs/api. Responses cached for a day —
+registry data changes rarely and the free tier serves a monthly snapshot.
+
+The key lives in `CBE_API_KEY`, stored as a Vercel *sensitive* environment
+variable, which means it cannot be read back even with `vercel env pull`.
+
+`searchBelgianCompanies` (name + optional postal code) is also exposed, for the
+"add a client while creating a site" flow (#32): whoever fills that form knows
+the company name, not its enterprise number.
+
+---
+
+## Original note: VAT-based company autofill (VIES) — implemented
 
 **Status: Completed, Sprint 6.8 (2026-07-22).** Registered 2026-07-21 after evaluating whether company creation could autofill from the Belgian BCE/KBO public register.
 

@@ -24,6 +24,7 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
   const [addressLine1, setAddressLine1] = useState(values.addressLine1);
   const [postalCode, setPostalCode] = useState(values.postalCode);
   const [city, setCity] = useState(values.city);
+  const [registrationNumber, setRegistrationNumber] = useState(values.registrationNumber ?? "");
   const [vatStatus, setVatStatus] = useState<{ kind: "idle" | "loading" | "error" | "success"; message?: string }>({ kind: "idle" });
 
   async function handleVatLookup() {
@@ -34,19 +35,27 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
     setAddressLine1(result.addressLine1);
     setPostalCode(result.postalCode);
     setCity(result.city);
-    setVatStatus({ kind: "success", message: "Filled in from VIES — review before saving." });
+    // The Belgian register also returns the enterprise number; VIES does not,
+    // which is why this field stayed empty until now.
+    if (result.registrationNumber) setRegistrationNumber(result.registrationNumber);
+    setVatStatus({
+      kind: "success",
+      message: result.source === "cbe"
+        ? "Filled in from the Belgian register (KBO/BCE) — review before saving."
+        : "Filled in from VIES — review before saving.",
+    });
   }
 
   return <form action={formAction} className="space-y-6">
     <fieldset disabled={!canEdit} className="grid gap-5 sm:grid-cols-2 disabled:opacity-75">
       <Input name="displayName" label="Display name" defaultValue={values.displayName} error={error("displayName")} required maxLength={160}/>
       <Input name="legalName" label="Legal name" value={legalName} onChange={(event) => setLegalName(event.target.value)} error={error("legalName")} required maxLength={160}/>
-      <Input name="registrationNumber" label="Registration number" defaultValue={values.registrationNumber} error={error("registrationNumber")} maxLength={64}/>
+      <Input name="registrationNumber" label="Registration number" value={registrationNumber} onChange={(event) => setRegistrationNumber(event.target.value)} error={error("registrationNumber")} maxLength={64}/>
       <div>
         <div className="flex items-end gap-2">
           <div className="flex-1"><Input name="vatNumber" label="VAT number" value={vatNumber} onChange={(event) => setVatNumber(event.target.value)} error={error("vatNumber")} hint="e.g. BE0123456789" maxLength={64}/></div>
           <button type="button" onClick={handleVatLookup} disabled={vatStatus.kind === "loading"} className="mb-[1px] min-h-11 whitespace-nowrap rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-[#22C55E]">
-            {vatStatus.kind === "loading" ? "Looking up…" : "Look up VIES"}
+            {vatStatus.kind === "loading" ? "Looking up…" : countryCode.toUpperCase() === "BE" ? "Look up KBO/BCE" : "Look up VIES"}
           </button>
         </div>
         {vatStatus.kind === "error" ? <p role="alert" className="mt-1 text-xs text-red-300">{vatStatus.message}</p> : null}

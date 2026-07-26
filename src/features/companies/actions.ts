@@ -7,12 +7,37 @@ import { ACTIVE_COMPANY_COOKIE } from "@/src/application/session/types";
 import { requireAuthenticatedSession } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { lookupVat } from "@/src/infrastructure/vies/client";
+import { isCbeConfigured, lookupBelgianCompany } from "@/src/infrastructure/cbe/client";
 import { validateCompanyForm, validateSettingsForm } from "./validation";
 import type { CompanyActionState } from "./types";
 
-export async function lookupVatAction(countryCode: string, vatNumber: string) {
+export type VatLookupOutcome =
+  | { valid: true; source: "cbe" | "vies"; legalName: string; addressLine1: string; postalCode: string; city: string;
+      registrationNumber?: string; activityStartDate?: string; juridicalForm?: string; phone?: string; email?: string; website?: string }
+  | { valid: false; message: string };
+
+// Belgian numbers go to the CBE register, everything else to VIES. The CBE
+// returns structured fields — enterprise number, start date, legal form,
+// contact details — where VIES only gives a name and one free-text address
+// line that has to be split with a regex. If the CBE is unreachable or the key
+// is missing, this falls back to VIES rather than failing: a degraded lookup
+// still beats making the user type everything.
+export async function lookupVatAction(countryCode: string, vatNumber: string): Promise<VatLookupOutcome> {
   await requireAuthenticatedSession();
-  return lookupVat(countryCode, vatNumber);
+
+  if (countryCode.toUpperCase() === "BE" && isCbeConfigured()) {
+    const outcome = await lookupBelgianCompany(vatNumber);
+    if (outcome.valid) return { valid: true, source: "cbe", ...outcome.company };
+    if (outcome.reason === "not_found") {
+      return { valid: false, message: "This enterprise number was not found in the Belgian register." };
+    }
+    // unauthorized or unavailable: fall through to VIES below
+  }
+
+  const result = await lookupVat(countryCode, vatNumber);
+  if (!result.valid) return result;
+  const { legalName, addressLine1, postalCode, city } = result;
+  return { valid: true, source: "vies", legalName, addressLine1, postalCode, city };
 }
 
 async function authorize(companyId: string, roles: string[]) {
