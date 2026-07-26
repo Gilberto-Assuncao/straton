@@ -781,7 +781,12 @@
     "errSessionExpired": "Ihre Sitzung ist abgelaufen.",
     "errNoCompanyAccess": "Sie haben keinen Zugriff auf dieses Unternehmen.",
     "errCallbackFailed": "Die Authentifizierung konnte nicht abgeschlossen werden.",
-    "accountIndividual": "Privatperson"
+    "accountIndividual": "Privatperson",
+    "pageSignIn": "Anmelden",
+    "pageRegister": "Konto erstellen",
+    "pageForgot": "Passwort vergessen",
+    "pageReset": "Passwort zurücksetzen",
+    "pageAcceptInvite": "Einladung annehmen"
   },
   "appShell": {
     "currentCompany": "Aktuelles Unternehmen",

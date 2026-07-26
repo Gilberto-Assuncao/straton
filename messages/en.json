@@ -781,7 +781,12 @@
     "errSessionExpired": "Your session has expired.",
     "errNoCompanyAccess": "You do not have access to this company.",
     "errCallbackFailed": "The authentication callback could not be completed.",
-    "accountIndividual": "Individual"
+    "accountIndividual": "Individual",
+    "pageSignIn": "Sign in",
+    "pageRegister": "Create account",
+    "pageForgot": "Forgot password",
+    "pageReset": "Reset password",
+    "pageAcceptInvite": "Accept invitation"
   },
   "appShell": {
     "currentCompany": "Current company",

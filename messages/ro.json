@@ -781,7 +781,12 @@
     "errSessionExpired": "Sesiunea dvs. a expirat.",
     "errNoCompanyAccess": "Nu aveți acces la această companie.",
     "errCallbackFailed": "Autentificarea nu a putut fi finalizată.",
-    "accountIndividual": "Persoană fizică"
+    "accountIndividual": "Persoană fizică",
+    "pageSignIn": "Autentificare",
+    "pageRegister": "Creează cont",
+    "pageForgot": "Ai uitat parola",
+    "pageReset": "Resetează parola",
+    "pageAcceptInvite": "Acceptă invitația"
   },
   "appShell": {
     "currentCompany": "Compania curentă",

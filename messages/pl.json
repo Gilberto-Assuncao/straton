@@ -781,7 +781,12 @@
     "errSessionExpired": "Twoja sesja wygasła.",
     "errNoCompanyAccess": "Nie masz dostępu do tej firmy.",
     "errCallbackFailed": "Nie udało się zakończyć uwierzytelniania.",
-    "accountIndividual": "Osoba prywatna"
+    "accountIndividual": "Osoba prywatna",
+    "pageSignIn": "Zaloguj się",
+    "pageRegister": "Utwórz konto",
+    "pageForgot": "Nie pamiętam hasła",
+    "pageReset": "Zresetuj hasło",
+    "pageAcceptInvite": "Zaakceptuj zaproszenie"
   },
   "appShell": {
     "currentCompany": "Bieżąca firma",
