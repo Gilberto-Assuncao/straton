@@ -275,13 +275,15 @@ on conflict (id) do nothing;
 -- ---------------------------------------------------------------------------
 -- 5. Teams
 -- ---------------------------------------------------------------------------
-insert into public.teams (id, company_id, name, description, status, leader_membership_id, color, icon) values
-  ('d0000004-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','Solar Installation','Rooftop PV installation crew','active','d0000003-0000-4000-8000-000000000104','#4ADE80','sun'),
-  ('d0000004-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','Electrical Works','Grid connection and inverter commissioning','active','d0000003-0000-4000-8000-000000000105','#F59E0B','bolt'),
-  ('d0000004-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','Day Shift','Office and retail cleaning, 06:00–14:00','active','d0000003-0000-4000-8000-000000000202','#38BDF8','sun'),
-  ('d0000004-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002','Industrial Cleaning','Port and warehouse contracts','active','d0000003-0000-4000-8000-000000000202','#A78BFA','factory'),
-  ('d0000004-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','Maintenance','Preventive and corrective maintenance','active','d0000003-0000-4000-8000-000000000304','#4ADE80','wrench'),
-  ('d0000004-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003','Survey & Inspection','Topographic survey and structural inspection','active','d0000003-0000-4000-8000-000000000305','#F87171','compass')
+-- Leaders are attached after team_memberships exist: a trigger requires the
+-- leader to already hold an active 'leader' membership in the team.
+insert into public.teams (id, company_id, name, description, status, color, icon) values
+  ('d0000004-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','Solar Installation','Rooftop PV installation crew','active','#4ADE80','sun'),
+  ('d0000004-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','Electrical Works','Grid connection and inverter commissioning','active','#F59E0B','bolt'),
+  ('d0000004-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','Day Shift','Office and retail cleaning, 06:00–14:00','active','#38BDF8','sun'),
+  ('d0000004-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002','Industrial Cleaning','Port and warehouse contracts','active','#A78BFA','factory'),
+  ('d0000004-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','Maintenance','Preventive and corrective maintenance','active','#4ADE80','wrench'),
+  ('d0000004-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003','Survey & Inspection','Topographic survey and structural inspection','active','#F87171','compass')
 on conflict (id) do nothing;
 
 insert into public.team_memberships (id, company_id, team_id, company_membership_id, team_role, joined_at) values
@@ -294,12 +296,22 @@ insert into public.team_memberships (id, company_id, team_id, company_membership
   ('d0000010-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d0000004-0000-4000-8000-000000000201','d0000003-0000-4000-8000-000000000202','leader',    now() - interval '440 days'),
   ('d0000010-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002','d0000004-0000-4000-8000-000000000201','d0000003-0000-4000-8000-000000000204','member',    now() - interval '270 days'),
   ('d0000010-0000-4000-8000-000000000203','d0000001-0000-4000-8000-000000000002','d0000004-0000-4000-8000-000000000202','d0000003-0000-4000-8000-000000000205','member',    now() - interval '250 days'),
-  ('d0000010-0000-4000-8000-000000000204','d0000001-0000-4000-8000-000000000002','d0000004-0000-4000-8000-000000000202','d0000003-0000-4000-8000-000000000202','supervisor',now() - interval '440 days'),
+  ('d0000010-0000-4000-8000-000000000204','d0000001-0000-4000-8000-000000000002','d0000004-0000-4000-8000-000000000202','d0000003-0000-4000-8000-000000000202','leader',now() - interval '440 days'),
 
   ('d0000010-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','d0000004-0000-4000-8000-000000000301','d0000003-0000-4000-8000-000000000304','leader',    now() - interval '330 days'),
   ('d0000010-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003','d0000004-0000-4000-8000-000000000301','d0000003-0000-4000-8000-000000000302','supervisor',now() - interval '500 days'),
   ('d0000010-0000-4000-8000-000000000303','d0000001-0000-4000-8000-000000000003','d0000004-0000-4000-8000-000000000302','d0000003-0000-4000-8000-000000000305','leader',    now() - interval '190 days')
 on conflict (id) do nothing;
+
+update public.teams t set leader_membership_id = v.leader::uuid
+from (values
+  ('d0000004-0000-4000-8000-000000000101','d0000003-0000-4000-8000-000000000104'),
+  ('d0000004-0000-4000-8000-000000000102','d0000003-0000-4000-8000-000000000105'),
+  ('d0000004-0000-4000-8000-000000000201','d0000003-0000-4000-8000-000000000202'),
+  ('d0000004-0000-4000-8000-000000000202','d0000003-0000-4000-8000-000000000202'),
+  ('d0000004-0000-4000-8000-000000000301','d0000003-0000-4000-8000-000000000304'),
+  ('d0000004-0000-4000-8000-000000000302','d0000003-0000-4000-8000-000000000305')
+) as v(team, leader) where t.id = v.team::uuid;
 
 -- ---------------------------------------------------------------------------
 -- 6. Projects, sites, memberships and tasks
@@ -621,24 +633,24 @@ on conflict (id) do nothing;
 
 insert into public.report_template_fields (id, template_id, company_id, key, label, field_type, required, options, display_order, active) values
   -- Belnex — Daily Installation Report
-  ('d000000b-0000-4000-8000-000000000101','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','panels_installed','Panels installed','number', true, null, 1, true),
+  ('d000000b-0000-4000-8000-000000000101','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','panels_installed','Panels installed','number', true, '[]'::jsonb, 1, true),
   ('d000000b-0000-4000-8000-000000000102','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','weather','Weather conditions','select', true,'["Clear","Cloudy","Rain","Wind > 40 km/h"]'::jsonb, 2, true),
-  ('d000000b-0000-4000-8000-000000000103','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','safety_ok','Safety briefing completed','boolean', true, null, 3, true),
-  ('d000000b-0000-4000-8000-000000000104','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','incidents','Incidents / blockers','text', false, null, 4, true),
+  ('d000000b-0000-4000-8000-000000000103','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','safety_ok','Safety briefing completed','boolean', true, '[]'::jsonb, 3, true),
+  ('d000000b-0000-4000-8000-000000000104','d000000a-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','incidents','Incidents / blockers','text', false, '[]'::jsonb, 4, true),
   -- Belnex — Commissioning
-  ('d000000b-0000-4000-8000-000000000105','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','inverter_serial','Inverter serial','text', true, null, 1, true),
-  ('d000000b-0000-4000-8000-000000000106','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','insulation_mohm','Insulation resistance (MΩ)','number', true, null, 2, true),
-  ('d000000b-0000-4000-8000-000000000107','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','grid_ok','Grid synchronisation OK','boolean', true, null, 3, true),
+  ('d000000b-0000-4000-8000-000000000105','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','inverter_serial','Inverter serial','text', true, '[]'::jsonb, 1, true),
+  ('d000000b-0000-4000-8000-000000000106','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','insulation_mohm','Insulation resistance (MΩ)','number', true, '[]'::jsonb, 2, true),
+  ('d000000b-0000-4000-8000-000000000107','d000000a-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','grid_ok','Grid synchronisation OK','boolean', true, '[]'::jsonb, 3, true),
   -- Nordclean
   ('d000000b-0000-4000-8000-000000000201','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','areas_done','Areas completed','multiselect', true,'["Offices","Sanitary","Canteen","Loading bay","Warehouse floor"]'::jsonb, 1, true),
-  ('d000000b-0000-4000-8000-000000000202','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','consumables','Consumables restocked','boolean', true, null, 2, true),
-  ('d000000b-0000-4000-8000-000000000203','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','client_signature','Client signature','signature', false, null, 3, true),
-  ('d000000b-0000-4000-8000-000000000204','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','remarks','Remarks','text', false, null, 4, true),
+  ('d000000b-0000-4000-8000-000000000202','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','consumables','Consumables restocked','boolean', true, '[]'::jsonb, 2, true),
+  ('d000000b-0000-4000-8000-000000000203','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','client_signature','Client signature','signature', false, '[]'::jsonb, 3, true),
+  ('d000000b-0000-4000-8000-000000000204','d000000a-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','remarks','Remarks','text', false, '[]'::jsonb, 4, true),
   -- GeoTech
-  ('d000000b-0000-4000-8000-000000000301','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','units_serviced','Units serviced','number', true, null, 1, true),
-  ('d000000b-0000-4000-8000-000000000302','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','filters_replaced','Filters replaced','number', true, null, 2, true),
-  ('d000000b-0000-4000-8000-000000000303','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','pressure_bar','System pressure (bar)','number', true, null, 3, true),
-  ('d000000b-0000-4000-8000-000000000304','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','follow_up','Follow-up required','boolean', true, null, 4, true)
+  ('d000000b-0000-4000-8000-000000000301','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','units_serviced','Units serviced','number', true, '[]'::jsonb, 1, true),
+  ('d000000b-0000-4000-8000-000000000302','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','filters_replaced','Filters replaced','number', true, '[]'::jsonb, 2, true),
+  ('d000000b-0000-4000-8000-000000000303','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','pressure_bar','System pressure (bar)','number', true, '[]'::jsonb, 3, true),
+  ('d000000b-0000-4000-8000-000000000304','d000000a-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','follow_up','Follow-up required','boolean', true, '[]'::jsonb, 4, true)
 on conflict (id) do nothing;
 
 insert into public.operational_reports (
@@ -791,6 +803,52 @@ insert into public.professional_profiles (id, user_id, bio, specialties, languag
    array['Medium voltage','Inverter commissioning','Metering'], array['fr','ar','en'],'full_time'),
   (gen_random_uuid(),'d0000002-0000-4000-8000-000000000305','Survey engineer focused on topographic surveying and structural inspection for civil works.',
    array['Topographic survey','Structural inspection','GIS'], array['fr','en','nl'],'contract');
+
+-- ---------------------------------------------------------------------------
+-- 12. Live map — today's check-ins with GPS
+-- ---------------------------------------------------------------------------
+-- The live map only shows entries started today that carry coordinates. Two
+-- workers are deliberately left without a check-in so the "no check-in today"
+-- KPI reflects something real instead of always reading zero.
+do $$
+declare
+  w record; site_row record; tsk uuid; i int := 0;
+begin
+  for w in
+    select t.id as timesheet_id, t.company_id, t.user_id, u.name
+      from public.timesheets t
+      join public.users u on u.id = t.user_id
+     where t.company_id::text like 'd0000001-%'
+       and t.period_start = date_trunc('week', current_date)::date
+     order by t.company_id, u.name
+  loop
+    i := i + 1;
+    continue when i % 5 = 0;
+
+    select id, name, latitude, longitude, project_id into site_row
+      from public.sites
+     where company_id = w.company_id and status = 'active'
+     order by id
+     offset (i % greatest((select count(*) from public.sites where company_id = w.company_id and status = 'active'), 1))
+     limit 1;
+    continue when site_row.id is null;
+
+    select id into tsk from public.tasks
+     where company_id = w.company_id and (project_id = site_row.project_id or project_id is null)
+     order by id limit 1;
+
+    insert into public.timesheet_entries (
+      id, company_id, timesheet_id, project_id, site_id, task_id,
+      starts_at, ends_at, break_minutes, notes, status, start_latitude, start_longitude
+    ) values (
+      gen_random_uuid(), w.company_id, w.timesheet_id, site_row.project_id, site_row.id, tsk,
+      (current_date + time '07:45' + (i * interval '7 minutes')),
+      (current_date + time '16:30'), 30, 'Check-in on site.', 'draft',
+      site_row.latitude  + ((i % 7) - 3) * 0.0015,
+      site_row.longitude + ((i % 5) - 2) * 0.0018
+    );
+  end loop;
+end $$;
 
 commit;
 
