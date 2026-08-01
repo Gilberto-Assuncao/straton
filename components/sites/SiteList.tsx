@@ -50,7 +50,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h3 className="font-semibold text-[#E5E7EB]">{site.name}</h3>
+                  <h3 className="font-semibold"><Link href={`/dashboard/sites/${site.id}`} className="text-[#E5E7EB] hover:text-[#4ADE80] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{site.name}</Link></h3>
                   <span className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs font-semibold ${tone[site.status] ?? tone.active}`}>{t(`status_${site.status}` as "status_active")}</span>
                   {site.reference ? <span className="text-xs text-[#6B7280]">{site.reference}</span> : null}
                 </div>
@@ -58,7 +58,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
                 {site.projectName ? <p className="mt-1 text-xs text-[#6B7280]">{t("projectLabel")}: {site.projectName}</p> : null}
               </div>
               <div className="flex shrink-0 gap-1">
-                <Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-[#22C55E] hover:text-[#16A34A] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("edit")}</Link>
+                <Link href={`/dashboard/sites/${site.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-[#22C55E] hover:text-[#16A34A] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("open")}</Link><Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("edit")}</Link>
                 <button type="button" onClick={() => toggleArchive(site)} disabled={pending} className="min-h-11 px-3 text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]">
                   {site.status === "archived" ? t("reactivate") : t("archive")}
                 </button>

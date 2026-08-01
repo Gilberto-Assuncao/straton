@@ -44,3 +44,31 @@ export async function getSiteWeatherOverview(): Promise<SiteWeather[]> {
     }
   }));
 }
+
+// Single-site variant for the site dashboard (#30). Kept beside the overview
+// rather than filtering its result, so one site's forecast never waits on
+// every other site's request.
+export async function getSiteWeather(siteId: string): Promise<SiteWeather | null> {
+  const { companyId } = await requireActiveCompany();
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("sites")
+    .select("id,name,latitude,longitude,address")
+    .eq("company_id", companyId)
+    .eq("id", siteId)
+    .maybeSingle();
+  if (!data) return null;
+
+  const site = data as SiteRow;
+  const city = site.address?.city ?? null;
+  if (site.latitude == null || site.longitude == null) {
+    return { id: site.id, name: site.name, city, forecast: null, error: "No coordinates set for this site yet." };
+  }
+  try {
+    const days = await openMeteoProvider.fetchForecast(site.latitude, site.longitude, FORECAST_DAYS);
+    return { id: site.id, name: site.name, city, forecast: days.map((day) => ({ ...day, alert: evaluateAlert(day) })), error: null };
+  } catch {
+    return { id: site.id, name: site.name, city, forecast: null, error: "Forecast temporarily unavailable." };
+  }
+}
