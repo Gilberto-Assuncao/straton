@@ -52,6 +52,23 @@ começado por `d0000002-` e um email `.straton.demo` para ser apanhado.
 O ficheiro termina com uma query de verificação em que **todas as contagens
 têm de dar 0**. Se alguma não der, sobrou dado demo.
 
+### O dataset envelhece
+
+Todas as datas do seed são relativas a `current_date`: seis semanas de horas
+para trás, check-ins de hoje, períodos de folha do mês corrente. Isso torna a
+demonstração convincente no dia em que é aplicada — e desatualizada uma semana
+depois.
+
+Sintoma típico: o mapa ao vivo e o separador "em obra hoje" ficam vazios,
+porque a "semana corrente" do seed já passou.
+
+```bash
+npm run demo:reset
+```
+
+Regenera tudo relativo à data atual. Vale a pena correr antes de qualquer
+demonstração a um cliente.
+
 ### Limitação
 
 Partilha a base com dados reais. Serve para demonstrar e para QA manual, mas
