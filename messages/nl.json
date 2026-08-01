@@ -880,5 +880,12 @@
     "themeLight": "Licht",
     "themeSystem": "Systeem",
     "navigationGroup": "Navigatie"
+  },
+  "retention": {
+    "title": "Inhoudingsplicht (art. 30bis)",
+    "intro": "Voordat u een aannemer betaalt voor bouw-, bewakings- of vleessectorwerk, verplicht de Belgische wet u na te gaan of hij fiscale of sociale schulden heeft. Zo ja, moet u een deel van de factuur inhouden — doet u dat niet, dan wordt u aansprakelijk voor zijn schuld.",
+    "checkAction": "Inhoudingsplicht controleren",
+    "checkHelp": "Opent het officiële overheidsportaal met dit ondernemingsnummer al ingevuld. De beveiligingscontrole gebeurt daar.",
+    "needsEnterpriseNumber": "Vul het ondernemings- of btw-nummer in om deze controle te activeren."
   }
 }

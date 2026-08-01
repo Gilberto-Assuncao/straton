@@ -880,5 +880,12 @@
     "themeLight": "Hell",
     "themeSystem": "System",
     "navigationGroup": "Navigation"
+  },
+  "retention": {
+    "title": "Einbehaltungspflicht (Art. 30bis)",
+    "intro": "Vor der Zahlung an einen Unternehmer für Bau-, Bewachungs- oder Fleischsektorarbeiten verlangt das belgische Recht die Prüfung auf Steuer- oder Sozialschulden. Bestehen welche, müssen Sie einen Teil der Rechnung einbehalten — andernfalls haften Sie für dessen Schuld.",
+    "checkAction": "Einbehaltungspflicht prüfen",
+    "checkHelp": "Öffnet das offizielle Behördenportal mit dieser Unternehmensnummer bereits eingetragen. Die Sicherheitsprüfung erfolgt dort.",
+    "needsEnterpriseNumber": "Unternehmens- oder USt-Nummer eintragen, um diese Prüfung zu aktivieren."
   }
 }

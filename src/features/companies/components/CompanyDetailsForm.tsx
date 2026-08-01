@@ -1,8 +1,10 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useActionState, useState } from "react";
 import { EmailInput, Input, PhoneInput, Select } from "@/src/components/forms";
 import { createCompanyAction, lookupVatAction, updateCompanyAction } from "../actions";
+import RetentionCheckLink from "@/components/companies/RetentionCheckLink";
 import { initialCompanyActionState, type CompanyFormValues } from "../types";
 import { CompanyFormStatus } from "./CompanyFormStatus";
 import { CompanySubmitButton } from "./CompanySubmitButton";
@@ -24,6 +26,7 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
   const [addressLine1, setAddressLine1] = useState(values.addressLine1);
   const [postalCode, setPostalCode] = useState(values.postalCode);
   const [city, setCity] = useState(values.city);
+  const tRetention = useTranslations("retention");
   const [registrationNumber, setRegistrationNumber] = useState(values.registrationNumber ?? "");
   const [displayName, setDisplayName] = useState(values.displayName ?? "");
   const [email, setEmail] = useState(values.email ?? "");
@@ -62,6 +65,11 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
       <Input name="displayName" label="Display name" value={displayName} onChange={(event) => setDisplayName(event.target.value)} error={error("displayName")} required maxLength={160}/>
       <Input name="legalName" label="Legal name" value={legalName} onChange={(event) => setLegalName(event.target.value)} error={error("legalName")} required maxLength={160}/>
       <Input name="registrationNumber" label="Registration number" value={registrationNumber} onChange={(event) => setRegistrationNumber(event.target.value)} error={error("registrationNumber")} maxLength={64}/>
+      <div className="sm:col-span-2 rounded-xl border border-amber-400/20 bg-amber-400/[0.04] p-4">
+        <p className="text-sm font-semibold text-[#E5E7EB]">{tRetention("title")}</p>
+        <p className="mt-1 text-xs leading-5 text-[#9CA3AF]">{tRetention("intro")}</p>
+        <div className="mt-3"><RetentionCheckLink enterpriseNumber={registrationNumber || vatNumber} /></div>
+      </div>
       <div>
         <div className="flex items-end gap-2">
           <div className="flex-1"><Input name="vatNumber" label="VAT number" value={vatNumber} onChange={(event) => setVatNumber(event.target.value)} error={error("vatNumber")} hint="e.g. BE0123456789" maxLength={64}/></div>

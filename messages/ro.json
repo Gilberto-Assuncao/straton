@@ -880,5 +880,12 @@
     "themeLight": "Luminos",
     "themeSystem": "Sistem",
     "navigationGroup": "Navigare"
+  },
+  "retention": {
+    "title": "Obligația de reținere (art. 30bis)",
+    "intro": "Înainte de a plăti un antreprenor pentru lucrări de construcții, pază sau din sectorul cărnii, legea belgiană impune verificarea datoriilor fiscale sau sociale. Dacă există, trebuie să rețineți o parte din factură — altfel deveniți răspunzător pentru datoria lui.",
+    "checkAction": "Verifică obligația de reținere",
+    "checkHelp": "Deschide portalul oficial cu acest număr de întreprindere deja completat. Verificarea de securitate se face acolo.",
+    "needsEnterpriseNumber": "Completați numărul de întreprindere sau de TVA pentru a activa această verificare."
   }
 }

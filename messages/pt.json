@@ -880,5 +880,12 @@
     "themeLight": "Claro",
     "themeSystem": "Sistema",
     "navigationGroup": "Navegação"
+  },
+  "retention": {
+    "title": "Obrigação de retenção (art. 30bis)",
+    "intro": "Antes de pagar a um empreiteiro por trabalhos de construção, segurança ou do setor da carne, a lei belga obriga a verificar se ele tem dívidas fiscais ou à segurança social. Se tiver, é obrigatório reter parte da fatura — e quem não retém passa a responder pela dívida.",
+    "checkAction": "Verificar obrigação de retenção",
+    "checkHelp": "Abre o portal oficial do governo com este número de empresa já preenchido. A validação de segurança é feita lá.",
+    "needsEnterpriseNumber": "Preencha o número de empresa ou de IVA para ativar esta verificação."
   }
 }

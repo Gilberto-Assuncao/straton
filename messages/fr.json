@@ -880,5 +880,12 @@
     "themeLight": "Clair",
     "themeSystem": "Système",
     "navigationGroup": "Navigation"
+  },
+  "retention": {
+    "title": "Obligation de retenue (art. 30bis)",
+    "intro": "Avant de payer un entrepreneur pour des travaux immobiliers, de gardiennage ou du secteur de la viande, la loi belge impose de vérifier s'il a des dettes fiscales ou sociales. Le cas échéant, vous devez retenir une partie de la facture — sans quoi vous devenez responsable de sa dette.",
+    "checkAction": "Vérifier l'obligation de retenue",
+    "checkHelp": "Ouvre le portail officiel avec ce numéro d'entreprise déjà rempli. La validation de sécurité s'y effectue.",
+    "needsEnterpriseNumber": "Renseignez le numéro d'entreprise ou de TVA pour activer cette vérification."
   }
 }

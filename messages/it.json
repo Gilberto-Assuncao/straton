@@ -880,5 +880,12 @@
     "themeLight": "Chiaro",
     "themeSystem": "Sistema",
     "navigationGroup": "Navigazione"
+  },
+  "retention": {
+    "title": "Obbligo di ritenuta (art. 30bis)",
+    "intro": "Prima di pagare un appaltatore per lavori edili, di vigilanza o del settore carni, la legge belga impone di verificare se ha debiti fiscali o previdenziali. In tal caso devi trattenere parte della fattura — altrimenti rispondi tu del suo debito.",
+    "checkAction": "Verifica obbligo di ritenuta",
+    "checkHelp": "Apre il portale ufficiale con questo numero d'impresa già compilato. La verifica di sicurezza avviene lì.",
+    "needsEnterpriseNumber": "Inserisci il numero d'impresa o di partita IVA per attivare questa verifica."
   }
 }

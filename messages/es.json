@@ -880,5 +880,12 @@
     "themeLight": "Claro",
     "themeSystem": "Sistema",
     "navigationGroup": "Navegación"
+  },
+  "retention": {
+    "title": "Obligación de retención (art. 30bis)",
+    "intro": "Antes de pagar a un contratista por obras de construcción, vigilancia o del sector cárnico, la ley belga obliga a comprobar si tiene deudas fiscales o sociales. Si las tiene, debe retener parte de la factura — y si no lo hace, responde usted por esa deuda.",
+    "checkAction": "Comprobar obligación de retención",
+    "checkHelp": "Abre el portal oficial con este número de empresa ya rellenado. La validación de seguridad se realiza allí.",
+    "needsEnterpriseNumber": "Introduzca el número de empresa o de IVA para activar esta comprobación."
   }
 }

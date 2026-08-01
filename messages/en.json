@@ -880,5 +880,12 @@
     "themeLight": "Light",
     "themeSystem": "System",
     "navigationGroup": "Navigation"
+  },
+  "retention": {
+    "title": "Retention obligation (art. 30bis)",
+    "intro": "Before paying a contractor for construction, security or meat-sector work, Belgian law requires checking whether they owe tax or social security. If they do, you must withhold part of the invoice — and if you do not, you become liable for their debt.",
+    "checkAction": "Check retention obligation",
+    "checkHelp": "Opens the official government portal with this enterprise number already filled in. You complete the security check there.",
+    "needsEnterpriseNumber": "Add the enterprise or VAT number to enable this check."
   }
 }

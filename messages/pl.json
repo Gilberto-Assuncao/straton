@@ -880,5 +880,12 @@
     "themeLight": "Jasny",
     "themeSystem": "Systemowy",
     "navigationGroup": "Nawigacja"
+  },
+  "retention": {
+    "title": "Obowiązek potrącenia (art. 30bis)",
+    "intro": "Przed zapłatą wykonawcy za prace budowlane, ochroniarskie lub w sektorze mięsnym prawo belgijskie wymaga sprawdzenia, czy ma on długi podatkowe lub wobec ZUS. Jeśli tak, musisz potrącić część faktury — w przeciwnym razie odpowiadasz za jego dług.",
+    "checkAction": "Sprawdź obowiązek potrącenia",
+    "checkHelp": "Otwiera oficjalny portal rządowy z już wpisanym numerem firmy. Weryfikacja bezpieczeństwa odbywa się tam.",
+    "needsEnterpriseNumber": "Podaj numer firmy lub VAT, aby włączyć to sprawdzenie."
   }
 }
