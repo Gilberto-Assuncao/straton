@@ -60,6 +60,30 @@ export async function assertRlsIsEnforced(db: Client): Promise<void> {
   }
 }
 
+/**
+ * Attempts a write that is expected to be refused, and reports whether it was.
+ *
+ * RLS rejects a forbidden INSERT by raising, which aborts the whole
+ * transaction — every later query then fails with "current transaction is
+ * aborted" and the test reports a harness error instead of a verdict. The
+ * savepoint contains the rejection so the assertions after it can still run.
+ *
+ * Returns false when the write was blocked. `true` does not by itself mean a
+ * leak: a policy may accept the statement and filter it to zero rows, so the
+ * caller still has to check what actually landed.
+ */
+export async function attemptWrite(db: Client, sql: string, params: unknown[] = []): Promise<boolean> {
+  await db.query("savepoint attempted_write");
+  try {
+    await db.query(sql, params);
+    await db.query("release savepoint attempted_write");
+    return true;
+  } catch {
+    await db.query("rollback to savepoint attempted_write");
+    return false;
+  }
+}
+
 /** Demo dataset identifiers, seeded by supabase/seed-demo.sql. */
 export const DEMO = {
   belnex: {

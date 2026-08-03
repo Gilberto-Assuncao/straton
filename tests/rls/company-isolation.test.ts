@@ -1,5 +1,5 @@
 import { describe, expect, it, beforeAll } from "vitest";
-import { actAs, assertRlsIsEnforced, DEMO, withRollback } from "../helpers/db";
+import { actAs, assertRlsIsEnforced, attemptWrite, DEMO, withRollback } from "../helpers/db";
 
 /**
  * Proves tenant isolation: a member of one company cannot read or write
@@ -72,15 +72,14 @@ describeIfDb("tenant isolation", () => {
   it("does not allow writing into another company", async () => {
     await withRollback(async (db) => {
       await actAs(db, DEMO.belnex.adminUserId);
-      // The insert is either rejected outright or silently filtered by the
-      // WITH CHECK clause; both are acceptable, a created row is not.
-      await db
-        .query(
-          `insert into public.projects (company_id, name, description, status)
-           values ($1, '__leak test__', 'should never exist', 'planning')`,
-          [DEMO.nordclean.companyId],
-        )
-        .catch(() => undefined);
+      // Either outcome is acceptable — raised by the WITH CHECK clause, or
+      // accepted and filtered to nothing. A created row is not.
+      await attemptWrite(
+        db,
+        `insert into public.projects (company_id, name, description, status)
+         values ($1, '__leak test__', 'should never exist', 'planning')`,
+        [DEMO.nordclean.companyId],
+      );
 
       await db.query("reset role");
       const { rows } = await db.query<{ count: string }>(
@@ -93,11 +92,9 @@ describeIfDb("tenant isolation", () => {
   it("does not allow updating another company's rows", async () => {
     await withRollback(async (db) => {
       await actAs(db, DEMO.belnex.adminUserId);
-      await db
-        .query("update public.projects set name = '__hijacked__' where company_id = $1", [
-          DEMO.nordclean.companyId,
-        ])
-        .catch(() => undefined);
+      await attemptWrite(db, "update public.projects set name = '__hijacked__' where company_id = $1", [
+        DEMO.nordclean.companyId,
+      ]);
 
       await db.query("reset role");
       const { rows } = await db.query<{ count: string }>(
