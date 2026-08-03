@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "demo:seed": "psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -f supabase/seed-demo.sql",
     "demo:down": "psql \"$DATABASE_URL\" -v ON_ERROR_STOP=1 -f supabase/seed-demo-down.sql",
-    "demo:reset": "npm run demo:down && npm run demo:seed"
+    "demo:reset": "npm run demo:down && npm run demo:seed",
+    "test:rls": "vitest run tests/rls"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
@@ -25,10 +26,12 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.20.3",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.10",
+    "pg": "^8.22.0",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^4.1.10"

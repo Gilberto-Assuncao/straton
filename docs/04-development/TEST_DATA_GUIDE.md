@@ -104,9 +104,7 @@ remota nunca testa (lá, aplicam-se sempre incrementalmente).
 
 ## Método 3 — Transação com rollback (testes automatizados)
 
-Este é o método correto para a suite de testes, e é o que **ainda falta
-montar** — hoje existem apenas 3 ficheiros de teste, todos de validação pura,
-nenhum toca na base de dados.
+**Implementado** em `tests/helpers/db.ts` e `tests/rls/company-isolation.test.ts`.
 
 A ideia: cada teste abre uma transação, insere o que precisa, faz as
 asserções, e no fim faz `ROLLBACK`. A base fica exatamente como estava, sem
@@ -142,15 +140,37 @@ it("isola dados entre empresas", async () => {
 });
 ```
 
-Requer instalar `pg` como dependência de desenvolvimento e apontar
-`TEST_DATABASE_URL` para a base **local** (nunca a de produção).
+### Como correr
+
+```bash
+npx supabase start
+npx supabase db reset && psql "postgresql://postgres:postgres@127.0.0.1:54322/postgres" -f supabase/seed-demo.sql
+TEST_DATABASE_URL="postgresql://postgres:postgres@127.0.0.1:54322/postgres" npm run test:rls
+```
+
+Sem `TEST_DATABASE_URL` os testes **passam ignorados**, não falham — para o
+`npm test` continuar utilizável em máquinas sem base local. O reverso disso é
+que uma suite verde não prova isolamento nenhum se a variável faltar: o CI tem
+de a definir.
+
+### Duas salvaguardas que valem mais que os testes
+
+**`assertRlsIsEnforced`** corre antes de tudo e recusa uma ligação com
+`BYPASSRLS`. É a falha mais perigosa desta categoria: ligado como superutilizador,
+todos os testes de isolamento passam e não provam absolutamente nada.
+
+**O teste-espelho** verifica que a empresa continua a ver os *seus próprios*
+dados. Sem ele, uma policy que negasse tudo passaria os dez testes de
+isolamento.
 
 ### Porque isto importa aqui
 
-O projeto tem RLS ativo nas 35 tabelas, mas **não existe um único teste que
-prove o isolamento entre empresas**. É o teste mais valioso que falta: uma
-regressão numa policy de RLS expõe dados de um cliente a outro, e nada no
-`typecheck` nem no `build` a apanha.
+O projeto tem RLS ativo nas 35 tabelas, e uma regressão numa policy expõe dados
+de um cliente a outro sem que o `typecheck` ou o `build` percebam. Não é
+hipotético: em 2026-08-01 dois defeitos de RLS chegaram a produção com o build
+verde — um parâmetro sombreado por uma coluna que tornou **todas as empresas
+legíveis**, e uma restrição única em falta que duplicava relações. Ambos foram
+apanhados por desconfiança de um número, não por automação.
 
 ---
 
@@ -158,8 +178,8 @@ regressão numa policy de RLS expõe dados de um cliente a outro, e nada no
 
 1. **Já disponível** — `npm run demo:seed` / `demo:down` para demonstrações e QA manual
 2. **A seguir** — usar Supabase local no dia a dia, em vez da base remota
-3. **Prioritário** — montar o helper de rollback e escrever, no mínimo:
-   - isolamento de RLS entre empresas
+3. ✅ **Feito** — helper de rollback e isolamento de RLS entre empresas
+4. **A seguir**, pela mesma via:
    - aprovação de folha de horas (transições de estado)
    - consolidação de folha de pagamento (aritmética dos minutos)
    - matriz de permissões por papel
