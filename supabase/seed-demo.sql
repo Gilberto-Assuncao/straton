@@ -396,6 +396,26 @@ from (values
 ) as v(company_id, project_id, membership_id, role)
 on conflict (id) do nothing;
 
+-- Partner companies on a project (#33). Two states on purpose: one accepted, so
+-- the collaboration is visible end to end, and one still waiting, so the
+-- invited company has something real to answer when you log in as them.
+insert into public.project_partners (id, project_id, company_id, owner_company_id, status, invited_by, note, created_at, responded_at) values
+  ('d0000012-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000003',
+   'd0000001-0000-4000-8000-000000000001','accepted','d0000002-0000-4000-8000-000000000101',
+   'Thermal survey of the roof before panel mounting', now() - interval '21 days', now() - interval '20 days'),
+  ('d0000012-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000002',
+   'd0000001-0000-4000-8000-000000000001','invited','d0000002-0000-4000-8000-000000000101',
+   'Site clean-up after commissioning', now() - interval '3 days', null)
+on conflict (id) do nothing;
+
+-- Follows from the accepted invitation above: GeoTech put one of their own
+-- technicians on Belnex's project. This is the row that makes a partner's
+-- person appear on Belnex's site dashboard, name and company shown.
+insert into public.project_memberships (id, company_id, project_id, company_membership_id, role, joined_at) values
+  ('d0000011-0000-4000-8000-000000090001','d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000101',
+   'd0000003-0000-4000-8000-000000000304','member', now() - interval '20 days')
+on conflict (id) do nothing;
+
 insert into public.tasks (id, company_id, project_id, name, status) values
   ('d0000007-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','Panel mounting','active'),
   ('d0000007-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','Cable routing','active'),

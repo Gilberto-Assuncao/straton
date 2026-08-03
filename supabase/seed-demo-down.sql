@@ -41,6 +41,11 @@ begin
 
   delete from public.tasks                       where company_id = any(demo_companies);
   delete from public.project_memberships         where company_id = any(demo_companies);
+  -- Either side is enough to make it demo data, and both sides are demo
+  -- companies here — matching on one of them alone would leave the row behind
+  -- if the demo set ever grows a partner outside it.
+  delete from public.project_partners
+    where company_id = any(demo_companies) or owner_company_id = any(demo_companies);
   delete from public.sites                       where company_id = any(demo_companies);
   delete from public.projects                    where company_id = any(demo_companies);
 

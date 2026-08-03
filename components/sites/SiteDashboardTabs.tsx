@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
-export const SITE_TABS = ["overview", "presence", "weather", "hours", "reports", "team"] as const;
+export const SITE_TABS = ["overview", "presence", "weather", "hours", "reports", "team", "partners"] as const;
 export type SiteTab = (typeof SITE_TABS)[number];
 
 export function isSiteTab(value: string | undefined): value is SiteTab {

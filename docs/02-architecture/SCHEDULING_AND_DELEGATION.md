@@ -112,6 +112,46 @@ project_memberships_check                     CHECK (left_at IS NULL OR left_at 
 Estruturalmente, um funcionário da Empresa B já pode ser adicionado a um projeto
 da Empresa A. Falta apenas a política de RLS que o autorize.
 
+### Implementado ✅ (2026-08-03)
+
+Duas migrações fecham o modo de colaboração:
+
+**`202608010003_project_collaboration_visibility`** — o dono do projeto passa a
+ver quem a parceira lá colocou. Abre três tabelas em conjunto, porque o nome de
+um colaborador chega por `project_memberships → company_memberships → users` e
+deixar a do meio fechada faz a junção devolver vazio com todas as políticas
+individualmente corretas.
+
+**`202608010004_project_partners`** — a tabela do convite. `company_relationships`
+diz que duas empresas trabalham juntas; `project_partners` diz que uma parceira
+concreta está num projeto concreto, e é isto — não a relação — que concede
+acesso. Ser subcontratado de alguém não abre todos os projetos dessa pessoa.
+
+O aperto de mão é assimétrico de propósito:
+
+| Estado | O que a convidada vê |
+|---|---|
+| `invited` | Só o nome do projeto e de quem convidou — para a resposta não ser às cegas |
+| `accepted` | Os estaleiros do projeto, e o direito de lá atribuir os seus próprios trabalhadores |
+| `declined` / `revoked` | Nada |
+
+Só a convidada pode aceitar ou recusar; só o dono pode revogar. Isto é imposto
+por um *trigger*, não pela política: um `WITH CHECK` não vê a linha anterior e
+por isso não distingue "aceitar" de "reverter uma resposta já dada". A linha
+nunca é apagada — numa obra belga, o registo de quem esteve no projeto e quando
+saiu é a resposta a uma pergunta de responsabilidade solidária.
+
+A mesma migração fecha uma brecha anterior: `project_memberships_tenant_insert`
+verificava apenas que a linha trazia o teu próprio `company_id`, nunca que o
+projeto era da tua conta. Era inofensiva enquanto os ids de projeto fossem
+indescobríveis — e são exatamente as políticas acima que acabam com isso.
+
+Cobertura: `tests/rls/project-collaboration.test.ts` e
+`tests/rls/project-partners.test.ts`, onde os controlos negativos são mais
+numerosos do que os positivos. Interface: separador **Parceiros** no dashboard
+do estaleiro (convidar/revogar) e a caixa de convites recebidos na lista de
+estaleiros (aceitar/recusar).
+
 ---
 
 ## 4. Profundidade da cadeia ✅ decidido
