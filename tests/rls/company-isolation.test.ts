@@ -19,9 +19,13 @@ const describeIfDb = hasDatabase ? describe : describe.skip;
 
 describeIfDb("tenant isolation", () => {
   beforeAll(async () => {
-    // Guards the whole file: connected as a BYPASSRLS role, every assertion
-    // below would pass while proving nothing.
-    await withRollback(assertRlsIsEnforced);
+    // Guards the whole file. Checked after actAs, because the role that
+    // decides whether RLS applies is the one in effect during the query — not
+    // the one the connection was opened with.
+    await withRollback(async (db) => {
+      await actAs(db, DEMO.belnex.adminUserId);
+      await assertRlsIsEnforced(db);
+    });
   });
 
   // Each table is named explicitly rather than looped, so a failure says which
@@ -78,7 +82,7 @@ describeIfDb("tenant isolation", () => {
         )
         .catch(() => undefined);
 
-      await db.query("set local role postgres");
+      await db.query("reset role");
       const { rows } = await db.query<{ count: string }>(
         "select count(*)::text as count from public.projects where name = '__leak test__'",
       );
@@ -95,7 +99,7 @@ describeIfDb("tenant isolation", () => {
         ])
         .catch(() => undefined);
 
-      await db.query("set local role postgres");
+      await db.query("reset role");
       const { rows } = await db.query<{ count: string }>(
         "select count(*)::text as count from public.projects where name = '__hijacked__'",
       );

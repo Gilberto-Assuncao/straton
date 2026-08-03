@@ -37,21 +37,25 @@ export async function actAs(db: Client, userId: string): Promise<void> {
 }
 
 /**
- * Confirms RLS is actually being enforced before any isolation claim is made.
+ * Confirms RLS is actually being enforced, and must be called *after* `actAs`.
  *
- * Worth its own helper because the failure it guards against is silent: connect
- * with a superuser or a BYPASSRLS role and every isolation test passes while
- * proving nothing at all.
+ * The role that matters is the one in effect while the queries run, not the one
+ * the connection was opened with: local Supabase and CI both connect as
+ * `postgres`, and `actAs` then switches to `authenticated` — which is exactly
+ * what PostgREST does for a logged-in request.
+ *
+ * Worth its own helper because the failure it guards against is silent. Left
+ * as `postgres`, every isolation assertion below passes while proving nothing.
  */
 export async function assertRlsIsEnforced(db: Client): Promise<void> {
   const { rows } = await db.query<{ bypass: boolean; role: string }>(
-    "select rolbypassrls as bypass, current_user as role from pg_roles where rolname = current_user",
+    "select current_user as role, (select rolbypassrls from pg_roles where rolname = current_user) as bypass",
   );
   const row = rows[0];
   if (!row) throw new Error("Could not determine the current role");
   if (row.bypass) {
     throw new Error(
-      `Connected as "${row.role}", which bypasses RLS. Point TEST_DATABASE_URL at a role without BYPASSRLS, or these tests prove nothing.`,
+      `Queries would run as "${row.role}", which bypasses RLS — these tests would prove nothing. actAs() must switch to a role without BYPASSRLS.`,
     );
   }
 }
