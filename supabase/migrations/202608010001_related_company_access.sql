@@ -30,6 +30,28 @@
 -- 1. Read access to related companies
 -- ---------------------------------------------------------------------------
 
+-- Defined first because is_related_company below calls it: a fresh database
+-- applies this file top to bottom, and the reverse order fails there even
+-- though it worked when applied statement by statement against the hosted
+-- project. Mirrors
+-- private.is_company_member, which is not reachable from a `public.` search
+-- path inside another definer function.
+create or replace function public.company_membership_exists(target_company_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists(
+    select 1
+    from public.company_memberships m
+    where m.company_id = target_company_id
+      and m.user_id = (select auth.uid())
+      and m.status = 'active'
+  )
+$$;
+
 -- The parameter is prefixed p_ deliberately: company_relationships has columns
 -- named source_company_id and target_company_id, and an unprefixed parameter of
 -- the same name is resolved in favour of the column. That turns the comparison
@@ -54,25 +76,6 @@ as $$
         (r.target_company_id = p_company_id and public.company_membership_exists(r.source_company_id))
         or (r.source_company_id = p_company_id and public.company_membership_exists(r.target_company_id))
       )
-  )
-$$;
-
--- Thin wrapper so the expression above stays readable; mirrors
--- private.is_company_member, which is not reachable from a `public.` search
--- path inside another definer function.
-create or replace function public.company_membership_exists(target_company_id uuid)
-returns boolean
-language sql
-stable
-security definer
-set search_path = ''
-as $$
-  select exists(
-    select 1
-    from public.company_memberships m
-    where m.company_id = target_company_id
-      and m.user_id = (select auth.uid())
-      and m.status = 'active'
   )
 $$;
 
