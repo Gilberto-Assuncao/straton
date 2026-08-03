@@ -694,7 +694,18 @@
     "reportStatus_approved": "Approved",
     "reportStatus_rejected": "Rejected",
     "reportStatus_changes_requested": "Changes requested",
-    "open": "Open"
+    "open": "Open",
+    "clientLabel": "Client",
+    "noClient": "No client",
+    "newClient": "New client",
+    "newClientTitle": "Add a client",
+    "newClientHelp": "Search the Belgian register by name — you do not need the enterprise number.",
+    "clientNameLabel": "Company name",
+    "clientNamePlaceholder": "e.g. Résidence Le Parc",
+    "clientSearch": "Search",
+    "clientSearching": "Searching…",
+    "clientNoResults": "Nothing found in the register. You can still add the client by name alone.",
+    "clientAddManually": "Add \"{name}\" without a register match"
   },
   "operationalReports": {
     "metadataTitle": "Field Reports",

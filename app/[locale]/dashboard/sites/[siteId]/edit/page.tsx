@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import PageHeader from "@/components/dashboard/PageHeader";
 import SiteForm from "@/components/sites/SiteForm";
-import { getProjectOptions, getSiteById } from "@/src/features/sites/data";
+import { getClientOptions, getProjectOptions, getSiteById } from "@/src/features/sites/data";
 
 export async function generateMetadata({ params }: { params: Promise<{ siteId: string }> }): Promise<Metadata> {
   const { siteId } = await params;
@@ -14,13 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ siteId: s
 
 export default async function EditSitePage({ params }: { params: Promise<{ siteId: string }> }) {
   const { siteId } = await params;
-  const [site, projects, t] = await Promise.all([getSiteById(siteId), getProjectOptions(), getTranslations("sites")]);
+  const [site, projects, clients, t] = await Promise.all([getSiteById(siteId), getProjectOptions(), getClientOptions(), getTranslations("sites")]);
   if (!site) notFound();
   return (
     <section aria-labelledby="edit-site-heading">
       <Link href="/dashboard/sites" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">← {t("backToSites")}</Link>
       <div className="mb-6 mt-3"><PageHeader headingId="edit-site-heading" eyebrow={t("eyebrow")} title={t("editSite")} description={site.name} /></div>
-      <SiteForm site={site} projects={projects} />
+      <SiteForm site={site} projects={projects} clients={clients} />
     </section>
   );
 }

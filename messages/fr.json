@@ -694,7 +694,18 @@
     "reportStatus_approved": "Validé",
     "reportStatus_rejected": "Refusé",
     "reportStatus_changes_requested": "Modifications demandées",
-    "open": "Ouvrir"
+    "open": "Ouvrir",
+    "clientLabel": "Client",
+    "noClient": "Aucun client",
+    "newClient": "Nouveau client",
+    "newClientTitle": "Ajouter un client",
+    "newClientHelp": "Cherchez dans le registre belge par nom — le numéro d'entreprise n'est pas nécessaire.",
+    "clientNameLabel": "Nom de l'entreprise",
+    "clientNamePlaceholder": "ex. Résidence Le Parc",
+    "clientSearch": "Rechercher",
+    "clientSearching": "Recherche…",
+    "clientNoResults": "Rien trouvé dans le registre. Vous pouvez ajouter le client par son nom seul.",
+    "clientAddManually": "Ajouter « {name} » sans correspondance au registre"
   },
   "operationalReports": {
     "metadataTitle": "Rapports de terrain",

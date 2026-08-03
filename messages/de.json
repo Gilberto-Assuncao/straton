@@ -694,7 +694,18 @@
     "reportStatus_approved": "Genehmigt",
     "reportStatus_rejected": "Abgelehnt",
     "reportStatus_changes_requested": "Änderungen erbeten",
-    "open": "Öffnen"
+    "open": "Öffnen",
+    "clientLabel": "Kunde",
+    "noClient": "Kein Kunde",
+    "newClient": "Neuer Kunde",
+    "newClientTitle": "Kunden hinzufügen",
+    "newClientHelp": "Im belgischen Register nach Namen suchen — die Unternehmensnummer ist nicht nötig.",
+    "clientNameLabel": "Firmenname",
+    "clientNamePlaceholder": "z. B. Résidence Le Parc",
+    "clientSearch": "Suchen",
+    "clientSearching": "Suche…",
+    "clientNoResults": "Nichts im Register gefunden. Sie können den Kunden auch nur mit Namen anlegen.",
+    "clientAddManually": "„{name}\" ohne Registertreffer hinzufügen"
   },
   "operationalReports": {
     "metadataTitle": "Baustellenberichte",

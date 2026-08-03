@@ -3,9 +3,9 @@ import "server-only";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany } from "@/src/application/session/server";
 
-import type { SiteAddress, SiteRecord } from "./types";
+import type { ClientOption, SiteAddress, SiteRecord } from "./types";
 
-export type { SiteAddress, SiteRecord } from "./types";
+export type { SiteAddress, SiteRecord, ClientOption } from "./types";
 export { SITE_STATUSES } from "./types";
 
 type RelatedOne<T> = T | T[] | null;
@@ -15,8 +15,10 @@ interface SiteRow {
   id: string; name: string; reference: string | null; status: string | null;
   address: SiteAddress | null; latitude: number | null; longitude: number | null;
   po_number: string | null; cost_center: string | null; project_id: string | null;
+  client_company_id: string | null;
   starts_at: string | null; ends_at: string | null;
   projects: RelatedOne<{ name: string }>;
+  companies: RelatedOne<{ name: string }>;
 }
 
 function toRecord(row: SiteRow): SiteRecord {
@@ -26,11 +28,12 @@ function toRecord(row: SiteRow): SiteRecord {
     address: row.address ?? {}, latitude: row.latitude, longitude: row.longitude,
     poNumber: row.po_number, costCenter: row.cost_center,
     projectId: row.project_id, projectName: project?.name ?? null,
+    clientCompanyId: row.client_company_id, clientName: first(row.companies)?.name ?? null,
     startsAt: row.starts_at, endsAt: row.ends_at,
   };
 }
 
-const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,project_id,starts_at,ends_at,projects(name)";
+const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,project_id,client_company_id,starts_at,ends_at,projects(name),companies!sites_client_company_id_fkey(name)";
 
 export async function getSites(): Promise<SiteRecord[]> {
   const { companyId } = await requireActiveCompany();
@@ -178,4 +181,26 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
   }
 
   return { presentToday, hours: { entries, totalMinutes, pendingApproval }, reports, team };
+}
+
+// Companies this one has an active relationship with — readable since the
+// companies_read_related policy (migration 202608010001). Before that a
+// client was invisible to the company that had it.
+export async function getClientOptions(): Promise<ClientOption[]> {
+  const { companyId } = await requireActiveCompany();
+  const supabase = await createClient();
+
+  const { data: links } = await supabase
+    .from("company_relationships")
+    .select("source_company_id,target_company_id")
+    .eq("status", "active")
+    .or(`source_company_id.eq.${companyId},target_company_id.eq.${companyId}`);
+
+  const otherIds = [...new Set(((links ?? []) as { source_company_id: string; target_company_id: string }[])
+    .map((row) => (row.source_company_id === companyId ? row.target_company_id : row.source_company_id)))];
+  if (otherIds.length === 0) return [];
+
+  const { data } = await supabase.from("companies").select("id,name,city").in("id", otherIds).order("name");
+  return ((data ?? []) as { id: string; name: string; city: string | null }[])
+    .map((row) => ({ id: row.id, name: row.name, city: row.city }));
 }

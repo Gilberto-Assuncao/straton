@@ -14,9 +14,13 @@ export type SiteRecord = {
   costCenter: string | null;
   projectId: string | null;
   projectName: string | null;
+  clientCompanyId: string | null;
+  clientName: string | null;
   startsAt: string | null;
   endsAt: string | null;
 };
 
 export const SITE_STATUSES = ["active", "paused", "completed", "archived"] as const;
 export type SiteStatus = (typeof SITE_STATUSES)[number];
+
+export type ClientOption = { id: string; name: string; city: string | null };

@@ -694,7 +694,18 @@
     "reportStatus_approved": "Zatwierdzony",
     "reportStatus_rejected": "Odrzucony",
     "reportStatus_changes_requested": "Wymaga zmian",
-    "open": "Otwórz"
+    "open": "Otwórz",
+    "clientLabel": "Klient",
+    "noClient": "Brak klienta",
+    "newClient": "Nowy klient",
+    "newClientTitle": "Dodaj klienta",
+    "newClientHelp": "Szukaj w rejestrze belgijskim po nazwie — numer firmy nie jest potrzebny.",
+    "clientNameLabel": "Nazwa firmy",
+    "clientNamePlaceholder": "np. Résidence Le Parc",
+    "clientSearch": "Szukaj",
+    "clientSearching": "Szukanie…",
+    "clientNoResults": "Nic nie znaleziono w rejestrze. Możesz dodać klienta samą nazwą.",
+    "clientAddManually": "Dodaj „{name}\" bez dopasowania w rejestrze"
   },
   "operationalReports": {
     "metadataTitle": "Raporty terenowe",

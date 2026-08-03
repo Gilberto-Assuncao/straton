@@ -189,7 +189,7 @@ begin
   ) values (
     owner_company_id, created_id, relationship_type_input::public.relationship_type, 'active'
   )
-  on conflict do nothing;
+  on conflict (source_company_id, target_company_id) do nothing;
 
   return created_id;
 end;

@@ -694,7 +694,18 @@
     "reportStatus_approved": "Aprobat",
     "reportStatus_rejected": "Respins",
     "reportStatus_changes_requested": "Modificări cerute",
-    "open": "Deschide"
+    "open": "Deschide",
+    "clientLabel": "Client",
+    "noClient": "Fără client",
+    "newClient": "Client nou",
+    "newClientTitle": "Adaugă un client",
+    "newClientHelp": "Căutați în registrul belgian după nume — numărul de întreprindere nu este necesar.",
+    "clientNameLabel": "Numele firmei",
+    "clientNamePlaceholder": "ex. Résidence Le Parc",
+    "clientSearch": "Caută",
+    "clientSearching": "Se caută…",
+    "clientNoResults": "Nimic găsit în registru. Puteți adăuga clientul doar după nume.",
+    "clientAddManually": "Adaugă „{name}\" fără potrivire în registru"
   },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",

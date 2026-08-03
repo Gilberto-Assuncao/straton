@@ -694,7 +694,18 @@
     "reportStatus_approved": "Aprovado",
     "reportStatus_rejected": "Rejeitado",
     "reportStatus_changes_requested": "Alterações pedidas",
-    "open": "Abrir"
+    "open": "Abrir",
+    "clientLabel": "Cliente",
+    "noClient": "Sem cliente",
+    "newClient": "Novo cliente",
+    "newClientTitle": "Adicionar um cliente",
+    "newClientHelp": "Procure no registo belga pelo nome — não precisa do número de empresa.",
+    "clientNameLabel": "Nome da empresa",
+    "clientNamePlaceholder": "ex.: Résidence Le Parc",
+    "clientSearch": "Procurar",
+    "clientSearching": "A procurar…",
+    "clientNoResults": "Nada encontrado no registo. Pode adicionar o cliente apenas pelo nome.",
+    "clientAddManually": "Adicionar \"{name}\" sem correspondência no registo"
   },
   "operationalReports": {
     "metadataTitle": "Relatórios de Campo",

@@ -694,7 +694,18 @@
     "reportStatus_approved": "Goedgekeurd",
     "reportStatus_rejected": "Afgewezen",
     "reportStatus_changes_requested": "Wijzigingen gevraagd",
-    "open": "Openen"
+    "open": "Openen",
+    "clientLabel": "Klant",
+    "noClient": "Geen klant",
+    "newClient": "Nieuwe klant",
+    "newClientTitle": "Een klant toevoegen",
+    "newClientHelp": "Zoek in het Belgische register op naam — het ondernemingsnummer is niet nodig.",
+    "clientNameLabel": "Bedrijfsnaam",
+    "clientNamePlaceholder": "bv. Résidence Le Parc",
+    "clientSearch": "Zoeken",
+    "clientSearching": "Zoeken…",
+    "clientNoResults": "Niets gevonden in het register. U kunt de klant ook alleen op naam toevoegen.",
+    "clientAddManually": "\"{name}\" toevoegen zonder registermatch"
   },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",

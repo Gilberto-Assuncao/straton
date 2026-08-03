@@ -4,12 +4,13 @@ import { useActionState, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { createSiteAction, geocodeSiteAddressAction, updateSiteAction, type SiteFormState } from "@/src/features/sites/actions";
-import { SITE_STATUSES, type SiteRecord } from "@/src/features/sites/types";
+import { SITE_STATUSES, type ClientOption, type SiteRecord } from "@/src/features/sites/types";
+import ClientPicker from "./ClientPicker";
 
 const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#111827] px-4 text-base text-[#E5E7EB] outline-none placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 user-invalid:border-red-400";
 const label = "text-sm font-medium text-[#E5E7EB]";
 
-export default function SiteForm({ site, projects }: { site?: SiteRecord; projects: { id: string; name: string }[] }) {
+export default function SiteForm({ site, projects, clients }: { site?: SiteRecord; projects: { id: string; name: string }[]; clients: ClientOption[] }) {
   const t = useTranslations("sites");
   const [state, formAction] = useActionState(
     site ? updateSiteAction : createSiteAction,
@@ -64,6 +65,8 @@ export default function SiteForm({ site, projects }: { site?: SiteRecord; projec
             {projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
           </select>
         </div>
+
+        <ClientPicker clients={clients} defaultValue={site?.clientCompanyId} />
 
         <div className="sm:col-span-2">
           <label htmlFor="site-street" className={label}>{t("streetLabel")}</label>

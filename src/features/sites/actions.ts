@@ -6,6 +6,7 @@ import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { SITE_STATUSES } from "./types";
 import { geocodeAddress } from "@/src/infrastructure/geocoding/client";
+import { searchBelgianCompanies } from "@/src/infrastructure/cbe/client";
 
 export type SiteFormState = { status: "idle" | "error"; message: string };
 
@@ -15,6 +16,7 @@ type ParsedSite = {
   name: string; reference: string | null; status: string;
   address: Record<string, string>; latitude: number | null; longitude: number | null;
   po_number: string | null; cost_center: string | null; project_id: string | null;
+  client_company_id: string | null;
   starts_at: string | null; ends_at: string | null;
 };
 
@@ -63,6 +65,7 @@ function parseSite(formData: FormData): ParsedSite | { error: string } {
     po_number: text(formData, "poNumber") || null,
     cost_center: text(formData, "costCenter") || null,
     project_id: text(formData, "projectId") || null,
+    client_company_id: text(formData, "clientCompanyId") || null,
     starts_at: startsAt || null,
     ends_at: endsAt || null,
   };
@@ -147,4 +150,65 @@ export async function geocodeSiteAddressAction(address: {
   return result.found
     ? { ok: true, latitude: result.latitude, longitude: result.longitude, matchedAddress: result.matchedAddress }
     : { ok: false, reason: result.reason };
+}
+
+// --- Client companies (#32) ---------------------------------------------
+
+export type CreateClientResult =
+  | { ok: true; id: string; name: string }
+  | { ok: false; message: string };
+
+/**
+ * Creates the client and the relationship that makes it readable, in one
+ * transaction, through create_client_company. A plain insert into `companies`
+ * has no RLS policy and would fail — deliberately, so a client can never exist
+ * without someone linked to it.
+ */
+export async function createClientCompanyAction(input: {
+  displayName: string;
+  registrationNumber?: string;
+  vatNumber?: string;
+  legalName?: string;
+  addressLine1?: string;
+  postalCode?: string;
+  city?: string;
+}): Promise<CreateClientResult> {
+  const { allowed, companyId } = await guard();
+  if (!allowed) return { ok: false, message: "You do not have permission to add a client." };
+
+  const displayName = input.displayName.trim();
+  if (displayName.length < 2) return { ok: false, message: "Enter the client name." };
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("create_client_company", {
+    owner_company_id: companyId,
+    display_name_input: displayName,
+    relationship_type_input: "client",
+    legal_name_input: input.legalName?.trim() || null,
+    registration_number_input: input.registrationNumber?.trim() || null,
+    vat_number_input: input.vatNumber?.trim() || null,
+    country_code_input: "BE",
+    address_line_1_input: input.addressLine1?.trim() || null,
+    postal_code_input: input.postalCode?.trim() || null,
+    city_input: input.city?.trim() || null,
+    email_input: null,
+    phone_input: null,
+  });
+
+  if (error || !data) return { ok: false, message: error?.message ?? "Unable to add the client." };
+
+  revalidatePath("/dashboard/sites");
+  return { ok: true, id: data as string, name: displayName };
+}
+
+export type CompanySuggestion = { enterpriseNumber: string; name: string; city: string; postalCode: string };
+
+/**
+ * Searches the Belgian register by name, because whoever fills this form knows
+ * the company name — not its enterprise number.
+ */
+export async function searchClientSuggestionsAction(name: string): Promise<CompanySuggestion[]> {
+  const { allowed } = await guard();
+  if (!allowed) return [];
+  return searchBelgianCompanies(name);
 }
