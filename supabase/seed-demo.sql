@@ -416,6 +416,38 @@ insert into public.project_memberships (id, company_id, project_id, company_memb
    'd0000003-0000-4000-8000-000000000304','member', now() - interval '20 days')
 on conflict (id) do nothing;
 
+-- Agenda (#23). Dates are relative to current_date, so the week always has
+-- something in it no matter when the seed is loaded.
+insert into public.assignments (id, company_id, project_id, site_id, team_id, starts_at, ends_at, title, instructions, status, created_by) values
+  ('a0000001-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000001',
+   'd0000006-0000-4000-8000-000000000101','d0000005-0000-4000-8000-000000000101','d0000004-0000-4000-8000-000000000101',
+   current_date + 1 + time '07:30', current_date + 1 + time '16:00',
+   'Panel mounting - roof section A','Scaffolding is already up. Start at the north edge.','accepted','d0000002-0000-4000-8000-000000000101'),
+  ('a0000001-0000-4000-8000-000000000002','d0000001-0000-4000-8000-000000000001',
+   'd0000006-0000-4000-8000-000000000101','d0000005-0000-4000-8000-000000000101', null,
+   current_date + 2 + time '08:00', current_date + 2 + time '12:00',
+   'Cable routing to inverter', null,'sent','d0000002-0000-4000-8000-000000000101'),
+  ('a0000001-0000-4000-8000-000000000003','d0000001-0000-4000-8000-000000000001',
+   'd0000006-0000-4000-8000-000000000102', null, null,
+   current_date + 3 + time '09:00', current_date + 3 + time '17:00',
+   'Meter replacement - Louise','Client contact on site from 09:00.','planned','d0000002-0000-4000-8000-000000000101'),
+  ('a0000001-0000-4000-8000-000000000004','d0000001-0000-4000-8000-000000000002',
+   'd0000006-0000-4000-8000-000000000201','d0000005-0000-4000-8000-000000000201', null,
+   current_date + 1 + time '18:00', current_date + 1 + time '22:00',
+   'Evening office round', null,'in_progress','d0000002-0000-4000-8000-000000000201')
+on conflict (id) do nothing;
+
+-- The people, always — even for the job booked as a team. Which is the point:
+-- the crew is frozen at assignment time so a later change to the team cannot
+-- rewrite who was on work already planned.
+insert into public.assignment_assignees (id, company_id, assignment_id, company_membership_id, source) values
+  ('a0000002-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000001','a0000001-0000-4000-8000-000000000001','d0000003-0000-4000-8000-000000000104','team'),
+  ('a0000002-0000-4000-8000-000000000002','d0000001-0000-4000-8000-000000000001','a0000001-0000-4000-8000-000000000001','d0000003-0000-4000-8000-000000000106','team'),
+  ('a0000002-0000-4000-8000-000000000003','d0000001-0000-4000-8000-000000000001','a0000001-0000-4000-8000-000000000002','d0000003-0000-4000-8000-000000000104','direct'),
+  ('a0000002-0000-4000-8000-000000000004','d0000001-0000-4000-8000-000000000001','a0000001-0000-4000-8000-000000000003','d0000003-0000-4000-8000-000000000105','direct'),
+  ('a0000002-0000-4000-8000-000000000005','d0000001-0000-4000-8000-000000000002','a0000001-0000-4000-8000-000000000004','d0000003-0000-4000-8000-000000000205','direct')
+on conflict (id) do nothing;
+
 -- Availability (#24). Spread across past, present and future on purpose: an
 -- absence that ended yesterday is what explains the hours missing from last
 -- week's timesheet, and the screen looks back a week for exactly that reason.

@@ -40,6 +40,8 @@ begin
   delete from public.timesheets                  where company_id = any(demo_companies);
 
   delete from public.tasks                       where company_id = any(demo_companies);
+  delete from public.assignment_assignees        where company_id = any(demo_companies);
+  delete from public.assignments                 where company_id = any(demo_companies);
   delete from public.worker_availability         where company_id = any(demo_companies);
   delete from public.project_memberships         where company_id = any(demo_companies);
   -- Either side is enough to make it demo data, and both sides are demo

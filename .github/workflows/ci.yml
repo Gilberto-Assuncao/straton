@@ -3,8 +3,13 @@ name: CI
 on:
   push:
     branches: [main]
+  # Every pull request, not only those aimed at main. A branch stacked on
+  # another — which is how a series of related features gets reviewed without
+  # waiting on the one below it — targets its parent branch, and with a
+  # `branches: [main]` filter it silently gets no CI at all. A pull request
+  # that never runs the tests is worse than no pull request, because it looks
+  # checked.
   pull_request:
-    branches: [main]
 
 jobs:
   build-and-test:

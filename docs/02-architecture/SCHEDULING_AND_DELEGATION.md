@@ -29,7 +29,7 @@ Hoje começa a meio.
 
 ---
 
-## 2. Modelo de dados proposto
+## 2. Modelo de dados ✅ implementado (2026-08-03)
 
 ```
 assignments
@@ -63,6 +63,43 @@ Ver secção 5 para a granularidade e secção 8 para a disponibilidade.
 O `parent_assignment_id` é o que torna a cadeia possível sem casos especiais no
 código: a empresa que recebe vê a atribuição como **sua**, apenas ligada à
 origem. Delega outra vez e a estrutura repete-se.
+
+### Como ficou (migração `202608030002_assignments`)
+
+Ecrã em **Operações → Agenda**, vista semanal de segunda a domingo — a semana
+belga começa à segunda, e é assim que está desenhado todo o planeamento de obra
+no país.
+
+**Duas perguntas distintas, que é fácil confundir.** Quem pode *marcar* trabalho
+é uma questão de papel: só supervisores. Quem pode *fazer avançar* um trabalho é
+uma questão de estar nele: só os atribuídos. Uma política vê quem tu és mas não
+que colunas mexeste — por isso a segunda metade vive num *trigger*, e os testes
+são o único sítio onde a separação fica provada. Sem ele, estar atribuído a um
+trabalho significaria poder redefini-lo.
+
+A escala de estados que um trabalhador pode percorrer é deliberadamente estreita:
+`sent → accepted → in_progress → done`, nunca para trás. Empurrar um trabalho de
+volta a `planned` apagaria o facto de alguma vez ter sido enviado, e cancelar é
+decisão de quem marcou.
+
+**As colunas da cadeia** (`parent_assignment_id`, `chain_depth`,
+`delegated_to_company_id`) estão lá desde a primeira migração, embora a interface
+ainda só marque dentro da própria empresa. São baratas de carregar e caras de
+acrescentar depois: pôr um limite de profundidade e verificação de ciclos numa
+tabela que já tem atribuições vivas obriga a inventar valores que ninguém
+registou na altura. O limite de 5 níveis e a recusa de ciclos já funcionam — e a
+segunda é a que importa, porque a profundidade sozinha não impede um ciclo, só o
+faz terminar ao quinto nível.
+
+**A disponibilidade avisa, não bloqueia.** Marcar alguém que se declarou ausente
+mostra um aviso com o nome e o motivo. Às vezes as férias são canceladas, às
+vezes a pessoa oferece-se, e um supervisor que sabe algo que o sistema não sabe
+não deve ser travado por ele. O que não pode acontecer é marcar às cegas — que é
+a razão de existir da secção 8.
+
+**Falta ainda:** delegar para outra empresa a partir da interface, que depende de
+[#20](https://github.com/Gilberto-Assuncao/straton/issues/20) (convidar empresa
+sem conta), e a deteção de sobreposição entre duas atribuições da mesma pessoa.
 
 ### As três vistas saem da mesma tabela
 
