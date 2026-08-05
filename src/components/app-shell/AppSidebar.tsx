@@ -14,7 +14,9 @@ function groupBySection(navigation: AppNavigationItem[]): { section?: string; it
 export function AppSidebar({ navigation, collapsed, mobile, onClose }: { navigation:AppNavigationItem[]; collapsed:boolean; mobile?:boolean; onClose?:()=>void }) {
   const tShell = useTranslations("appShell");
   const t = useTranslations("nav");
-  const sectionLabels: Record<string, string> = { general: t("sectionGeneral"), operations: t("sectionOperations"), finance: t("sectionFinance"), company: t("sectionCompany") };
+  // Exactly the sections config.ts uses. An entry here for a section nobody
+  // belongs to is the same dead weight as a menu item that leads nowhere.
+  const sectionLabels: Record<string, string> = { general: t("sectionGeneral"), operations: t("sectionOperations"), team: t("sectionTeam"), time: t("sectionTime"), company: t("sectionCompany") };
   const groups = groupBySection(navigation);
   return <aside id={mobile?"mobile-app-navigation":undefined} aria-label={tShell("primaryNavigation")} className={`flex h-full flex-col border-r border-white/10 bg-[#111827] transition-[width] ${mobile?"w-[min(20rem,90vw)]":collapsed?"w-20":"w-72"}`}><div className="flex min-h-20 items-center justify-between border-b border-white/10 px-4"><Logo compact={collapsed}/>{mobile?<button type="button" onClick={onClose} aria-label={tShell("closeNavigation")} className="min-h-11 min-w-11 rounded-lg text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">×</button>:null}</div><nav className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-3">
     <div className="grid gap-5">

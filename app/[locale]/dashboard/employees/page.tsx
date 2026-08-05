@@ -18,7 +18,12 @@ export default async function EmployeesPage() {
     { label: t("statPendingInvites"), value: invited, color: "text-[#F59E0B]", border: invited > 0 ? "border-amber-400/30" : "border-white/10" },
   ];
   return <section aria-labelledby="employees-heading">
-    <PageHeader headingId="employees-heading" eyebrow={t("eyebrow")} title={t("title")} description={t("employeeCountDescription", { count: employees.length })} actions={<Link href="/dashboard/employees/new" className="flex min-h-11 items-center justify-center rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]">{t("addEmployee")}</Link>} />
+    <PageHeader headingId="employees-heading" eyebrow={t("eyebrow")} title={t("title")} description={t("employeeCountDescription", { count: employees.length })} actions={<div className="flex flex-wrap gap-3">
+      {/* The roles-and-skills overview left the sidebar in #36. This is the way
+          in now — a page nobody can navigate to is a page that stops existing. */}
+      <Link href="/dashboard/workforce" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("workforceOverviewLink")}</Link>
+      <Link href="/dashboard/employees/new" className="flex min-h-11 items-center justify-center rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]">{t("addEmployee")}</Link>
+    </div>} />
     <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
       {statCards.map((card) => (
         <div key={card.label} className={`rounded-2xl border ${card.border} bg-[#161A34] p-4.5`}>

@@ -1,7 +1,6 @@
 {
   "nav": {
     "dashboard": "Tableau de bord",
-    "workforce": "Effectifs",
     "time": "Suivi du temps",
     "timesheets": "Approbations",
     "field-reports": "Rapports de terrain",
@@ -10,20 +9,18 @@
     "map": "Carte en direct",
     "teams": "Équipes",
     "companies": "Entreprises",
-    "roster": "Répartition des Rôles",
-    "connect": "STRATON Connect",
     "reports": "Rapports",
     "finance": "Paie & Comptabilité",
-    "marketplace": "Marché",
     "settings": "Paramètres",
-    "expenses": "Dépenses",
     "payroll-periods": "Périodes de Paie",
     "sectionGeneral": "Général",
     "sectionOperations": "Opérations",
-    "sectionFinance": "Finance",
     "sectionCompany": "Entreprise",
     "agenda": "Agenda",
-    "availability": "Disponibilité"
+    "availability": "Disponibilité",
+    "employees": "Personnes",
+    "sectionTeam": "Équipe",
+    "sectionTime": "Temps et paie"
   },
   "dashboard": {
     "eyebrow": "Aperçu",
@@ -251,7 +248,8 @@
     "saving": "Enregistrement…",
     "backToProfile": "Retour au profil",
     "emailNotEditable": "L'e-mail professionnel ne peut pas être modifié ici.",
-    "deactivateConfirm": "Désactiver cet employé ? Il perdra l'accès et quittera son équipe. L'historique est conservé."
+    "deactivateConfirm": "Désactiver cet employé ? Il perdra l'accès et quittera son équipe. L'historique est conservé.",
+    "workforceOverviewLink": "Vue des fonctions et compétences"
   },
   "projects": {
     "eyebrow": "Espace de travail",

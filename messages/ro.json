@@ -1,7 +1,6 @@
 {
   "nav": {
     "dashboard": "Panou",
-    "workforce": "Forța de muncă",
     "time": "Pontaj",
     "timesheets": "Aprobări",
     "field-reports": "Rapoarte de teren",
@@ -10,20 +9,18 @@
     "map": "Hartă live",
     "teams": "Echipe",
     "companies": "Companii",
-    "roster": "Repartizarea Funcțiilor",
-    "connect": "STRATON Connect",
     "reports": "Rapoarte",
     "finance": "Salarizare & Contabilitate",
-    "marketplace": "Piață",
     "settings": "Setări",
-    "expenses": "Cheltuieli",
     "payroll-periods": "Perioade de Salarizare",
     "sectionGeneral": "General",
     "sectionOperations": "Operațiuni",
-    "sectionFinance": "Finanțe",
     "sectionCompany": "Companie",
     "agenda": "Agendă",
-    "availability": "Disponibilitate"
+    "availability": "Disponibilitate",
+    "employees": "Persoane",
+    "sectionTeam": "Echipă",
+    "sectionTime": "Timp și salarizare"
   },
   "dashboard": {
     "eyebrow": "Prezentare generală",
@@ -251,7 +248,8 @@
     "saving": "Se salvează…",
     "backToProfile": "Înapoi la profil",
     "emailNotEditable": "E-mailul de serviciu nu poate fi modificat aici.",
-    "deactivateConfirm": "Dezactivați acest angajat? Va pierde accesul și va părăsi echipa. Istoricul se păstrează."
+    "deactivateConfirm": "Dezactivați acest angajat? Va pierde accesul și va părăsi echipa. Istoricul se păstrează.",
+    "workforceOverviewLink": "Vedere funcții și competențe"
   },
   "projects": {
     "eyebrow": "Spațiu de lucru",

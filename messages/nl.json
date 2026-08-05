@@ -1,7 +1,6 @@
 {
   "nav": {
     "dashboard": "Dashboard",
-    "workforce": "Personeel",
     "time": "Tijdregistratie",
     "timesheets": "Goedkeuringen",
     "field-reports": "Veldrapporten",
@@ -10,20 +9,18 @@
     "map": "Live kaart",
     "teams": "Teams",
     "companies": "Bedrijven",
-    "roster": "Functieoverzicht",
-    "connect": "STRATON Connect",
     "reports": "Rapporten",
     "finance": "Loon & Boekhouding",
-    "marketplace": "Marktplaats",
     "settings": "Instellingen",
-    "expenses": "Onkosten",
     "payroll-periods": "Loonperiodes",
     "sectionGeneral": "Algemeen",
     "sectionOperations": "Operaties",
-    "sectionFinance": "Financiën",
     "sectionCompany": "Bedrijf",
     "agenda": "Agenda",
-    "availability": "Beschikbaarheid"
+    "availability": "Beschikbaarheid",
+    "employees": "Mensen",
+    "sectionTeam": "Team",
+    "sectionTime": "Tijd en loon"
   },
   "dashboard": {
     "eyebrow": "Overzicht",
@@ -251,7 +248,8 @@
     "saving": "Opslaan…",
     "backToProfile": "Terug naar profiel",
     "emailNotEditable": "Het werk-e-mailadres kan hier niet worden gewijzigd.",
-    "deactivateConfirm": "Deze medewerker deactiveren? Toegang vervalt en hij verlaat het team. Historiek blijft bewaard."
+    "deactivateConfirm": "Deze medewerker deactiveren? Toegang vervalt en hij verlaat het team. Historiek blijft bewaard.",
+    "workforceOverviewLink": "Overzicht functies en vaardigheden"
   },
   "projects": {
     "eyebrow": "Werkruimte",
