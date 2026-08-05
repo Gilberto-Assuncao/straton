@@ -112,6 +112,46 @@ project_memberships_check                     CHECK (left_at IS NULL OR left_at 
 Estruturalmente, um funcionário da Empresa B já pode ser adicionado a um projeto
 da Empresa A. Falta apenas a política de RLS que o autorize.
 
+### Implementado ✅ (2026-08-03)
+
+Duas migrações fecham o modo de colaboração:
+
+**`202608010003_project_collaboration_visibility`** — o dono do projeto passa a
+ver quem a parceira lá colocou. Abre três tabelas em conjunto, porque o nome de
+um colaborador chega por `project_memberships → company_memberships → users` e
+deixar a do meio fechada faz a junção devolver vazio com todas as políticas
+individualmente corretas.
+
+**`202608010004_project_partners`** — a tabela do convite. `company_relationships`
+diz que duas empresas trabalham juntas; `project_partners` diz que uma parceira
+concreta está num projeto concreto, e é isto — não a relação — que concede
+acesso. Ser subcontratado de alguém não abre todos os projetos dessa pessoa.
+
+O aperto de mão é assimétrico de propósito:
+
+| Estado | O que a convidada vê |
+|---|---|
+| `invited` | Só o nome do projeto e de quem convidou — para a resposta não ser às cegas |
+| `accepted` | Os estaleiros do projeto, e o direito de lá atribuir os seus próprios trabalhadores |
+| `declined` / `revoked` | Nada |
+
+Só a convidada pode aceitar ou recusar; só o dono pode revogar. Isto é imposto
+por um *trigger*, não pela política: um `WITH CHECK` não vê a linha anterior e
+por isso não distingue "aceitar" de "reverter uma resposta já dada". A linha
+nunca é apagada — numa obra belga, o registo de quem esteve no projeto e quando
+saiu é a resposta a uma pergunta de responsabilidade solidária.
+
+A mesma migração fecha uma brecha anterior: `project_memberships_tenant_insert`
+verificava apenas que a linha trazia o teu próprio `company_id`, nunca que o
+projeto era da tua conta. Era inofensiva enquanto os ids de projeto fossem
+indescobríveis — e são exatamente as políticas acima que acabam com isso.
+
+Cobertura: `tests/rls/project-collaboration.test.ts` e
+`tests/rls/project-partners.test.ts`, onde os controlos negativos são mais
+numerosos do que os positivos. Interface: separador **Parceiros** no dashboard
+do estaleiro (convidar/revogar) e a caixa de convites recebidos na lista de
+estaleiros (aceitar/recusar).
+
 ---
 
 ## 4. Profundidade da cadeia ✅ decidido
@@ -121,6 +161,31 @@ da Empresa A. Falta apenas a política de RLS que o autorize.
 Suficiente para casos reais (contratante → 3 subcontratados → especialista) e
 evita cadeias absurdas. Requer também proteção contra ciclos: uma empresa não
 pode aparecer duas vezes na mesma cadeia.
+
+### O que a rede mostra — e porque para no primeiro nível (2026-08-03)
+
+O ecrã **Empresas → Rede** (`/dashboard/companies/network`) desenha a sua
+posição na cadeia: quem o contrata acima, quem você contrata abaixo, parceiros
+ao lado, e em cada cartão os projetos que efetivamente partilham.
+
+Para **num só nível**, e isso é a regra a funcionar, não uma lacuna. A política
+`company_relationships_read` revela uma linha apenas às duas empresas nela
+nomeadas — logo os subcontratados do seu subcontratado não são legíveis para si,
+e a interface não pode desenhar o que a base recusa devolver. Nem deve: quem a
+empresa B contrata é assunto da empresa B.
+
+A responsabilidade solidária não fica por responder, porque o que a lei exige
+provar não é o organigrama da cadeia — é **quem esteve efetivamente no seu
+estaleiro**. Isso está no cartão de cada parceiro (quantas pessoas deles em
+projetos seus) e no separador Equipa do estaleiro, com nome e empresa de cada
+um. O limite de 5 níveis acima aplica-se à delegação em si; a *visibilidade*
+nunca passou de um nível e não é para passar.
+
+A inversão de perspetiva — a mesma linha significa o oposto conforme a ponta em
+que se está — está isolada em `src/features/partners/chain.ts` e testada em
+`tests/unit/features/partners/chain.test.ts`. Trocá-la poria o subcontratado na
+faixa de "quem o contrata": uma resposta errada que o build, os tipos e o
+renderizador aceitam sem reclamar.
 
 ---
 
@@ -237,7 +302,7 @@ O código de alertas já está escrito. Falta mostrá-lo no momento da decisão.
 
 ---
 
-## 8. Disponibilidade ⚠️ lacuna identificada
+## 8. Disponibilidade ✅ implementado (2026-08-03)
 
 O modelo acima deixa o gestor marcar às cegas: nada impede atribuir trabalho a
 quem está de férias, de baixa, ou já colocado noutra obra à mesma hora. O
@@ -266,6 +331,46 @@ Duas validações no momento da atribuição:
 A segunda é a mais valiosa e não precisa da tabela nova: já é derivável de
 `assignments` + `assignment_assignees`. Vale a pena implementá-la desde o
 primeiro dia.
+
+### O que foi construído
+
+Migração `202608030001_worker_availability`, ecrã em **Operações →
+Disponibilidade**, aberto a toda a gente: quem não consegue chegar à página não
+declara nada, e uma tabela vazia não resolve lacuna nenhuma.
+
+Dois tipos, porque respondem a perguntas diferentes. `unavailable` — o normal é
+trabalhar, isto é a exceção. `available` — o normal é não trabalhar, e é o
+trabalhador ocasional a dizer quando pode ser chamado. **Quando os dois colidem,
+a indisponibilidade ganha**: quem ofereceu sexta-feira e depois adoeceu está
+doente. A precedência está escrita uma vez, em `public.availability_conflicts`,
+porque a agenda, a marcação em massa e qualquer relatório de conflitos futuro
+farão a mesma pergunta — três implementações seriam três hipóteses de
+discordarem sobre quem está ausente.
+
+Uma restrição de exclusão impede sobreposições **do mesmo tipo**. Duas ausências
+sobrepostas não são dois factos, são um facto inserido duas vezes, e fariam a
+resposta a "esta pessoa está livre?" depender de qual das linhas foi lida.
+
+Quem declara: o próprio, sempre; um gestor, por qualquer pessoa da empresa —
+porque a baixa chega por telefone às 6h e é registada por quem atendeu. As datas
+são visíveis a todos os colegas, senão o supervisor marca à mesma; a **nota**
+não é, e isso não podia ser feito por RLS, que é por linha e não por coluna —
+está na camada de dados, no único sítio por onde todos os leitores passam.
+
+**Fora de âmbito, deliberadamente.** *Aprovação*: isto regista o que é verdade
+sobre a disponibilidade de alguém, não um pedido a ser deferido. Aprovação de
+férias é um fluxo com estados e notificações próprios e pertence ao módulo de
+aprovações ([#8](https://github.com/Gilberto-Assuncao/straton/issues/8));
+misturá-la aqui poria cada ausência à espera de uma decisão antes de a escala
+sequer a ver. *Recorrência*: "nunca trabalha às sextas" não é uma exceção, é o
+formato do contrato, e pertence a `employee_records` — modelá-la como exceção
+repetida transforma cada pergunta de sobreposição de uma consulta de intervalo
+num problema de expansão.
+
+**Falta ainda** a segunda validação: detetar a mesma pessoa em duas atribuições
+sobrepostas. Depende de `assignments`, que só existe com a agenda
+([#23](https://github.com/Gilberto-Assuncao/straton/issues/23)). A função que a
+agenda vai chamar já está pronta e testada.
 
 ### Troca de turnos
 
