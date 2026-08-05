@@ -32,6 +32,20 @@ create index if not exists project_partners_project_idx on public.project_partne
 
 alter table public.project_partners enable row level security;
 
+-- Granted explicitly rather than left to Supabase's default privileges.
+--
+-- RLS decides which *rows* a role may touch; a grant decides whether it may
+-- touch the table at all, and without one every policy below is unreachable.
+-- The hosted project happens to have these already, from a default-privileges
+-- rule that does not apply when migrations are replayed from empty — so the
+-- table works there and fails anywhere provisioned from this file. CI caught
+-- exactly that.
+--
+-- `anon` is deliberately absent: nothing here should be readable without a
+-- session, and no policy grants it anything anyway.
+grant select, insert, update, delete on public.project_partners to authenticated;
+grant select, insert, update, delete on public.project_partners to service_role;
+
 create or replace function private.is_accepted_project_partner(p_project_id uuid)
 returns boolean
 language sql
