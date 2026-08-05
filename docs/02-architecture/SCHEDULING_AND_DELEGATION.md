@@ -302,7 +302,7 @@ O código de alertas já está escrito. Falta mostrá-lo no momento da decisão.
 
 ---
 
-## 8. Disponibilidade ⚠️ lacuna identificada
+## 8. Disponibilidade ✅ implementado (2026-08-03)
 
 O modelo acima deixa o gestor marcar às cegas: nada impede atribuir trabalho a
 quem está de férias, de baixa, ou já colocado noutra obra à mesma hora. O
@@ -331,6 +331,46 @@ Duas validações no momento da atribuição:
 A segunda é a mais valiosa e não precisa da tabela nova: já é derivável de
 `assignments` + `assignment_assignees`. Vale a pena implementá-la desde o
 primeiro dia.
+
+### O que foi construído
+
+Migração `202608030001_worker_availability`, ecrã em **Operações →
+Disponibilidade**, aberto a toda a gente: quem não consegue chegar à página não
+declara nada, e uma tabela vazia não resolve lacuna nenhuma.
+
+Dois tipos, porque respondem a perguntas diferentes. `unavailable` — o normal é
+trabalhar, isto é a exceção. `available` — o normal é não trabalhar, e é o
+trabalhador ocasional a dizer quando pode ser chamado. **Quando os dois colidem,
+a indisponibilidade ganha**: quem ofereceu sexta-feira e depois adoeceu está
+doente. A precedência está escrita uma vez, em `public.availability_conflicts`,
+porque a agenda, a marcação em massa e qualquer relatório de conflitos futuro
+farão a mesma pergunta — três implementações seriam três hipóteses de
+discordarem sobre quem está ausente.
+
+Uma restrição de exclusão impede sobreposições **do mesmo tipo**. Duas ausências
+sobrepostas não são dois factos, são um facto inserido duas vezes, e fariam a
+resposta a "esta pessoa está livre?" depender de qual das linhas foi lida.
+
+Quem declara: o próprio, sempre; um gestor, por qualquer pessoa da empresa —
+porque a baixa chega por telefone às 6h e é registada por quem atendeu. As datas
+são visíveis a todos os colegas, senão o supervisor marca à mesma; a **nota**
+não é, e isso não podia ser feito por RLS, que é por linha e não por coluna —
+está na camada de dados, no único sítio por onde todos os leitores passam.
+
+**Fora de âmbito, deliberadamente.** *Aprovação*: isto regista o que é verdade
+sobre a disponibilidade de alguém, não um pedido a ser deferido. Aprovação de
+férias é um fluxo com estados e notificações próprios e pertence ao módulo de
+aprovações ([#8](https://github.com/Gilberto-Assuncao/straton/issues/8));
+misturá-la aqui poria cada ausência à espera de uma decisão antes de a escala
+sequer a ver. *Recorrência*: "nunca trabalha às sextas" não é uma exceção, é o
+formato do contrato, e pertence a `employee_records` — modelá-la como exceção
+repetida transforma cada pergunta de sobreposição de uma consulta de intervalo
+num problema de expansão.
+
+**Falta ainda** a segunda validação: detetar a mesma pessoa em duas atribuições
+sobrepostas. Depende de `assignments`, que só existe com a agenda
+([#23](https://github.com/Gilberto-Assuncao/straton/issues/23)). A função que a
+agenda vai chamar já está pronta e testada.
 
 ### Troca de turnos
 

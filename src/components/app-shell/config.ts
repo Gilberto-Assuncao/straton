@@ -12,6 +12,9 @@ export const defaultAppNavigation: AppNavigationItem[] = [
   { id: "projects", label: "Projects", href: "/dashboard/projects", icon: "layers", section: "operations" },
   { id: "sites", label: "Sites", href: "/dashboard/sites", icon: "location", section: "operations" },
   { id: "time", label: "Time Tracking", href: "/dashboard/time", icon: "clock", section: "operations" },
+  // No role restriction: everyone declares their own absences, and a page a
+  // worker cannot reach is a page whose data never gets entered.
+  { id: "availability", label: "Availability", href: "/dashboard/availability", icon: "calendar", section: "operations" },
   { id: "field-reports", label: "Field Reports", href: "/dashboard/field-reports", icon: "check", section: "operations" },
   { id: "reports", label: "Reports", href: "/dashboard/reports", icon: "chart", section: "operations", roles: managerRoles },
 

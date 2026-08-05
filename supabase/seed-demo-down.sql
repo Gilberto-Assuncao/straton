@@ -40,6 +40,7 @@ begin
   delete from public.timesheets                  where company_id = any(demo_companies);
 
   delete from public.tasks                       where company_id = any(demo_companies);
+  delete from public.worker_availability         where company_id = any(demo_companies);
   delete from public.project_memberships         where company_id = any(demo_companies);
   -- Either side is enough to make it demo data, and both sides are demo
   -- companies here — matching on one of them alone would leave the row behind

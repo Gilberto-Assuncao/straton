@@ -416,6 +416,20 @@ insert into public.project_memberships (id, company_id, project_id, company_memb
    'd0000003-0000-4000-8000-000000000304','member', now() - interval '20 days')
 on conflict (id) do nothing;
 
+-- Availability (#24). Spread across past, present and future on purpose: an
+-- absence that ended yesterday is what explains the hours missing from last
+-- week's timesheet, and the screen looks back a week for exactly that reason.
+insert into public.worker_availability (id, company_id, company_membership_id, starts_at, ends_at, kind, reason, note) values
+  ('d0000013-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000001','d0000003-0000-4000-8000-000000000104',
+   current_date + 21, current_date + 35,'unavailable','holiday','Summer leave, agreed in March'),
+  ('d0000013-0000-4000-8000-000000000002','d0000001-0000-4000-8000-000000000001','d0000003-0000-4000-8000-000000000106',
+   current_date - 3, current_date + 2,'unavailable','sick', null),
+  ('d0000013-0000-4000-8000-000000000003','d0000001-0000-4000-8000-000000000001','d0000003-0000-4000-8000-000000000105',
+   current_date + 7, current_date + 9,'unavailable','training','VCA safety certification renewal'),
+  ('d0000013-0000-4000-8000-000000000004','d0000001-0000-4000-8000-000000000002','d0000003-0000-4000-8000-000000000205',
+   current_date + 14, current_date + 16,'unavailable','personal', null)
+on conflict (id) do nothing;
+
 insert into public.tasks (id, company_id, project_id, name, status) values
   ('d0000007-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','Panel mounting','active'),
   ('d0000007-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','Cable routing','active'),
