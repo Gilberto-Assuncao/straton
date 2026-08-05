@@ -21,7 +21,9 @@
     "sectionGeneral": "Algemeen",
     "sectionOperations": "Operaties",
     "sectionFinance": "Financiën",
-    "sectionCompany": "Bedrijf"
+    "sectionCompany": "Bedrijf",
+    "agenda": "Agenda",
+    "availability": "Beschikbaarheid"
   },
   "dashboard": {
     "eyebrow": "Overzicht",

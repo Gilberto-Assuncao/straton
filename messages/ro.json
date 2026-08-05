@@ -21,7 +21,9 @@
     "sectionGeneral": "General",
     "sectionOperations": "Operațiuni",
     "sectionFinance": "Finanțe",
-    "sectionCompany": "Companie"
+    "sectionCompany": "Companie",
+    "agenda": "Agendă",
+    "availability": "Disponibilitate"
   },
   "dashboard": {
     "eyebrow": "Prezentare generală",

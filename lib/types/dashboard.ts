@@ -8,4 +8,3 @@ export type WeeklyHoursEntry = { day: string; fullDay: string; hours: number };
 export type TeamActivityItem = { id: string; person: string; action: string; context: string; time: string; type: TeamActivityType };
 export type RecentTimesheet = { id: string; employee: string; project: string; hours: number; date: string; status: TimesheetStatus };
 export type QuickAction = { label: string; href: string };
-export type DashboardNavItem = { label: string; href: string; iconPath: string };

@@ -21,7 +21,9 @@
     "sectionGeneral": "Geral",
     "sectionOperations": "Operações",
     "sectionFinance": "Financeiro",
-    "sectionCompany": "Empresa"
+    "sectionCompany": "Empresa",
+    "agenda": "Agenda",
+    "availability": "Disponibilidade"
   },
   "dashboard": {
     "eyebrow": "Visão Geral",
