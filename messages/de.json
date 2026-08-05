@@ -1,7 +1,6 @@
 {
   "nav": {
     "dashboard": "Übersicht",
-    "workforce": "Belegschaft",
     "time": "Zeiterfassung",
     "timesheets": "Genehmigungen",
     "field-reports": "Einsatzberichte",
@@ -10,18 +9,18 @@
     "map": "Live Karte",
     "teams": "Teams",
     "companies": "Unternehmen",
-    "roster": "Funktionsübersicht",
-    "connect": "STRATON Connect",
     "reports": "Berichte",
     "finance": "Lohn & Buchhaltung",
-    "marketplace": "Marktplatz",
     "settings": "Einstellungen",
-    "expenses": "Spesen",
     "payroll-periods": "Abrechnungszeiträume",
     "sectionGeneral": "Allgemein",
     "sectionOperations": "Betrieb",
-    "sectionFinance": "Finanzen",
-    "sectionCompany": "Unternehmen"
+    "sectionCompany": "Unternehmen",
+    "agenda": "Agenda",
+    "availability": "Verfügbarkeit",
+    "employees": "Personen",
+    "sectionTeam": "Team",
+    "sectionTime": "Zeit und Lohn"
   },
   "dashboard": {
     "eyebrow": "Übersicht",
@@ -249,7 +248,8 @@
     "saving": "Wird gespeichert…",
     "backToProfile": "Zurück zum Profil",
     "emailNotEditable": "Die Arbeits-E-Mail kann hier nicht geändert werden.",
-    "deactivateConfirm": "Diesen Mitarbeiter deaktivieren? Der Zugang entfällt und das Team wird verlassen. Der Verlauf bleibt erhalten."
+    "deactivateConfirm": "Diesen Mitarbeiter deaktivieren? Der Zugang entfällt und das Team wird verlassen. Der Verlauf bleibt erhalten.",
+    "workforceOverviewLink": "Übersicht Funktionen und Qualifikationen"
   },
   "projects": {
     "eyebrow": "Arbeitsbereich",

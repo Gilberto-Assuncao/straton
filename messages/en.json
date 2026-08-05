@@ -1,7 +1,6 @@
 {
   "nav": {
     "dashboard": "Dashboard",
-    "workforce": "Workforce",
     "time": "Time Tracking",
     "timesheets": "Approvals",
     "field-reports": "Field Reports",
@@ -10,18 +9,18 @@
     "map": "Live Map",
     "teams": "Teams",
     "companies": "Companies",
-    "roster": "Roster",
-    "connect": "STRATON Connect",
     "reports": "Reports",
     "finance": "Payroll & Accounting",
-    "marketplace": "Marketplace",
     "settings": "Settings",
-    "expenses": "Expenses",
     "payroll-periods": "Payroll Periods",
     "sectionGeneral": "General",
     "sectionOperations": "Operations",
-    "sectionFinance": "Finance",
-    "sectionCompany": "Company"
+    "sectionCompany": "Company",
+    "agenda": "Agenda",
+    "availability": "Availability",
+    "employees": "People",
+    "sectionTeam": "Team",
+    "sectionTime": "Time & Payroll"
   },
   "dashboard": {
     "eyebrow": "Overview",
@@ -249,7 +248,8 @@
     "saving": "Saving…",
     "backToProfile": "Back to profile",
     "emailNotEditable": "The work email cannot be changed here.",
-    "deactivateConfirm": "Deactivate this employee? They will lose access and be removed from their team. Past records are kept."
+    "deactivateConfirm": "Deactivate this employee? They will lose access and be removed from their team. Past records are kept.",
+    "workforceOverviewLink": "Roles and skills overview"
   },
   "projects": {
     "eyebrow": "Workspace",

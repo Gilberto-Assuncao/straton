@@ -295,6 +295,48 @@ FINANCEIRO
   Relatórios
 ```
 
+### Como ficou de facto ✅ (2026-08-05)
+
+A proposta acima é de 26 de julho, quando a Agenda ainda era um plano e não
+existiam Disponibilidade, Rede de empresas nem Convites. Foi seguida no
+essencial — **agrupar pelo dia de trabalho** — mas **sem mover rotas**:
+
+```
+GERAL          Painel · Agenda · Mapa em tempo real
+OPERAÇÕES      Projetos · Obras · Relatórios de Campo
+EQUIPA         Pessoas · Equipas · Disponibilidade
+TEMPO E FOLHA  Registo de Horas · Aprovações · Folha & Contabilidade · Relatórios
+EMPRESA        Empresas · Definições
+```
+
+De 19 para **15 itens**, e a ordem dentro de cada secção é a ordem em que as
+coisas acontecem: dizem-te o que fazer, vais lá, registas, é pago.
+
+**Onde se divergiu da proposta, e porquê.** "Projetos absorve Obras +
+Relatórios de Campo" ficou por fazer. Entretanto nasceram o dashboard de obra
+com sete separadores, os parceiros por obra, e o mapa que assenta em coordenadas
+de obra. Fundir agora significava mover rotas e esconder trabalho acabado de
+entrar — troca má. Fica em aberto para quando a página de projeto tiver
+separadores a sério.
+
+**O que saiu.** Despesas, STRATON Connect e Marketplace estavam `disabled: true`
+e não levavam a lado nenhum: um sexto da barra lateral a prometer o que não
+existe, que é como se ensina alguém a deixar de ler um menu. Voltam quando as
+páginas existirem.
+
+**O que saiu mas continua acessível.** Força de Trabalho, agora ligada a partir
+de Pessoas; Quadro de Funções, a partir de Definições → Permissões. Uma página
+sem forma de lá chegar é uma página que deixou de existir.
+
+**O que entrou.** `/dashboard/employees` — a página onde se gerem pessoas de
+facto — **nunca esteve na barra lateral**. Só se lá chegava pelo painel ou pelos
+atalhos, que é como um ecrã principal desaparece sem ninguém abrir um bug.
+
+**Removido também:** `lib/config/dashboard-navigation.ts` e os componentes
+`DashboardNav`, `Sidebar`, `MobileSidebar` e `Topbar` — um segundo menu, de oito
+itens desatualizados, que nada renderizava. Dois menus paralelos é como um deles
+fica em silêncio para trás, e este já estava.
+
 ### A redundância que isto elimina
 
 O menu atual cobre o mesmo conceito em vários sítios:

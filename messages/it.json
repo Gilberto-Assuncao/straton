@@ -1,7 +1,6 @@
 {
   "nav": {
     "dashboard": "Bacheca",
-    "workforce": "Personale",
     "time": "Rilevazione ore",
     "timesheets": "Approvazioni",
     "field-reports": "Rapporti sul campo",
@@ -10,18 +9,18 @@
     "map": "Mappa live",
     "teams": "Team",
     "companies": "Aziende",
-    "roster": "Assegnazione Funzioni",
-    "connect": "STRATON Connect",
     "reports": "Report",
     "finance": "Paghe & Contabilità",
-    "marketplace": "Marketplace",
     "settings": "Impostazioni",
-    "expenses": "Spese",
     "payroll-periods": "Periodi Paga",
     "sectionGeneral": "Generale",
     "sectionOperations": "Operazioni",
-    "sectionFinance": "Finanza",
-    "sectionCompany": "Azienda"
+    "sectionCompany": "Azienda",
+    "agenda": "Agenda",
+    "availability": "Disponibilità",
+    "employees": "Persone",
+    "sectionTeam": "Squadra",
+    "sectionTime": "Tempo e paghe"
   },
   "dashboard": {
     "eyebrow": "Panoramica",
@@ -249,7 +248,8 @@
     "saving": "Salvataggio…",
     "backToProfile": "Torna al profilo",
     "emailNotEditable": "L'email di lavoro non può essere modificata qui.",
-    "deactivateConfirm": "Disattivare questo dipendente? Perderà l'accesso e uscirà dal team. Lo storico viene conservato."
+    "deactivateConfirm": "Disattivare questo dipendente? Perderà l'accesso e uscirà dal team. Lo storico viene conservato.",
+    "workforceOverviewLink": "Panoramica ruoli e competenze"
   },
   "projects": {
     "eyebrow": "Area di lavoro",
