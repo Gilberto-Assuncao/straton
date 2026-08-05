@@ -162,6 +162,31 @@ Suficiente para casos reais (contratante → 3 subcontratados → especialista) 
 evita cadeias absurdas. Requer também proteção contra ciclos: uma empresa não
 pode aparecer duas vezes na mesma cadeia.
 
+### O que a rede mostra — e porque para no primeiro nível (2026-08-03)
+
+O ecrã **Empresas → Rede** (`/dashboard/companies/network`) desenha a sua
+posição na cadeia: quem o contrata acima, quem você contrata abaixo, parceiros
+ao lado, e em cada cartão os projetos que efetivamente partilham.
+
+Para **num só nível**, e isso é a regra a funcionar, não uma lacuna. A política
+`company_relationships_read` revela uma linha apenas às duas empresas nela
+nomeadas — logo os subcontratados do seu subcontratado não são legíveis para si,
+e a interface não pode desenhar o que a base recusa devolver. Nem deve: quem a
+empresa B contrata é assunto da empresa B.
+
+A responsabilidade solidária não fica por responder, porque o que a lei exige
+provar não é o organigrama da cadeia — é **quem esteve efetivamente no seu
+estaleiro**. Isso está no cartão de cada parceiro (quantas pessoas deles em
+projetos seus) e no separador Equipa do estaleiro, com nome e empresa de cada
+um. O limite de 5 níveis acima aplica-se à delegação em si; a *visibilidade*
+nunca passou de um nível e não é para passar.
+
+A inversão de perspetiva — a mesma linha significa o oposto conforme a ponta em
+que se está — está isolada em `src/features/partners/chain.ts` e testada em
+`tests/unit/features/partners/chain.test.ts`. Trocá-la poria o subcontratado na
+faixa de "quem o contrata": uma resposta errada que o build, os tipos e o
+renderizador aceitam sem reclamar.
+
 ---
 
 ## 5. Granularidade da atribuição ✅ decidido

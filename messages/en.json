@@ -956,5 +956,32 @@
     "checkAction": "Check retention obligation",
     "checkHelp": "Opens the official government portal with this enterprise number already filled in. You complete the security check there.",
     "needsEnterpriseNumber": "Add the enterprise or VAT number to enable this check."
+  },
+  "network": {
+    "eyebrow": "Companies",
+    "title": "Your network",
+    "description": "Who contracts you, who you contract, and which projects you actually share.",
+    "backToCompanies": "Back to companies",
+    "youAreHere": "You",
+    "empty": "No companies linked yet. Add a partner from the companies page.",
+    "band_upstream": "Who contracts you",
+    "band_downstream": "Who you contract",
+    "band_lateral": "Working alongside",
+    "bandHint_upstream": "You do the work; they answer for it to their own client.",
+    "bandHint_downstream": "They do the work; you answer for it — including their people on your sites.",
+    "bandHint_lateral": "Neither of you is under the other.",
+    "type_client": "Client",
+    "type_contractor": "Contractor",
+    "type_subcontractor": "Subcontractor",
+    "type_partner": "Partner",
+    "status_pending": "Awaiting answer",
+    "status_active": "Active",
+    "status_rejected": "Rejected",
+    "projectYours": "Your project — they were invited onto it",
+    "projectTheirs": "Their project — you were invited onto it",
+    "noSharedProjects": "No shared projects yet.",
+    "peopleOnYourProjects": "{count, plural, one {# of their people on your projects} other {# of their people on your projects}}",
+    "depthNote": "You only ever see the two ends of your own relationships, so the chain stops here even when it continues in reality. What your partners do on your sites is on the",
+    "depthNoteLink": "sites screen"
   }
 }

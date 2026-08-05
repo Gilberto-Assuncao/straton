@@ -956,5 +956,32 @@
     "checkAction": "Verificar obrigação de retenção",
     "checkHelp": "Abre o portal oficial do governo com este número de empresa já preenchido. A validação de segurança é feita lá.",
     "needsEnterpriseNumber": "Preencha o número de empresa ou de IVA para ativar esta verificação."
+  },
+  "network": {
+    "eyebrow": "Empresas",
+    "title": "A sua rede",
+    "description": "Quem o contrata, quem você contrata, e os projetos que realmente partilham.",
+    "backToCompanies": "Voltar a empresas",
+    "youAreHere": "Você",
+    "empty": "Ainda não há empresas ligadas. Adicione um parceiro na página de empresas.",
+    "band_upstream": "Quem o contrata",
+    "band_downstream": "Quem você contrata",
+    "band_lateral": "A trabalhar ao seu lado",
+    "bandHint_upstream": "Você executa o trabalho; eles respondem por ele perante o cliente deles.",
+    "bandHint_downstream": "Eles executam o trabalho; você responde por ele — incluindo as pessoas deles nos seus estaleiros.",
+    "bandHint_lateral": "Nenhum dos dois está sob o outro.",
+    "type_client": "Cliente",
+    "type_contractor": "Contratante",
+    "type_subcontractor": "Subcontratado",
+    "type_partner": "Parceiro",
+    "status_pending": "Aguarda resposta",
+    "status_active": "Ativa",
+    "status_rejected": "Recusada",
+    "projectYours": "Projeto seu — foram convidados para ele",
+    "projectTheirs": "Projeto deles — você foi convidado para ele",
+    "noSharedProjects": "Ainda sem projetos partilhados.",
+    "peopleOnYourProjects": "{count, plural, one {# pessoa deles nos seus projetos} other {# pessoas deles nos seus projetos}}",
+    "depthNote": "Só vê as duas pontas das suas próprias relações, por isso a cadeia termina aqui mesmo quando continua na realidade. O que os parceiros fazem nos seus estaleiros está no",
+    "depthNoteLink": "ecrã de estaleiros"
   }
 }

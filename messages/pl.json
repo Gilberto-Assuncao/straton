@@ -956,5 +956,32 @@
     "checkAction": "Sprawdź obowiązek potrącenia",
     "checkHelp": "Otwiera oficjalny portal rządowy z już wpisanym numerem firmy. Weryfikacja bezpieczeństwa odbywa się tam.",
     "needsEnterpriseNumber": "Podaj numer firmy lub VAT, aby włączyć to sprawdzenie."
+  },
+  "network": {
+    "eyebrow": "Firmy",
+    "title": "Twoja sieć",
+    "description": "Kto Cię zatrudnia, kogo zatrudniasz i które projekty faktycznie dzielicie.",
+    "backToCompanies": "Powrót do firm",
+    "youAreHere": "Ty",
+    "empty": "Brak powiązanych firm. Dodaj partnera na stronie firm.",
+    "band_upstream": "Kto Cię zatrudnia",
+    "band_downstream": "Kogo zatrudniasz",
+    "band_lateral": "Pracujący obok",
+    "bandHint_upstream": "Ty wykonujesz pracę; oni odpowiadają za nią przed swoim klientem.",
+    "bandHint_downstream": "Oni wykonują pracę; Ty za nią odpowiadasz — także za ich ludzi na Twoich budowach.",
+    "bandHint_lateral": "Żadna ze stron nie podlega drugiej.",
+    "type_client": "Klient",
+    "type_contractor": "Zleceniodawca",
+    "type_subcontractor": "Podwykonawca",
+    "type_partner": "Partner",
+    "status_pending": "Oczekuje na odpowiedź",
+    "status_active": "Aktywna",
+    "status_rejected": "Odrzucona",
+    "projectYours": "Twój projekt — zostali do niego zaproszeni",
+    "projectTheirs": "Ich projekt — zostałeś do niego zaproszony",
+    "noSharedProjects": "Brak wspólnych projektów.",
+    "peopleOnYourProjects": "{count, plural, one {# ich pracownik w Twoich projektach} few {# ich pracowników w Twoich projektach} many {# ich pracowników w Twoich projektach} other {# ich pracowników w Twoich projektach}}",
+    "depthNote": "Widzisz tylko dwa końce własnych relacji, więc łańcuch kończy się tutaj, nawet gdy w rzeczywistości biegnie dalej. To, co partnerzy robią na Twoich budowach, znajdziesz na",
+    "depthNoteLink": "ekranie budów"
   }
 }

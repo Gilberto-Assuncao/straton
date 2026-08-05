@@ -956,5 +956,32 @@
     "checkAction": "Comprobar obligación de retención",
     "checkHelp": "Abre el portal oficial con este número de empresa ya rellenado. La validación de seguridad se realiza allí.",
     "needsEnterpriseNumber": "Introduzca el número de empresa o de IVA para activar esta comprobación."
+  },
+  "network": {
+    "eyebrow": "Empresas",
+    "title": "Su red",
+    "description": "Quién le contrata, a quién contrata usted y qué proyectos comparten realmente.",
+    "backToCompanies": "Volver a empresas",
+    "youAreHere": "Usted",
+    "empty": "Aún no hay empresas vinculadas. Añada un socio desde la página de empresas.",
+    "band_upstream": "Quién le contrata",
+    "band_downstream": "A quién contrata",
+    "band_lateral": "Trabajando a su lado",
+    "bandHint_upstream": "Usted ejecuta el trabajo; ellos responden por él ante su propio cliente.",
+    "bandHint_downstream": "Ellos ejecutan el trabajo; usted responde por él — incluido su personal en sus obras.",
+    "bandHint_lateral": "Ninguno está bajo el otro.",
+    "type_client": "Cliente",
+    "type_contractor": "Contratista principal",
+    "type_subcontractor": "Subcontratista",
+    "type_partner": "Socio",
+    "status_pending": "Pendiente de respuesta",
+    "status_active": "Activa",
+    "status_rejected": "Rechazada",
+    "projectYours": "Su proyecto — fueron invitados a él",
+    "projectTheirs": "El proyecto de ellos — usted fue invitado",
+    "noSharedProjects": "Todavía sin proyectos compartidos.",
+    "peopleOnYourProjects": "{count, plural, one {# empleado suyo en sus proyectos} other {# empleados suyos en sus proyectos}}",
+    "depthNote": "Solo ve los dos extremos de sus propias relaciones, así que la cadena termina aquí aunque en la realidad continúe. Lo que hacen sus socios en sus obras está en la",
+    "depthNoteLink": "pantalla de obras"
   }
 }

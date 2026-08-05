@@ -956,5 +956,32 @@
     "checkAction": "Inhoudingsplicht controleren",
     "checkHelp": "Opent het officiële overheidsportaal met dit ondernemingsnummer al ingevuld. De beveiligingscontrole gebeurt daar.",
     "needsEnterpriseNumber": "Vul het ondernemings- of btw-nummer in om deze controle te activeren."
+  },
+  "network": {
+    "eyebrow": "Bedrijven",
+    "title": "Uw netwerk",
+    "description": "Wie u inhuurt, wie u inhuurt, en welke projecten u werkelijk deelt.",
+    "backToCompanies": "Terug naar bedrijven",
+    "youAreHere": "U",
+    "empty": "Nog geen bedrijven gekoppeld. Voeg een partner toe via de bedrijvenpagina.",
+    "band_upstream": "Wie u inhuurt",
+    "band_downstream": "Wie u inhuurt als onderaannemer",
+    "band_lateral": "Naast u aan het werk",
+    "bandHint_upstream": "U voert het werk uit; zij staan ervoor in bij hun eigen klant.",
+    "bandHint_downstream": "Zij voeren het werk uit; u staat ervoor in — ook voor hun mensen op uw werven.",
+    "bandHint_lateral": "Geen van beiden staat onder de ander.",
+    "type_client": "Klant",
+    "type_contractor": "Opdrachtgever",
+    "type_subcontractor": "Onderaannemer",
+    "type_partner": "Partner",
+    "status_pending": "Wacht op antwoord",
+    "status_active": "Actief",
+    "status_rejected": "Geweigerd",
+    "projectYours": "Uw project — zij zijn ervoor uitgenodigd",
+    "projectTheirs": "Hun project — u bent ervoor uitgenodigd",
+    "noSharedProjects": "Nog geen gedeelde projecten.",
+    "peopleOnYourProjects": "{count, plural, one {# van hun mensen op uw projecten} other {# van hun mensen op uw projecten}}",
+    "depthNote": "U ziet alleen de twee uiteinden van uw eigen relaties, dus de keten stopt hier ook wanneer ze in werkelijkheid doorloopt. Wat uw partners op uw werven doen, staat op het",
+    "depthNoteLink": "wervenscherm"
   }
 }

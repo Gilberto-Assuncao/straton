@@ -956,5 +956,32 @@
     "checkAction": "Einbehaltungspflicht prüfen",
     "checkHelp": "Öffnet das offizielle Behördenportal mit dieser Unternehmensnummer bereits eingetragen. Die Sicherheitsprüfung erfolgt dort.",
     "needsEnterpriseNumber": "Unternehmens- oder USt-Nummer eintragen, um diese Prüfung zu aktivieren."
+  },
+  "network": {
+    "eyebrow": "Unternehmen",
+    "title": "Ihr Netzwerk",
+    "description": "Wer Sie beauftragt, wen Sie beauftragen, und welche Projekte Sie tatsächlich teilen.",
+    "backToCompanies": "Zurück zu Unternehmen",
+    "youAreHere": "Sie",
+    "empty": "Noch keine Unternehmen verknüpft. Fügen Sie auf der Unternehmensseite einen Partner hinzu.",
+    "band_upstream": "Wer Sie beauftragt",
+    "band_downstream": "Wen Sie beauftragen",
+    "band_lateral": "An Ihrer Seite",
+    "bandHint_upstream": "Sie führen die Arbeit aus; sie stehen dafür gegenüber ihrem eigenen Kunden ein.",
+    "bandHint_downstream": "Sie führen die Arbeit aus; Sie stehen dafür ein — auch für deren Leute auf Ihren Baustellen.",
+    "bandHint_lateral": "Keiner steht unter dem anderen.",
+    "type_client": "Kunde",
+    "type_contractor": "Auftraggeber",
+    "type_subcontractor": "Subunternehmer",
+    "type_partner": "Partner",
+    "status_pending": "Wartet auf Antwort",
+    "status_active": "Aktiv",
+    "status_rejected": "Abgelehnt",
+    "projectYours": "Ihr Projekt — sie wurden dazu eingeladen",
+    "projectTheirs": "Deren Projekt — Sie wurden dazu eingeladen",
+    "noSharedProjects": "Noch keine gemeinsamen Projekte.",
+    "peopleOnYourProjects": "{count, plural, one {# ihrer Leute in Ihren Projekten} other {# ihrer Leute in Ihren Projekten}}",
+    "depthNote": "Sie sehen immer nur die beiden Enden Ihrer eigenen Beziehungen; die Kette endet hier also auch dann, wenn sie in Wirklichkeit weitergeht. Was Ihre Partner auf Ihren Baustellen tun, steht im",
+    "depthNoteLink": "Baustellen-Bildschirm"
   }
 }

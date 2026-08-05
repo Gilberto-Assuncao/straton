@@ -956,5 +956,32 @@
     "checkAction": "Verifica obbligo di ritenuta",
     "checkHelp": "Apre il portale ufficiale con questo numero d'impresa già compilato. La verifica di sicurezza avviene lì.",
     "needsEnterpriseNumber": "Inserisci il numero d'impresa o di partita IVA per attivare questa verifica."
+  },
+  "network": {
+    "eyebrow": "Aziende",
+    "title": "La tua rete",
+    "description": "Chi ti incarica, chi incarichi tu, e quali cantieri condividete davvero.",
+    "backToCompanies": "Torna alle aziende",
+    "youAreHere": "Tu",
+    "empty": "Nessuna azienda collegata. Aggiungi un partner dalla pagina delle aziende.",
+    "band_upstream": "Chi ti incarica",
+    "band_downstream": "Chi incarichi",
+    "band_lateral": "Al tuo fianco",
+    "bandHint_upstream": "Tu esegui il lavoro; loro ne rispondono verso il proprio cliente.",
+    "bandHint_downstream": "Loro eseguono il lavoro; tu ne rispondi — compreso il loro personale nei tuoi cantieri.",
+    "bandHint_lateral": "Nessuno dei due dipende dall'altro.",
+    "type_client": "Cliente",
+    "type_contractor": "Committente",
+    "type_subcontractor": "Subappaltatore",
+    "type_partner": "Partner",
+    "status_pending": "In attesa di risposta",
+    "status_active": "Attiva",
+    "status_rejected": "Rifiutata",
+    "projectYours": "Il tuo progetto — sono stati invitati",
+    "projectTheirs": "Il loro progetto — sei stato invitato",
+    "noSharedProjects": "Ancora nessun progetto condiviso.",
+    "peopleOnYourProjects": "{count, plural, one {# loro dipendente nei tuoi progetti} other {# loro dipendenti nei tuoi progetti}}",
+    "depthNote": "Vedi solo i due capi delle tue relazioni, quindi la catena si ferma qui anche quando nella realtà prosegue. Quello che i partner fanno nei tuoi cantieri è nella",
+    "depthNoteLink": "schermata dei cantieri"
   }
 }
