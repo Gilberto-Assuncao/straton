@@ -7,6 +7,9 @@ export const defaultAppNavigation: AppNavigationItem[] = [
   { id: "dashboard", label: "Dashboard", href: "/dashboard", icon: "dashboard", section: "general" },
   { id: "map", label: "Live Map", href: "/dashboard/map", icon: "globe", section: "general" },
 
+  // First in Operations on purpose: the agenda is what everything else in this
+  // section follows from — hours are logged against work that was scheduled.
+  { id: "agenda", label: "Agenda", href: "/dashboard/agenda", icon: "calendar", section: "operations" },
   { id: "timesheets", label: "Timesheets", href: "/dashboard/timesheets", icon: "calendar", section: "operations", badge: "approvals" },
   { id: "teams", label: "Teams", href: "/dashboard/teams", icon: "people", section: "operations", roles: managerRoles },
   { id: "projects", label: "Projects", href: "/dashboard/projects", icon: "layers", section: "operations" },
