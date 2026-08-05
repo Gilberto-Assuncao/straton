@@ -56,8 +56,22 @@ terceiros.
 pagamento e registos de funcionários; o Postmark foi descartado por manter todo
 o conteúdo e metadados nos EUA sem planos de mudar. Ver [#16](https://github.com/Gilberto-Assuncao/straton/issues/16).
 
-**Cobre quatro fluxos:** confirmação de registo, recuperação de palavra-passe,
-**convite de funcionário** e magic link.
+**Cobre cinco fluxos:** confirmação de registo, recuperação de palavra-passe,
+**convite de funcionário**, **convite de empresa** ([#20](https://github.com/Gilberto-Assuncao/straton/issues/20))
+e magic link.
+
+**Limite conhecido do convite de empresa.** O envio usa
+`auth.admin.inviteUserByEmail`, que só funciona para um endereço **sem conta**.
+Alguém que já tenha login no STRATON — por trabalhar noutra empresa da
+plataforma — não recebe email nenhum. Isso não é tratado como erro: o convite é
+criado à mesma e o link fica visível para o gestor o enviar como quiser. Na
+prática é o melhor comportamento mesmo quando o email é enviado, porque emails
+perdem-se e vão para spam, e quem convida costuma ter o telefone do
+subcontratado à mão.
+
+Enviar um email próprio (com o nosso texto, em vez do modelo do Supabase)
+exigiria a API do Brevo e mais uma variável de ambiente. Não se justificou
+ainda.
 
 ---
 
