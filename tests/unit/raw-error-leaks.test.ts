@@ -10,7 +10,9 @@ import { describe, expect, it } from "vitest";
  * a customer, with nothing written down anywhere. The detail belongs in a log;
  * the user gets something they can act on.
  *
- * There are 51 of these left across 11 files. Fixing them all in one pass would
+ * There are 46 of these left across 10 files — teams/actions.ts went to zero
+ * when its actions were converted to typed message keys, and dropped off the
+ * list entirely. Fixing the rest in one pass would
  * be a large mechanical edit across features nobody is otherwise touching, and
  * each needs a sensible replacement sentence — several of which are English
  * strings that #28 has to translate anyway.
@@ -23,7 +25,6 @@ const BUDGET: Record<string, number> = {
   "sites/actions.ts": 7,
   "operational-reports/actions.ts": 6,
   "operational-reports/template-actions.ts": 6,
-  "teams/actions.ts": 5,
   "companies/actions.ts": 4,
   "time-tracking/actions.ts": 3,
   "timesheets/actions.ts": 3,
