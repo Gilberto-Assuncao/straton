@@ -1296,5 +1296,22 @@
     "teamRole_supervisor": "Supervisor",
     "teamRole_member": "Membro",
     "updatedLabel": "Atualizada"
+  },
+  "companies": {
+    "eyebrow": "Gestão de empresas",
+    "title": "Empresas",
+    "description": "Espaços de trabalho autorizados associados à sua conta.",
+    "network": "Rede",
+    "createCompany": "Criar empresa",
+    "emptyTitle": "Ainda sem empresas",
+    "emptyBody": "Crie uma empresa para estabelecer o seu primeiro espaço de trabalho.",
+    "viewCompany": "Ver empresa →",
+    "member": "Membro",
+    "authorized": "Empresa autorizada",
+    "yourCompanies": "As suas empresas",
+    "status_active": "Ativa",
+    "status_inactive": "Inativa",
+    "status_suspended": "Suspensa",
+    "status_archived": "Arquivada"
   }
 }

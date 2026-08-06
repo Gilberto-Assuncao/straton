@@ -1296,5 +1296,22 @@
     "teamRole_supervisor": "Brygadzista",
     "teamRole_member": "Członek",
     "updatedLabel": "Zaktualizowano"
+  },
+  "companies": {
+    "eyebrow": "Zarządzanie firmami",
+    "title": "Firmy",
+    "description": "Autoryzowane przestrzenie robocze powiązane z Twoim kontem.",
+    "network": "Sieć",
+    "createCompany": "Utwórz firmę",
+    "emptyTitle": "Brak firm",
+    "emptyBody": "Utwórz firmę, aby założyć pierwszą przestrzeń roboczą.",
+    "viewCompany": "Zobacz firmę →",
+    "member": "Członek",
+    "authorized": "Autoryzowana firma",
+    "yourCompanies": "Twoje firmy",
+    "status_active": "Aktywna",
+    "status_inactive": "Nieaktywna",
+    "status_suspended": "Zawieszona",
+    "status_archived": "Zarchiwizowana"
   }
 }

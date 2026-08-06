@@ -1296,5 +1296,22 @@
     "teamRole_supervisor": "Supervisor",
     "teamRole_member": "Member",
     "updatedLabel": "Updated"
+  },
+  "companies": {
+    "eyebrow": "Company management",
+    "title": "Companies",
+    "description": "Authorized tenant workspaces linked to your account.",
+    "network": "Network",
+    "createCompany": "Create company",
+    "emptyTitle": "No companies yet",
+    "emptyBody": "Create a company to establish your first tenant workspace.",
+    "viewCompany": "View company →",
+    "member": "Member",
+    "authorized": "Authorized company",
+    "yourCompanies": "Your companies",
+    "status_active": "Active",
+    "status_inactive": "Inactive",
+    "status_suspended": "Suspended",
+    "status_archived": "Archived"
   }
 }

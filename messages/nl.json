@@ -1296,5 +1296,22 @@
     "teamRole_supervisor": "Supervisor",
     "teamRole_member": "Lid",
     "updatedLabel": "Bijgewerkt"
+  },
+  "companies": {
+    "eyebrow": "Bedrijfsbeheer",
+    "title": "Bedrijven",
+    "description": "Geautoriseerde werkruimtes gekoppeld aan uw account.",
+    "network": "Netwerk",
+    "createCompany": "Bedrijf aanmaken",
+    "emptyTitle": "Nog geen bedrijven",
+    "emptyBody": "Maak een bedrijf aan om uw eerste werkruimte op te zetten.",
+    "viewCompany": "Bedrijf bekijken →",
+    "member": "Lid",
+    "authorized": "Geautoriseerd bedrijf",
+    "yourCompanies": "Uw bedrijven",
+    "status_active": "Actief",
+    "status_inactive": "Inactief",
+    "status_suspended": "Geschorst",
+    "status_archived": "Gearchiveerd"
   }
 }

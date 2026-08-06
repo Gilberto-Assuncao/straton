@@ -1296,5 +1296,22 @@
     "teamRole_supervisor": "Supervizor",
     "teamRole_member": "Membru",
     "updatedLabel": "Actualizată"
+  },
+  "companies": {
+    "eyebrow": "Gestionarea companiilor",
+    "title": "Companii",
+    "description": "Spații de lucru autorizate asociate contului dumneavoastră.",
+    "network": "Rețea",
+    "createCompany": "Creați o companie",
+    "emptyTitle": "Încă nicio companie",
+    "emptyBody": "Creați o companie pentru a stabili primul spațiu de lucru.",
+    "viewCompany": "Vedeți compania →",
+    "member": "Membru",
+    "authorized": "Companie autorizată",
+    "yourCompanies": "Companiile dumneavoastră",
+    "status_active": "Activă",
+    "status_inactive": "Inactivă",
+    "status_suspended": "Suspendată",
+    "status_archived": "Arhivată"
   }
 }

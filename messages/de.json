@@ -1296,5 +1296,22 @@
     "teamRole_supervisor": "Vorarbeiter",
     "teamRole_member": "Mitglied",
     "updatedLabel": "Aktualisiert"
+  },
+  "companies": {
+    "eyebrow": "Unternehmensverwaltung",
+    "title": "Unternehmen",
+    "description": "Autorisierte Arbeitsbereiche, die mit Ihrem Konto verknüpft sind.",
+    "network": "Netzwerk",
+    "createCompany": "Unternehmen erstellen",
+    "emptyTitle": "Noch keine Unternehmen",
+    "emptyBody": "Erstellen Sie ein Unternehmen, um Ihren ersten Arbeitsbereich einzurichten.",
+    "viewCompany": "Unternehmen ansehen →",
+    "member": "Mitglied",
+    "authorized": "Autorisiertes Unternehmen",
+    "yourCompanies": "Ihre Unternehmen",
+    "status_active": "Aktiv",
+    "status_inactive": "Inaktiv",
+    "status_suspended": "Gesperrt",
+    "status_archived": "Archiviert"
   }
 }
