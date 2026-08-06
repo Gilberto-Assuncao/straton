@@ -159,11 +159,58 @@ Lembretes de pontualidade, diariamente às 07:00 UTC. Autenticado por
 
 ---
 
-## 8. Lacunas conhecidas
+## 8. Observabilidade
+
+Sem fornecedor externo, e isso é uma decisão e não uma pendência. **O Vercel já
+recolhe** os erros de execução e agrupa-os. O que faltava não era recolha — era
+estrutura e alguém ser avisado.
+
+### O que existe
+
+**`instrumentation.ts`** (raiz, ao lado de `app/`) — o `onRequestError` do Next
+apanha tudo o que rebenta a renderizar um componente de servidor, num *route
+handler* ou numa *server action*, e emite uma linha JSON.
+
+**`src/infrastructure/observability/logger.ts`** — uma linha JSON por evento.
+O formato importa mais do que o destino: `console.error("falhou", err)` produz
+algo que ninguém consegue filtrar; `{"event":"invite_email_failed"}` pode ser
+contado, agrupado e alertado.
+
+O `LogContext` é uma **lista fechada de campos**, não `Record<string, unknown>`.
+Registos são enviados, retidos e lidos por gente que não está a olhar para o
+código — "espalha aí o objeto" é como um email, um token ou uma linha inteira de
+salários acaba num agregador de logs.
+
+**`src/i18n/request.ts`** — `onError` que **rebenta em desenvolvimento** e
+regista em produção. Uma tradução em falta nunca deve derrubar uma página em
+produção, mas em desenvolvimento tem de ser impossível de ignorar. O
+`getMessageFallback` devolve a chave crua de propósito: é feio, e é esse o
+ponto — assim lê-se como defeito e não como um rótulo que alguém escolheu.
+
+### O que falta, e é um clique teu
+
+**Alerta sobre grupos de erro novos.** No painel do Vercel, em *Observability →
+Alerts*. Sem isto, tudo o que está acima continua a ser um sítio onde procurar
+em vez de algo que nos procura.
+
+Consultar erros agrupados, entretanto: painel do Vercel, ou o campo `event` nos
+registos de execução.
+
+### Erros crus a chegar ao utilizador
+
+Restam **51 sítios** que devolvem `error.message` diretamente ao ecrã — foi
+assim que `535 5.7.8 Authentication failed` e a string literal `{}` foram
+parar à frente de um cliente. `tests/unit/raw-error-leaks.test.ts` é uma
+**catraca**: não exige zero, exige *não mais do que hoje*, por ficheiro. A lista
+só pode encolher.
+
+---
+
+## 9. Lacunas conhecidas
 
 | Falta | Issue |
 |---|---|
-| **Observabilidade** — sem captura de erros nem alertas em produção | [#27](https://github.com/Gilberto-Assuncao/straton/issues/27) |
+| **Alerta de erros** — a recolha e a estrutura existem, falta a notificação | [#27](https://github.com/Gilberto-Assuncao/straton/issues/27) |
 | **Login social** (Google, Apple, Microsoft) — os botões existem, os fornecedores não estão configurados | [#15](https://github.com/Gilberto-Assuncao/straton/issues/15) |
 | **Geocodificação** — coordenadas das obras ainda escritas à mão | [#31](https://github.com/Gilberto-Assuncao/straton/issues/31) |
 | **Faturação** | [#10](https://github.com/Gilberto-Assuncao/straton/issues/10) |

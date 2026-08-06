@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { createAdminClient } from "@/src/infrastructure/supabase/admin";
+import { log } from "@/src/infrastructure/observability/logger";
 
 export type InviteEmployeeState = { status: "idle" | "error"; message: string };
 
@@ -57,7 +58,18 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
       // server-side /auth/callback (?code=) handler.
       redirectTo: `${appUrl}/accept-invite`,
     });
-    if (inviteError || !invited.user) return { status: "error", message: inviteError?.message ?? "Unable to send the invitation." };
+    if (inviteError || !invited.user) {
+      // The path that opened #27. When the SMTP credentials were wrong this
+      // returned `535 5.7.8 Authentication failed` — or, when the provider sent
+      // an empty body, the literal string `{}` — straight onto the screen, and
+      // nowhere else. The detail belongs in the log; the person inviting gets
+      // something they can act on.
+      log.error(
+        { event: "invite_email_failed", source: "inviteEmployeeAction", companyId, userId: session.user.id },
+        inviteError,
+      );
+      return { status: "error", message: "Could not send the invitation email. It has been logged; try again shortly." };
+    }
     userId = invited.user.id;
     await admin.from("users").update({ first_name: firstName, last_name: lastName, phone: phone || null }).eq("id", userId);
   }
