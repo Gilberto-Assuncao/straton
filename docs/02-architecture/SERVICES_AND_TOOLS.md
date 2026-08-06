@@ -187,14 +187,40 @@ produção, mas em desenvolvimento tem de ser impossível de ignorar. O
 `getMessageFallback` devolve a chave crua de propósito: é feio, e é esse o
 ponto — assim lê-se como defeito e não como um rótulo que alguém escolheu.
 
-### O que falta, e é um clique teu
+### Alertas — o que existe mesmo
 
-**Alerta sobre grupos de erro novos.** No painel do Vercel, em *Observability →
-Alerts*. Sem isto, tudo o que está acima continua a ser um sítio onde procurar
-em vez de algo que nos procura.
+Verificado na conta (plano **Hobby**), com `vercel alerts rules ls`:
 
-Consultar erros agrupados, entretanto: painel do Vercel, ou o campo `event` nos
-registos de execução.
+```
+Default Alert Rule   ar_default   team-wide
+  odataFilters              level in ('error', 'critical')
+  autosubscribeOwners       yes
+  notifications             []
+```
+
+**A regra já existe e subscreve os donos.** Não foi preciso criar nada — o que
+é uma correção a uma suposição anterior de que faltava configurar um alerta.
+
+Mas `vercel alerts` devolve **`No alerts found`**, apesar dos 28 erros de
+execução de 2026-08-05. Ou seja: a regra existe, os erros existem, e nada
+disparou. Não está confirmado porquê, e não se deve assumir que sim.
+
+**A hipótese em teste:** a regra filtra pelo *nível* da linha de registo, que é
+o que o método de consola determina — `console.error` produz nível `error`. O
+`logger.ts` usa `console.error` no nível `error`, por isso o que este código
+escreve deve passar a ser elegível.
+
+Consequência direta no desenho: **tradução em falta é `error`, não `warn`.** Não
+derruba a página, mas `warn` é um nível a que ninguém está subscrito — e foi
+exatamente esse o estado que deixou `nav.agenda` na barra lateral durante 70
+minutos. É um defeito visível ao cliente; se derrubou a página ou não, não é o
+critério.
+
+**Por confirmar:** só o próximo erro real de produção prova se o alerta chega.
+Até lá isto é uma hipótese fundamentada, não um facto.
+
+Consultar entretanto: painel do Vercel, ou o campo `event` nos registos de
+execução.
 
 ### Erros crus a chegar ao utilizador
 

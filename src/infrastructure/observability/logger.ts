@@ -102,7 +102,12 @@ export const log = {
   error(context: LogContext, error?: unknown): void {
     emit("error", context, error);
   },
-  /** Wrong but survivable: a missing translation, a degraded lookup. */
+  /**
+   * Degraded but not a defect: a cache miss, a slow upstream, a retry that
+   * worked. Note what does *not* belong here — anything a customer can see is
+   * an error, whether or not it took the page down. The team's alert rule
+   * subscribes to `error` and `critical`, so `warn` is a level nobody reads.
+   */
   warn(context: LogContext, error?: unknown): void {
     emit("warn", context, error);
   },

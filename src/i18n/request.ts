@@ -29,7 +29,19 @@ export default getRequestConfig(async ({ requestLocale }) => {
         // red screen the moment you open the page you just broke.
         if (process.env.NODE_ENV === "development") throw error;
 
-        log.warn({ event: "missing_translation", source: "next-intl", detail: error.message });
+        /**
+         * Error level, not warning, and that is deliberate.
+         *
+         * A missing translation does not crash anything, so `warn` reads like
+         * the honest classification. But the team's Vercel alert rule filters
+         * on `level in ('error', 'critical')` — a warning is a line nobody is
+         * subscribed to, which is precisely the state that let "nav.agenda"
+         * sit in the sidebar for 70 minutes.
+         *
+         * It is a shipped defect visible to a customer. Whether it took the
+         * page down is not the test.
+         */
+        log.error({ event: "missing_translation", source: "next-intl", detail: error.message });
         return;
       }
 
