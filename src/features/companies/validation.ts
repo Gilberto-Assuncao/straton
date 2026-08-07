@@ -28,18 +28,18 @@ export function validateCompanyForm(formData: FormData): { data?: CompanyFormVal
     city: value(formData, "city", 100), region: value(formData, "region", 100),
   };
   const fieldErrors: CompanyActionState["fieldErrors"] = {};
-  if (data.legalName.length < 2) fieldErrors.legalName = "Legal name must contain at least 2 characters.";
-  if (data.displayName.length < 2) fieldErrors.displayName = "Display name must contain at least 2 characters.";
-  if (!/^[A-Z]{2}$/.test(data.countryCode)) fieldErrors.countryCode = "Use a two-letter country code.";
-  if (!languages.includes(data.defaultLanguage)) fieldErrors.defaultLanguage = "Select a supported language.";
-  if (!isTimezone(data.timezone)) fieldErrors.timezone = "Use a valid IANA timezone.";
-  if (!/^[A-Z]{3}$/.test(data.currencyCode)) fieldErrors.currencyCode = "Use a three-letter ISO currency code.";
-  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) fieldErrors.email = "Enter a valid email address.";
-  if (!isUrl(data.website)) fieldErrors.website = "Use a valid http or https URL.";
-  if (data.phone && !/^[+()\d\s.-]{6,32}$/.test(data.phone)) fieldErrors.phone = "Enter a structurally valid phone number.";
-  if (data.vatNumber && !/^[A-Z0-9 .-]{3,64}$/i.test(data.vatNumber)) fieldErrors.vatNumber = "VAT number contains unsupported characters.";
-  if (data.registrationNumber && !/^[A-Z0-9 ./-]{2,64}$/i.test(data.registrationNumber)) fieldErrors.registrationNumber = "Registration number contains unsupported characters.";
-  return Object.keys(fieldErrors).length ? { error: { status: "error", message: "Review the highlighted fields.", fieldErrors } } : { data };
+  if (data.legalName.length < 2) fieldErrors.legalName = "legalName";
+  if (data.displayName.length < 2) fieldErrors.displayName = "displayName";
+  if (!/^[A-Z]{2}$/.test(data.countryCode)) fieldErrors.countryCode = "countryCode";
+  if (!languages.includes(data.defaultLanguage)) fieldErrors.defaultLanguage = "defaultLanguage";
+  if (!isTimezone(data.timezone)) fieldErrors.timezone = "timezone";
+  if (!/^[A-Z]{3}$/.test(data.currencyCode)) fieldErrors.currencyCode = "currencyCode";
+  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) fieldErrors.email = "email";
+  if (!isUrl(data.website)) fieldErrors.website = "website";
+  if (data.phone && !/^[+()\d\s.-]{6,32}$/.test(data.phone)) fieldErrors.phone = "phone";
+  if (data.vatNumber && !/^[A-Z0-9 .-]{3,64}$/i.test(data.vatNumber)) fieldErrors.vatNumber = "vatNumber";
+  if (data.registrationNumber && !/^[A-Z0-9 ./-]{2,64}$/i.test(data.registrationNumber)) fieldErrors.registrationNumber = "registrationNumber";
+  return Object.keys(fieldErrors).length ? { error: { status: "error", messageKey: "reviewFields", fieldErrors } } : { data };
 }
 
 export function validateSettingsForm(formData: FormData): { data?: CompanySettingsValues; error?: CompanyActionState } {
@@ -51,16 +51,16 @@ export function validateSettingsForm(formData: FormData): { data?: CompanySettin
     graceMinutes: value(formData, "graceMinutes", 4), punctualityRemindersEnabled: formData.get("punctualityRemindersEnabled") === "on",
   };
   const fieldErrors: CompanyActionState["fieldErrors"] = {};
-  if (!languages.includes(data.defaultLanguage)) fieldErrors.defaultLanguage = "Select a supported language.";
-  if (!isTimezone(data.timezone)) fieldErrors.timezone = "Use a valid IANA timezone.";
-  if (!/^[A-Z]{3}$/.test(data.currencyCode)) fieldErrors.currencyCode = "Use an ISO currency code.";
-  if (!["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD"].includes(data.dateFormat)) fieldErrors.dateFormat = "Select a supported date format.";
-  if (!["12h", "24h"].includes(data.timeFormat)) fieldErrors.timeFormat = "Select a supported time format.";
-  if (!["0", "1", "6"].includes(data.weekStartsOn)) fieldErrors.weekStartsOn = "Select a supported first day.";
-  if (!statuses.includes(data.status)) fieldErrors.status = "Select a valid company status.";
-  if (data.expectedStartTime && !/^\d{2}:\d{2}$/.test(data.expectedStartTime)) fieldErrors.expectedStartTime = "Use HH:MM format.";
-  if (data.expectedEndTime && !/^\d{2}:\d{2}$/.test(data.expectedEndTime)) fieldErrors.expectedEndTime = "Use HH:MM format.";
-  if (!/^\d{1,3}$/.test(data.graceMinutes) || Number(data.graceMinutes) > 180) fieldErrors.graceMinutes = "Enter a grace period between 0 and 180 minutes.";
-  if (data.punctualityRemindersEnabled && (!data.expectedStartTime)) fieldErrors.expectedStartTime = "Set an expected start time to enable reminders.";
-  return Object.keys(fieldErrors).length ? { error: { status: "error", message: "Review the highlighted fields.", fieldErrors } } : { data };
+  if (!languages.includes(data.defaultLanguage)) fieldErrors.defaultLanguage = "defaultLanguage";
+  if (!isTimezone(data.timezone)) fieldErrors.timezone = "timezone";
+  if (!/^[A-Z]{3}$/.test(data.currencyCode)) fieldErrors.currencyCode = "currencyCode";
+  if (!["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD"].includes(data.dateFormat)) fieldErrors.dateFormat = "dateFormat";
+  if (!["12h", "24h"].includes(data.timeFormat)) fieldErrors.timeFormat = "timeFormat";
+  if (!["0", "1", "6"].includes(data.weekStartsOn)) fieldErrors.weekStartsOn = "weekStartsOn";
+  if (!statuses.includes(data.status)) fieldErrors.status = "status";
+  if (data.expectedStartTime && !/^\d{2}:\d{2}$/.test(data.expectedStartTime)) fieldErrors.expectedStartTime = "expectedEndTime";
+  if (data.expectedEndTime && !/^\d{2}:\d{2}$/.test(data.expectedEndTime)) fieldErrors.expectedEndTime = "expectedEndTime";
+  if (!/^\d{1,3}$/.test(data.graceMinutes) || Number(data.graceMinutes) > 180) fieldErrors.graceMinutes = "graceMinutes";
+  if (data.punctualityRemindersEnabled && (!data.expectedStartTime)) fieldErrors.expectedStartTime = "expectedStartTime";
+  return Object.keys(fieldErrors).length ? { error: { status: "error", messageKey: "reviewFields", fieldErrors } } : { data };
 }

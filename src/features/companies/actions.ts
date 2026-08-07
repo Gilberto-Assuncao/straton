@@ -9,7 +9,8 @@ import { createClient } from "@/src/infrastructure/supabase/server";
 import { lookupVat } from "@/src/infrastructure/vies/client";
 import { isCbeConfigured, lookupBelgianCompany } from "@/src/infrastructure/cbe/client";
 import { validateCompanyForm, validateSettingsForm } from "./validation";
-import type { CompanyActionState } from "./types";
+import { log } from "@/src/infrastructure/observability/logger";
+import type { CompanyActionState, CompanyMessageKey, CompanyMutationResult } from "./types";
 
 export type VatLookupOutcome =
   | { valid: true; source: "cbe" | "vies"; legalName: string; displayName?: string; addressLine1: string; postalCode: string; city: string;
@@ -47,8 +48,13 @@ async function authorize(companyId: string, roles: string[]) {
   return company && company.roles.some((role) => roles.includes(role)) ? company : null;
 }
 
-function serverError(message = "The company could not be saved. Try again."): CompanyActionState {
-  return { status: "error", message };
+/**
+ * A failure the user can act on, with the provider's own words sent to the log
+ * instead of the screen (#27).
+ */
+function serverError(messageKey: CompanyMessageKey = "failed", error?: unknown): CompanyActionState {
+  if (error) log.error({ event: "company_action_failed", source: "companies/actions", code: messageKey }, error);
+  return { status: "error", messageKey };
 }
 
 export async function createCompanyAction(_: CompanyActionState, formData: FormData): Promise<CompanyActionState> {
@@ -63,14 +69,14 @@ export async function createCompanyAction(_: CompanyActionState, formData: FormD
     registration_number_input: data.registrationNumber || null, vat_number_input: data.vatNumber || null,
     email_input: data.email || null, phone_input: data.phone || null, city_input: data.city || null, website_input: data.website || null,
   });
-  if (error || typeof companyId !== "string") return serverError(error?.message);
+  if (error || typeof companyId !== "string") return serverError("failed", error);
   (await cookies()).set(ACTIVE_COMPANY_COOKIE, companyId, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 60 * 60 * 24 * 30 });
   revalidatePath("/dashboard", "layout");
   redirect(`/dashboard/companies/${companyId}`);
 }
 
 export async function updateCompanyAction(companyId: string, _: CompanyActionState, formData: FormData): Promise<CompanyActionState> {
-  if (!await authorize(companyId, ["owner", "admin", "administrator"])) return serverError("You do not have permission to edit this company.");
+  if (!await authorize(companyId, ["owner", "admin", "administrator"])) return serverError("noPermissionProfile");
   const validation = validateCompanyForm(formData);
   if (!validation.data) return validation.error ?? serverError();
   const data = validation.data;
@@ -83,19 +89,19 @@ export async function updateCompanyAction(companyId: string, _: CompanyActionSta
     website: data.website || null, address_line_1: data.addressLine1 || null, address_line_2: data.addressLine2 || null,
     postal_code: data.postalCode || null, city: data.city || null, region: data.region || null,
   }).eq("id", companyId);
-  if (error) return serverError(error.message);
+  if (error) return serverError("failed", error);
   revalidatePath(`/dashboard/companies/${companyId}`);
   revalidatePath("/dashboard", "layout");
-  return { status: "success", message: "Company profile updated." };
+  return { status: "success", messageKey: "profileUpdated" };
 }
 
 export async function updateCompanySettingsAction(companyId: string, _: CompanyActionState, formData: FormData): Promise<CompanyActionState> {
   const membership = await authorize(companyId, ["owner", "admin", "administrator"]);
-  if (!membership) return serverError("You do not have permission to edit company settings.");
+  if (!membership) return serverError("noPermissionSettings");
   const validation = validateSettingsForm(formData);
   if (!validation.data) return validation.error ?? serverError();
   const data = validation.data;
-  if (data.status === "archived" && !membership.roles.includes("owner")) return serverError("Only an owner can archive a company.");
+  if (data.status === "archived" && !membership.roles.includes("owner")) return serverError("ownerArchiveOnly");
   const supabase = await createClient();
   const [companyResult, settingsResult] = await Promise.all([
     supabase.from("companies").update({ default_language: data.defaultLanguage, timezone: data.timezone, currency: data.currencyCode, status: data.status }).eq("id", companyId),
@@ -106,19 +112,22 @@ export async function updateCompanySettingsAction(companyId: string, _: CompanyA
     }),
   ]);
   const error = companyResult.error ?? settingsResult.error;
-  if (error) return serverError(error.message);
+  if (error) return serverError("failed", error);
   revalidatePath(`/dashboard/companies/${companyId}`);
   revalidatePath("/dashboard", "layout");
-  return { status: "success", message: "Company settings updated." };
+  return { status: "success", messageKey: "settingsUpdated" };
 }
 
-export async function setCompanyArchivedAction(companyId: string, archived: boolean): Promise<{ ok: boolean; message: string }> {
-  if (!await authorize(companyId, ["owner"])) return { ok: false, message: "Only a company owner can perform this action." };
+export async function setCompanyArchivedAction(companyId: string, archived: boolean): Promise<CompanyMutationResult> {
+  if (!await authorize(companyId, ["owner"])) return { ok: false, messageKey: "ownerOnly" };
   const supabase = await createClient();
   const { error } = await supabase.from("companies").update({ status: archived ? "archived" : "active" }).eq("id", companyId);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "company_archive_failed", source: "setCompanyArchivedAction" }, error);
+    return { ok: false, messageKey: "failed" };
+  }
   if (archived) (await cookies()).delete(ACTIVE_COMPANY_COOKIE);
   revalidatePath("/dashboard", "layout");
   revalidatePath("/dashboard/companies");
-  return { ok: true, message: archived ? "Company archived. Its history has been preserved." : "Company reactivated." };
+  return { ok: true, messageKey: archived ? "companyArchived" : "companyReactivated" };
 }
