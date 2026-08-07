@@ -159,11 +159,84 @@ Lembretes de pontualidade, diariamente às 07:00 UTC. Autenticado por
 
 ---
 
-## 8. Lacunas conhecidas
+## 8. Observabilidade
+
+Sem fornecedor externo, e isso é uma decisão e não uma pendência. **O Vercel já
+recolhe** os erros de execução e agrupa-os. O que faltava não era recolha — era
+estrutura e alguém ser avisado.
+
+### O que existe
+
+**`instrumentation.ts`** (raiz, ao lado de `app/`) — o `onRequestError` do Next
+apanha tudo o que rebenta a renderizar um componente de servidor, num *route
+handler* ou numa *server action*, e emite uma linha JSON.
+
+**`src/infrastructure/observability/logger.ts`** — uma linha JSON por evento.
+O formato importa mais do que o destino: `console.error("falhou", err)` produz
+algo que ninguém consegue filtrar; `{"event":"invite_email_failed"}` pode ser
+contado, agrupado e alertado.
+
+O `LogContext` é uma **lista fechada de campos**, não `Record<string, unknown>`.
+Registos são enviados, retidos e lidos por gente que não está a olhar para o
+código — "espalha aí o objeto" é como um email, um token ou uma linha inteira de
+salários acaba num agregador de logs.
+
+**`src/i18n/request.ts`** — `onError` que **rebenta em desenvolvimento** e
+regista em produção. Uma tradução em falta nunca deve derrubar uma página em
+produção, mas em desenvolvimento tem de ser impossível de ignorar. O
+`getMessageFallback` devolve a chave crua de propósito: é feio, e é esse o
+ponto — assim lê-se como defeito e não como um rótulo que alguém escolheu.
+
+### Alertas — o que existe mesmo
+
+Verificado na conta (plano **Hobby**), com `vercel alerts rules ls`:
+
+```
+Default Alert Rule   ar_default   team-wide
+  odataFilters              level in ('error', 'critical')
+  autosubscribeOwners       yes
+  notifications             []
+```
+
+**A regra já existe e subscreve os donos.** Não foi preciso criar nada — o que
+é uma correção a uma suposição anterior de que faltava configurar um alerta.
+
+Mas `vercel alerts` devolve **`No alerts found`**, apesar dos 28 erros de
+execução de 2026-08-05. Ou seja: a regra existe, os erros existem, e nada
+disparou. Não está confirmado porquê, e não se deve assumir que sim.
+
+**A hipótese em teste:** a regra filtra pelo *nível* da linha de registo, que é
+o que o método de consola determina — `console.error` produz nível `error`. O
+`logger.ts` usa `console.error` no nível `error`, por isso o que este código
+escreve deve passar a ser elegível.
+
+Consequência direta no desenho: **tradução em falta é `error`, não `warn`.** Não
+derruba a página, mas `warn` é um nível a que ninguém está subscrito — e foi
+exatamente esse o estado que deixou `nav.agenda` na barra lateral durante 70
+minutos. É um defeito visível ao cliente; se derrubou a página ou não, não é o
+critério.
+
+**Por confirmar:** só o próximo erro real de produção prova se o alerta chega.
+Até lá isto é uma hipótese fundamentada, não um facto.
+
+Consultar entretanto: painel do Vercel, ou o campo `event` nos registos de
+execução.
+
+### Erros crus a chegar ao utilizador
+
+Restam **51 sítios** que devolvem `error.message` diretamente ao ecrã — foi
+assim que `535 5.7.8 Authentication failed` e a string literal `{}` foram
+parar à frente de um cliente. `tests/unit/raw-error-leaks.test.ts` é uma
+**catraca**: não exige zero, exige *não mais do que hoje*, por ficheiro. A lista
+só pode encolher.
+
+---
+
+## 9. Lacunas conhecidas
 
 | Falta | Issue |
 |---|---|
-| **Observabilidade** — sem captura de erros nem alertas em produção | [#27](https://github.com/Gilberto-Assuncao/straton/issues/27) |
+| **Alerta de erros** — a recolha e a estrutura existem, falta a notificação | [#27](https://github.com/Gilberto-Assuncao/straton/issues/27) |
 | **Login social** (Google, Apple, Microsoft) — os botões existem, os fornecedores não estão configurados | [#15](https://github.com/Gilberto-Assuncao/straton/issues/15) |
 | **Geocodificação** — coordenadas das obras ainda escritas à mão | [#31](https://github.com/Gilberto-Assuncao/straton/issues/31) |
 | **Faturação** | [#10](https://github.com/Gilberto-Assuncao/straton/issues/10) |
