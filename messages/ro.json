@@ -1435,5 +1435,23 @@
     "rel_pending": "Așteaptă răspuns",
     "rel_active": "Activă",
     "rel_rejected": "Refuzată"
+  },
+  "notifications": {
+    "assignmentAssigned_title": "Lucrare nouă repartizată",
+    "assignmentAssigned_body": "{title} — {when}",
+    "assignmentTimeChanged_title": "S-a schimbat o oră",
+    "assignmentTimeChanged_body": "{title} a fost mutată de la {previously} la {when}.",
+    "assignmentSiteChanged_title": "S-a schimbat un șantier",
+    "assignmentSiteChanged_body": "{title} are loc acum la {site}.",
+    "assignmentCancelled_title": "O lucrare a fost anulată",
+    "assignmentCancelled_body": "{title}, planificată pentru {when}, nu mai este programată.",
+    "swapProposed_title": "Un coleg vă cere să preluați un schimb",
+    "swapProposed_body": "{person} vă cere să preluați {title} pe {when}.",
+    "swapAcceptedByPeer_title": "Colegul dumneavoastră a acceptat",
+    "swapAcceptedByPeer_body": "{person} a acceptat {title}. Mai lipsește aprobarea supervizorului.",
+    "swapApproved_title": "Schimb aprobat",
+    "swapApproved_body": "{title} pe {when} a fost reatribuită.",
+    "swapRejected_title": "Schimb neaprobat",
+    "swapRejected_body": "{title} pe {when} rămâne la dumneavoastră."
   }
 }

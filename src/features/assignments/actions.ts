@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { findAvailabilityConflicts } from "@/src/features/availability/data";
+import { notify } from "@/src/features/notifications/publish";
 import { WORKER_TRANSITIONS, type AssignmentStatus } from "./types";
 
 export type AssignmentMessageKey =
@@ -143,8 +144,28 @@ export async function createAssignmentAction(formData: FormData): Promise<Assign
 
   const warnings = await conflictWarnings([...bySource.keys()], start.toISOString(), end.toISOString());
 
+  // The channel we control (#49). Until now a worker had no way of learning
+  // they had been given a job except by opening the agenda and looking.
+  await notify(await recipients(companyId, [...bySource.keys()]), "assignmentAssigned", {
+    title,
+    startsAt: start.toISOString(),
+  });
+
   revalidatePath("/dashboard/agenda");
   return { ok: true, message: "created", warnings };
+}
+
+/**
+ * Turns membership ids into the user ids a notification is addressed to.
+ *
+ * Runs before the change in the delete case, because afterwards the rows that
+ * say who to tell are gone.
+ */
+async function recipients(companyId: string, membershipIds: string[]) {
+  if (membershipIds.length === 0) return [];
+  const supabase = await createClient();
+  const { data } = await supabase.from("company_memberships").select("user_id").in("id", membershipIds);
+  return ((data ?? []) as { user_id: string }[]).map((row) => ({ userId: row.user_id, companyId }));
 }
 
 /** Turns membership ids into names, so the warning names people rather than uuids. */
@@ -215,8 +236,26 @@ export async function deleteAssignmentAction(assignmentId: string): Promise<Assi
   }
 
   const supabase = await createClient();
+
+  // Read the crew before deleting: afterwards the rows that say who to tell are
+  // gone, and a cancellation nobody hears about is the failure mode that sends
+  // someone to a site for work that is no longer happening.
+  const [{ data: assignment }, { data: crew }] = await Promise.all([
+    supabase.from("assignments").select("title,starts_at,company_id").eq("id", assignmentId).maybeSingle(),
+    supabase.from("assignment_assignees").select("company_membership_id").eq("assignment_id", assignmentId),
+  ]);
+
   const { error } = await supabase.from("assignments").delete().eq("id", assignmentId);
   if (error) return { ok: false, message: "failed" };
+
+  const job = assignment as { title: string; starts_at: string; company_id: string } | null;
+  if (job) {
+    await notify(
+      await recipients(job.company_id, ((crew ?? []) as { company_membership_id: string }[]).map((row) => row.company_membership_id)),
+      "assignmentCancelled",
+      { title: job.title, startsAt: job.starts_at },
+    );
+  }
 
   revalidatePath("/dashboard/agenda");
   return { ok: true, message: "deleted", warnings: [] };

@@ -1435,5 +1435,23 @@
     "rel_pending": "In attesa",
     "rel_active": "Attiva",
     "rel_rejected": "Rifiutata"
+  },
+  "notifications": {
+    "assignmentAssigned_title": "Nuovo lavoro assegnato",
+    "assignmentAssigned_body": "{title} — {when}",
+    "assignmentTimeChanged_title": "Un orario è cambiato",
+    "assignmentTimeChanged_body": "{title} è passato da {previously} a {when}.",
+    "assignmentSiteChanged_title": "Un cantiere è cambiato",
+    "assignmentSiteChanged_body": "{title} si svolge ora a {site}.",
+    "assignmentCancelled_title": "Un lavoro è stato annullato",
+    "assignmentCancelled_body": "{title}, previsto per {when}, non è più programmato.",
+    "swapProposed_title": "Un collega ti chiede di coprire un turno",
+    "swapProposed_body": "{person} ti chiede di coprire {title} il {when}.",
+    "swapAcceptedByPeer_title": "Il tuo collega ha accettato",
+    "swapAcceptedByPeer_body": "{person} ha accettato {title}. Manca l'approvazione del responsabile.",
+    "swapApproved_title": "Scambio di turno approvato",
+    "swapApproved_body": "{title} il {when} è stato riassegnato.",
+    "swapRejected_title": "Scambio di turno non approvato",
+    "swapRejected_body": "{title} il {when} resta a te."
   }
 }
