@@ -1,3 +1,5 @@
+"use client";
+import { useTranslations } from "next-intl";
 import type { ManagedCompanyStatus } from "../types";
 
 const styles: Record<ManagedCompanyStatus, string> = {
@@ -8,5 +10,15 @@ const styles: Record<ManagedCompanyStatus, string> = {
 };
 
 export function CompanyStatusBadge({ status }: { status: ManagedCompanyStatus }) {
-  return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold capitalize ${styles[status]}`}><span aria-hidden="true" className="mr-1.5">●</span>{status}</span>;
+  const t = useTranslations("companies");
+  return (
+    // `capitalize` went with the raw value: English typography on an English
+    // identifier, which mangles other languages once the value is translated.
+    <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-semibold ${styles[status]}`}>
+      <span aria-hidden="true" className="mr-1.5">
+        ●
+      </span>
+      {t(`status_${status}` as "status_active")}
+    </span>
+  );
 }

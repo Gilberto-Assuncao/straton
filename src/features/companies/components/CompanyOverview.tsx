@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { useFormatter, useTranslations } from "next-intl";
 import { DashboardCard, KpiCard } from "@/src/components/dashboard";
 import { CompanyDetailsForm } from "./CompanyDetailsForm";
 import { CompanySettingsForm } from "./CompanySettingsForm";
@@ -7,12 +9,126 @@ import { CompanyDangerZone } from "./CompanyDangerZone";
 import type { CompanyDetail } from "../types";
 
 export function CompanyOverview({ company }: { company: CompanyDetail }) {
-  const edit=company.permissions.includes("edit_profile"), settings=company.permissions.includes("edit_settings");
-  const initials=company.displayName.split(/\s+/).slice(0,2).map(part=>part[0]).join("").toUpperCase();
-  return <div className="space-y-6"><header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"><div className="flex min-w-0 items-center gap-4"><div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#22C55E]/10 font-bold text-[#22C55E]" aria-label={`${company.displayName} logo placeholder`}>{initials}</div><div className="min-w-0"><p className="text-sm text-[#22C55E]">Company Management · Sprint 3.8</p><h1 className="truncate text-2xl font-bold sm:text-3xl">{company.displayName}</h1><p className="mt-1 text-sm text-[#9CA3AF]">{company.legalName}</p></div></div><CompanyStatusBadge status={company.status}/></header>
-    <section aria-label="Company statistics" className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"><KpiCard title="Members" value={company.memberCounts.total} trend={`${company.memberCounts.active} active`}/><KpiCard title="Teams" value={company.teamCounts.total} trend={`${company.teamCounts.active} active`}/><KpiCard title="Active projects" value={company.activeProjects} trend="Live tenant data"/><KpiCard title="Company status" value={<span className="capitalize">{company.status}</span>} trend="Operational state"/></section>
-    <div className="grid gap-6 xl:grid-cols-[1.35fr_.65fr]"><DashboardCard title="Company profile" description="Identity and contact details for the selected tenant."><CompanyDetailsForm companyId={company.id} values={company} canEdit={edit}/></DashboardCard><div className="space-y-6"><DashboardCard title="Company information"><dl className="grid gap-3 text-sm"><div><dt className="text-[#9CA3AF]">Country</dt><dd>{company.countryCode??"Not provided"}</dd></div><div><dt className="text-[#9CA3AF]">Timezone</dt><dd>{company.timezone}</dd></div><div><dt className="text-[#9CA3AF]">Currency</dt><dd>{company.currencyCode}</dd></div><div><dt className="text-[#9CA3AF]">Created</dt><dd>{new Date(company.createdAt).toLocaleDateString("en-BE")}</dd></div></dl></DashboardCard><DashboardCard title="Members summary" description="Existing Company Memberships only"><ul className="space-y-2 text-sm"><li className="flex justify-between"><span>Active</span><strong>{company.memberCounts.active}</strong></li><li className="flex justify-between"><span>Invited</span><strong>{company.memberCounts.invited}</strong></li><li className="flex justify-between"><span>Suspended</span><strong>{company.memberCounts.suspended}</strong></li></ul><Link href="/dashboard/workforce" className="mt-4 inline-flex min-h-11 items-center font-semibold text-[#22C55E]">Open Workforce →</Link></DashboardCard><DashboardCard title="Teams summary"><ul className="space-y-2 text-sm"><li className="flex justify-between"><span>Active teams</span><strong>{company.teamCounts.active}</strong></li><li className="flex justify-between"><span>Assigned leaders</span><strong>{company.teamCounts.leaders}</strong></li><li className="flex justify-between"><span>Team memberships</span><strong>{company.teamCounts.members}</strong></li></ul><Link href="/dashboard/teams" className="mt-4 inline-flex min-h-11 items-center font-semibold text-[#22C55E]">Open Teams →</Link></DashboardCard></div></div>
-    <div id="company-settings" className="scroll-mt-28"><DashboardCard title="Company settings" description="Localization and initial operational preferences."><CompanySettingsForm companyId={company.id} values={company.settings} canEdit={settings}/></DashboardCard></div>
-    <CompanyDangerZone companyId={company.id} status={company.status} canArchive={company.permissions.includes("archive")} canReactivate={company.permissions.includes("reactivate")}/>
-  </div>;
+  const t = useTranslations("companies");
+  // Was `toLocaleDateString("en-BE")` — Belgian *English*, whatever language the
+  // person had chosen.
+  const format = useFormatter();
+
+  const edit = company.permissions.includes("edit_profile");
+  const settings = company.permissions.includes("edit_settings");
+  const initials = company.displayName.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+
+  return (
+    <div className="space-y-6">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex min-w-0 items-center gap-4">
+          <div
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#22C55E]/10 font-bold text-[#22C55E]"
+            aria-hidden="true"
+          >
+            {initials}
+          </div>
+          <div className="min-w-0">
+            {/* Was "Company Management · Sprint 3.8" — an internal sprint number
+                on a customer's screen. */}
+            <p className="text-sm text-[#22C55E]">{t("overviewEyebrow")}</p>
+            <h1 className="truncate text-2xl font-bold sm:text-3xl">{company.displayName}</h1>
+            <p className="mt-1 text-sm text-[#9CA3AF]">{company.legalName}</p>
+          </div>
+        </div>
+        <CompanyStatusBadge status={company.status} />
+      </header>
+
+      <section aria-label={t("companyStatistics")} className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <KpiCard title={t("members")} value={company.memberCounts.total} trend={t("statusActiveCount")} />
+        <KpiCard title={t("teams")} value={company.teamCounts.total} trend={t("activeTeams")} />
+        <KpiCard title={t("activeProjects")} value={company.activeProjects} />
+        <KpiCard title={t("companyStatus")} value={t(`status_${company.status}` as "status_active")} />
+      </section>
+
+      <div className="grid gap-6 xl:grid-cols-[1.35fr_.65fr]">
+        <DashboardCard title={t("companyProfile")} description={t("companyInformationDesc")}>
+          <CompanyDetailsForm companyId={company.id} values={company} canEdit={edit} />
+        </DashboardCard>
+
+        <div className="space-y-6">
+          <DashboardCard title={t("companyInformation")}>
+            <dl className="grid gap-3 text-sm">
+              <div>
+                <dt className="text-[#9CA3AF]">{t("country")}</dt>
+                <dd>{company.countryCode ?? "—"}</dd>
+              </div>
+              <div>
+                <dt className="text-[#9CA3AF]">{t("timezone")}</dt>
+                <dd>{company.timezone}</dd>
+              </div>
+              <div>
+                <dt className="text-[#9CA3AF]">{t("currency")}</dt>
+                <dd>{company.currencyCode}</dd>
+              </div>
+              <div>
+                <dt className="text-[#9CA3AF]">{t("created")}</dt>
+                <dd>{format.dateTime(new Date(company.createdAt), { dateStyle: "medium" })}</dd>
+              </div>
+            </dl>
+          </DashboardCard>
+
+          <DashboardCard title={t("membersSummary")} description={t("membersSummaryDesc")}>
+            <ul className="space-y-2 text-sm">
+              <li className="flex justify-between">
+                <span>{t("statusActiveCount")}</span>
+                <strong>{company.memberCounts.active}</strong>
+              </li>
+              <li className="flex justify-between">
+                <span>{t("statusInvitedCount")}</span>
+                <strong>{company.memberCounts.invited}</strong>
+              </li>
+              <li className="flex justify-between">
+                <span>{t("statusSuspendedCount")}</span>
+                <strong>{company.memberCounts.suspended}</strong>
+              </li>
+            </ul>
+            {/* Points at /dashboard/employees now: Workforce left the sidebar in
+                #36 and People is where you manage anyone. */}
+            <Link href="/dashboard/employees" className="mt-4 inline-flex min-h-11 items-center font-semibold text-[#22C55E]">
+              {t("openWorkforce")}
+            </Link>
+          </DashboardCard>
+
+          <DashboardCard title={t("teamsSummary")}>
+            <ul className="space-y-2 text-sm">
+              <li className="flex justify-between">
+                <span>{t("activeTeams")}</span>
+                <strong>{company.teamCounts.active}</strong>
+              </li>
+              <li className="flex justify-between">
+                <span>{t("assignedLeaders")}</span>
+                <strong>{company.teamCounts.leaders}</strong>
+              </li>
+              <li className="flex justify-between">
+                <span>{t("teamMemberships")}</span>
+                <strong>{company.teamCounts.members}</strong>
+              </li>
+            </ul>
+            <Link href="/dashboard/teams" className="mt-4 inline-flex min-h-11 items-center font-semibold text-[#22C55E]">
+              {t("openTeams")}
+            </Link>
+          </DashboardCard>
+        </div>
+      </div>
+
+      <div id="company-settings" className="scroll-mt-28">
+        <DashboardCard title={t("companySettings")} description={t("companySettingsDesc")}>
+          <CompanySettingsForm companyId={company.id} values={company.settings} canEdit={settings} />
+        </DashboardCard>
+      </div>
+
+      <CompanyDangerZone
+        companyId={company.id}
+        status={company.status}
+        canArchive={company.permissions.includes("archive")}
+        canReactivate={company.permissions.includes("reactivate")}
+      />
+    </div>
+  );
 }

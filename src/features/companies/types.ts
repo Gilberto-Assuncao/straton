@@ -55,10 +55,39 @@ export interface CompanyDetail extends CompanySummary, CompanyFormValues {
   activeProjects: number;
 }
 
+/**
+ * Message keys, never sentences (#28).
+ *
+ * A server action cannot reliably know the caller's locale, so returning
+ * "Company profile updated." bakes English into a response the interface has no
+ * way to translate. Same rule as TeamMessageKey and AuthMessageKey.
+ */
+export type CompanyMessageKey =
+  | "profileUpdated"
+  | "settingsUpdated"
+  | "companyArchived"
+  | "companyReactivated"
+  | "noPermissionProfile"
+  | "noPermissionSettings"
+  | "ownerArchiveOnly"
+  | "ownerOnly"
+  | "reviewFields"
+  | "failed";
+
+/** One key per field that can fail validation. */
+export type CompanyFieldErrorKey =
+  | "legalName" | "displayName" | "registrationNumber" | "vatNumber" | "countryCode"
+  | "defaultLanguage" | "timezone" | "currencyCode" | "phone" | "email" | "website"
+  | "status" | "dateFormat" | "timeFormat" | "weekStartsOn" | "graceMinutes"
+  | "expectedStartTime" | "expectedEndTime";
+
 export interface CompanyActionState {
   status: "idle" | "success" | "error";
-  message?: string;
-  fieldErrors?: Partial<Record<keyof CompanyFormValues | keyof CompanySettingsValues, string>>;
+  messageKey?: CompanyMessageKey;
+  fieldErrors?: Partial<Record<keyof CompanyFormValues | keyof CompanySettingsValues, CompanyFieldErrorKey>>;
 }
 
 export const initialCompanyActionState: CompanyActionState = { status: "idle" };
+
+/** What the non-form company actions return. An outcome, not a sentence. */
+export interface CompanyMutationResult { ok: boolean; messageKey: CompanyMessageKey; }
