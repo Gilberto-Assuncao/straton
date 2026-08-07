@@ -918,7 +918,9 @@
     "pageRegister": "Konto erstellen",
     "pageForgot": "Passwort vergessen",
     "pageReset": "Passwort zurücksetzen",
-    "pageAcceptInvite": "Einladung annehmen"
+    "pageAcceptInvite": "Einladung annehmen",
+    "socialFailed": "Anmeldung mit {provider} konnte nicht gestartet werden. Bitte erneut versuchen oder E-Mail und Passwort verwenden.",
+    "socialNotEnabled": "Die Anmeldung mit {provider} ist noch nicht aktiviert. Bitte E-Mail und Passwort verwenden."
   },
   "appShell": {
     "currentCompany": "Aktuelles Unternehmen",

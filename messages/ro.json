@@ -918,7 +918,9 @@
     "pageRegister": "Creează cont",
     "pageForgot": "Ai uitat parola",
     "pageReset": "Resetează parola",
-    "pageAcceptInvite": "Acceptă invitația"
+    "pageAcceptInvite": "Acceptă invitația",
+    "socialFailed": "Conectarea cu {provider} nu a putut fi inițiată. Încercați din nou sau folosiți e-mailul și parola.",
+    "socialNotEnabled": "Conectarea cu {provider} nu este încă activată. Folosiți e-mailul și parola."
   },
   "appShell": {
     "currentCompany": "Compania curentă",

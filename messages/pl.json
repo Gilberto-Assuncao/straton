@@ -918,7 +918,9 @@
     "pageRegister": "Utwórz konto",
     "pageForgot": "Nie pamiętam hasła",
     "pageReset": "Zresetuj hasło",
-    "pageAcceptInvite": "Zaakceptuj zaproszenie"
+    "pageAcceptInvite": "Zaakceptuj zaproszenie",
+    "socialFailed": "Nie udało się zalogować przez {provider}. Spróbuj ponownie lub użyj e-maila i hasła.",
+    "socialNotEnabled": "Logowanie przez {provider} nie jest jeszcze włączone. Użyj e-maila i hasła."
   },
   "appShell": {
     "currentCompany": "Bieżąca firma",

@@ -918,7 +918,9 @@
     "pageRegister": "Créer un compte",
     "pageForgot": "Mot de passe oublié",
     "pageReset": "Réinitialiser le mot de passe",
-    "pageAcceptInvite": "Accepter l'invitation"
+    "pageAcceptInvite": "Accepter l'invitation",
+    "socialFailed": "Impossible de se connecter avec {provider}. Réessayez ou utilisez votre e-mail et mot de passe.",
+    "socialNotEnabled": "La connexion via {provider} n est pas encore activée. Utilisez votre e-mail et mot de passe."
   },
   "appShell": {
     "currentCompany": "Entreprise actuelle",

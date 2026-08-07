@@ -918,7 +918,9 @@
     "pageRegister": "Crear cuenta",
     "pageForgot": "Olvidé mi contraseña",
     "pageReset": "Restablecer contraseña",
-    "pageAcceptInvite": "Aceptar invitación"
+    "pageAcceptInvite": "Aceptar invitación",
+    "socialFailed": "No se pudo iniciar sesión con {provider}. Inténtelo de nuevo o use su correo y contraseña.",
+    "socialNotEnabled": "El inicio de sesión con {provider} aún no está activado. Use su correo y contraseña."
   },
   "appShell": {
     "currentCompany": "Empresa actual",

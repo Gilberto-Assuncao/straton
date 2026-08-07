@@ -10,5 +10,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; error?: string }> }) {
   const params = await searchParams;
-  return <AuthLayout><LoginForm next={params.next} callbackError={params.error === "callback"} /></AuthLayout>;
+  // The callback route sends back one of two values. `configuration` used to
+  // arrive and be dropped: the redirect happened, the login page rendered, and
+  // nothing said why the sign-in had failed.
+  const callbackError =
+    params.error === "callback" ? "errCallbackFailed" : params.error === "configuration" ? "errNotConfigured" : undefined;
+
+  return <AuthLayout><LoginForm next={params.next} callbackError={callbackError} /></AuthLayout>;
 }

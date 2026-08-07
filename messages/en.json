@@ -918,7 +918,9 @@
     "pageRegister": "Create account",
     "pageForgot": "Forgot password",
     "pageReset": "Reset password",
-    "pageAcceptInvite": "Accept invitation"
+    "pageAcceptInvite": "Accept invitation",
+    "socialFailed": "Could not start sign-in with {provider}. Please try again or use your email and password.",
+    "socialNotEnabled": "{provider} sign-in is not enabled for this workspace yet. Use your email and password."
   },
   "appShell": {
     "currentCompany": "Current company",
