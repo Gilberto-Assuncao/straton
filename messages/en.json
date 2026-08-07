@@ -1435,5 +1435,23 @@
     "rel_pending": "Awaiting answer",
     "rel_active": "Active",
     "rel_rejected": "Rejected"
+  },
+  "notifications": {
+    "assignmentAssigned_title": "New job assigned",
+    "assignmentAssigned_body": "{title} — {when}",
+    "assignmentTimeChanged_title": "A job time changed",
+    "assignmentTimeChanged_body": "{title} moved from {previously} to {when}.",
+    "assignmentSiteChanged_title": "A job site changed",
+    "assignmentSiteChanged_body": "{title} is now at {site}.",
+    "assignmentCancelled_title": "A job was cancelled",
+    "assignmentCancelled_body": "{title}, planned for {when}, is no longer scheduled.",
+    "swapProposed_title": "A colleague asked you to take a shift",
+    "swapProposed_body": "{person} asked you to take {title} on {when}.",
+    "swapAcceptedByPeer_title": "Your colleague accepted",
+    "swapAcceptedByPeer_body": "{person} accepted {title}. It now needs a supervisor's approval.",
+    "swapApproved_title": "Shift swap approved",
+    "swapApproved_body": "{title} on {when} has been reassigned.",
+    "swapRejected_title": "Shift swap not approved",
+    "swapRejected_body": "{title} on {when} stays with you."
   }
 }

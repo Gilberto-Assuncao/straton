@@ -1435,5 +1435,23 @@
     "rel_pending": "Oczekuje",
     "rel_active": "Aktywna",
     "rel_rejected": "Odrzucona"
+  },
+  "notifications": {
+    "assignmentAssigned_title": "Przydzielono nową pracę",
+    "assignmentAssigned_body": "{title} — {when}",
+    "assignmentTimeChanged_title": "Zmieniła się godzina",
+    "assignmentTimeChanged_body": "{title} przeniesiono z {previously} na {when}.",
+    "assignmentSiteChanged_title": "Zmieniła się budowa",
+    "assignmentSiteChanged_body": "{title} odbywa się teraz na {site}.",
+    "assignmentCancelled_title": "Pracę odwołano",
+    "assignmentCancelled_body": "{title}, zaplanowana na {when}, nie jest już w harmonogramie.",
+    "swapProposed_title": "Kolega prosi o przejęcie zmiany",
+    "swapProposed_body": "{person} prosi Cię o przejęcie {title} w {when}.",
+    "swapAcceptedByPeer_title": "Twój kolega się zgodził",
+    "swapAcceptedByPeer_body": "{person} przyjął {title}. Czeka na zatwierdzenie przez przełożonego.",
+    "swapApproved_title": "Zamiana zmiany zatwierdzona",
+    "swapApproved_body": "{title} w {when} zostało przypisane komu innemu.",
+    "swapRejected_title": "Zamiana zmiany niezatwierdzona",
+    "swapRejected_body": "{title} w {when} zostaje przy Tobie."
   }
 }

@@ -1435,5 +1435,23 @@
     "rel_pending": "En attente",
     "rel_active": "Active",
     "rel_rejected": "Refusée"
+  },
+  "notifications": {
+    "assignmentAssigned_title": "Nouveau travail attribué",
+    "assignmentAssigned_body": "{title} — {when}",
+    "assignmentTimeChanged_title": "Un horaire a changé",
+    "assignmentTimeChanged_body": "{title} est passé de {previously} à {when}.",
+    "assignmentSiteChanged_title": "Un chantier a changé",
+    "assignmentSiteChanged_body": "{title} se fait désormais à {site}.",
+    "assignmentCancelled_title": "Un travail a été annulé",
+    "assignmentCancelled_body": "{title}, prévu le {when}, n'est plus planifié.",
+    "swapProposed_title": "Un collègue vous demande de reprendre un service",
+    "swapProposed_body": "{person} vous demande de reprendre {title} le {when}.",
+    "swapAcceptedByPeer_title": "Votre collègue a accepté",
+    "swapAcceptedByPeer_body": "{person} a accepté {title}. L'approbation du superviseur reste à venir.",
+    "swapApproved_title": "Échange de service approuvé",
+    "swapApproved_body": "{title} le {when} a été réattribué.",
+    "swapRejected_title": "Échange de service refusé",
+    "swapRejected_body": "{title} le {when} reste à votre charge."
   }
 }

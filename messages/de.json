@@ -1435,5 +1435,23 @@
     "rel_pending": "Wartet auf Antwort",
     "rel_active": "Aktiv",
     "rel_rejected": "Abgelehnt"
+  },
+  "notifications": {
+    "assignmentAssigned_title": "Neue Arbeit zugewiesen",
+    "assignmentAssigned_body": "{title} — {when}",
+    "assignmentTimeChanged_title": "Eine Uhrzeit hat sich geändert",
+    "assignmentTimeChanged_body": "{title} wurde von {previously} auf {when} verschoben.",
+    "assignmentSiteChanged_title": "Eine Baustelle hat sich geändert",
+    "assignmentSiteChanged_body": "{title} findet jetzt auf {site} statt.",
+    "assignmentCancelled_title": "Eine Arbeit wurde storniert",
+    "assignmentCancelled_body": "{title}, geplant für {when}, ist nicht mehr eingeplant.",
+    "swapProposed_title": "Eine Kollegin oder ein Kollege bittet Sie um eine Schicht",
+    "swapProposed_body": "{person} bittet Sie, {title} am {when} zu übernehmen.",
+    "swapAcceptedByPeer_title": "Ihr Kollege hat zugestimmt",
+    "swapAcceptedByPeer_body": "{person} hat {title} angenommen. Die Freigabe der Vorgesetzten steht noch aus.",
+    "swapApproved_title": "Schichttausch genehmigt",
+    "swapApproved_body": "{title} am {when} wurde neu zugewiesen.",
+    "swapRejected_title": "Schichttausch nicht genehmigt",
+    "swapRejected_body": "{title} am {when} bleibt bei Ihnen."
   }
 }

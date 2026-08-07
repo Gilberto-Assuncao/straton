@@ -1435,5 +1435,23 @@
     "rel_pending": "Wacht op antwoord",
     "rel_active": "Actief",
     "rel_rejected": "Geweigerd"
+  },
+  "notifications": {
+    "assignmentAssigned_title": "Nieuwe opdracht toegewezen",
+    "assignmentAssigned_body": "{title} — {when}",
+    "assignmentTimeChanged_title": "Een tijdstip is gewijzigd",
+    "assignmentTimeChanged_body": "{title} is verplaatst van {previously} naar {when}.",
+    "assignmentSiteChanged_title": "Een werf is gewijzigd",
+    "assignmentSiteChanged_body": "{title} is nu op {site}.",
+    "assignmentCancelled_title": "Een opdracht is geannuleerd",
+    "assignmentCancelled_body": "{title}, gepland op {when}, staat niet langer ingepland.",
+    "swapProposed_title": "Een collega vraagt u een dienst over te nemen",
+    "swapProposed_body": "{person} vraagt u {title} op {when} over te nemen.",
+    "swapAcceptedByPeer_title": "Uw collega heeft aanvaard",
+    "swapAcceptedByPeer_body": "{person} heeft {title} aanvaard. De goedkeuring van de supervisor volgt nog.",
+    "swapApproved_title": "Dienstruil goedgekeurd",
+    "swapApproved_body": "{title} op {when} is opnieuw toegewezen.",
+    "swapRejected_title": "Dienstruil niet goedgekeurd",
+    "swapRejected_body": "{title} op {when} blijft bij u."
   }
 }
