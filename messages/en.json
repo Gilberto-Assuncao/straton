@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Choose at least one person.",
     "message_emptyTeam": "That team has no members.",
     "message_invalidTransition": "That is not a move you can make on this job.",
-    "message_failed": "Could not save. Try again."
+    "message_failed": "Could not save. Try again.",
+    "reschedule": "Reschedule",
+    "rescheduleTitle": "Move this job",
+    "rescheduleSave": "Save changes",
+    "rescheduleCancel": "Cancel",
+    "message_rescheduled": "Moved. The people on it have been notified."
   },
   "companyInvites": {
     "pageTitle": "Join as a company",

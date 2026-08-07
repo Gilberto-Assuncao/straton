@@ -48,7 +48,7 @@ export default async function AgendaPage({ searchParams }: { searchParams: Promi
       />
 
       <div className="mt-8 grid gap-6">
-        <AgendaWeek days={agenda.days} today={agenda.today} />
+        <AgendaWeek days={agenda.days} today={agenda.today} sites={options?.sites ?? []} />
         {options ? <AssignmentForm options={options} /> : null}
       </div>
     </section>

@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Wybierz co najmniej jedną osobę.",
     "message_emptyTeam": "Ten zespół nie ma członków.",
     "message_invalidTransition": "Taki krok nie jest możliwy dla tej pracy.",
-    "message_failed": "Nie udało się zapisać. Spróbuj ponownie."
+    "message_failed": "Nie udało się zapisać. Spróbuj ponownie.",
+    "reschedule": "Przenieś",
+    "rescheduleTitle": "Przenieś tę pracę",
+    "rescheduleSave": "Zapisz zmiany",
+    "rescheduleCancel": "Anuluj",
+    "message_rescheduled": "Przeniesiono. Osoby przypisane zostały powiadomione."
   },
   "companyInvites": {
     "pageTitle": "Dołącz jako firma",

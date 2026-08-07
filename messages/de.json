@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Wählen Sie mindestens eine Person.",
     "message_emptyTeam": "Dieses Team hat keine Mitglieder.",
     "message_invalidTransition": "Dieser Schritt ist für diese Arbeit nicht möglich.",
-    "message_failed": "Speichern nicht möglich. Bitte erneut versuchen."
+    "message_failed": "Speichern nicht möglich. Bitte erneut versuchen.",
+    "reschedule": "Verschieben",
+    "rescheduleTitle": "Diese Arbeit verschieben",
+    "rescheduleSave": "Änderungen speichern",
+    "rescheduleCancel": "Abbrechen",
+    "message_rescheduled": "Verschoben. Die Beteiligten wurden benachrichtigt."
   },
   "companyInvites": {
     "pageTitle": "Als Unternehmen beitreten",

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { changeAssignmentStatusAction, deleteAssignmentAction } from "@/src/features/assignments/actions";
 import type { AgendaDay, AssignmentRecord, AssignmentStatus } from "@/src/features/assignments/types";
+import RescheduleForm from "./RescheduleForm";
 
 const statusTone: Record<AssignmentStatus, string> = {
   planned: "bg-white/10 text-[#9CA3AF]",
@@ -18,10 +19,20 @@ function time(iso: string): string {
   return iso.slice(11, 16);
 }
 
-export default function AgendaWeek({ days, today }: { days: AgendaDay[]; today: string }) {
+export default function AgendaWeek({
+  days,
+  today,
+  sites = [],
+}: {
+  days: AgendaDay[];
+  today: string;
+  /** Only supplied for supervisors — the reschedule form needs somewhere to move a job to. */
+  sites?: { id: string; name: string }[];
+}) {
   const t = useTranslations("agenda");
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const [editing, setEditing] = useState<string | null>(null);
 
   function move(id: string, status: AssignmentStatus) {
     startTransition(async () => {
@@ -100,16 +111,30 @@ export default function AgendaWeek({ days, today }: { days: AgendaDay[]; today: 
                         </button>
                       ))}
                       {assignment.canManage ? (
-                        <button
-                          type="button"
-                          onClick={() => remove(assignment.id)}
-                          disabled={pending}
-                          className="min-h-11 rounded-lg px-2 text-xs font-semibold text-[#6B7280] hover:text-red-300 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
-                        >
-                          {t("remove")}
-                        </button>
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => setEditing(editing === assignment.id ? null : assignment.id)}
+                            disabled={pending}
+                            className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+                          >
+                            {t("reschedule")}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => remove(assignment.id)}
+                            disabled={pending}
+                            className="min-h-11 rounded-lg px-2 text-xs font-semibold text-[#6B7280] hover:text-red-300 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+                          >
+                            {t("remove")}
+                          </button>
+                        </>
                       ) : null}
                     </div>
+
+                    {editing === assignment.id ? (
+                      <RescheduleForm assignment={assignment} sites={sites} onDone={() => setEditing(null)} />
+                    ) : null}
                   </li>
                 ))}
               </ul>
