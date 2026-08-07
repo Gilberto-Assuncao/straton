@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Scegli almeno una persona.",
     "message_emptyTeam": "Quella squadra non ha membri.",
     "message_invalidTransition": "Non è un passaggio possibile su questo lavoro.",
-    "message_failed": "Salvataggio non riuscito. Riprova."
+    "message_failed": "Salvataggio non riuscito. Riprova.",
+    "reschedule": "Riprogramma",
+    "rescheduleTitle": "Sposta questo lavoro",
+    "rescheduleSave": "Salva modifiche",
+    "rescheduleCancel": "Annulla",
+    "message_rescheduled": "Spostato. Le persone assegnate sono state avvisate."
   },
   "companyInvites": {
     "pageTitle": "Aderire come azienda",

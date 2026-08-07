@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Kies minstens één persoon.",
     "message_emptyTeam": "Dat team heeft geen leden.",
     "message_invalidTransition": "Dat is geen mogelijke stap voor dit werk.",
-    "message_failed": "Opslaan mislukt. Probeer opnieuw."
+    "message_failed": "Opslaan mislukt. Probeer opnieuw.",
+    "reschedule": "Verplaatsen",
+    "rescheduleTitle": "Deze opdracht verplaatsen",
+    "rescheduleSave": "Wijzigingen opslaan",
+    "rescheduleCancel": "Annuleren",
+    "message_rescheduled": "Verplaatst. De betrokkenen zijn verwittigd."
   },
   "companyInvites": {
     "pageTitle": "Aansluiten als bedrijf",

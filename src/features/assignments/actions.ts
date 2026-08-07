@@ -9,6 +9,7 @@ import { WORKER_TRANSITIONS, type AssignmentStatus } from "./types";
 
 export type AssignmentMessageKey =
   | "created"
+  | "rescheduled"
   | "statusChanged"
   | "deleted"
   | "notAllowed"
@@ -197,6 +198,92 @@ async function conflictWarnings(
     startsAt: conflict.startsAt,
     endsAt: conflict.endsAt,
   }));
+}
+
+/**
+ * Moving a scheduled job (#49).
+ *
+ * The action the agenda was missing. A supervisor could create work, mark it
+ * along and delete it — but not change when or where it happened, which is the
+ * one thing that most needs to reach the people on it.
+ *
+ * Notifies only on what actually changed. Re-saving a form without touching
+ * anything should not tell four people their day moved: an alert that fires
+ * when nothing happened is how people learn to ignore alerts.
+ */
+export async function rescheduleAssignmentAction(formData: FormData): Promise<AssignmentResult> {
+  const { companyId, session } = await requireActiveCompany();
+  if (!session.activeCompany?.roles.some((role) => MANAGER_ROLES.includes(role))) {
+    return { ok: false, message: "notAllowed" };
+  }
+
+  const assignmentId = text(formData, "assignmentId");
+  const startsAt = text(formData, "startsAt");
+  const endsAt = text(formData, "endsAt");
+  if (!assignmentId) return { ok: false, message: "failed" };
+  if (!startsAt || !endsAt) return { ok: false, message: "missingDates" };
+
+  const start = new Date(startsAt);
+  const end = new Date(endsAt);
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return { ok: false, message: "missingDates" };
+  if (end <= start) return { ok: false, message: "endBeforeStart" };
+
+  const siteId = text(formData, "siteId") || null;
+  const supabase = await createClient();
+
+  // Read the old values first: the notification has to say what it moved *from*,
+  // and after the update that is gone.
+  const { data: before } = await supabase
+    .from("assignments")
+    .select("title,starts_at,site_id")
+    .eq("id", assignmentId)
+    .eq("company_id", companyId)
+    .maybeSingle();
+  if (!before) return { ok: false, message: "failed" };
+
+  const previous = before as { title: string; starts_at: string; site_id: string | null };
+
+  const { error } = await supabase
+    .from("assignments")
+    .update({ starts_at: start.toISOString(), ends_at: end.toISOString(), site_id: siteId })
+    .eq("id", assignmentId)
+    .eq("company_id", companyId);
+  if (error) return { ok: false, message: "failed" };
+
+  const { data: crew } = await supabase
+    .from("assignment_assignees")
+    .select("company_membership_id")
+    .eq("assignment_id", assignmentId);
+  const membershipIds = ((crew ?? []) as { company_membership_id: string }[]).map((row) => row.company_membership_id);
+  const targets = await recipients(companyId, membershipIds);
+
+  const timeMoved = new Date(previous.starts_at).getTime() !== start.getTime();
+  const siteMoved = (previous.site_id ?? null) !== siteId;
+
+  if (timeMoved) {
+    await notify(targets, "assignmentTimeChanged", {
+      title: previous.title,
+      startsAt: start.toISOString(),
+      previousStartsAt: previous.starts_at,
+    });
+  }
+  if (siteMoved) {
+    const { data: site } = siteId
+      ? await supabase.from("sites").select("name").eq("id", siteId).maybeSingle()
+      : { data: null };
+    await notify(targets, "assignmentSiteChanged", {
+      title: previous.title,
+      siteName: (site as { name: string } | null)?.name ?? "",
+    });
+  }
+
+  // Availability is checked again on the new dates. Someone who was free at
+  // 07:30 may not be free at 09:00, and the warning is the whole reason the
+  // supervisor is not booking blind.
+  const warnings = timeMoved ? await conflictWarnings(membershipIds, start.toISOString(), end.toISOString()) : [];
+
+  revalidatePath("/dashboard/agenda");
+  return { ok: true, message: "rescheduled", warnings };
 }
 
 export async function changeAssignmentStatusAction(

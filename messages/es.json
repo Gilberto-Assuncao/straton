@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Elija al menos una persona.",
     "message_emptyTeam": "Ese equipo no tiene miembros.",
     "message_invalidTransition": "No es un paso posible en este trabajo.",
-    "message_failed": "No se pudo guardar. Inténtelo de nuevo."
+    "message_failed": "No se pudo guardar. Inténtelo de nuevo.",
+    "reschedule": "Reprogramar",
+    "rescheduleTitle": "Mover este trabajo",
+    "rescheduleSave": "Guardar cambios",
+    "rescheduleCancel": "Cancelar",
+    "message_rescheduled": "Movido. Se ha avisado a las personas asignadas."
   },
   "companyInvites": {
     "pageTitle": "Unirse como empresa",

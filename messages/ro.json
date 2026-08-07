@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Alegeți cel puțin o persoană.",
     "message_emptyTeam": "Acea echipă nu are membri.",
     "message_invalidTransition": "Nu este un pas posibil pentru această lucrare.",
-    "message_failed": "Nu s-a putut salva. Încercați din nou."
+    "message_failed": "Nu s-a putut salva. Încercați din nou.",
+    "reschedule": "Reprogramați",
+    "rescheduleTitle": "Mutați această lucrare",
+    "rescheduleSave": "Salvați modificările",
+    "rescheduleCancel": "Anulați",
+    "message_rescheduled": "Mutată. Persoanele repartizate au fost anunțate."
   },
   "companyInvites": {
     "pageTitle": "Alăturați-vă ca firmă",

@@ -1082,7 +1082,12 @@
     "message_noAssignees": "Choisissez au moins une personne.",
     "message_emptyTeam": "Cette équipe n'a aucun membre.",
     "message_invalidTransition": "Ce n'est pas une action possible sur ce travail.",
-    "message_failed": "Enregistrement impossible. Réessayez."
+    "message_failed": "Enregistrement impossible. Réessayez.",
+    "reschedule": "Replanifier",
+    "rescheduleTitle": "Déplacer ce travail",
+    "rescheduleSave": "Enregistrer",
+    "rescheduleCancel": "Annuler",
+    "message_rescheduled": "Déplacé. Les personnes concernées ont été averties."
   },
   "companyInvites": {
     "pageTitle": "Rejoindre en tant qu'entreprise",
