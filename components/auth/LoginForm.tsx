@@ -4,7 +4,7 @@ import { useActionState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { signInAction } from "@/app/[locale]/auth/actions";
-import { initialAuthState, type AuthActionState } from "@/app/[locale]/auth/state";
+import { initialAuthState, type AuthActionState, type AuthMessageKey } from "@/app/[locale]/auth/state";
 import AuthCard from "./AuthCard";
 import AuthDivider from "./AuthDivider";
 import AuthInput from "./AuthInput";
@@ -13,11 +13,18 @@ import AuthSubmitButton from "./AuthSubmitButton";
 import PasswordInput from "./PasswordInput";
 import SocialAuthButtons from "./SocialAuthButtons";
 
-export default function LoginForm({ next = "/dashboard", callbackError = false }: { next?: string; callbackError?: boolean }) {
+export default function LoginForm({
+  next = "/dashboard",
+  callbackError,
+}: {
+  next?: string;
+  /** A message key rather than a boolean: the callback can fail two ways. */
+  callbackError?: AuthMessageKey;
+}) {
   const t = useTranslations("login");
   const tAuth = useTranslations("auth");
   const initialState: AuthActionState = callbackError
-    ? { status: "error", messageKey: "errCallbackFailed" }
+    ? { status: "error", messageKey: callbackError }
     : initialAuthState;
   const [state, action] = useActionState(signInAction, initialState);
   return (

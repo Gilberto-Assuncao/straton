@@ -918,7 +918,9 @@
     "pageRegister": "Account aanmaken",
     "pageForgot": "Wachtwoord vergeten",
     "pageReset": "Wachtwoord opnieuw instellen",
-    "pageAcceptInvite": "Uitnodiging accepteren"
+    "pageAcceptInvite": "Uitnodiging accepteren",
+    "socialFailed": "Aanmelden met {provider} is niet gelukt. Probeer opnieuw of gebruik uw e-mail en wachtwoord.",
+    "socialNotEnabled": "Aanmelden met {provider} is nog niet ingeschakeld. Gebruik uw e-mail en wachtwoord."
   },
   "appShell": {
     "currentCompany": "Huidig bedrijf",

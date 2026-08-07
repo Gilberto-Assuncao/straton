@@ -918,7 +918,9 @@
     "pageRegister": "Crea account",
     "pageForgot": "Password dimenticata",
     "pageReset": "Reimposta password",
-    "pageAcceptInvite": "Accetta invito"
+    "pageAcceptInvite": "Accetta invito",
+    "socialFailed": "Impossibile accedere con {provider}. Riprova o usa e-mail e password.",
+    "socialNotEnabled": "L accesso con {provider} non è ancora attivo. Usa e-mail e password."
   },
   "appShell": {
     "currentCompany": "Azienda corrente",
