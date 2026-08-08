@@ -119,7 +119,10 @@
     "emptyDescription": "Start the timer or add a manual entry to track your first session.",
     "statusApproved": "Approved",
     "statusPending": "Pending",
-    "statusRejected": "Rejected"
+    "statusRejected": "Rejected",
+    "siteLabel": "Site",
+    "noSite": "No site (office, workshop, travel)",
+    "fromAgenda": "From your agenda: {title}"
   },
   "timesheets": {
     "eyebrow": "Workforce",
@@ -1500,6 +1503,7 @@
     "title": "Reports",
     "description": "Worked hours and where the time went.",
     "divergenceTitle": "Hours divergence",
-    "divergenceSubtitle": "Who is above or below their team average this week."
+    "divergenceSubtitle": "Who is above or below their team average this week.",
+    "noSiteRow": "Without a site"
   }
 }

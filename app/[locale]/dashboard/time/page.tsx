@@ -8,7 +8,7 @@ import { getLocationConsent } from "@/src/features/account/data";
 export const metadata: Metadata = { title: "Time Tracking" };
 
 export default async function TimeTrackingPage() {
-  const [{ projects, tasks, recentEntries, todaySummary, weeklySummary }, locationConsent, t] = await Promise.all([
+  const [{ projects, tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary }, locationConsent, t] = await Promise.all([
     getTimeTrackingOverview(),
     getLocationConsent(),
     getTranslations("time"),
@@ -23,6 +23,8 @@ export default async function TimeTrackingPage() {
       />
       <div className="mt-8">
         <TimeTracker
+          sites={sites}
+          currentAssignment={currentAssignment}
           projects={projects}
           tasks={tasks}
           entries={recentEntries}

@@ -119,7 +119,10 @@
     "emptyDescription": "Starten Sie den Timer oder fügen Sie einen manuellen Eintrag hinzu, um Ihre erste Sitzung zu erfassen.",
     "statusApproved": "Genehmigt",
     "statusPending": "Ausstehend",
-    "statusRejected": "Abgelehnt"
+    "statusRejected": "Abgelehnt",
+    "siteLabel": "Baustelle",
+    "noSite": "Keine Baustelle (Büro, Werkstatt, Fahrt)",
+    "fromAgenda": "Aus Ihrer Agenda: {title}"
   },
   "timesheets": {
     "eyebrow": "Belegschaft",
@@ -1500,6 +1503,7 @@
     "title": "Berichte",
     "description": "Geleistete Stunden und wohin die Zeit ging.",
     "divergenceTitle": "Stundenabweichung",
-    "divergenceSubtitle": "Wer diese Woche über oder unter dem Teamdurchschnitt liegt."
+    "divergenceSubtitle": "Wer diese Woche über oder unter dem Teamdurchschnitt liegt.",
+    "noSiteRow": "Ohne Baustelle"
   }
 }

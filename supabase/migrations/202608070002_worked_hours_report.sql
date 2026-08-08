@@ -106,12 +106,16 @@ as $$
     count(distinct t.user_id)::bigint
   from public.timesheet_entries e
   join public.timesheets t on t.id = e.timesheet_id
-  join public.sites s on s.id = e.site_id
+  -- Left join, deliberately. An inner join silently dropped every entry with no
+  -- site, so hours worked without a chantier vanished from the report instead of
+  -- being reported as unattributed — a smaller number with no explanation is
+  -- worse than an honest gap.
+  left join public.sites s on s.id = e.site_id
   left join public.projects p on p.id = s.project_id
   where e.starts_at >= p_from
     and e.starts_at < p_to
   group by s.id, s.name, p.name
-  order by 4 desc, s.name
+  order by 4 desc, s.name nulls last
 $$;
 
 revoke all on function public.worked_hours_by_person(timestamptz, timestamptz) from public;

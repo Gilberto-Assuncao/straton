@@ -119,7 +119,10 @@
     "emptyDescription": "Uruchom timer lub dodaj ręczny wpis, aby zarejestrować swoją pierwszą sesję.",
     "statusApproved": "Zatwierdzono",
     "statusPending": "Oczekujące",
-    "statusRejected": "Odrzucono"
+    "statusRejected": "Odrzucono",
+    "siteLabel": "Budowa",
+    "noSite": "Bez budowy (biuro, warsztat, dojazd)",
+    "fromAgenda": "Z Twojego harmonogramu: {title}"
   },
   "timesheets": {
     "eyebrow": "Pracownicy",
@@ -1500,6 +1503,7 @@
     "title": "Raporty",
     "description": "Przepracowane godziny i na co poszedł czas.",
     "divergenceTitle": "Odchylenie godzin",
-    "divergenceSubtitle": "Kto w tym tygodniu jest powyżej lub poniżej średniej zespołu."
+    "divergenceSubtitle": "Kto w tym tygodniu jest powyżej lub poniżej średniej zespołu.",
+    "noSiteRow": "Bez budowy"
   }
 }
