@@ -119,7 +119,10 @@
     "emptyDescription": "Inicia el temporizador o añade un registro manual para seguir tu primera sesión.",
     "statusApproved": "Aprobado",
     "statusPending": "Pendiente",
-    "statusRejected": "Rechazado"
+    "statusRejected": "Rechazado",
+    "siteLabel": "Obra",
+    "noSite": "Sin obra (oficina, taller, desplazamiento)",
+    "fromAgenda": "De su agenda: {title}"
   },
   "timesheets": {
     "eyebrow": "Plantilla",
@@ -1500,6 +1503,7 @@
     "title": "Informes",
     "description": "Horas trabajadas y en qué se fue el tiempo.",
     "divergenceTitle": "Divergencia de horas",
-    "divergenceSubtitle": "Quién está por encima o por debajo de la media de su equipo esta semana."
+    "divergenceSubtitle": "Quién está por encima o por debajo de la media de su equipo esta semana.",
+    "noSiteRow": "Sin obra"
   }
 }

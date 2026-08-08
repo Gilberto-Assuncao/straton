@@ -119,7 +119,10 @@
     "emptyDescription": "Démarrez le minuteur ou ajoutez une saisie manuelle pour suivre votre première session.",
     "statusApproved": "Approuvé",
     "statusPending": "En attente",
-    "statusRejected": "Rejeté"
+    "statusRejected": "Rejeté",
+    "siteLabel": "Chantier",
+    "noSite": "Sans chantier (bureau, atelier, déplacement)",
+    "fromAgenda": "De votre agenda : {title}"
   },
   "timesheets": {
     "eyebrow": "Effectifs",
@@ -1500,6 +1503,7 @@
     "title": "Rapports",
     "description": "Heures travaillées et répartition du temps.",
     "divergenceTitle": "Écart d heures",
-    "divergenceSubtitle": "Qui est au-dessus ou en dessous de la moyenne de son équipe cette semaine."
+    "divergenceSubtitle": "Qui est au-dessus ou en dessous de la moyenne de son équipe cette semaine.",
+    "noSiteRow": "Sans chantier"
   }
 }

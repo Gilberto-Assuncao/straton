@@ -119,7 +119,10 @@
     "emptyDescription": "Avvia il timer o aggiungi una voce manuale per tracciare la tua prima sessione.",
     "statusApproved": "Approvato",
     "statusPending": "In attesa",
-    "statusRejected": "Rifiutato"
+    "statusRejected": "Rifiutato",
+    "siteLabel": "Cantiere",
+    "noSite": "Senza cantiere (ufficio, officina, trasferta)",
+    "fromAgenda": "Dalla tua agenda: {title}"
   },
   "timesheets": {
     "eyebrow": "Personale",
@@ -1500,6 +1503,7 @@
     "title": "Report",
     "description": "Ore lavorate e dove è andato il tempo.",
     "divergenceTitle": "Scostamento ore",
-    "divergenceSubtitle": "Chi è sopra o sotto la media della squadra questa settimana."
+    "divergenceSubtitle": "Chi è sopra o sotto la media della squadra questa settimana.",
+    "noSiteRow": "Senza cantiere"
   }
 }

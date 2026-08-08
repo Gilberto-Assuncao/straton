@@ -150,7 +150,7 @@ export default async function WorkedHoursReport({ report }: { report: Report }) 
               <tbody>
                 {report.sites.map((site) => (
                   <tr key={site.siteId} className="border-b border-white/5">
-                    <td className={`${cell} font-medium text-[#E5E7EB]`}>{site.siteName}</td>
+                    <td className={`${cell} font-medium ${site.siteId ? "text-[#E5E7EB]" : "text-amber-300"}`}>{site.siteName ?? t("noSiteRow")}</td>
                     <td className={`${cell} text-[#9CA3AF]`}>{site.projectName ?? "—"}</td>
                     <td className={`${cell} text-right font-mono text-[#4ADE80]`}>{formatMinutes(site.approvedMinutes)}</td>
                     <td className={`${cell} text-right font-mono text-amber-300`}>

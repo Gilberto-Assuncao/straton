@@ -55,6 +55,10 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
   const endTime = String(formData.get("endTime") ?? "");
   const projectId = String(formData.get("projectId") ?? "");
   const taskId = String(formData.get("taskId") ?? "");
+  // Optional. Office work, workshop time and travel are real hours without a
+  // chantier — requiring one would push people to pick a wrong site rather
+  // than none, which is worse for the report than an honest blank.
+  const siteId = String(formData.get("siteId") ?? "") || null;
   const notes = String(formData.get("notes") ?? "").trim();
 
   if (!date || !startTime || !endTime || !projectId || !taskId) {
@@ -74,6 +78,7 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
     company_id: companyId,
     timesheet_id: timesheetId,
     project_id: projectId,
+    site_id: siteId,
     task_id: taskId,
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
@@ -86,7 +91,15 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
   return { status: "success", message: "Entry saved." };
 }
 
-export async function logTimerSessionAction(input: { projectId: string; taskId: string; startedAt: string; notes: string; latitude?: number; longitude?: number }): Promise<LogTimeEntryState> {
+/**
+ * Where the hour was worked, recorded at the moment it is logged (#55).
+ *
+ * Until this existed, every entry made through the app had a null `site_id` and
+ * vanished from the hours-by-chantier report without any error — the total was
+ * simply smaller. The seed filled the column directly, which is why nobody
+ * noticed.
+ */
+export async function logTimerSessionAction(input: { projectId: string; taskId: string; siteId?: string | null; startedAt: string; notes: string; latitude?: number; longitude?: number }): Promise<LogTimeEntryState> {
   const { session, companyId } = await requireActiveCompany();
   if (!input.projectId || !input.taskId) return { status: "error", message: "Select a project and task before stopping the timer." };
 
@@ -109,6 +122,7 @@ export async function logTimerSessionAction(input: { projectId: string; taskId: 
     company_id: companyId,
     timesheet_id: timesheetId,
     project_id: input.projectId,
+    site_id: input.siteId ?? null,
     task_id: input.taskId,
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),

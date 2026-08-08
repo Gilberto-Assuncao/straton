@@ -119,7 +119,10 @@
     "emptyDescription": "Inicie o temporizador ou adicione um registo manual para acompanhar a sua primeira sessão.",
     "statusApproved": "Aprovado",
     "statusPending": "Pendente",
-    "statusRejected": "Rejeitado"
+    "statusRejected": "Rejeitado",
+    "siteLabel": "Estaleiro",
+    "noSite": "Sem estaleiro (escritório, oficina, deslocação)",
+    "fromAgenda": "Da sua agenda: {title}"
   },
   "timesheets": {
     "eyebrow": "Força de Trabalho",
@@ -1500,6 +1503,7 @@
     "title": "Relatórios",
     "description": "Horas trabalhadas e para onde foi o tempo.",
     "divergenceTitle": "Divergência de horas",
-    "divergenceSubtitle": "Quem está acima ou abaixo da média da equipa esta semana."
+    "divergenceSubtitle": "Quem está acima ou abaixo da média da equipa esta semana.",
+    "noSiteRow": "Sem estaleiro"
   }
 }

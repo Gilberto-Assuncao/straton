@@ -119,7 +119,10 @@
     "emptyDescription": "Pornește cronometrul sau adaugă o înregistrare manuală pentru a urmări prima ta sesiune.",
     "statusApproved": "Aprobat",
     "statusPending": "În așteptare",
-    "statusRejected": "Respins"
+    "statusRejected": "Respins",
+    "siteLabel": "Șantier",
+    "noSite": "Fără șantier (birou, atelier, deplasare)",
+    "fromAgenda": "Din agenda dumneavoastră: {title}"
   },
   "timesheets": {
     "eyebrow": "Forța de muncă",
@@ -1500,6 +1503,7 @@
     "title": "Rapoarte",
     "description": "Ore lucrate și unde s-a dus timpul.",
     "divergenceTitle": "Abatere de ore",
-    "divergenceSubtitle": "Cine este peste sau sub media echipei săptămâna aceasta."
+    "divergenceSubtitle": "Cine este peste sau sub media echipei săptămâna aceasta.",
+    "noSiteRow": "Fără șantier"
   }
 }

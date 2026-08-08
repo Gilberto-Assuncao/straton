@@ -119,7 +119,10 @@
     "emptyDescription": "Start de timer of voeg een handmatige registratie toe om uw eerste sessie bij te houden.",
     "statusApproved": "Goedgekeurd",
     "statusPending": "In behandeling",
-    "statusRejected": "Afgewezen"
+    "statusRejected": "Afgewezen",
+    "siteLabel": "Werf",
+    "noSite": "Geen werf (kantoor, werkplaats, verplaatsing)",
+    "fromAgenda": "Uit uw agenda: {title}"
   },
   "timesheets": {
     "eyebrow": "Personeel",
@@ -1500,6 +1503,7 @@
     "title": "Rapporten",
     "description": "Gewerkte uren en waar de tijd naartoe ging.",
     "divergenceTitle": "Urenafwijking",
-    "divergenceSubtitle": "Wie deze week boven of onder het teamgemiddelde zit."
+    "divergenceSubtitle": "Wie deze week boven of onder het teamgemiddelde zit.",
+    "noSiteRow": "Zonder werf"
   }
 }

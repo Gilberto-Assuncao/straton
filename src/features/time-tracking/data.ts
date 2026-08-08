@@ -41,19 +41,49 @@ function formatDate(iso: string): string {
   return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(iso));
 }
 
+export interface TrackerSite { id: string; name: string; projectId: string | null }
+
+/**
+ * The site the person is expected to be at right now, from the agenda.
+ *
+ * Pre-filling this is the difference between a site selector that gets used and
+ * one that gets left on its default. Someone standing on a roof with gloves on
+ * is not going to scroll a list before starting work — but if the schedule
+ * already says where they are, nobody has to.
+ */
+export interface CurrentAssignment { assignmentId: string; title: string; siteId: string | null; projectId: string | null }
+
 export async function getTimeTrackingOverview(): Promise<{
-  projects: Project[]; tasks: Task[]; recentEntries: TimeEntry[]; todaySummary: DailySummary; weeklySummary: WeeklySummary;
+  projects: Project[]; tasks: Task[]; sites: TrackerSite[]; currentAssignment: CurrentAssignment | null;
+  recentEntries: TimeEntry[]; todaySummary: DailySummary; weeklySummary: WeeklySummary;
 }> {
   const { session, companyId } = await requireActiveCompany();
   const userId = session.user.id;
+  const membershipId = session.activeCompany?.membershipId ?? "";
   const supabase = await createClient();
 
   const weekStart = new Date();
   weekStart.setDate(weekStart.getDate() - 7);
 
-  const [{ data: projectRows }, { data: taskRows }, { data: entryRows, error }] = await Promise.all([
+  // A generous window around now: someone clocking in ten minutes early is the
+  // normal case, and a job that started this morning is still the job they are
+  // on at two in the afternoon.
+  const from = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString();
+  const to = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
+
+  const [{ data: projectRows }, { data: taskRows }, { data: siteRows }, { data: assignmentRows }, { data: entryRows, error }] = await Promise.all([
     supabase.from("projects").select("id,name").eq("company_id", companyId).order("name"),
     supabase.from("tasks").select("id,name").eq("company_id", companyId).eq("status", "active").order("name"),
+    supabase.from("sites").select("id,name,project_id").eq("company_id", companyId).eq("status", "active").order("name"),
+    supabase
+      .from("assignments")
+      .select("id,title,site_id,project_id,starts_at,assignment_assignees!inner(company_membership_id)")
+      .eq("company_id", companyId)
+      .eq("assignment_assignees.company_membership_id", membershipId)
+      .lte("starts_at", to)
+      .gte("ends_at", from)
+      .order("starts_at")
+      .limit(1),
     supabase
       .from("timesheet_entries")
       .select("id,starts_at,ends_at,break_minutes,status,projects(id,name),tasks(id,name),timesheets!inner(user_id)")
@@ -66,6 +96,15 @@ export async function getTimeTrackingOverview(): Promise<{
 
   const projects: Project[] = projectRows ?? [];
   const tasks: Task[] = taskRows ?? [];
+  const sites: TrackerSite[] = ((siteRows ?? []) as { id: string; name: string; project_id: string | null }[]).map((row) => ({
+    id: row.id, name: row.name, projectId: row.project_id,
+  }));
+
+  type AssignmentRow = { id: string; title: string; site_id: string | null; project_id: string | null };
+  const assignment = ((assignmentRows ?? []) as AssignmentRow[])[0];
+  const currentAssignment: CurrentAssignment | null = assignment
+    ? { assignmentId: assignment.id, title: assignment.title, siteId: assignment.site_id, projectId: assignment.project_id }
+    : null;
   const rows = (entryRows ?? []) as unknown as EntryRow[];
 
   const recentEntries: TimeEntry[] = rows.slice(0, 10).flatMap((row) => {
@@ -87,5 +126,5 @@ export async function getTimeTrackingOverview(): Promise<{
     targetMinutes: WEEKLY_TARGET_MINUTES,
   };
 
-  return { projects, tasks, recentEntries, todaySummary, weeklySummary };
+  return { projects, tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary };
 }
