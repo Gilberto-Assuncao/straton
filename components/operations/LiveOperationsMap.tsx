@@ -96,7 +96,7 @@ export default function LiveOperationsMap({ points }: { points: LiveOperationsPo
                   <p className="font-semibold text-[#E5E7EB]">{point.name}</p>
                   <p className="text-sm text-[#9CA3AF]">{point.siteName ?? t("noSite")} · {t("started", { time: minutesAgo(point.startedAt, t) })}</p>
                 </div>
-                <GpsBadge latitude={point.latitude} longitude={point.longitude} />
+                <GpsBadge label={t("locationRecorded")} />
               </button>
             </li>
           );

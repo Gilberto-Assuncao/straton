@@ -728,7 +728,16 @@
     "invitationsSubtitle": "Accettando, la tua azienda accede ai cantieri del progetto e può assegnarvi il proprio personale.",
     "invitationFrom": "{company} ti ha invitato a {project}",
     "invitationAccept": "Accetta",
-    "invitationDecline": "Rifiuta"
+    "invitationDecline": "Rifiuta",
+    "locationTitle": "Posizione",
+    "locationHelp": "Inserisci l indirizzo e troviamo noi il punto sulla mappa. Il cantiere ne ha bisogno per le previsioni meteo e per comparire sulla mappa.",
+    "locationConfirmed": "Posizione confermata",
+    "locationConfirmedAt": "Individuato in {address}",
+    "locationMissing": "Ancora senza posizione",
+    "locationMissingHelp": "Senza di essa questo cantiere non ha previsioni meteo e non compare sulla mappa.",
+    "locationPin": "Individuato",
+    "clockedInOnSite": "Timbrato in cantiere",
+    "clockedInLocation": "Posizione registrata"
   },
   "operationalReports": {
     "metadataTitle": "Rapporti sul campo",
@@ -784,7 +793,8 @@
     "started": "iniziato {time}",
     "justNow": "ora",
     "minutesAgo": "{count} min fa",
-    "hoursAgo": "{count} h fa"
+    "hoursAgo": "{count} h fa",
+    "locationRecorded": "Posizione registrata"
   },
   "reportTemplates": {
     "eyebrow": "Operazioni",

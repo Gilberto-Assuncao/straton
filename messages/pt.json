@@ -728,7 +728,16 @@
     "invitationsSubtitle": "Ao aceitar, a sua empresa passa a ver os estaleiros do projeto e pode atribuir-lhe os seus próprios trabalhadores.",
     "invitationFrom": "{company} convidou-o para {project}",
     "invitationAccept": "Aceitar",
-    "invitationDecline": "Recusar"
+    "invitationDecline": "Recusar",
+    "locationTitle": "Localização",
+    "locationHelp": "Indique a morada e nós encontramos o ponto no mapa. O estaleiro precisa disso para a previsão do tempo e para aparecer no mapa em tempo real.",
+    "locationConfirmed": "Localização confirmada",
+    "locationConfirmedAt": "Localizado em {address}",
+    "locationMissing": "Ainda sem localização",
+    "locationMissingHelp": "Sem ela, este estaleiro não tem previsão do tempo nem aparece no mapa.",
+    "locationPin": "Localizado",
+    "clockedInOnSite": "Picou no estaleiro",
+    "clockedInLocation": "Localização registada"
   },
   "operationalReports": {
     "metadataTitle": "Relatórios de Campo",
@@ -784,7 +793,8 @@
     "started": "iniciou {time}",
     "justNow": "agora mesmo",
     "minutesAgo": "há {count} min",
-    "hoursAgo": "há {count} h"
+    "hoursAgo": "há {count} h",
+    "locationRecorded": "Localização registada"
   },
   "reportTemplates": {
     "eyebrow": "Operações",

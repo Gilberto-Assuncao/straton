@@ -728,7 +728,16 @@
     "invitationsSubtitle": "Accepting gives your company access to the project's sites and lets you assign your own people to it.",
     "invitationFrom": "{company} invited you to {project}",
     "invitationAccept": "Accept",
-    "invitationDecline": "Decline"
+    "invitationDecline": "Decline",
+    "locationTitle": "Location",
+    "locationHelp": "Enter the address and we find the spot on the map. The site needs it for the weather forecast and to show on the live map.",
+    "locationConfirmed": "Location confirmed",
+    "locationConfirmedAt": "Located at {address}",
+    "locationMissing": "No location yet",
+    "locationMissingHelp": "Without it, this site has no weather forecast and does not appear on the map.",
+    "locationPin": "Located",
+    "clockedInOnSite": "Clocked in on site",
+    "clockedInLocation": "Location recorded"
   },
   "operationalReports": {
     "metadataTitle": "Field Reports",
@@ -784,7 +793,8 @@
     "started": "started {time}",
     "justNow": "just now",
     "minutesAgo": "{count} min ago",
-    "hoursAgo": "{count}h ago"
+    "hoursAgo": "{count}h ago",
+    "locationRecorded": "Location recorded"
   },
   "reportTemplates": {
     "eyebrow": "Operations",
