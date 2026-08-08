@@ -62,9 +62,16 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
           {site.startsAt ? <div><dt className="text-xs text-[#6B7280]">{t("startsAtLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.startsAt}</dd></div> : null}
           {site.endsAt ? <div><dt className="text-xs text-[#6B7280]">{t("endsAtLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.endsAt}</dd></div> : null}
           <div>
-            <dt className="text-xs text-[#6B7280]">{t("coordinatesTitle")}</dt>
-            <dd className="mt-1 font-mono text-sm text-[#D1D5DB]">
-              {site.latitude != null && site.longitude != null ? `${site.latitude}, ${site.longitude}` : <span className="font-sans text-amber-300">{t("noCoordinatesWarning")}</span>}
+            {/* A confirmed/missing state, not the numbers. The pair told a site
+                manager nothing they could act on; whether the weather and the
+                map will work is the thing they can. */}
+            <dt className="text-xs text-[#6B7280]">{t("locationTitle")}</dt>
+            <dd className="mt-1 text-sm">
+              {site.latitude != null && site.longitude != null ? (
+                <span className="text-[#4ADE80]">{t("locationConfirmed")}</span>
+              ) : (
+                <span className="text-amber-300">{t("locationMissing")}</span>
+              )}
             </dd>
           </div>
         </dl>
@@ -90,7 +97,10 @@ export async function PresencePanel({ data }: { data: SiteDashboard }) {
             </span>
             <span className="text-xs text-[#9CA3AF]">
               {t("presenceSince", { time: time(person.startedAt) })}
-              {person.latitude != null ? <span className="ml-3 font-mono text-[#6B7280]">{person.latitude}, {person.longitude}</span> : null}
+              {/* The GPS fix is kept as evidence of where someone clocked in, but
+                  showing it as decimals asks a supervisor to do geography in
+                  their head. That it was recorded is the readable fact. */}
+              {person.latitude != null ? <span className="ml-3 text-[#6B7280]">{t("clockedInLocation")}</span> : null}
             </span>
           </li>
         ))}

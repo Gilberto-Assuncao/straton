@@ -28,6 +28,7 @@ export default function SiteForm({ site, projects, clients }: { site?: SiteRecor
   const [geocodeNote, setGeocodeNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
 
   const canGeocode = Boolean(postalCode.trim() || city.trim());
+  const located = Boolean(latitude.trim() && longitude.trim());
 
   function findCoordinates() {
     setGeocodeNote(null);
@@ -84,8 +85,8 @@ export default function SiteForm({ site, projects, clients }: { site?: SiteRecor
         </div>
 
         <div className="sm:col-span-2 rounded-xl border border-white/10 bg-[#111C33] p-4">
-          <p className="text-sm font-semibold text-[#E5E7EB]">{t("coordinatesTitle")}</p>
-          <p className="mt-1 text-xs leading-5 text-[#9CA3AF]">{t("coordinatesHelp")}</p>
+          <p className="text-sm font-semibold text-[#E5E7EB]">{t("locationTitle")}</p>
+          <p className="mt-1 text-xs leading-5 text-[#9CA3AF]">{t("locationHelp")}</p>
           <button
             type="button"
             onClick={findCoordinates}
@@ -98,16 +99,22 @@ export default function SiteForm({ site, projects, clients }: { site?: SiteRecor
           {geocodeNote ? (
             <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-[#4ADE80]" : "text-amber-300"}`}>{geocodeNote.text}</p>
           ) : null}
-          <div className="mt-4 grid gap-4 sm:grid-cols-2">
-            <div>
-              <label htmlFor="site-latitude" className={label}>{t("latitudeLabel")}</label>
-              <input id="site-latitude" name="latitude" type="number" step="any" min="-90" max="90" inputMode="decimal" value={latitude} onChange={(event) => setLatitude(event.target.value)} placeholder="50.8503" className={field} />
-            </div>
-            <div>
-              <label htmlFor="site-longitude" className={label}>{t("longitudeLabel")}</label>
-              <input id="site-longitude" name="longitude" type="number" step="any" min="-180" max="180" inputMode="decimal" value={longitude} onChange={(event) => setLongitude(event.target.value)} placeholder="4.3517" className={field} />
-            </div>
-          </div>
+
+          {/*
+            The coordinates travel as hidden fields and are never shown or typed.
+            Nobody knows the latitude of a roof, and a pair of decimals on screen
+            is a number a site manager cannot check, cannot correct and cannot
+            act on — so it is worse than nothing. The address is the thing a
+            human can verify; the coordinates are how the map and the weather
+            forecast find it.
+          */}
+          <input type="hidden" name="latitude" value={latitude} />
+          <input type="hidden" name="longitude" value={longitude} />
+
+          <p className={`mt-4 text-xs font-semibold ${located ? "text-[#4ADE80]" : "text-amber-300"}`}>
+            {located ? t("locationConfirmed") : t("locationMissing")}
+          </p>
+          {!located ? <p className="mt-1 text-xs leading-5 text-[#6B7280]">{t("locationMissingHelp")}</p> : null}
         </div>
 
         <div>

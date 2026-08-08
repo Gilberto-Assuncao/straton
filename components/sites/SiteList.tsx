@@ -66,7 +66,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
             </div>
 
             {site.latitude != null && site.longitude != null ? (
-              <p className="mt-3 font-mono text-xs text-[#6B7280]">{site.latitude}, {site.longitude}</p>
+              <p className="mt-3 text-xs text-[#4ADE80]">{t("locationPin")}</p>
             ) : (
               <p className="mt-3 text-xs text-amber-300">{t("noCoordinatesWarning")}</p>
             )}

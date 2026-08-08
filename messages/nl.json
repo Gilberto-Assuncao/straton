@@ -728,7 +728,16 @@
     "invitationsSubtitle": "Door te aanvaarden krijgt uw bedrijf toegang tot de werven van het project en kunt u er eigen mensen op inzetten.",
     "invitationFrom": "{company} heeft u uitgenodigd voor {project}",
     "invitationAccept": "Aanvaarden",
-    "invitationDecline": "Weigeren"
+    "invitationDecline": "Weigeren",
+    "locationTitle": "Locatie",
+    "locationHelp": "Vul het adres in en wij vinden de plek op de kaart. De werf heeft dit nodig voor de weersverwachting en om op de kaart te verschijnen.",
+    "locationConfirmed": "Locatie bevestigd",
+    "locationConfirmedAt": "Gevonden op {address}",
+    "locationMissing": "Nog geen locatie",
+    "locationMissingHelp": "Zonder locatie heeft deze werf geen weersverwachting en verschijnt ze niet op de kaart.",
+    "locationPin": "Gevonden",
+    "clockedInOnSite": "Ingeklokt op de werf",
+    "clockedInLocation": "Locatie geregistreerd"
   },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",
@@ -784,7 +793,8 @@
     "started": "gestart {time}",
     "justNow": "zojuist",
     "minutesAgo": "{count} min geleden",
-    "hoursAgo": "{count} u geleden"
+    "hoursAgo": "{count} u geleden",
+    "locationRecorded": "Locatie geregistreerd"
   },
   "reportTemplates": {
     "eyebrow": "Operaties",

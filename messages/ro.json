@@ -728,7 +728,16 @@
     "invitationsSubtitle": "Acceptarea oferă companiei acces la șantierele proiectului și vă permite să repartizați propriii angajați.",
     "invitationFrom": "{company} v-a invitat la {project}",
     "invitationAccept": "Acceptă",
-    "invitationDecline": "Refuză"
+    "invitationDecline": "Refuză",
+    "locationTitle": "Localizare",
+    "locationHelp": "Introduceți adresa și găsim noi punctul pe hartă. Șantierul are nevoie de asta pentru prognoza meteo și pentru a apărea pe hartă.",
+    "locationConfirmed": "Localizare confirmată",
+    "locationConfirmedAt": "Localizat la {address}",
+    "locationMissing": "Încă fără localizare",
+    "locationMissingHelp": "Fără ea, acest șantier nu are prognoză meteo și nu apare pe hartă.",
+    "locationPin": "Localizat",
+    "clockedInOnSite": "Pontat pe șantier",
+    "clockedInLocation": "Locație înregistrată"
   },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",
@@ -784,7 +793,8 @@
     "started": "început {time}",
     "justNow": "chiar acum",
     "minutesAgo": "acum {count} min",
-    "hoursAgo": "acum {count} h"
+    "hoursAgo": "acum {count} h",
+    "locationRecorded": "Locație înregistrată"
   },
   "reportTemplates": {
     "eyebrow": "Operațiuni",
