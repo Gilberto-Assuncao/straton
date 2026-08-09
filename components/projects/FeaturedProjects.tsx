@@ -12,7 +12,7 @@ export default function FeaturedProjects({ projects, clientById }: { projects: P
   return (
     <div className="mt-6 grid gap-5 sm:grid-cols-3">
       {featured.map((project) => {
-        const client = clientById.get(project.clientId);
+        const client = project.clientId ? clientById.get(project.clientId) : undefined;
         const progress = project.estimatedHours > 0 ? Math.min(100, Math.round((project.workedHours / project.estimatedHours) * 100)) : 0;
         return (
           <div key={project.id} className="rounded-2xl border border-white/10 bg-[#161A34] p-5.5">

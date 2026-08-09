@@ -307,7 +307,6 @@
     "phone": "Telefone",
     "countryVat": "País · NIF",
     "address": "Morada",
-    "selectClient": "Selecionar um cliente",
     "noMatchingProjects": "Nenhum projeto corresponde",
     "noProjectsYet": "Ainda não há projetos",
     "adjustFilters": "Ajuste ou limpe os filtros para ver mais resultados.",
@@ -360,7 +359,8 @@
     "teamMembers": "Membros da equipa",
     "projectHoursProgress": "Progresso de horas do projeto",
     "hoursLogged": "registadas",
-    "membersAllocated": "{count} colaboradores alocados"
+    "membersAllocated": "{count} colaboradores alocados",
+    "noClient": "Sem cliente (trabalho interno)"
   },
   "roster": {
     "eyebrow": "Empresa",

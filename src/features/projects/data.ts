@@ -78,7 +78,10 @@ async function loadProjects(): Promise<{ projects: Project[]; clients: Client[] 
   }
 
   const projects: Project[] = rows.flatMap((row) => {
-    if (!row.client_company_id || !clientById.has(row.client_company_id)) return [];
+    // A project with no client is internal work, not a broken row. Dropping it
+    // here would make it vanish from the list with nothing to explain why —
+    // the same silent subtraction as the hours that had no site.
+    if (row.client_company_id && !clientById.has(row.client_company_id)) return [];
     const hours = hoursByProject.get(row.id) ?? { tracked: 0, billable: 0, entries: 0 };
     const activeMemberships = (row.project_memberships ?? []).filter((link) => link.left_at === null);
     const members: ProjectMember[] = activeMemberships.flatMap((link) => {
@@ -91,7 +94,7 @@ async function loadProjects(): Promise<{ projects: Project[]; clients: Client[] 
     });
     const trackedHours = Math.round((hours.tracked / 60) * 100) / 100;
     return [{
-      id: row.id, name: row.name, clientId: row.client_company_id, status: row.status, priority: row.priority,
+      id: row.id, name: row.name, clientId: row.client_company_id ?? null, status: row.status, priority: row.priority,
       estimatedHours: row.estimated_hours ?? 0, workedHours: trackedHours,
       startDate: row.starts_at ?? "", endDate: row.ends_at ?? "",
       budget: { amount: row.budget_amount ?? 0, currency: (row.budget_currency as "EUR") ?? "EUR", spent: row.budget_spent },
