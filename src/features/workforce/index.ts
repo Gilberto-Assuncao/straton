@@ -1,4 +1,3 @@
-export * from "./components/AddMemberForm";
 export * from "./components/MembersTable";
 export * from "./components/TeamsOverview";
 export * from "./components/WorkforceBadges";

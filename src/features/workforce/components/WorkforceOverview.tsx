@@ -1,17 +1,24 @@
-"use client";
-import { useState } from "react";
-import { useTranslations } from "next-intl";
-import { Button } from "@/src/components/ui";
-import { Modal } from "@/src/components/feedback";
-import { AddMemberForm } from "./AddMemberForm";
+import { getTranslations } from "next-intl/server";
+import Link from "next/link";
 import { MembersTable } from "./MembersTable";
 import { TeamsOverview } from "./TeamsOverview";
 import { WorkforceStats } from "./WorkforceStats";
 import type { WorkforceMemberView, WorkforceTeamView } from "../types";
 
-export function WorkforceOverview({ members, teams }: { members: WorkforceMemberView[]; teams: WorkforceTeamView[] }) {
-  const t = useTranslations("workforce");
-  const [adding, setAdding] = useState(false);
+/**
+ * A read-only view of who works here (#45).
+ *
+ * "Add member" used to open a form that told you what it was — "demo form, no
+ * account will be created and no invitation sent" — and then discarded eight
+ * filled-in fields on submit. Wiring it up would have built a second way to
+ * invite somebody, when the first one already works: People → Add, which
+ * creates the auth user, sends the email and opens the membership.
+ *
+ * So the button now goes there. One invitation path, on the screen that owns
+ * it, rather than two where one is a prop.
+ */
+export async function WorkforceOverview({ members, teams }: { members: WorkforceMemberView[]; teams: WorkforceTeamView[] }) {
+  const t = await getTranslations("workforce");
 
   return (
     <div className="grid gap-8">
@@ -21,16 +28,17 @@ export function WorkforceOverview({ members, teams }: { members: WorkforceMember
           <h1 className="mt-2 text-2xl font-bold text-[#E5E7EB] sm:text-3xl">{t("title")}</h1>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[#9CA3AF]">{t("description")}</p>
         </div>
-        <Button onClick={() => setAdding(true)}>{t("addMember")}</Button>
+        <Link
+          href="/dashboard/employees/new"
+          className="flex min-h-11 items-center justify-center rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] transition hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]"
+        >
+          {t("addMember")}
+        </Link>
       </header>
 
       <WorkforceStats members={members} teams={teams} />
       <MembersTable members={members} teams={teams} />
       <TeamsOverview teams={teams} />
-
-      <Modal open={adding} title={t("addMember")} onClose={() => setAdding(false)}>
-        <AddMemberForm teams={teams} onClose={() => setAdding(false)} />
-      </Modal>
     </div>
   );
 }
