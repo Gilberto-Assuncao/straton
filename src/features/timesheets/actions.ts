@@ -21,6 +21,12 @@ export type TimesheetMessageKey =
   | "ownTimesheet"
   | "nothingSelected"
   | "unavailable"
+  | "entrySaved"
+  | "entryApproved"
+  | "notAllowedToEdit"
+  | "invalidTime"
+  | "invalidBreak"
+  | "breakTooLong"
   | "failed";
 
 export type TimesheetActionResult = { ok: boolean; message: TimesheetMessageKey };
@@ -65,6 +71,18 @@ function toDateKey(d: Date): string {
   const month = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
+}
+
+/** `HH:MM` applied to the calendar day the entry already sits on. */
+function atTimeOfDay(day: Date, time: string): Date | null {
+  const match = /^(\d{1,2}):(\d{2})$/.exec(time);
+  if (!match) return null;
+  const hours = Number(match[1]);
+  const minutes = Number(match[2]);
+  if (hours > 23 || minutes > 59) return null;
+  const result = new Date(day);
+  result.setHours(hours, minutes, 0, 0);
+  return result;
 }
 
 export async function submitTimesheetAction(): Promise<TimesheetActionResult> {
@@ -199,4 +217,81 @@ export async function approveTimesheetAction(timesheetId: string) {
 }
 export async function rejectTimesheetAction(timesheetId: string) {
   return reviewTimesheetsAction([timesheetId], "rejected");
+}
+
+export interface EditEntryInput {
+  entryId: string;
+  /** Time of day, `HH:MM`. The calendar day comes from the entry itself. */
+  startTime: string;
+  endTime: string;
+  breakMinutes: number;
+  projectId: string | null;
+  taskId: string | null;
+  siteId: string | null;
+  notes: string;
+}
+
+/**
+ * Corrects an entry that came in wrong from the field (#56).
+ *
+ * Until now `save()` closed the dialog, printed "ready for backend
+ * integration", and wrote nothing — so the break left at zero, the swapped
+ * site, the clock left running until nine at night could only be fixed in the
+ * database by hand.
+ *
+ * Who may change what is decided by a trigger, not here. This checks the same
+ * things only so the answer arrives as a sentence rather than a Postgres error;
+ * removing these branches would change the wording of a refusal, never whether
+ * it happens.
+ */
+export async function editTimeEntryAction(input: EditEntryInput): Promise<TimesheetActionResult> {
+  const { companyId } = await context();
+  const supabase = await createClient();
+
+  const { data: entry } = await supabase
+    .from("timesheet_entries")
+    .select("id,starts_at,status")
+    .eq("company_id", companyId)
+    .eq("id", input.entryId)
+    .maybeSingle();
+  if (!entry) return { ok: false, message: "unavailable" };
+  if (entry.status === "approved") return { ok: false, message: "entryApproved" };
+
+  // The date is taken from the row, never from the form. The dialog edits a
+  // time of day; letting it also move the entry to another day would silently
+  // shift hours into a different week — and possibly a different timesheet from
+  // the one they belong to.
+  const day = new Date(entry.starts_at as string);
+  const startsAt = atTimeOfDay(day, input.startTime);
+  const endsAt = atTimeOfDay(day, input.endTime);
+  if (!startsAt || !endsAt) return { ok: false, message: "invalidTime" };
+
+  // An overnight shift ends "before" it starts on the clock face. Rolling the
+  // end into the next day is the reading that matches how people work; refusing
+  // it would make night shifts unrecordable.
+  if (endsAt <= startsAt) endsAt.setDate(endsAt.getDate() + 1);
+
+  const workedMinutes = Math.round((endsAt.getTime() - startsAt.getTime()) / 60000);
+  if (!Number.isFinite(input.breakMinutes) || input.breakMinutes < 0) return { ok: false, message: "invalidBreak" };
+  // A break longer than the shift would net to negative minutes, which the
+  // report's `greatest(0, …)` would swallow — the total would just be short.
+  if (input.breakMinutes >= workedMinutes) return { ok: false, message: "breakTooLong" };
+
+  const { error } = await supabase
+    .from("timesheet_entries")
+    .update({
+      starts_at: startsAt.toISOString(),
+      ends_at: endsAt.toISOString(),
+      break_minutes: input.breakMinutes,
+      project_id: input.projectId || null,
+      task_id: input.taskId || null,
+      site_id: input.siteId || null,
+      notes: input.notes.trim() || null,
+    })
+    .eq("id", input.entryId);
+  if (error) return { ok: false, message: "notAllowedToEdit" };
+
+  revalidatePath("/dashboard/timesheets");
+  revalidatePath("/dashboard/reports");
+  return { ok: true, message: "entrySaved" };
 }

@@ -142,7 +142,6 @@
     "submit": "Einreichen",
     "approve": "Genehmigen",
     "reject": "Ablehnen",
-    "entryChangesReady": "Die Änderungen am Eintrag sind bereit für die Backend-Integration.",
     "filtersAriaLabel": "Stundenzettelfilter",
     "week": "Woche",
     "employee": "Mitarbeiter",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "Du kannst deinen eigenen Zeitnachweis nicht freigeben.",
     "result_nothingSelected": "Wähle mindestens eine Woche aus.",
     "result_unavailable": "Zeitnachweis nicht verfügbar.",
-    "result_failed": "Die Prüfung konnte nicht gespeichert werden."
+    "result_failed": "Die Prüfung konnte nicht gespeichert werden.",
+    "fieldSite": "Baustelle",
+    "fieldNoSite": "Ohne Baustelle (Büro, Werkstatt, Fahrt)",
+    "result_entrySaved": "Eintrag gespeichert.",
+    "result_entryApproved": "Diese Stunden sind freigegeben und nicht mehr änderbar. Öffne zuerst den Zeitnachweis erneut.",
+    "result_notAllowedToEdit": "Du kannst diesen Eintrag nicht ändern.",
+    "result_invalidTime": "Gib eine gültige Anfangs- und Endzeit an.",
+    "result_invalidBreak": "Die Pause muss null Minuten oder mehr betragen.",
+    "result_breakTooLong": "Die Pause kann nicht länger als die Schicht sein."
   },
   "employees": {
     "eyebrow": "Team",

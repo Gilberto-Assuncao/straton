@@ -142,7 +142,6 @@
     "submit": "Trimite",
     "approve": "Aprobă",
     "reject": "Respinge",
-    "entryChangesReady": "Modificările înregistrării sunt pregătite pentru integrarea backend.",
     "filtersAriaLabel": "Filtre fișă de pontaj",
     "week": "Săptămână",
     "employee": "Angajat",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "Nu îți poți aproba propriul pontaj.",
     "result_nothingSelected": "Selectează cel puțin o săptămână.",
     "result_unavailable": "Pontaj indisponibil.",
-    "result_failed": "Verificarea nu a putut fi salvată."
+    "result_failed": "Verificarea nu a putut fi salvată.",
+    "fieldSite": "Șantier",
+    "fieldNoSite": "Fără șantier (birou, atelier, deplasare)",
+    "result_entrySaved": "Înregistrare salvată.",
+    "result_entryApproved": "Aceste ore sunt aprobate și nu pot fi modificate. Redeschide întâi pontajul.",
+    "result_notAllowedToEdit": "Nu poți modifica această înregistrare.",
+    "result_invalidTime": "Introdu o oră de început și de sfârșit valide.",
+    "result_invalidBreak": "Pauza trebuie să fie zero minute sau mai mult.",
+    "result_breakTooLong": "Pauza nu poate fi mai lungă decât tura."
   },
   "employees": {
     "eyebrow": "Echipă",

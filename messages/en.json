@@ -142,7 +142,6 @@
     "submit": "Submit",
     "approve": "Approve",
     "reject": "Reject",
-    "entryChangesReady": "Entry changes are ready for backend integration.",
     "filtersAriaLabel": "Timesheet filters",
     "week": "Week",
     "employee": "Employee",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "You cannot approve your own timesheet.",
     "result_nothingSelected": "Select at least one week.",
     "result_unavailable": "Timesheet unavailable.",
-    "result_failed": "Could not save the review."
+    "result_failed": "Could not save the review.",
+    "fieldSite": "Site",
+    "fieldNoSite": "No site (office, workshop, travel)",
+    "result_entrySaved": "Entry saved.",
+    "result_entryApproved": "These hours are approved and cannot be edited. Reopen the timesheet first.",
+    "result_notAllowedToEdit": "You cannot edit this entry.",
+    "result_invalidTime": "Enter a valid start and end time.",
+    "result_invalidBreak": "The break must be zero or more minutes.",
+    "result_breakTooLong": "The break cannot be longer than the shift."
   },
   "employees": {
     "eyebrow": "Team",

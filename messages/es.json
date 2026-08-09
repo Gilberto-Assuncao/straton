@@ -142,7 +142,6 @@
     "submit": "Enviar",
     "approve": "Aprobar",
     "reject": "Rechazar",
-    "entryChangesReady": "Los cambios del registro están listos para la integración con el backend.",
     "filtersAriaLabel": "Filtros del parte de horas",
     "week": "Semana",
     "employee": "Empleado",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "No puedes aprobar tu propio parte de horas.",
     "result_nothingSelected": "Selecciona al menos una semana.",
     "result_unavailable": "Parte de horas no disponible.",
-    "result_failed": "No se pudo guardar la revisión."
+    "result_failed": "No se pudo guardar la revisión.",
+    "fieldSite": "Obra",
+    "fieldNoSite": "Sin obra (oficina, taller, desplazamiento)",
+    "result_entrySaved": "Registro guardado.",
+    "result_entryApproved": "Estas horas están aprobadas y no se pueden editar. Reabre primero el parte.",
+    "result_notAllowedToEdit": "No puedes editar este registro.",
+    "result_invalidTime": "Indica una hora de inicio y de fin válidas.",
+    "result_invalidBreak": "La pausa debe ser de cero minutos o más.",
+    "result_breakTooLong": "La pausa no puede ser mayor que el turno."
   },
   "employees": {
     "eyebrow": "Equipo",

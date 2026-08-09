@@ -142,7 +142,6 @@
     "submit": "Invia",
     "approve": "Approva",
     "reject": "Rifiuta",
-    "entryChangesReady": "Le modifiche alla voce sono pronte per l’integrazione backend.",
     "filtersAriaLabel": "Filtri foglio ore",
     "week": "Settimana",
     "employee": "Dipendente",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "Non puoi approvare il tuo foglio ore.",
     "result_nothingSelected": "Seleziona almeno una settimana.",
     "result_unavailable": "Foglio ore non disponibile.",
-    "result_failed": "Impossibile salvare la revisione."
+    "result_failed": "Impossibile salvare la revisione.",
+    "fieldSite": "Cantiere",
+    "fieldNoSite": "Senza cantiere (ufficio, officina, trasferta)",
+    "result_entrySaved": "Voce salvata.",
+    "result_entryApproved": "Queste ore sono approvate e non si possono modificare. Riapri prima il foglio ore.",
+    "result_notAllowedToEdit": "Non puoi modificare questa voce.",
+    "result_invalidTime": "Inserisci un orario di inizio e fine validi.",
+    "result_invalidBreak": "La pausa deve essere di zero minuti o più.",
+    "result_breakTooLong": "La pausa non può superare la durata del turno."
   },
   "employees": {
     "eyebrow": "Team",
