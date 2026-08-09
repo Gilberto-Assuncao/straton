@@ -26,7 +26,16 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   const employmentType = String(formData.get("employmentType") ?? "employee");
   const startDate = String(formData.get("startDate") ?? "");
 
-  if (!firstName || !lastName || !email || !jobTitle || !team || !startDate) {
+  // Team is deliberately not required (#45).
+  //
+  // The membership is what makes someone exist and lets them clock in; the team
+  // is internal organisation, it changes often, and it is frequently not
+  // decided on the day someone is hired. Forcing it here made whoever was
+  // hiring invent a team to get past the form, and data invented to satisfy a
+  // validator is worse than a blank. `pending_team_id` has always been
+  // nullable, and the workforce screen already renders "Unassigned" — only the
+  // form insisted.
+  if (!firstName || !lastName || !email || !jobTitle || !startDate) {
     return { status: "error", message: "Fill in all required fields." };
   }
 
@@ -34,11 +43,15 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   const admin = createAdminClient();
 
   const [{ data: teamRow }, { data: roleRow }, { data: existingUser }] = await Promise.all([
-    supabase.from("teams").select("id").eq("company_id", companyId).eq("name", team).maybeSingle(),
+    team
+      ? supabase.from("teams").select("id").eq("company_id", companyId).eq("name", team).maybeSingle()
+      : Promise.resolve({ data: null }),
     supabase.from("roles").select("id").eq("key", roleKeyByEmploymentType[employmentType] ?? "employee").maybeSingle(),
     admin.from("users").select("id").eq("email", email).maybeSingle(),
   ]);
-  if (!teamRow) return { status: "error", message: "Select a valid team." };
+  // A team that was named but does not exist is still an error — that is a
+  // typo or a stale form, not a choice. Naming none is the choice.
+  if (team && !teamRow) return { status: "error", message: "Select a valid team." };
   if (!roleRow) return { status: "error", message: "Unable to resolve the employee role." };
 
   let userId = existingUser?.id as string | undefined;
@@ -76,7 +89,7 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
 
   const { data: membership, error: membershipError } = await admin
     .from("company_memberships")
-    .insert({ company_id: companyId, user_id: userId, job_title: jobTitle, status: "invited", pending_team_id: teamRow.id })
+    .insert({ company_id: companyId, user_id: userId, job_title: jobTitle, status: "invited", pending_team_id: teamRow?.id ?? null })
     .select("id")
     .single();
   if (membershipError || !membership) return { status: "error", message: membershipError?.message ?? "Unable to create the membership." };
@@ -238,7 +251,7 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
         });
         if (error) return { status: "error", message: error.message };
       } else {
-        const { error } = await admin.from("company_memberships").update({ pending_team_id: teamRow.id }).eq("id", target.membershipId);
+        const { error } = await admin.from("company_memberships").update({ pending_team_id: teamRow?.id ?? null }).eq("id", target.membershipId);
         if (error) return { status: "error", message: error.message };
       }
     }

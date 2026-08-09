@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Avatar } from "@/src/components/data-display";
@@ -16,12 +17,6 @@ import { MemberStatusBadge, RoleBadge } from "./WorkforceBadges";
  */
 const MEMBERSHIP_STATUSES = ["invited", "active", "suspended", "ended", "inactive", "left", "rejected"] as const;
 
-/**
- * The row actions are still inert — none of them do anything yet. They are
- * translated anyway, because a half-English menu reads as broken while a
- * translated one reads as unfinished, and the second is the truth.
- */
-const ROW_ACTIONS = ["viewProfile", "editMembership", "changeRole", "assignTeam", "suspend", "remove"] as const;
 
 export function MembersTable({ members, teams }: { members: WorkforceMemberView[]; teams: WorkforceTeamView[] }) {
   const t = useTranslations("workforce");
@@ -75,27 +70,23 @@ export function MembersTable({ members, teams }: { members: WorkforceMemberView[
       id: "actions",
       header: t("colActions"),
       hideable: false,
+      /*
+       * One link, where there were six buttons with no `onClick` (#45).
+       *
+       * Every one of them already has a real home on the person's own page:
+       * the profile, the membership edit, and suspend all live there, and
+       * team assignment lives on Teams. A menu of six dead options is not a
+       * feature waiting to be finished — it is six chances to believe
+       * something happened.
+       */
       cell: (member) => (
-        <details className="relative">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center font-semibold text-[#22C55E] focus-visible:outline-2 focus-visible:outline-[#22C55E]">
-            {t("manage")}
-          </summary>
-          <div className="absolute right-0 z-20 w-44 rounded-xl border border-white/10 bg-[#161A34] p-2 shadow-xl">
-            {ROW_ACTIONS.map((action) => {
-              const label = t(`action_${action}` as "action_remove");
-              return (
-                <button
-                  key={action}
-                  type="button"
-                  aria-label={t("actionFor", { action: label, name: member.name })}
-                  className="min-h-11 w-full rounded-lg px-3 text-left text-sm text-[#D1D5DB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
-                >
-                  {label}
-                </button>
-              );
-            })}
-          </div>
-        </details>
+        <Link
+          href={`/dashboard/employees/${member.id}`}
+          className="flex min-h-11 items-center font-semibold text-[#22C55E] hover:text-[#4ADE80] focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+          aria-label={t("openProfileFor", { name: member.name })}
+        >
+          {t("openProfile")}
+        </Link>
       ),
     },
   ];
