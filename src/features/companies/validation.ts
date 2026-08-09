@@ -11,9 +11,35 @@ function value(formData: FormData, key: string, max = 160) {
   return typeof entry === "string" ? entry.trim().replace(/\s+/g, " ").slice(0, max) : "";
 }
 
+/**
+ * Accepts a website the way people write one.
+ *
+ * Nobody types "https://". The field was `type="url"`, so the browser refused
+ * "www.belnexenergy.be" before the form was even submitted, and the server
+ * would have refused it too — reported as "site não aceito", with a perfectly
+ * good address in the box.
+ *
+ * A missing scheme is not a mistake to correct the user about; it is the normal
+ * way a domain is written down. Assume https, which is what a bare domain means
+ * in 2026, and store the normalised value so everything downstream has a real
+ * URL to work with.
+ */
+export function normaliseWebsite(input: string): string {
+  const trimmed = input.trim();
+  if (!trimmed) return "";
+  return /^[a-z][a-z0-9+.-]*:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
+}
+
 function isUrl(input: string) {
   if (!input) return true;
-  try { const url = new URL(input); return url.protocol === "https:" || url.protocol === "http:"; } catch { return false; }
+  try {
+    const url = new URL(input);
+    // A host with a dot in it. Without this, "https://belnex" parses happily
+    // and a typo becomes a stored address that goes nowhere.
+    return (url.protocol === "https:" || url.protocol === "http:") && /\.[a-z]{2,}$/i.test(url.hostname);
+  } catch {
+    return false;
+  }
 }
 
 function isTimezone(input: string) {
@@ -26,7 +52,7 @@ export function validateCompanyForm(formData: FormData): { data?: CompanyFormVal
     registrationNumber: value(formData, "registrationNumber", 64), vatNumber: value(formData, "vatNumber", 64),
     countryCode: value(formData, "countryCode", 2).toUpperCase(), defaultLanguage: value(formData, "defaultLanguage", 5).toLowerCase(),
     timezone: value(formData, "timezone", 64), currencyCode: value(formData, "currencyCode", 3).toUpperCase(),
-    phone: value(formData, "phone", 32), email: value(formData, "email", 254).toLowerCase(), website: value(formData, "website", 256),
+    phone: value(formData, "phone", 32), email: value(formData, "email", 254).toLowerCase(), website: normaliseWebsite(value(formData, "website", 256)),
     addressLine1: value(formData, "addressLine1"), addressLine2: value(formData, "addressLine2"), postalCode: value(formData, "postalCode", 24),
     city: value(formData, "city", 100), region: value(formData, "region", 100),
   };
