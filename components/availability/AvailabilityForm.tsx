@@ -23,7 +23,36 @@ export default function AvailabilityForm({
 }) {
   const t = useTranslations("availability");
   const [state, formAction, pending] = useActionState(declareAvailabilityAction, initial);
-  const [kind, setKind] = useState("unavailable");
+
+  /*
+   * Seeded from what was submitted, so a refusal does not empty the form (#45
+   * neighbourhood, reported directly). Losing the dates and the note on every
+   * error means retyping them next to a message that describes an attempt you
+   * can no longer see — which is how a stale "end must be after the start"
+   * ended up sitting above a perfectly good pair of dates.
+   *
+   * Keyed on the returned values so a successful save clears everything, and a
+   * refusal keeps it.
+   */
+  const submitted = state.values;
+  const [kind, setKind] = useState(submitted?.kind || "unavailable");
+  const [startsAt, setStartsAt] = useState(submitted?.startsAt ?? "");
+  const [endsAt, setEndsAt] = useState(submitted?.endsAt ?? "");
+  const [note, setNote] = useState(submitted?.note ?? "");
+  const [touched, setTouched] = useState(false);
+
+  // The message belongs to the attempt that produced it. Once the person edits
+  // anything, it is describing something that no longer exists.
+  const seed = `${submitted?.startsAt ?? ""}|${submitted?.endsAt ?? ""}|${submitted?.note ?? ""}|${state.message ?? ""}`;
+  const [seenSeed, setSeenSeed] = useState(seed);
+  if (seenSeed !== seed) {
+    setSeenSeed(seed);
+    setKind(submitted?.kind || "unavailable");
+    setStartsAt(submitted?.startsAt ?? "");
+    setEndsAt(submitted?.endsAt ?? "");
+    setNote(submitted?.note ?? "");
+    setTouched(false);
+  }
 
   return (
     <form action={formAction} className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6">
@@ -57,7 +86,7 @@ export default function AvailabilityForm({
 
         <label className={label}>
           <span className={labelText}>{t("kindLabel")}</span>
-          <select name="kind" value={kind} onChange={(event) => setKind(event.target.value)} className={field}>
+          <select name="kind" value={kind} onChange={(event) => { setKind(event.target.value); setTouched(true); }} className={field}>
             <option value="unavailable">{t("kind_unavailable")}</option>
             <option value="available">{t("kind_available")}</option>
           </select>
@@ -65,18 +94,18 @@ export default function AvailabilityForm({
 
         <label className={label}>
           <span className={labelText}>{t("startsAtLabel")}</span>
-          <input type="date" name="startsAt" className={field} required />
+          <input type="date" name="startsAt" value={startsAt} onChange={(event) => { setStartsAt(event.target.value); setTouched(true); }} className={field} required />
         </label>
 
         <label className={label}>
           <span className={labelText}>{t("endsAtLabel")}</span>
-          <input type="date" name="endsAt" className={field} required />
+          <input type="date" name="endsAt" value={endsAt} onChange={(event) => { setEndsAt(event.target.value); setTouched(true); }} className={field} required />
         </label>
 
         {kind === "unavailable" ? (
           <label className={label}>
             <span className={labelText}>{t("reasonLabel")}</span>
-            <select name="reason" className={field} required defaultValue="holiday">
+            <select name="reason" className={field} required defaultValue={submitted?.reason || "holiday"}>
               {AVAILABILITY_REASONS.map((reason) => (
                 <option key={reason} value={reason}>
                   {t(`reason_${reason}` as "reason_holiday")}
@@ -88,12 +117,12 @@ export default function AvailabilityForm({
 
         <label className={label}>
           <span className={labelText}>{t("noteLabel")}</span>
-          <input name="note" maxLength={280} className={field} />
+          <input name="note" value={note} onChange={(event) => { setNote(event.target.value); setTouched(true); }} maxLength={280} className={field} />
           <span className="text-xs text-[#6B7280]">{t("noteHint")}</span>
         </label>
       </div>
 
-      {state.message ? (
+      {state.message && !touched ? (
         <p
           role="status"
           className={`mt-4 text-sm ${state.status === "success" ? "text-[#4ADE80]" : "text-red-300"}`}
