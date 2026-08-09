@@ -776,7 +776,8 @@
     "locationMissing": "Pas encore localisé",
     "locationMissingHelp": "Sans cela, ce chantier n a pas de météo et n apparaît pas sur la carte.",
     "locationPin": "Localisé",
-    "clockedInOnSite": "Pointage sur le chantier"
+    "clockedInOnSite": "Pointage sur le chantier",
+    "geocode_not_allowed": "Vous n'avez pas l'autorisation de rechercher une adresse."
   },
   "operationalReports": {
     "metadataTitle": "Rapports de terrain",

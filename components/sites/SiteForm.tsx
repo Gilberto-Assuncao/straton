@@ -91,11 +91,20 @@ export default function SiteForm({ site, projects, clients }: { site?: SiteRecor
             type="button"
             onClick={findCoordinates}
             disabled={geocoding || !canGeocode}
-            title={canGeocode ? undefined : t("geocodeNeedsAddress")}
             className="mt-4 inline-flex min-h-11 items-center rounded-lg border border-[#22C55E]/40 bg-[#22C55E]/10 px-4 text-sm font-semibold text-[#4ADE80] transition hover:bg-[#22C55E]/20 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
           >
             {geocoding ? t("geocodeSearching") : t("geocodeFromAddress")}
           </button>
+          {/*
+            Said out loud, not hidden in a `title`.
+            
+            A greyed-out button whose only explanation is a tooltip reads as
+            broken — reported as exactly that. Tooltips do not exist on a phone,
+            and this form is used on phones.
+          */}
+          {!canGeocode ? (
+            <p className="mt-2 text-xs leading-5 text-[#9CA3AF]">{t("geocodeNeedsAddress")}</p>
+          ) : null}
           {geocodeNote ? (
             <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-[#4ADE80]" : "text-amber-300"}`}>{geocodeNote.text}</p>
           ) : null}

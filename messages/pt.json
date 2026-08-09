@@ -776,7 +776,8 @@
     "locationMissing": "Ainda sem localização",
     "locationMissingHelp": "Sem ela, este estaleiro não tem previsão do tempo nem aparece no mapa.",
     "locationPin": "Localizado",
-    "clockedInOnSite": "Picou no estaleiro"
+    "clockedInOnSite": "Picou no estaleiro",
+    "geocode_not_allowed": "Não tem permissão para procurar uma morada."
   },
   "operationalReports": {
     "metadataTitle": "Relatórios de Campo",

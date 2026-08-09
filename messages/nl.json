@@ -776,7 +776,8 @@
     "locationMissing": "Nog geen locatie",
     "locationMissingHelp": "Zonder locatie heeft deze werf geen weersverwachting en verschijnt ze niet op de kaart.",
     "locationPin": "Gevonden",
-    "clockedInOnSite": "Ingeklokt op de werf"
+    "clockedInOnSite": "Ingeklokt op de werf",
+    "geocode_not_allowed": "Je hebt geen rechten om een adres op te zoeken."
   },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",

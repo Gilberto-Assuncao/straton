@@ -776,7 +776,8 @@
     "locationMissing": "Ancora senza posizione",
     "locationMissingHelp": "Senza di essa questo cantiere non ha previsioni meteo e non compare sulla mappa.",
     "locationPin": "Individuato",
-    "clockedInOnSite": "Timbrato in cantiere"
+    "clockedInOnSite": "Timbrato in cantiere",
+    "geocode_not_allowed": "Non hai il permesso di cercare un indirizzo."
   },
   "operationalReports": {
     "metadataTitle": "Rapporti sul campo",

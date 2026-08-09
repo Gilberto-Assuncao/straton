@@ -6,6 +6,7 @@ import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { SITE_STATUSES } from "./types";
 import { geocodeAddress } from "@/src/infrastructure/geocoding/client";
+import { log } from "@/src/infrastructure/observability/logger";
 import { searchBelgianCompanies } from "@/src/infrastructure/cbe/client";
 
 export type SiteFormState = { status: "idle" | "error"; message: string };
@@ -131,7 +132,7 @@ export async function archiveSiteAction(siteId: string, archived: boolean): Prom
 
 export type GeocodeActionResult =
   | { ok: true; latitude: number; longitude: number; matchedAddress: string }
-  | { ok: false; reason: "no_match" | "unavailable" | "incomplete_address" };
+  | { ok: false; reason: "no_match" | "unavailable" | "incomplete_address" | "not_allowed" };
 
 // Coordinates are what make a site visible to the weather forecast and the
 // live map, and nobody knows the coordinates of a roof. This turns the address
@@ -143,13 +144,25 @@ export async function geocodeSiteAddressAction(address: {
   city?: string;
   countryCode?: string;
 }): Promise<GeocodeActionResult> {
-  const { allowed } = await guard();
-  if (!allowed) return { ok: false, reason: "unavailable" };
+  const { allowed, companyId, session } = await guard();
+  if (!allowed) return { ok: false, reason: "not_allowed" };
 
   const result = await geocodeAddress(address);
-  return result.found
-    ? { ok: true, latitude: result.latitude, longitude: result.longitude, matchedAddress: result.matchedAddress }
-    : { ok: false, reason: result.reason };
+  if (result.found) {
+    return { ok: true, latitude: result.latitude, longitude: result.longitude, matchedAddress: result.matchedAddress };
+  }
+
+  // Logged, because "unavailable" is the one outcome nobody on the screen can
+  // do anything about, and until now it left no trace at all. Nominatim is a
+  // free service that can rate-limit or refuse a datacentre address; if that
+  // starts happening we should learn it from the logs rather than from someone
+  // reporting that the button does nothing. Same lesson as the SMTP failure
+  // behind #27.
+  if (result.reason === "unavailable") {
+    log.error({ event: "geocode_unavailable", source: "geocodeSiteAddressAction", companyId, userId: session.user.id });
+  }
+
+  return { ok: false, reason: result.reason };
 }
 
 // --- Client companies (#32) ---------------------------------------------

@@ -776,7 +776,8 @@
     "locationMissing": "Ainda sem localização",
     "locationMissingHelp": "Sem ela, esta obra não tem previsão do tempo nem aparece no mapa.",
     "locationPin": "Localizado",
-    "clockedInOnSite": "Picou na obra"
+    "clockedInOnSite": "Picou na obra",
+    "geocode_not_allowed": "Você não tem permissão para buscar um endereço."
   },
   "operationalReports": {
     "metadataTitle": "Relatórios de Campo",

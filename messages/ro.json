@@ -776,7 +776,8 @@
     "locationMissing": "Încă fără localizare",
     "locationMissingHelp": "Fără ea, acest șantier nu are prognoză meteo și nu apare pe hartă.",
     "locationPin": "Localizat",
-    "clockedInOnSite": "Pontat pe șantier"
+    "clockedInOnSite": "Pontat pe șantier",
+    "geocode_not_allowed": "Nu ai permisiunea de a căuta o adresă."
   },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",
