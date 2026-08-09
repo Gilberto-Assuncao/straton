@@ -2,4 +2,29 @@
 
 import { useTranslations } from "next-intl";
 
-export default function TimesheetToolbar({ feedback, onAction }: { feedback: string; onAction: (action: "Submit" | "Approve" | "Reject") => void }) { const t = useTranslations("timesheets"); const base = "min-h-11 rounded-lg px-4 text-sm font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]"; return <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#161A34] p-4 sm:flex-row sm:items-center sm:justify-between"><p aria-live="polite" className="min-h-5 text-sm text-[#9CA3AF]">{feedback || t("toolbarDefaultFeedback")}</p><div className="grid grid-cols-3 gap-2"><button type="button" onClick={() => onAction("Submit")} className={`${base} border border-white/15 text-[#E5E7EB] hover:bg-white/5`}>{t("submit")}</button><button type="button" onClick={() => onAction("Approve")} className={`${base} bg-[#22C55E] text-[#07110B] hover:bg-[#16A34A]`}>{t("approve")}</button><button type="button" onClick={() => onAction("Reject")} className={`${base} border border-red-400/30 text-red-300 hover:bg-red-400/10`}>{t("reject")}</button></div></div>; }
+/**
+ * Submitting your own week.
+ *
+ * Approve and Reject used to live here too, acting on "the filtered rows" — so
+ * they only worked when the filter happened to isolate a single person's
+ * timesheet, and otherwise printed a warning and did nothing. Reviewing is
+ * per-person by nature, so it now lives in the approval queue where each week
+ * is a row you can tick. Nothing left to warn about.
+ */
+export default function TimesheetToolbar({ feedback, onSubmit }: { feedback: string; onSubmit: () => void }) {
+  const t = useTranslations("timesheets");
+  return (
+    <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#161A34] p-4 sm:flex-row sm:items-center sm:justify-between">
+      <p aria-live="polite" className="min-h-5 text-sm text-[#9CA3AF]">
+        {feedback || t("toolbarDefaultFeedback")}
+      </p>
+      <button
+        type="button"
+        onClick={onSubmit}
+        className="min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]"
+      >
+        {t("submit")}
+      </button>
+    </div>
+  );
+}

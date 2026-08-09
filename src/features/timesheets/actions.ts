@@ -4,7 +4,47 @@ import { revalidatePath } from "next/cache";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 
-export type TimesheetActionResult = { ok: boolean; message: string };
+/**
+ * Typed keys, never sentences.
+ *
+ * A server action cannot know the caller's locale, so a message composed here
+ * would arrive in English on a Polish phone. The screen translates the key.
+ */
+export type TimesheetMessageKey =
+  | "submitted"
+  | "nothingToSubmit"
+  | "alreadySubmitted"
+  | "approved"
+  | "rejected"
+  | "notAllowed"
+  | "notSubmitted"
+  | "ownTimesheet"
+  | "nothingSelected"
+  | "unavailable"
+  | "failed";
+
+export type TimesheetActionResult = { ok: boolean; message: TimesheetMessageKey };
+
+/**
+ * One outcome per timesheet, because a batch does not succeed or fail as a unit.
+ *
+ * Approving fourteen weeks and reporting a single "done" hides the two that
+ * were refused, and a supervisor closing the month would never learn that two
+ * people are still unpaid. Each week reports for itself.
+ */
+export interface TimesheetReviewOutcome {
+  timesheetId: string;
+  employee: string;
+  ok: boolean;
+  message: TimesheetMessageKey;
+}
+
+export type TimesheetBatchResult = {
+  approved: number;
+  rejected: number;
+  failed: number;
+  outcomes: TimesheetReviewOutcome[];
+};
 
 const managerRoles = ["owner", "admin", "administrator", "manager", "supervisor"];
 
@@ -42,39 +82,121 @@ export async function submitTimesheetAction(): Promise<TimesheetActionResult> {
     .eq("period_start", toDateKey(start))
     .eq("period_end", toDateKey(end))
     .maybeSingle();
-  if (!sheet) return { ok: false, message: "There is nothing to submit for this week yet." };
-  if (sheet.status !== "draft") return { ok: false, message: "This timesheet was already submitted." };
+  if (!sheet) return { ok: false, message: "nothingToSubmit" };
+  if (sheet.status !== "draft" && sheet.status !== "rejected") return { ok: false, message: "alreadySubmitted" };
 
   const { error } = await supabase.from("timesheets").update({ status: "submitted", submitted_at: new Date().toISOString() }).eq("id", sheet.id);
-  if (error) return { ok: false, message: error.message };
+  if (error) return { ok: false, message: "failed" };
 
   revalidatePath("/dashboard/timesheets");
-  return { ok: true, message: "Your timesheet was submitted for approval." };
+  return { ok: true, message: "submitted" };
 }
 
-async function reviewTimesheet(timesheetId: string, decision: "approved" | "rejected"): Promise<TimesheetActionResult> {
+interface SheetRow {
+  id: string;
+  status: string;
+  user_id: string;
+  users: { name: string } | { name: string }[] | null;
+}
+
+function nameOf(row: SheetRow): string {
+  const users = row.users;
+  return (Array.isArray(users) ? users[0]?.name : users?.name) ?? "Unknown";
+}
+
+/**
+ * Reviews a batch in one gesture (#57).
+ *
+ * The previous screen could only act when every visible entry belonged to the
+ * same timesheet, which in a twenty-person company meant filtering by person
+ * twenty times to close a month. Nobody does that weekly, so hours stayed in
+ * `submitted` and the report — which counts approved minutes only — read lower
+ * than the work that actually happened.
+ *
+ * Sequential rather than `Promise.all`: these are writes against rows a
+ * supervisor is looking at, and a predictable order makes a partial failure
+ * legible. Fourteen weeks is not a throughput problem.
+ */
+export async function reviewTimesheetsAction(
+  timesheetIds: string[],
+  decision: "approved" | "rejected",
+): Promise<TimesheetBatchResult> {
   const { session, companyId, isManager } = await context();
-  if (!isManager) return { ok: false, message: "You do not have permission to review timesheets." };
+  const empty: TimesheetBatchResult = { approved: 0, rejected: 0, failed: 0, outcomes: [] };
+
+  if (!timesheetIds.length) return { ...empty, failed: 0, outcomes: [] };
+  if (!isManager) {
+    return {
+      ...empty,
+      failed: timesheetIds.length,
+      outcomes: timesheetIds.map((id) => ({ timesheetId: id, employee: "", ok: false, message: "notAllowed" as const })),
+    };
+  }
 
   const supabase = await createClient();
-  const { data: sheet } = await supabase.from("timesheets").select("id,status").eq("id", timesheetId).eq("company_id", companyId).maybeSingle();
-  if (!sheet) return { ok: false, message: "Timesheet unavailable." };
-  if (sheet.status !== "submitted") return { ok: false, message: "Only submitted timesheets can be reviewed." };
+  const { data } = await supabase
+    .from("timesheets")
+    .select("id,status,user_id,users!timesheets_user_id_fkey(name)")
+    .eq("company_id", companyId)
+    .in("id", timesheetIds);
 
-  const now = new Date().toISOString();
-  const [{ error: sheetError }, { error: entriesError }] = await Promise.all([
-    supabase.from("timesheets").update({ status: decision, reviewed_by: session.user.id, reviewed_at: now }).eq("id", timesheetId),
-    supabase.from("timesheet_entries").update({ status: decision }).eq("timesheet_id", timesheetId),
-  ]);
-  if (sheetError || entriesError) return { ok: false, message: sheetError?.message ?? entriesError?.message ?? "Unable to save the review." };
+  const rows = new Map(((data ?? []) as SheetRow[]).map((row) => [row.id, row]));
+  const outcomes: TimesheetReviewOutcome[] = [];
+
+  for (const id of timesheetIds) {
+    const row = rows.get(id);
+    if (!row) {
+      outcomes.push({ timesheetId: id, employee: "", ok: false, message: "unavailable" });
+      continue;
+    }
+    const employee = nameOf(row);
+    if (row.status !== "submitted") {
+      outcomes.push({ timesheetId: id, employee, ok: false, message: "notSubmitted" });
+      continue;
+    }
+
+    // Checked here so the reviewer reads a sentence instead of a database
+    // error, but the rule itself lives in a trigger — this branch is a
+    // courtesy, not the control.
+    if (row.user_id === session.user.id && !session.activeCompany!.roles.includes("owner")) {
+      outcomes.push({ timesheetId: id, employee, ok: false, message: "ownTimesheet" });
+      continue;
+    }
+
+    // Entries first, sheet last — so a half-done review stays visible. The
+    // queue is driven by the sheet's status, so if the second write fails the
+    // week is still sitting there to be retried, and the retry finishes it.
+    // Flipping the sheet first would drop it out of the queue with its minutes
+    // still counted as pending, and nobody would think to go looking.
+    const { error: entriesError } = await supabase.from("timesheet_entries").update({ status: decision }).eq("timesheet_id", id);
+    if (entriesError) {
+      outcomes.push({ timesheetId: id, employee, ok: false, message: "failed" });
+      continue;
+    }
+
+    const { error: sheetError } = await supabase.from("timesheets").update({ status: decision }).eq("id", id);
+    if (sheetError) {
+      outcomes.push({ timesheetId: id, employee, ok: false, message: "failed" });
+      continue;
+    }
+
+    outcomes.push({ timesheetId: id, employee, ok: true, message: decision === "approved" ? "approved" : "rejected" });
+  }
 
   revalidatePath("/dashboard/timesheets");
-  return { ok: true, message: decision === "approved" ? "Timesheet approved." : "Timesheet rejected." };
+  revalidatePath("/dashboard/reports");
+
+  return {
+    approved: outcomes.filter((outcome) => outcome.ok && outcome.message === "approved").length,
+    rejected: outcomes.filter((outcome) => outcome.ok && outcome.message === "rejected").length,
+    failed: outcomes.filter((outcome) => !outcome.ok).length,
+    outcomes,
+  };
 }
 
 export async function approveTimesheetAction(timesheetId: string) {
-  return reviewTimesheet(timesheetId, "approved");
+  return reviewTimesheetsAction([timesheetId], "approved");
 }
 export async function rejectTimesheetAction(timesheetId: string) {
-  return reviewTimesheet(timesheetId, "rejected");
+  return reviewTimesheetsAction([timesheetId], "rejected");
 }
