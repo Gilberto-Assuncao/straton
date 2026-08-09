@@ -71,12 +71,12 @@
     "statusRejected": "Odrzucona",
     "weeklyHoursAria": "Wykres słupkowy przepracowanych godzin od poniedziałku do niedzieli",
     "liveMapTitle": "Mapa na Żywo",
-    "liveMapSubtitle": "Gdzie zespół zarejestrował wejście dzisiaj",
+    "liveMapSubtitle": "Kto jest teraz na zegarze, według budowy",
     "liveMapViewFull": "Zobacz pełną mapę",
-    "liveMapEmpty": "Nikt dziś nie zarejestrował wejścia z udostępnianiem lokalizacji.",
+    "liveMapEmpty": "Nikt nie jest teraz na zegarze.",
     "liveMapNoSite": "Brak budowy",
-    "liveMapActive": "Aktywny",
-    "weeklyHoursSrItem": "{day}: {hours} godz."
+    "weeklyHoursSrItem": "{day}: {hours} godz.",
+    "liveMapPeople": "{count} na budowie"
   },
   "time": {
     "eyebrow": "Przestrzeń robocza",
@@ -769,8 +769,7 @@
     "locationMissing": "Brak lokalizacji",
     "locationMissingHelp": "Bez niej ta budowa nie ma prognozy pogody i nie pojawia się na mapie.",
     "locationPin": "Znaleziono",
-    "clockedInOnSite": "Odbito na budowie",
-    "clockedInLocation": "Lokalizacja zapisana"
+    "clockedInOnSite": "Odbito na budowie"
   },
   "operationalReports": {
     "metadataTitle": "Raporty terenowe",
@@ -820,14 +819,17 @@
     "title": "Mapa na żywo",
     "description": "Miejsce rozpoczęcia ostatniej dzisiejszej sesji przez osoby, które wyraziły zgodę.",
     "emptyTitle": "Dziś nikt nie rozpoczął pracy z udostępnianiem lokalizacji",
-    "emptyDescription": "Punkty pojawiają się po zakończeniu sesji przez osobę z włączoną lokalizacją.",
+    "emptyDescription": "Nikt jeszcze nie zaczął. Osoby pojawią się tutaj, gdy uruchomią zegar.",
     "mapLabel": "Lokalizacje zespołu",
     "noSite": "Brak budowy",
-    "started": "rozpoczęto {time}",
     "justNow": "przed chwilą",
     "minutesAgo": "{count} min temu",
     "hoursAgo": "{count} godz. temu",
-    "locationRecorded": "Lokalizacja zapisana"
+    "clockedInNow": "{count} osób obecnie na zegarze",
+    "peopleCount": "{count} na budowie",
+    "peopleAtSite": "{count} osób na {site}",
+    "workingFor": "pracuje od {time}",
+    "sitePinsOnly": "Znaczniki to budowy, nie ludzie. Zapisujemy, do której budowy należą godziny, nigdy gdzie jesteś."
   },
   "reportTemplates": {
     "eyebrow": "Operacje",

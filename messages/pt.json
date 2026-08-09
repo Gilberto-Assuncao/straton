@@ -71,12 +71,12 @@
     "statusRejected": "Rejeitada",
     "weeklyHoursAria": "Gráfico de barras com as horas trabalhadas de segunda a domingo",
     "liveMapTitle": "Mapa ao Vivo",
-    "liveMapSubtitle": "Onde a equipa registou entrada hoje",
+    "liveMapSubtitle": "Quem está a picar agora, por estaleiro",
     "liveMapViewFull": "Ver mapa completo",
-    "liveMapEmpty": "Ninguém registou entrada com partilha de localização hoje.",
+    "liveMapEmpty": "Ninguém está a picar neste momento.",
     "liveMapNoSite": "Sem obra",
-    "liveMapActive": "Ativo",
-    "weeklyHoursSrItem": "{day}: {hours} horas"
+    "weeklyHoursSrItem": "{day}: {hours} horas",
+    "liveMapPeople": "{count} no estaleiro"
   },
   "time": {
     "eyebrow": "Espaço de trabalho",
@@ -769,8 +769,7 @@
     "locationMissing": "Ainda sem localização",
     "locationMissingHelp": "Sem ela, este estaleiro não tem previsão do tempo nem aparece no mapa.",
     "locationPin": "Localizado",
-    "clockedInOnSite": "Picou no estaleiro",
-    "clockedInLocation": "Localização registada"
+    "clockedInOnSite": "Picou no estaleiro"
   },
   "operationalReports": {
     "metadataTitle": "Relatórios de Campo",
@@ -820,14 +819,17 @@
     "title": "Mapa em tempo real",
     "description": "Onde os membros da equipa iniciaram a sessão mais recente de hoje — apenas para quem autorizou.",
     "emptyTitle": "Ninguém registou presença com partilha de localização hoje",
-    "emptyDescription": "Os pontos aparecem quando um colaborador com localização ativada termina uma sessão.",
+    "emptyDescription": "Ainda ninguém picou o ponto. As pessoas aparecem aqui assim que iniciarem o contador.",
     "mapLabel": "Localizações da equipa",
     "noSite": "Sem obra",
-    "started": "iniciou {time}",
     "justNow": "agora mesmo",
     "minutesAgo": "há {count} min",
     "hoursAgo": "há {count} h",
-    "locationRecorded": "Localização registada"
+    "clockedInNow": "{count} pessoas a picar neste momento",
+    "peopleCount": "{count} no estaleiro",
+    "peopleAtSite": "{count} pessoas em {site}",
+    "workingFor": "a trabalhar há {time}",
+    "sitePinsOnly": "Os pinos são estaleiros, não pessoas. Registamos a que obra pertencem as horas, nunca onde está."
   },
   "reportTemplates": {
     "eyebrow": "Operações",

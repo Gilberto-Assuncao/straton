@@ -71,12 +71,12 @@
     "statusRejected": "Abgelehnt",
     "weeklyHoursAria": "Balkendiagramm der gearbeiteten Stunden von Montag bis Sonntag",
     "liveMapTitle": "Live-Karte",
-    "liveMapSubtitle": "Wo sich das Team heute eingestempelt hat",
+    "liveMapSubtitle": "Wer gerade eingestempelt ist, nach Baustelle",
     "liveMapViewFull": "Vollständige Karte ansehen",
-    "liveMapEmpty": "Heute hat sich niemand mit Standortfreigabe eingestempelt.",
+    "liveMapEmpty": "Aktuell ist niemand eingestempelt.",
     "liveMapNoSite": "Keine Baustelle",
-    "liveMapActive": "Aktiv",
-    "weeklyHoursSrItem": "{day}: {hours} Stunden"
+    "weeklyHoursSrItem": "{day}: {hours} Stunden",
+    "liveMapPeople": "{count} auf der Baustelle"
   },
   "time": {
     "eyebrow": "Arbeitsbereich",
@@ -769,8 +769,7 @@
     "locationMissing": "Noch kein Standort",
     "locationMissingHelp": "Ohne Standort gibt es keine Wettervorhersage und die Baustelle erscheint nicht auf der Karte.",
     "locationPin": "Gefunden",
-    "clockedInOnSite": "Auf der Baustelle eingestempelt",
-    "clockedInLocation": "Standort erfasst"
+    "clockedInOnSite": "Auf der Baustelle eingestempelt"
   },
   "operationalReports": {
     "metadataTitle": "Baustellenberichte",
@@ -820,14 +819,17 @@
     "title": "Live-Karte",
     "description": "Startort der letzten heutigen Sitzung, nur für Teammitglieder mit Einwilligung.",
     "emptyTitle": "Heute keine Zeiterfassung mit Standortfreigabe",
-    "emptyDescription": "Punkte erscheinen, wenn ein Teammitglied mit Standortfreigabe eine Sitzung beendet.",
+    "emptyDescription": "Noch niemand eingestempelt. Personen erscheinen hier, sobald sie ihre Uhr starten.",
     "mapLabel": "Live-Standorte des Teams",
     "noSite": "Keine Baustelle",
-    "started": "gestartet {time}",
     "justNow": "gerade eben",
     "minutesAgo": "vor {count} Min.",
     "hoursAgo": "vor {count} Std.",
-    "locationRecorded": "Standort erfasst"
+    "clockedInNow": "{count} Personen aktuell eingestempelt",
+    "peopleCount": "{count} auf der Baustelle",
+    "peopleAtSite": "{count} Personen auf {site}",
+    "workingFor": "seit {time} bei der Arbeit",
+    "sitePinsOnly": "Die Markierungen sind Baustellen, keine Personen. Wir erfassen, zu welcher Baustelle die Stunden gehören, nie wo du bist."
   },
   "reportTemplates": {
     "eyebrow": "Betrieb",

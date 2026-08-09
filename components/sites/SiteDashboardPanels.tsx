@@ -96,11 +96,9 @@ export async function PresencePanel({ data }: { data: SiteDashboard }) {
               {person.name}
             </span>
             <span className="text-xs text-[#9CA3AF]">
+              {/* Presence is now the clock running against this chantier, not a
+                  GPS fix taken from the person's phone (#61). */}
               {t("presenceSince", { time: time(person.startedAt) })}
-              {/* The GPS fix is kept as evidence of where someone clocked in, but
-                  showing it as decimals asks a supervisor to do geography in
-                  their head. That it was recorded is the readable fact. */}
-              {person.latitude != null ? <span className="ml-3 text-[#6B7280]">{t("clockedInLocation")}</span> : null}
             </span>
           </li>
         ))}

@@ -71,12 +71,12 @@
     "statusRejected": "Rechazada",
     "weeklyHoursAria": "Gráfico de barras de las horas trabajadas de lunes a domingo",
     "liveMapTitle": "Mapa en Vivo",
-    "liveMapSubtitle": "Dónde fichó el equipo hoy",
+    "liveMapSubtitle": "Quién está fichado ahora mismo, por obra",
     "liveMapViewFull": "Ver mapa completo",
-    "liveMapEmpty": "Nadie ha fichado hoy compartiendo su ubicación.",
+    "liveMapEmpty": "Ahora mismo no hay nadie fichado.",
     "liveMapNoSite": "Sin obra",
-    "liveMapActive": "Activo",
-    "weeklyHoursSrItem": "{day}: {hours} horas"
+    "weeklyHoursSrItem": "{day}: {hours} horas",
+    "liveMapPeople": "{count} en la obra"
   },
   "time": {
     "eyebrow": "Espacio de trabajo",
@@ -769,8 +769,7 @@
     "locationMissing": "Aún sin ubicación",
     "locationMissingHelp": "Sin ella, esta obra no tiene previsión meteorológica ni aparece en el mapa.",
     "locationPin": "Localizado",
-    "clockedInOnSite": "Fichado en la obra",
-    "clockedInLocation": "Ubicación registrada"
+    "clockedInOnSite": "Fichado en la obra"
   },
   "operationalReports": {
     "metadataTitle": "Informes de campo",
@@ -820,14 +819,17 @@
     "title": "Mapa en vivo",
     "description": "Dónde iniciaron hoy su sesión más reciente los miembros que dieron su consentimiento.",
     "emptyTitle": "Nadie ha fichado hoy compartiendo su ubicación",
-    "emptyDescription": "Los puntos aparecen cuando un miembro autorizado termina una sesión.",
+    "emptyDescription": "Todavía no ha fichado nadie. Las personas aparecen aquí en cuanto inician su contador.",
     "mapLabel": "Ubicaciones del equipo",
     "noSite": "Sin obra",
-    "started": "inició {time}",
     "justNow": "ahora mismo",
     "minutesAgo": "hace {count} min",
     "hoursAgo": "hace {count} h",
-    "locationRecorded": "Ubicación registrada"
+    "clockedInNow": "{count} personas fichadas ahora mismo",
+    "peopleCount": "{count} en la obra",
+    "peopleAtSite": "{count} personas en {site}",
+    "workingFor": "trabajando desde hace {time}",
+    "sitePinsOnly": "Los marcadores son obras, no personas. Registramos a qué obra pertenecen las horas, nunca dónde estás."
   },
   "reportTemplates": {
     "eyebrow": "Operaciones",

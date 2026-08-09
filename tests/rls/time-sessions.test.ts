@@ -24,6 +24,23 @@ const MANAGER = "d0000002-0000-4000-8000-000000000102";
 /** Nordclean's admin — a different company entirely. */
 const OUTSIDER = DEMO.nordclean.adminUserId;
 
+/**
+ * Closes whatever the demo seed left running, before each case.
+ *
+ * The seed opens sessions so the live map has something to show, and the unique
+ * index then refuses the fixtures below — which is how these tests first broke.
+ * Clearing here rather than picking a worker the seed happens to miss: the
+ * point is not to depend on what the seed does at all.
+ *
+ * Runs with no JWT, so the transition trigger stands aside, and inside the
+ * transaction the whole thing is rolled back either way.
+ */
+function clearOpenSessions(db: Client) {
+  return db.query("update public.time_sessions set ended_at = now() where company_id = $1 and ended_at is null", [
+    DEMO.belnex.companyId,
+  ]);
+}
+
 function openSession(db: Client, userId: string, startedAt?: string) {
   return db.query<{ id: string; started_at: string }>(
     `insert into public.time_sessions (company_id, user_id${startedAt ? ", started_at" : ""})
@@ -43,6 +60,7 @@ describeIfDb("starting the clock", () => {
     // The money field. A start the client can choose is a start the client can
     // backdate, and this row becomes paid hours the moment it closes.
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
 
@@ -56,6 +74,7 @@ describeIfDb("starting the clock", () => {
     // Two open sessions are two overlapping claims on the same hour, and
     // whichever closes second silently wins.
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
       await openSession(db, WORKER);
@@ -71,6 +90,7 @@ describeIfDb("starting the clock", () => {
 
   it("refuses clocking in on somebody else's behalf", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, COLLEAGUE);
       await assertRlsIsEnforced(db);
 
@@ -85,6 +105,7 @@ describeIfDb("starting the clock", () => {
 
   it("lets the same person clock in again once the last one is closed", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
       const { rows } = await openSession(db, WORKER);
@@ -103,6 +124,7 @@ describeIfDb("starting the clock", () => {
 describeIfDb("who can see a running clock", () => {
   it("is visible to the person it belongs to", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
       const { rows } = await openSession(db, WORKER);
@@ -113,6 +135,7 @@ describeIfDb("who can see a running clock", () => {
 
   it("is visible to a manager, which is the point of a live view", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await db.query("insert into public.time_sessions (company_id, user_id) values ($1, $2)", [DEMO.belnex.companyId, WORKER]);
       const { rows } = await db.query<{ id: string }>(
         "select id from public.time_sessions where user_id = $1 and ended_at is null",
@@ -129,6 +152,7 @@ describeIfDb("who can see a running clock", () => {
     // Same company, no review rights. Where a person is working right now is
     // not general staff-room information.
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await db.query("insert into public.time_sessions (company_id, user_id) values ($1, $2)", [DEMO.belnex.companyId, WORKER]);
       const { rows } = await db.query<{ id: string }>(
         "select id from public.time_sessions where user_id = $1 and ended_at is null",
@@ -143,6 +167,7 @@ describeIfDb("who can see a running clock", () => {
 
   it("is not visible to another company", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await db.query("insert into public.time_sessions (company_id, user_id) values ($1, $2)", [DEMO.belnex.companyId, WORKER]);
       const { rows } = await db.query<{ id: string }>(
         "select id from public.time_sessions where user_id = $1 and ended_at is null",
@@ -159,6 +184,7 @@ describeIfDb("who can see a running clock", () => {
 describeIfDb("closing the clock", () => {
   it("works for the person who started it", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
       const { rows } = await openSession(db, WORKER);
@@ -170,6 +196,7 @@ describeIfDb("closing the clock", () => {
 
   it("refuses a colleague closing it", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await db.query("insert into public.time_sessions (company_id, user_id) values ($1, $2)", [DEMO.belnex.companyId, WORKER]);
       const { rows } = await db.query<{ id: string }>(
         "select id from public.time_sessions where user_id = $1 and ended_at is null",
@@ -192,6 +219,7 @@ describeIfDb("closing the clock", () => {
   it("refuses an end time in the future", async () => {
     // The only direction that pays. Everything else here allows correction.
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
       const { rows } = await openSession(db, WORKER);
@@ -207,6 +235,7 @@ describeIfDb("closing the clock", () => {
 
   it("refuses moving the start time afterwards", async () => {
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
       const { rows } = await openSession(db, WORKER);
@@ -224,6 +253,7 @@ describeIfDb("closing the clock", () => {
     // Reopening would detach it from the timesheet entry it already produced,
     // and the same work would be counted twice.
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
       const { rows } = await openSession(db, WORKER);
@@ -239,6 +269,7 @@ describeIfDb("closing the clock", () => {
     // defend against — and without it a forgotten clock becomes fourteen paid
     // hours the person cannot fix.
     await withRollback(async (db) => {
+      await clearOpenSessions(db);
       // Seeded without a JWT so it can start in the past, the way a session
       // left running overnight actually would.
       await db.query(

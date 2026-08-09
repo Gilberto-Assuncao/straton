@@ -71,12 +71,12 @@
     "statusRejected": "Rejetée",
     "weeklyHoursAria": "Graphique à barres des heures travaillées du lundi au dimanche",
     "liveMapTitle": "Carte en Direct",
-    "liveMapSubtitle": "Où l'équipe a pointé aujourd'hui",
+    "liveMapSubtitle": "Qui est pointé en ce moment, par chantier",
     "liveMapViewFull": "Voir la carte complète",
-    "liveMapEmpty": "Personne n'a pointé avec le partage de position aujourd'hui.",
+    "liveMapEmpty": "Personne n'est pointé en ce moment.",
     "liveMapNoSite": "Aucun chantier",
-    "liveMapActive": "Actif",
-    "weeklyHoursSrItem": "{day} : {hours} heures"
+    "weeklyHoursSrItem": "{day} : {hours} heures",
+    "liveMapPeople": "{count} sur le chantier"
   },
   "time": {
     "eyebrow": "Espace de travail",
@@ -769,8 +769,7 @@
     "locationMissing": "Pas encore localisé",
     "locationMissingHelp": "Sans cela, ce chantier n a pas de météo et n apparaît pas sur la carte.",
     "locationPin": "Localisé",
-    "clockedInOnSite": "Pointage sur le chantier",
-    "clockedInLocation": "Position enregistrée"
+    "clockedInOnSite": "Pointage sur le chantier"
   },
   "operationalReports": {
     "metadataTitle": "Rapports de terrain",
@@ -820,14 +819,17 @@
     "title": "Carte en direct",
     "description": "Lieu de début de la dernière session d’aujourd’hui, uniquement pour les membres ayant consenti.",
     "emptyTitle": "Aucun pointage avec partage de position aujourd’hui",
-    "emptyDescription": "Les points apparaissent lorsqu’un membre autorisé termine une session.",
+    "emptyDescription": "Personne n'a encore pointé. Les personnes apparaissent ici dès qu'elles lancent leur compteur.",
     "mapLabel": "Positions de l’équipe",
     "noSite": "Aucun chantier",
-    "started": "début {time}",
     "justNow": "à l’instant",
     "minutesAgo": "il y a {count} min",
     "hoursAgo": "il y a {count} h",
-    "locationRecorded": "Position enregistrée"
+    "clockedInNow": "{count} personnes pointées en ce moment",
+    "peopleCount": "{count} sur le chantier",
+    "peopleAtSite": "{count} personnes à {site}",
+    "workingFor": "au travail depuis {time}",
+    "sitePinsOnly": "Les repères sont des chantiers, pas des personnes. Nous enregistrons à quel chantier les heures appartiennent, jamais où vous êtes."
   },
   "reportTemplates": {
     "eyebrow": "Opérations",

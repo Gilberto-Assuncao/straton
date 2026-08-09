@@ -2,106 +2,134 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { MapContainer, GpsBadge } from "@/src/components/maps";
+import { MapContainer } from "@/src/components/maps";
 import { Icon } from "@/src/components/ui";
 import { EmptyState } from "@/src/components/data-display";
-import type { LiveOperationsPoint } from "@/src/features/operations/data";
+import type { LivePresenceSite } from "@/src/features/operations/data";
 
-function minutesAgo(iso: string, t: ReturnType<typeof useTranslations<"liveMap">>): string {
-  const minutes = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+/**
+ * Who is clocked in right now, by chantier (#5, #61).
+ *
+ * The pins are the sites, not the people. A site has an address the company
+ * entered and coordinates that belong to the company; a worker's phone position
+ * belongs to the worker. Both answer "who is at Le Parc", only one of them also
+ * answers questions nobody asked.
+ */
+function elapsed(minutes: number, t: ReturnType<typeof useTranslations<"liveMap">>): string {
   if (minutes < 1) return t("justNow");
   if (minutes < 60) return t("minutesAgo", { count: minutes });
   return t("hoursAgo", { count: Math.round(minutes / 60) });
 }
 
-// No mapping library is wired up yet (a real basemap is a separate provider
-// decision, like the weather/i18n ones). This places each point inside the
-// placeholder grid proportionally to the others' lat/lon spread — a rough
-// relative layout, not a geographically accurate projection.
-function layout(points: LiveOperationsPoint[]) {
-  if (points.length <= 1) return points.map((point) => ({ point, left: 50, top: 50 }));
-  const lats = points.map((p) => p.latitude);
-  const lons = points.map((p) => p.longitude);
+/**
+ * Places each site in the placeholder grid, relative to the others.
+ *
+ * Still not a real basemap — that remains a provider decision (#54). What
+ * changed is what is being placed: nine known sites rather than a live trace of
+ * where individuals are standing.
+ */
+function layout(sites: LivePresenceSite[]) {
+  const located = sites.filter((site) => site.latitude != null && site.longitude != null);
+  if (located.length <= 1) return located.map((site) => ({ site, left: 50, top: 50 }));
+
+  const lats = located.map((site) => site.latitude!);
+  const lons = located.map((site) => site.longitude!);
   const latSpan = Math.max(Math.max(...lats) - Math.min(...lats), 0.001);
   const lonSpan = Math.max(Math.max(...lons) - Math.min(...lons), 0.001);
-  return points.map((point) => ({
-    point,
-    left: 10 + ((point.longitude - Math.min(...lons)) / lonSpan) * 80,
-    top: 10 + (1 - (point.latitude - Math.min(...lats)) / latSpan) * 80,
+
+  return located.map((site) => ({
+    site,
+    left: 10 + ((site.longitude! - Math.min(...lons)) / lonSpan) * 80,
+    top: 10 + (1 - (site.latitude! - Math.min(...lats)) / latSpan) * 80,
   }));
 }
 
-export default function LiveOperationsMap({ points }: { points: LiveOperationsPoint[] }) {
+export default function LiveOperationsMap({ sites }: { sites: LivePresenceSite[] }) {
   const t = useTranslations("liveMap");
   const [selected, setSelected] = useState<string | null>(null);
 
-  if (!points.length) {
+  if (!sites.length) {
     return <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />;
   }
 
-  const placed = layout(points);
+  const placed = layout(sites);
+  const total = sites.reduce((sum, site) => sum + site.people.length, 0);
+
   return (
     <div className="grid gap-5">
-      <MapContainer label={t("mapLabel")}>
-        <div className="relative h-72 w-full">
-          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <polyline
-              points={placed.map(({ left, top }) => `${left},${top}`).join(" ")}
-              fill="none"
-              stroke="rgba(74, 222, 128, 0.35)"
-              strokeWidth="0.5"
-              strokeDasharray="2,2"
-            />
-          </svg>
-          {placed.map(({ point, left, top }) => {
-            const isSelected = selected === point.userId;
-            return (
-              <button
-                key={point.userId}
-                type="button"
-                onClick={() => setSelected(isSelected ? null : point.userId)}
-                className="absolute -translate-x-1/2 -translate-y-full cursor-pointer bg-transparent p-0"
-                style={{ left: `${left}%`, top: `${top}%`, zIndex: isSelected ? 20 : 10 }}
-              >
-                <span
-                  role="img"
-                  aria-label={point.name}
-                  className={`inline-flex h-11 w-11 items-center justify-center rounded-full text-[#07110B] shadow-lg transition-transform ${
-                    isSelected ? "scale-125 bg-[#4ADE80] ring-4 ring-[#4ADE80]/40" : "bg-[#22C55E]"
-                  }`}
+      <p className="text-sm text-[#9CA3AF]">{t("clockedInNow", { count: total })}</p>
+
+      {placed.length ? (
+        <MapContainer label={t("mapLabel")}>
+          <div className="relative h-72 w-full">
+            {placed.map(({ site, left, top }) => {
+              const isSelected = selected === site.siteId;
+              return (
+                <button
+                  key={site.siteId}
+                  type="button"
+                  onClick={() => setSelected(isSelected ? null : site.siteId)}
+                  className="absolute -translate-x-1/2 -translate-y-full cursor-pointer bg-transparent p-0"
+                  style={{ left: `${left}%`, top: `${top}%`, zIndex: isSelected ? 20 : 10 }}
                 >
-                  <Icon name="location" />
-                </span>
-                <span className={`absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#0F172A] px-2 py-1 text-xs font-medium text-[#E5E7EB] shadow transition-opacity ${isSelected ? "opacity-100" : "pointer-events-none opacity-0"}`}>
-                  {point.name}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </MapContainer>
-      <ul className="grid gap-2 sm:grid-cols-2">
-        {points.map((point) => {
-          const isSelected = selected === point.userId;
-          return (
-            <li key={point.userId}>
-              <button
-                type="button"
-                onClick={() => setSelected(isSelected ? null : point.userId)}
-                className={`flex w-full items-center justify-between gap-3 rounded-xl border p-4 text-left transition-colors ${
-                  isSelected ? "border-[#22C55E]/50 bg-[#22C55E]/10" : "border-white/10 bg-[#161A34] hover:bg-white/5"
-                }`}
-              >
-                <div>
-                  <p className="font-semibold text-[#E5E7EB]">{point.name}</p>
-                  <p className="text-sm text-[#9CA3AF]">{point.siteName ?? t("noSite")} · {t("started", { time: minutesAgo(point.startedAt, t) })}</p>
-                </div>
-                <GpsBadge label={t("locationRecorded")} />
-              </button>
-            </li>
-          );
-        })}
+                  <span
+                    role="img"
+                    aria-label={t("peopleAtSite", { count: site.people.length, site: site.siteName ?? "" })}
+                    className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-mono text-sm font-bold text-[#07110B] shadow-lg transition-transform ${
+                      isSelected ? "scale-125 bg-[#4ADE80] ring-4 ring-[#4ADE80]/40" : "bg-[#22C55E]"
+                    }`}
+                  >
+                    {site.people.length}
+                  </span>
+                  <span
+                    className={`absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#0F172A] px-2 py-1 text-xs font-medium text-[#E5E7EB] shadow transition-opacity ${
+                      isSelected ? "opacity-100" : "pointer-events-none opacity-0"
+                    }`}
+                  >
+                    {site.siteName}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </MapContainer>
+      ) : null}
+
+      <ul className="grid gap-3">
+        {sites.map((site) => (
+          <li
+            key={site.siteId ?? "no-site"}
+            className={`rounded-xl border p-4 ${site.siteId ? "border-white/10 bg-[#161A34]" : "border-amber-400/25 bg-amber-400/[0.04]"}`}
+          >
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <p className={`font-semibold ${site.siteId ? "text-[#E5E7EB]" : "text-amber-200"}`}>
+                {site.siteName ?? t("noSite")}
+              </p>
+              <p className="text-xs text-[#9CA3AF]">
+                {site.projectName ? `${site.projectName} · ` : ""}
+                {t("peopleCount", { count: site.people.length })}
+              </p>
+            </div>
+            <ul className="mt-3 grid gap-2">
+              {site.people.map((person) => (
+                <li key={person.userId} className="flex items-center justify-between gap-3 text-sm">
+                  <span className="flex items-center gap-2 text-[#E5E7EB]">
+                    <span className="inline-flex h-2 w-2 rounded-full bg-[#22C55E]" aria-hidden="true" />
+                    {person.name}
+                  </span>
+                  <span className="text-xs text-[#9CA3AF]">{t("workingFor", { time: elapsed(person.minutesElapsed, t) })}</span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
       </ul>
+
+      <p className="flex items-start gap-2 text-xs text-[#6B7280]">
+        <Icon name="location" />
+        {/* Said plainly, because the previous version did track people. */}
+        {t("sitePinsOnly")}
+      </p>
     </div>
   );
 }

@@ -71,12 +71,12 @@
     "statusRejected": "Rejected",
     "weeklyHoursAria": "Bar chart showing worked hours from Monday to Sunday",
     "liveMapTitle": "Live Map",
-    "liveMapSubtitle": "Where team members clocked in today",
+    "liveMapSubtitle": "Who is clocked in right now, by site",
     "liveMapViewFull": "View full map",
-    "liveMapEmpty": "No one has clocked in with location sharing today.",
+    "liveMapEmpty": "Nobody is clocked in right now.",
     "liveMapNoSite": "No site",
-    "liveMapActive": "Active",
-    "weeklyHoursSrItem": "{day}: {hours} hours"
+    "weeklyHoursSrItem": "{day}: {hours} hours",
+    "liveMapPeople": "{count} on site"
   },
   "time": {
     "eyebrow": "Workspace",
@@ -769,8 +769,7 @@
     "locationMissing": "No location yet",
     "locationMissingHelp": "Without it, this site has no weather forecast and does not appear on the map.",
     "locationPin": "Located",
-    "clockedInOnSite": "Clocked in on site",
-    "clockedInLocation": "Location recorded"
+    "clockedInOnSite": "Clocked in on site"
   },
   "operationalReports": {
     "metadataTitle": "Field Reports",
@@ -820,14 +819,17 @@
     "title": "Live Map",
     "description": "Where team members started their most recent clocked-in session today — only for those who opted in.",
     "emptyTitle": "No one has clocked in with location sharing today",
-    "emptyDescription": "Points appear here once a team member with location sharing enabled stops a timer session.",
+    "emptyDescription": "Nobody has clocked in yet. People appear here the moment they start their timer.",
     "mapLabel": "Live team locations",
     "noSite": "No site",
-    "started": "started {time}",
     "justNow": "just now",
     "minutesAgo": "{count} min ago",
     "hoursAgo": "{count}h ago",
-    "locationRecorded": "Location recorded"
+    "clockedInNow": "{count} people clocked in right now",
+    "peopleCount": "{count} on site",
+    "peopleAtSite": "{count} people at {site}",
+    "workingFor": "working for {time}",
+    "sitePinsOnly": "Pins show sites, not people. We record which chantier the hours belong to, never where you are."
   },
   "reportTemplates": {
     "eyebrow": "Operations",

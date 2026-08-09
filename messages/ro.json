@@ -71,12 +71,12 @@
     "statusRejected": "Respinsă",
     "weeklyHoursAria": "Grafic cu bare al orelor lucrate de luni până duminică",
     "liveMapTitle": "Hartă Live",
-    "liveMapSubtitle": "Unde a pontat echipa astăzi",
+    "liveMapSubtitle": "Cine este pontat acum, pe șantiere",
     "liveMapViewFull": "Vezi harta completă",
-    "liveMapEmpty": "Nimeni nu a pontat astăzi cu partajarea locației.",
+    "liveMapEmpty": "Nimeni nu este pontat acum.",
     "liveMapNoSite": "Fără șantier",
-    "liveMapActive": "Activ",
-    "weeklyHoursSrItem": "{day}: {hours} ore"
+    "weeklyHoursSrItem": "{day}: {hours} ore",
+    "liveMapPeople": "{count} pe șantier"
   },
   "time": {
     "eyebrow": "Spațiu de lucru",
@@ -769,8 +769,7 @@
     "locationMissing": "Încă fără localizare",
     "locationMissingHelp": "Fără ea, acest șantier nu are prognoză meteo și nu apare pe hartă.",
     "locationPin": "Localizat",
-    "clockedInOnSite": "Pontat pe șantier",
-    "clockedInLocation": "Locație înregistrată"
+    "clockedInOnSite": "Pontat pe șantier"
   },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",
@@ -820,14 +819,17 @@
     "title": "Hartă live",
     "description": "Locul ultimei sesiuni începute astăzi de membrii care și-au dat acordul.",
     "emptyTitle": "Nimeni nu a pontat cu partajarea locației astăzi",
-    "emptyDescription": "Punctele apar după ce un membru autorizat încheie o sesiune.",
+    "emptyDescription": "Nimeni nu s-a pontat încă. Persoanele apar aici imediat ce pornesc cronometrul.",
     "mapLabel": "Locațiile echipei",
     "noSite": "Fără șantier",
-    "started": "început {time}",
     "justNow": "chiar acum",
     "minutesAgo": "acum {count} min",
     "hoursAgo": "acum {count} h",
-    "locationRecorded": "Locație înregistrată"
+    "clockedInNow": "{count} persoane pontate acum",
+    "peopleCount": "{count} pe șantier",
+    "peopleAtSite": "{count} persoane la {site}",
+    "workingFor": "lucrează de {time}",
+    "sitePinsOnly": "Marcajele sunt șantiere, nu persoane. Înregistrăm cărui șantier îi aparțin orele, niciodată unde ești."
   },
   "reportTemplates": {
     "eyebrow": "Operațiuni",
