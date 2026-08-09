@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import PageHeader from "@/components/dashboard/PageHeader";
-import LocationConsentToggle from "@/components/settings/LocationConsentToggle";
 import SettingsHub, { settingsIcons } from "@/components/settings/SettingsHub";
-import { getLocationConsent } from "@/src/features/account/data";
 import { getProjects } from "@/src/features/projects/data";
 import { getSiteWeatherOverview } from "@/src/features/weather/data";
 import { getCompanyRoster } from "@/src/features/roster/data";
@@ -11,8 +9,7 @@ import { getCompanyRoster } from "@/src/features/roster/data";
 export const metadata: Metadata = { title: "Settings" };
 
 export default async function SettingsPage() {
-  const [locationConsent, { clients, projects }, sites, { members, roleKeys }, t] = await Promise.all([
-    getLocationConsent(),
+  const [{ clients, projects }, sites, { members, roleKeys }, t] = await Promise.all([
     getProjects(),
     getSiteWeatherOverview(),
     getCompanyRoster(),
@@ -32,7 +29,6 @@ export default async function SettingsPage() {
     <PageHeader headingId="settings-heading" eyebrow={t("eyebrow")} title={t("title")} description={t("description")} />
     <div className="mt-8 grid gap-6">
       <SettingsHub cards={cards} />
-      <div id="location-consent"><LocationConsentToggle initialConsent={locationConsent} /></div>
     </div>
   </section>;
 }

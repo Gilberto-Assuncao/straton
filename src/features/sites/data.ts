@@ -62,7 +62,15 @@ export async function getProjectOptions(): Promise<{ id: string; name: string }[
 // One query set per site, so the page answers "what is happening at this
 // place?" without the user filtering four other screens by site.
 
-export type SitePresence = { userId: string; name: string; startedAt: string; latitude: number | null; longitude: number | null };
+/**
+ * Who is clocked in at this site right now (#5, #61).
+ *
+ * Was "whoever recorded a coordinate here today", read from finished entries —
+ * so it showed people who had already gone home, and it did so by keeping their
+ * phone's position. Now it reads open sessions: the person is here because the
+ * clock is running against this chantier, which is what presence means.
+ */
+export type SitePresence = { userId: string; name: string; startedAt: string };
 export type SiteHoursEntry = { id: string; person: string; date: string; minutes: number; status: string; task: string | null };
 export type SiteReportSummary = { id: string; date: string; worker: string; activity: string | null; status: string };
 export type SiteTeamMember = { membershipId: string; name: string; jobTitle: string | null; companyName: string };
@@ -75,8 +83,8 @@ export interface SiteDashboard {
 }
 
 interface PresenceRow {
-  starts_at: string; start_latitude: number | null; start_longitude: number | null;
-  timesheets: RelatedOne<{ user_id: string; users: RelatedOne<{ name: string }> }>;
+  started_at: string; user_id: string;
+  users: RelatedOne<{ name: string }>;
 }
 interface HoursRow {
   id: string; starts_at: string; ends_at: string; break_minutes: number; status: string;
@@ -92,17 +100,13 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
   const { companyId } = await requireActiveCompany();
   const supabase = await createClient();
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0);
-
   const [{ data: presenceRows }, { data: hourRows }, { data: reportRows }, { data: siteRow }] = await Promise.all([
     supabase
-      .from("timesheet_entries")
-      .select("starts_at,start_latitude,start_longitude,timesheets!inner(user_id,users!timesheets_user_id_fkey(name))")
+      .from("time_sessions")
+      .select("started_at,user_id,users!time_sessions_user_id_fkey(name)")
       .eq("company_id", companyId).eq("site_id", siteId)
-      .gte("starts_at", todayStart.toISOString())
-      .not("start_latitude", "is", null)
-      .order("starts_at", { ascending: false }),
+      .is("ended_at", null)
+      .order("started_at", { ascending: true }),
     supabase
       .from("timesheet_entries")
       .select("id,starts_at,ends_at,break_minutes,status,timesheets!inner(users!timesheets_user_id_fkey(name)),tasks(name)")
@@ -118,18 +122,15 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
     supabase.from("sites").select("project_id").eq("company_id", companyId).eq("id", siteId).maybeSingle(),
   ]);
 
-  // Newest first, so the first row per user is their latest check-in.
-  const seen = new Set<string>();
+  // One row per person: the partial unique index already guarantees a single
+  // open session each, so this only guards against a future relaxation.
   const presentToday: SitePresence[] = [];
+  const seen = new Set<string>();
   for (const row of (presenceRows ?? []) as PresenceRow[]) {
-    const timesheet = first(row.timesheets);
-    const user = timesheet ? first(timesheet.users) : null;
-    if (!timesheet || !user || seen.has(timesheet.user_id)) continue;
-    seen.add(timesheet.user_id);
-    presentToday.push({
-      userId: timesheet.user_id, name: user.name, startedAt: row.starts_at,
-      latitude: row.start_latitude, longitude: row.start_longitude,
-    });
+    const user = first(row.users);
+    if (!user || seen.has(row.user_id)) continue;
+    seen.add(row.user_id);
+    presentToday.push({ userId: row.user_id, name: user.name, startedAt: row.started_at });
   }
 
   let totalMinutes = 0;

@@ -71,12 +71,12 @@
     "statusRejected": "Rifiutato",
     "weeklyHoursAria": "Grafico a barre delle ore lavorate da lunedì a domenica",
     "liveMapTitle": "Mappa Live",
-    "liveMapSubtitle": "Dove il team ha timbrato oggi",
+    "liveMapSubtitle": "Chi è timbrato adesso, per cantiere",
     "liveMapViewFull": "Vedi mappa completa",
-    "liveMapEmpty": "Nessuno ha timbrato oggi con la condivisione della posizione.",
+    "liveMapEmpty": "In questo momento non c'è nessuno timbrato.",
     "liveMapNoSite": "Nessun cantiere",
-    "liveMapActive": "Attivo",
-    "weeklyHoursSrItem": "{day}: {hours} ore"
+    "weeklyHoursSrItem": "{day}: {hours} ore",
+    "liveMapPeople": "{count} in cantiere"
   },
   "time": {
     "eyebrow": "Area di lavoro",
@@ -769,8 +769,7 @@
     "locationMissing": "Ancora senza posizione",
     "locationMissingHelp": "Senza di essa questo cantiere non ha previsioni meteo e non compare sulla mappa.",
     "locationPin": "Individuato",
-    "clockedInOnSite": "Timbrato in cantiere",
-    "clockedInLocation": "Posizione registrata"
+    "clockedInOnSite": "Timbrato in cantiere"
   },
   "operationalReports": {
     "metadataTitle": "Rapporti sul campo",
@@ -820,14 +819,17 @@
     "title": "Mappa live",
     "description": "Dove i membri consenzienti hanno avviato oggi la loro sessione più recente.",
     "emptyTitle": "Nessun accesso con condivisione della posizione oggi",
-    "emptyDescription": "I punti appaiono quando un membro autorizzato termina una sessione.",
+    "emptyDescription": "Nessuno ha ancora timbrato. Le persone compaiono qui appena avviano il contatore.",
     "mapLabel": "Posizioni live del team",
     "noSite": "Nessun cantiere",
-    "started": "iniziato {time}",
     "justNow": "ora",
     "minutesAgo": "{count} min fa",
     "hoursAgo": "{count} h fa",
-    "locationRecorded": "Posizione registrata"
+    "clockedInNow": "{count} persone timbrate in questo momento",
+    "peopleCount": "{count} in cantiere",
+    "peopleAtSite": "{count} persone a {site}",
+    "workingFor": "al lavoro da {time}",
+    "sitePinsOnly": "I segnaposto sono cantieri, non persone. Registriamo a quale cantiere appartengono le ore, mai dove ti trovi."
   },
   "reportTemplates": {
     "eyebrow": "Operazioni",

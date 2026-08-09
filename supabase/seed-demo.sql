@@ -584,8 +584,7 @@ begin
 
         insert into public.timesheet_entries (
           id, company_id, timesheet_id, project_id, site_id, task_id,
-          starts_at, ends_at, break_minutes, notes, status,
-          start_latitude, start_longitude
+          starts_at, ends_at, break_minutes, notes, status
         ) values (
           gen_random_uuid(), emp.company_id, ts_id,
           projs[idx],
@@ -593,8 +592,7 @@ begin
           case when task_ids is null then null else task_ids[1 + ((wk * 5 + d) % array_length(task_ids, 1))] end,
           start_ts, end_ts, brk,
           case when end_hour = 19 then 'Extended shift to close the weekly milestone.' else null end,
-          ts_status,
-          50.8 + (d * 0.01), 4.35 + (wk * 0.01)
+          ts_status
         );
       end loop;
     end loop;
@@ -905,14 +903,24 @@ begin
 
     insert into public.timesheet_entries (
       id, company_id, timesheet_id, project_id, site_id, task_id,
-      starts_at, ends_at, break_minutes, notes, status, start_latitude, start_longitude
+      starts_at, ends_at, break_minutes, notes, status
     ) values (
       gen_random_uuid(), w.company_id, w.timesheet_id, site_row.project_id, site_row.id, tsk,
       (current_date + time '07:45' + (i * interval '7 minutes')),
-      (current_date + time '16:30'), 30, 'Check-in on site.', 'draft',
-      site_row.latitude  + ((i % 7) - 3) * 0.0015,
-      site_row.longitude + ((i % 5) - 2) * 0.0018
+      (current_date + time '16:30'), 30, 'Check-in on site.', 'draft'
     );
+
+    -- An open session for the same person, so the live map has something real
+    -- to show. This is what "who is working right now" reads (#5) — the entry
+    -- above is finished work, which is exactly what the old map mistook for
+    -- presence.
+    insert into public.time_sessions (
+      company_id, user_id, project_id, site_id, task_id, started_at, notes
+    )
+    select w.company_id, t.user_id, site_row.project_id, site_row.id, tsk,
+           now() - ((i % 4) + 1) * interval '37 minutes', 'On site.'
+      from public.timesheets t where t.id = w.timesheet_id
+    on conflict do nothing;
   end loop;
 end $$;
 

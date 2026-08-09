@@ -71,12 +71,12 @@
     "statusRejected": "Afgewezen",
     "weeklyHoursAria": "Staafdiagram met gewerkte uren van maandag tot zondag",
     "liveMapTitle": "Live Kaart",
-    "liveMapSubtitle": "Waar teamleden vandaag hebben ingeklokt",
+    "liveMapSubtitle": "Wie nu ingeklokt is, per werf",
     "liveMapViewFull": "Volledige kaart bekijken",
-    "liveMapEmpty": "Niemand heeft vandaag ingeklokt met locatiedeling.",
+    "liveMapEmpty": "Er is nu niemand ingeklokt.",
     "liveMapNoSite": "Geen locatie",
-    "liveMapActive": "Actief",
-    "weeklyHoursSrItem": "{day}: {hours} uur"
+    "weeklyHoursSrItem": "{day}: {hours} uur",
+    "liveMapPeople": "{count} op de werf"
   },
   "time": {
     "eyebrow": "Werkruimte",
@@ -769,8 +769,7 @@
     "locationMissing": "Nog geen locatie",
     "locationMissingHelp": "Zonder locatie heeft deze werf geen weersverwachting en verschijnt ze niet op de kaart.",
     "locationPin": "Gevonden",
-    "clockedInOnSite": "Ingeklokt op de werf",
-    "clockedInLocation": "Locatie geregistreerd"
+    "clockedInOnSite": "Ingeklokt op de werf"
   },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",
@@ -820,14 +819,17 @@
     "title": "Live kaart",
     "description": "Waar teamleden vandaag hun meest recente sessie startten, alleen met toestemming.",
     "emptyTitle": "Vandaag heeft niemand ingecheckt met locatiedeling",
-    "emptyDescription": "Punten verschijnen nadat een teamlid met locatiedeling een sessie stopt.",
+    "emptyDescription": "Nog niemand ingeklokt. Mensen verschijnen hier zodra ze hun klok starten.",
     "mapLabel": "Live teamlocaties",
     "noSite": "Geen werf",
-    "started": "gestart {time}",
     "justNow": "zojuist",
     "minutesAgo": "{count} min geleden",
     "hoursAgo": "{count} u geleden",
-    "locationRecorded": "Locatie geregistreerd"
+    "clockedInNow": "{count} mensen nu ingeklokt",
+    "peopleCount": "{count} op de werf",
+    "peopleAtSite": "{count} mensen op {site}",
+    "workingFor": "al {time} aan het werk",
+    "sitePinsOnly": "De punten zijn werven, geen mensen. We leggen vast bij welke werf de uren horen, nooit waar jij bent."
   },
   "reportTemplates": {
     "eyebrow": "Operaties",
