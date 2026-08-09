@@ -53,6 +53,69 @@ export interface TrackerSite { id: string; name: string; projectId: string | nul
  */
 export interface CurrentAssignment { assignmentId: string; title: string; siteId: string | null; projectId: string | null }
 
+/**
+ * A session that has been running past any plausible working day (#60).
+ *
+ * Twelve hours, because a long day on site is ten and nobody works thirteen by
+ * accident. Past that the likeliest explanation is that someone pressed Start
+ * and went home, and turning that into thirteen paid hours in silence is the
+ * failure this threshold exists to catch.
+ */
+export const STALE_SESSION_HOURS = 12;
+
+/** The clock that is running right now, if there is one. */
+export interface OpenSession {
+  id: string;
+  startedAt: string;
+  /**
+   * Computed on the server so the component never reads the clock during
+   * render — the client ticks up from here. React would otherwise flag the
+   * impurity, and the first paint would disagree with the server's.
+   */
+  elapsedSeconds: number;
+  projectId: string | null;
+  taskId: string | null;
+  siteId: string | null;
+  notes: string;
+  /** Running longer than a working day, and never confirmed by the person. */
+  isStale: boolean;
+}
+
+/**
+ * The open session for whoever is asking, from the database rather than a tab.
+ *
+ * This is the whole point of #60: before it, a running timer existed only in
+ * React state, so locking the phone lost the day with no error and no record.
+ * Reading it back here is what makes a clock-in survive the device.
+ */
+export async function getOpenSession(): Promise<OpenSession | null> {
+  const { session, companyId } = await requireActiveCompany();
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("time_sessions")
+    .select("id,started_at,project_id,task_id,site_id,notes,confirmed_at")
+    .eq("company_id", companyId)
+    .eq("user_id", session.user.id)
+    .is("ended_at", null)
+    .maybeSingle();
+  if (!data) return null;
+
+  const startedAt = new Date(data.started_at as string);
+  const elapsedSeconds = Math.max(0, Math.floor((Date.now() - startedAt.getTime()) / 1000));
+
+  return {
+    id: data.id as string,
+    startedAt: data.started_at as string,
+    elapsedSeconds,
+    projectId: (data.project_id as string | null) ?? null,
+    taskId: (data.task_id as string | null) ?? null,
+    siteId: (data.site_id as string | null) ?? null,
+    notes: (data.notes as string | null) ?? "",
+    isStale: !data.confirmed_at && elapsedSeconds > STALE_SESSION_HOURS * 3600,
+  };
+}
+
 export async function getTimeTrackingOverview(): Promise<{
   projects: Project[]; tasks: Task[]; sites: TrackerSite[]; currentAssignment: CurrentAssignment | null;
   recentEntries: TimeEntry[]; todaySummary: DailySummary; weeklySummary: WeeklySummary;

@@ -2,15 +2,14 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import PageHeader from "@/components/dashboard/PageHeader";
 import TimeTracker from "@/components/time/TimeTracker";
-import { getTimeTrackingOverview } from "@/src/features/time-tracking/data";
-import { getLocationConsent } from "@/src/features/account/data";
+import { getOpenSession, getTimeTrackingOverview } from "@/src/features/time-tracking/data";
 
 export const metadata: Metadata = { title: "Time Tracking" };
 
 export default async function TimeTrackingPage() {
-  const [{ projects, tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary }, locationConsent, t] = await Promise.all([
+  const [{ projects, tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary }, openSession, t] = await Promise.all([
     getTimeTrackingOverview(),
-    getLocationConsent(),
+    getOpenSession(),
     getTranslations("time"),
   ]);
   return (
@@ -27,10 +26,10 @@ export default async function TimeTrackingPage() {
           currentAssignment={currentAssignment}
           projects={projects}
           tasks={tasks}
+          openSession={openSession}
           entries={recentEntries}
           todaySummary={todaySummary}
           weeklySummary={weeklySummary}
-          locationConsent={locationConsent}
         />
       </div>
     </section>
