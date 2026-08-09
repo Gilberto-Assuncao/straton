@@ -49,6 +49,62 @@ function workedMinutes(row: EntryRow): number {
   return Math.max(0, minutes - row.break_minutes);
 }
 
+/** One week, from one person, waiting for a decision. */
+export interface PendingTimesheet {
+  timesheetId: string;
+  employee: string;
+  periodStart: string;
+  periodEnd: string;
+  label: string;
+  workedMinutes: number;
+  entryCount: number;
+  /** True when the reviewer is looking at their own week. */
+  isMine: boolean;
+}
+
+interface PendingRow {
+  id: string; user_id: string; period_start: string; period_end: string;
+  users: RelatedOne<{ name: string }>;
+  timesheet_entries: { starts_at: string; ends_at: string; break_minutes: number }[] | null;
+}
+
+/**
+ * Everything submitted and still waiting, oldest week first (#57).
+ *
+ * Not filtered to the current week the way the workspace is. The queue exists
+ * precisely for the weeks that fell behind — showing only this week would hide
+ * the backlog that makes the approved total smaller than the hours worked.
+ *
+ * Company-wide with no role check here: RLS returns only this company's rows,
+ * and a worker who opens the page sees the queue but cannot act on it — the
+ * database refuses the review, not the screen.
+ */
+export async function getPendingTimesheets(): Promise<PendingTimesheet[]> {
+  const { companyId, session } = await requireActiveCompany();
+  const supabase = await createClient();
+
+  const { data } = await supabase
+    .from("timesheets")
+    .select("id,user_id,period_start,period_end,users!timesheets_user_id_fkey(name),timesheet_entries(starts_at,ends_at,break_minutes)")
+    .eq("company_id", companyId)
+    .eq("status", "submitted")
+    .order("period_start", { ascending: true });
+
+  return ((data ?? []) as PendingRow[]).map((row) => {
+    const entries = row.timesheet_entries ?? [];
+    return {
+      timesheetId: row.id,
+      employee: first(row.users)?.name ?? "Unknown",
+      periodStart: row.period_start,
+      periodEnd: row.period_end,
+      label: formatRangeLabel(new Date(`${row.period_start}T00:00:00`), new Date(`${row.period_end}T00:00:00`)),
+      workedMinutes: entries.reduce((total, entry) => total + workedMinutes(entry as EntryRow), 0),
+      entryCount: entries.length,
+      isMine: row.user_id === session.user.id,
+    };
+  });
+}
+
 export async function getTimesheetWorkspace(): Promise<{ timesheet: Timesheet; employees: string[]; projects: string[]; weekRanges: WeekRange[] }> {
   const { companyId } = await requireActiveCompany();
   const supabase = await createClient();
