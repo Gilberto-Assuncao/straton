@@ -307,7 +307,6 @@
     "phone": "Telefoon",
     "countryVat": "Land · Btw-nummer",
     "address": "Adres",
-    "selectClient": "Selecteer een klant",
     "noMatchingProjects": "Geen overeenkomende projecten",
     "noProjectsYet": "Nog geen projecten",
     "adjustFilters": "Pas de filters aan of wis ze om meer resultaten te zien.",
@@ -360,7 +359,8 @@
     "teamMembers": "Teamleden",
     "projectHoursProgress": "Voortgang projecturen",
     "hoursLogged": "geregistreerd",
-    "membersAllocated": "{count} teamleden toegewezen"
+    "membersAllocated": "{count} teamleden toegewezen",
+    "noClient": "Geen klant (intern werk)"
   },
   "roster": {
     "eyebrow": "Bedrijf",

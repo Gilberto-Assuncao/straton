@@ -307,7 +307,6 @@
     "phone": "Telefono",
     "countryVat": "Paese · P.IVA",
     "address": "Indirizzo",
-    "selectClient": "Seleziona un cliente",
     "noMatchingProjects": "Nessun progetto corrispondente",
     "noProjectsYet": "Ancora nessun progetto",
     "adjustFilters": "Modifica o cancella i filtri per vedere più risultati.",
@@ -360,7 +359,8 @@
     "teamMembers": "Membri del team",
     "projectHoursProgress": "Avanzamento ore del progetto",
     "hoursLogged": "registrate",
-    "membersAllocated": "{count} membri assegnati"
+    "membersAllocated": "{count} membri assegnati",
+    "noClient": "Nessun cliente (lavoro interno)"
   },
   "roster": {
     "eyebrow": "Azienda",

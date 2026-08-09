@@ -307,7 +307,6 @@
     "phone": "Telefon",
     "countryVat": "Țară · CUI",
     "address": "Adresă",
-    "selectClient": "Selectează un client",
     "noMatchingProjects": "Niciun proiect corespunzător",
     "noProjectsYet": "Încă nu există proiecte",
     "adjustFilters": "Ajustează sau șterge filtrele pentru a vedea mai multe rezultate.",
@@ -360,7 +359,8 @@
     "teamMembers": "Membrii echipei",
     "projectHoursProgress": "Progresul orelor proiectului",
     "hoursLogged": "înregistrate",
-    "membersAllocated": "{count} membri alocați"
+    "membersAllocated": "{count} membri alocați",
+    "noClient": "Fără client (lucrare internă)"
   },
   "roster": {
     "eyebrow": "Companie",

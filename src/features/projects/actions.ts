@@ -17,7 +17,10 @@ export async function createProjectAction(_: CreateProjectState, formData: FormD
   if (!isManager) return { status: "error", message: "You do not have permission to create projects." };
 
   const name = String(formData.get("name") ?? "").trim();
-  const clientId = String(formData.get("clientId") ?? "").trim();
+  // `clientCompanyId` is what the shared ClientPicker submits; `clientId` is
+  // the name the old select used. Both read here so an in-flight form or a
+  // bookmarked page does not break on the way through.
+  const clientId = String(formData.get("clientCompanyId") ?? formData.get("clientId") ?? "").trim();
   const status = String(formData.get("status") ?? "planning");
   const priority = String(formData.get("priority") ?? "medium");
   const description = String(formData.get("description") ?? "").trim();
@@ -26,7 +29,10 @@ export async function createProjectAction(_: CreateProjectState, formData: FormD
   const startDate = String(formData.get("start-date") ?? "");
   const endDate = String(formData.get("end-date") ?? "");
 
-  if (name.length < 2 || !clientId || !description || !startDate || !endDate) {
+  // A client is optional. Internal work — the company's own workshop, its own
+  // maintenance — is a project with nobody to invoice, and requiring one would
+  // make somebody attach it to a client who is not paying for it.
+  if (name.length < 2 || !description || !startDate || !endDate) {
     return { status: "error", message: "Fill in all required fields." };
   }
   if (!validStatuses.includes(status) || !validPriorities.includes(priority)) {
@@ -42,13 +48,13 @@ export async function createProjectAction(_: CreateProjectState, formData: FormD
   // DATABASE_ARCHITECTURE.md), the same reason getProjects() synthesizes a
   // placeholder client instead of dropping the project. The projects.client_
   // company_id foreign key still rejects a genuinely invalid id.
-  if (!/^[0-9a-f-]{36}$/i.test(clientId)) return { status: "error", message: "Select a valid client." };
+  if (clientId && !/^[0-9a-f-]{36}$/i.test(clientId)) return { status: "error", message: "Select a valid client." };
 
   const supabase = await createClient();
   const { data: project, error } = await supabase
     .from("projects")
     .insert({
-      company_id: companyId, client_company_id: clientId, name, description, status, priority,
+      company_id: companyId, client_company_id: clientId || null, name, description, status, priority,
       starts_at: startDate, ends_at: endDate,
       estimated_hours: estimatedHours ? Number(estimatedHours) : null,
       budget_amount: budget ? Number(budget) : null,
