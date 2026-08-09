@@ -90,14 +90,17 @@ async function loadEmployees(): Promise<{ employees: Employee[]; teamNames: stri
     const workedMinutes = hoursByUser.get(membership.user_id) ?? 0;
     return [{
       id: row.id, firstName, lastName, email: user.email, phone: user.phone ?? undefined,
-      jobTitle: row.job_title, team: activeTeamLink ? (teamNameById.get(activeTeamLink.team_id) ?? "Unassigned") : "Unassigned",
+      jobTitle: row.job_title, team: activeTeamLink ? (teamNameById.get(activeTeamLink.team_id) ?? null) : null,
       status: toStatus(membership.status), employmentType: toEmploymentType(row.employment_type),
       hourlyRate: undefined, startDate: row.start_date ?? "", avatarInitials: initials(firstName, lastName),
       totalHoursThisWeek: Math.round((workedMinutes / 60) * 100) / 100, createdAt: row.created_at,
     }];
   });
 
-  return { employees, teamNames: [...new Set(employees.map((employee) => employee.team))].sort() };
+  // Real teams only. "Unassigned" used to land in here and show up in the
+  // filter as a team somebody could belong to.
+  const teamNames = [...new Set(employees.flatMap((employee) => (employee.team ? [employee.team] : [])))].sort();
+  return { employees, teamNames };
 }
 
 export async function getEmployees(): Promise<{ employees: Employee[]; teamNames: string[] }> {

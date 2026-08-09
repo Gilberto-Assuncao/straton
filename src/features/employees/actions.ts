@@ -223,37 +223,50 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
     .eq("id", target.recordId);
   if (recordError) return { status: "error", message: recordError.message };
 
-  // Team moves close the current link instead of deleting it, so the history
-  // of who was on which team stays intact for payroll and compliance.
-  if (team) {
-    const [{ data: teamRow }, { data: currentLink }] = await Promise.all([
-      supabase.from("teams").select("id").eq("company_id", companyId).eq("name", team).maybeSingle(),
-      supabase.from("team_memberships").select("id,team_id,team_role").eq("company_membership_id", target.membershipId).is("left_at", null).maybeSingle(),
-    ]);
-    if (!teamRow) return { status: "error", message: "Select a valid team." };
+  /*
+   * Team moves close the current link instead of deleting it, so the history of
+   * who was on which team stays intact for payroll and compliance.
+   *
+   * An empty team means "no team", which is a decision and not a missing field
+   * (#45). It used to be unreachable: the edit form offered the placeholder
+   * "Unassigned" as though it were a team, this looked it up by name, found
+   * nothing, and answered "Select a valid team" — so anybody without a team
+   * could not be edited at all, whatever they were trying to change.
+   */
+  const { data: teamRow } = team
+    ? await supabase.from("teams").select("id").eq("company_id", companyId).eq("name", team).maybeSingle()
+    : { data: null };
+  // Named but non-existent is still an error: that is a typo or a stale form.
+  if (team && !teamRow) return { status: "error", message: "Select a valid team." };
 
-    if (currentLink?.team_id !== teamRow.id) {
-      if (currentLink?.team_role === "leader") {
-        return { status: "error", message: "This person leads their current team. Assign another leader before moving them." };
-      }
-      if (currentLink) {
-        const now = new Date().toISOString();
-        const { error } = await admin.from("team_memberships").update({ left_at: now, removed_at: now }).eq("id", currentLink.id);
-        if (error) return { status: "error", message: error.message };
-      }
-      // Only active memberships may join a team (enforced by
-      // validate_team_operational_membership); invited people keep the team on
-      // pending_team_id until they accept.
-      if (target.membershipStatus === "active") {
-        const { error } = await admin.from("team_memberships").insert({
-          company_id: companyId, team_id: teamRow.id,
-          company_membership_id: target.membershipId, team_role: "member",
-        });
-        if (error) return { status: "error", message: error.message };
-      } else {
-        const { error } = await admin.from("company_memberships").update({ pending_team_id: teamRow?.id ?? null }).eq("id", target.membershipId);
-        if (error) return { status: "error", message: error.message };
-      }
+  const { data: currentLink } = await supabase
+    .from("team_memberships")
+    .select("id,team_id,team_role")
+    .eq("company_membership_id", target.membershipId)
+    .is("left_at", null)
+    .maybeSingle();
+
+  if ((currentLink?.team_id ?? null) !== (teamRow?.id ?? null)) {
+    if (currentLink?.team_role === "leader") {
+      return { status: "error", message: "This person leads their current team. Assign another leader before moving them." };
+    }
+    if (currentLink) {
+      const now = new Date().toISOString();
+      const { error } = await admin.from("team_memberships").update({ left_at: now, removed_at: now }).eq("id", currentLink.id);
+      if (error) return { status: "error", message: error.message };
+    }
+    // Only active memberships may join a team (enforced by
+    // validate_team_operational_membership); invited people keep the team on
+    // pending_team_id until they accept.
+    if (teamRow && target.membershipStatus === "active") {
+      const { error } = await admin.from("team_memberships").insert({
+        company_id: companyId, team_id: teamRow.id,
+        company_membership_id: target.membershipId, team_role: "member",
+      });
+      if (error) return { status: "error", message: error.message };
+    } else {
+      const { error } = await admin.from("company_memberships").update({ pending_team_id: teamRow?.id ?? null }).eq("id", target.membershipId);
+      if (error) return { status: "error", message: error.message };
     }
   }
 
