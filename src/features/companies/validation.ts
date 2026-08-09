@@ -1,6 +1,9 @@
+import { locales } from "@/src/i18n/routing";
 import type { CompanyActionState, CompanyFormValues, CompanySettingsValues, ManagedCompanyStatus } from "./types";
 
-const languages = ["en", "fr", "nl", "de", "pt"];
+// Derived, never restated: a hand-kept copy is how this list fell four
+// languages behind the interface.
+const languages: string[] = locales.map((locale) => locale.toLowerCase());
 const statuses: ManagedCompanyStatus[] = ["active", "inactive", "suspended", "archived"];
 
 function value(formData: FormData, key: string, max = 160) {

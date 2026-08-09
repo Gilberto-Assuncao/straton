@@ -1,4 +1,6 @@
 "use client";
+
+import { locales, localeLabels } from "@/src/i18n/routing";
 import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Input, Select, Switch } from "@/src/components/forms";
@@ -14,13 +16,7 @@ import { CompanySubmitButton } from "./CompanySubmitButton";
  * looking for their own language by its own name. Translating them would mean a
  * Dutch speaker hunting for "Neerlandês" in a Portuguese interface.
  */
-const LANGUAGES = [
-  { value: "en", label: "English" },
-  { value: "fr", label: "Français" },
-  { value: "nl", label: "Nederlands" },
-  { value: "de", label: "Deutsch" },
-  { value: "pt", label: "Português" },
-];
+const LANGUAGES = locales.map((value) => ({ value, label: localeLabels[value] }));
 
 export function CompanySettingsForm({
   companyId,

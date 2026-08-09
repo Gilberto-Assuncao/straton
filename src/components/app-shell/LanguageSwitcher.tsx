@@ -4,18 +4,9 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useTransition } from "react";
 import { usePathname, useRouter } from "@/src/i18n/navigation";
+import { locales, localeLabels } from "@/src/i18n/routing";
 
-const languages = [
-  { id: "en", label: "English" },
-  { id: "pt", label: "Português" },
-  { id: "fr", label: "Français" },
-  { id: "nl", label: "Nederlands" },
-  { id: "de", label: "Deutsch" },
-  { id: "pl", label: "Polski" },
-  { id: "ro", label: "Română" },
-  { id: "es", label: "Español" },
-  { id: "it", label: "Italiano" },
-];
+const languages = locales.map((id) => ({ id, label: localeLabels[id] }));
 
 export function LanguageSwitcher() {
   const tShell = useTranslations("appShell");

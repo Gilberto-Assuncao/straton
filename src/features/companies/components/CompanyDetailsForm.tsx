@@ -1,4 +1,6 @@
 "use client";
+
+import { locales, localeLabels } from "@/src/i18n/routing";
 import { useTranslations } from "next-intl";
 
 import { useActionState, useState } from "react";
@@ -11,7 +13,7 @@ import { CompanySubmitButton } from "./CompanySubmitButton";
 
 const empty: CompanyFormValues = { legalName:"",displayName:"",registrationNumber:"",vatNumber:"",countryCode:"BE",defaultLanguage:"en",timezone:"Europe/Brussels",currencyCode:"EUR",phone:"",email:"",website:"",addressLine1:"",addressLine2:"",postalCode:"",city:"",region:"" };
 const countries = [{value:"BE",label:"Belgium"},{value:"NL",label:"Netherlands"},{value:"FR",label:"France"},{value:"DE",label:"Germany"},{value:"LU",label:"Luxembourg"},{value:"PT",label:"Portugal"}];
-const languages = [{value:"en",label:"English"},{value:"fr",label:"French"},{value:"nl",label:"Dutch"},{value:"de",label:"German"},{value:"pt",label:"Portuguese"}];
+const languages = locales.map((value) => ({ value, label: localeLabels[value] }));
 const timezones = ["Europe/Brussels","Europe/Amsterdam","Europe/Paris","Europe/Berlin","Europe/Luxembourg","Europe/Lisbon"].map(value=>({value,label:value}));
 const currencies = ["EUR","GBP","USD"].map(value=>({value,label:value}));
 
