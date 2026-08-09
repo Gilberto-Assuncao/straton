@@ -94,7 +94,8 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
       <Select name="currencyCode" label={t("fieldCurrency")} defaultValue={values.currencyCode} options={currencies} error={error("currencyCode")}/>
       <EmailInput name="email" label={t("fieldCompanyEmail")} value={email} onChange={(event) => setEmail(event.target.value)} error={error("email")}/>
       <PhoneInput name="phone" label={t("fieldPhone")} value={phone} onChange={(event) => setPhone(event.target.value)} error={error("phone")}/>
-      <Input name="website" type="url" label={t("fieldWebsite")} value={website} onChange={(event) => setWebsite(event.target.value)} error={error("website")} placeholder="https://"/>
+      {/* Not type="url": the browser refuses "www.belnexenergy.be" before the form is even submitted. The scheme is added server-side, where the value is also checked. */}
+      <Input name="website" type="text" inputMode="url" label={t("fieldWebsite")} value={website} onChange={(event) => setWebsite(event.target.value)} error={error("website")} placeholder="www.exemplo.be"/>
       <Input name="city" label={t("fieldCity")} value={city} onChange={(event) => setCity(event.target.value)}/>
       <Input name="addressLine1" label={t("fieldAddress1")} value={addressLine1} onChange={(event) => setAddressLine1(event.target.value)}/>
       <Input name="addressLine2" label={t("fieldAddress2")} defaultValue={values.addressLine2}/>
