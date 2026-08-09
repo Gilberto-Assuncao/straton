@@ -142,7 +142,6 @@
     "submit": "Prześlij",
     "approve": "Zatwierdź",
     "reject": "Odrzuć",
-    "entryChangesReady": "Zmiany wpisu są gotowe do integracji z backendem.",
     "filtersAriaLabel": "Filtry karty czasu pracy",
     "week": "Tydzień",
     "employee": "Pracownik",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "Nie możesz zatwierdzić własnej karty pracy.",
     "result_nothingSelected": "Wybierz co najmniej jeden tydzień.",
     "result_unavailable": "Karta pracy niedostępna.",
-    "result_failed": "Nie udało się zapisać weryfikacji."
+    "result_failed": "Nie udało się zapisać weryfikacji.",
+    "fieldSite": "Budowa",
+    "fieldNoSite": "Bez budowy (biuro, warsztat, dojazd)",
+    "result_entrySaved": "Wpis zapisany.",
+    "result_entryApproved": "Te godziny są zatwierdzone i nie można ich edytować. Najpierw otwórz kartę ponownie.",
+    "result_notAllowedToEdit": "Nie możesz edytować tego wpisu.",
+    "result_invalidTime": "Podaj poprawną godzinę początku i końca.",
+    "result_invalidBreak": "Przerwa musi wynosić zero minut lub więcej.",
+    "result_breakTooLong": "Przerwa nie może być dłuższa niż zmiana."
   },
   "employees": {
     "eyebrow": "Zespół",

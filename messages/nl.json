@@ -142,7 +142,6 @@
     "submit": "Indienen",
     "approve": "Goedkeuren",
     "reject": "Afwijzen",
-    "entryChangesReady": "Wijzigingen aan de registratie zijn klaar voor backend-integratie.",
     "filtersAriaLabel": "Urenstaatfilters",
     "week": "Week",
     "employee": "Werknemer",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "Je kunt je eigen urenstaat niet goedkeuren.",
     "result_nothingSelected": "Selecteer minstens een week.",
     "result_unavailable": "Urenstaat niet beschikbaar.",
-    "result_failed": "Kon de beoordeling niet opslaan."
+    "result_failed": "Kon de beoordeling niet opslaan.",
+    "fieldSite": "Werf",
+    "fieldNoSite": "Geen werf (kantoor, atelier, verplaatsing)",
+    "result_entrySaved": "Registratie bewaard.",
+    "result_entryApproved": "Deze uren zijn goedgekeurd en kunnen niet worden aangepast. Heropen eerst de urenstaat.",
+    "result_notAllowedToEdit": "Je kunt deze registratie niet aanpassen.",
+    "result_invalidTime": "Geef een geldige begin- en eindtijd op.",
+    "result_invalidBreak": "De pauze moet nul minuten of meer zijn.",
+    "result_breakTooLong": "De pauze kan niet langer zijn dan de shift."
   },
   "employees": {
     "eyebrow": "Team",

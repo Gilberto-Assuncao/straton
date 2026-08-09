@@ -142,7 +142,6 @@
     "submit": "Submeter",
     "approve": "Aprovar",
     "reject": "Rejeitar",
-    "entryChangesReady": "As alterações ao registo estão prontas para integração com o backend.",
     "filtersAriaLabel": "Filtros de folha de horas",
     "week": "Semana",
     "employee": "Funcionário",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "Não pode aprovar a sua própria folha de horas.",
     "result_nothingSelected": "Selecione pelo menos uma semana.",
     "result_unavailable": "Folha de horas indisponível.",
-    "result_failed": "Não foi possível guardar a revisão."
+    "result_failed": "Não foi possível guardar a revisão.",
+    "fieldSite": "Estaleiro",
+    "fieldNoSite": "Sem estaleiro (escritório, oficina, deslocação)",
+    "result_entrySaved": "Registo guardado.",
+    "result_entryApproved": "Estas horas estão aprovadas e não podem ser editadas. Reabra primeiro a folha.",
+    "result_notAllowedToEdit": "Não pode editar este registo.",
+    "result_invalidTime": "Indique uma hora de início e de fim válidas.",
+    "result_invalidBreak": "A pausa tem de ser zero ou mais minutos.",
+    "result_breakTooLong": "A pausa não pode ser maior do que o turno."
   },
   "employees": {
     "eyebrow": "Equipa",

@@ -142,7 +142,6 @@
     "submit": "Soumettre",
     "approve": "Approuver",
     "reject": "Rejeter",
-    "entryChangesReady": "Les modifications de la saisie sont prêtes pour l’intégration backend.",
     "filtersAriaLabel": "Filtres de feuille de temps",
     "week": "Semaine",
     "employee": "Employé",
@@ -221,7 +220,15 @@
     "result_ownTimesheet": "Vous ne pouvez pas approuver votre propre feuille de temps.",
     "result_nothingSelected": "Sélectionnez au moins une semaine.",
     "result_unavailable": "Feuille de temps indisponible.",
-    "result_failed": "Impossible d'enregistrer la révision."
+    "result_failed": "Impossible d'enregistrer la révision.",
+    "fieldSite": "Chantier",
+    "fieldNoSite": "Sans chantier (bureau, atelier, déplacement)",
+    "result_entrySaved": "Saisie enregistrée.",
+    "result_entryApproved": "Ces heures sont approuvées et ne peuvent pas être modifiées. Rouvrez d'abord la feuille.",
+    "result_notAllowedToEdit": "Vous ne pouvez pas modifier cette saisie.",
+    "result_invalidTime": "Indiquez une heure de début et de fin valides.",
+    "result_invalidBreak": "La pause doit être de zéro minute ou plus.",
+    "result_breakTooLong": "La pause ne peut pas dépasser la durée du poste."
   },
   "employees": {
     "eyebrow": "Équipe",

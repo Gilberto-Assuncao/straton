@@ -2,17 +2,18 @@ import "server-only";
 
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany } from "@/src/application/session/server";
-import type { ApprovalStatus, Timesheet, TimesheetEntry, WeekRange } from "@/lib/types/timesheet";
+import type { ApprovalStatus, Option, Timesheet, TimesheetEntry, WeekRange } from "@/lib/types/timesheet";
 
 type RelatedOne<T> = T | T[] | null;
 function first<T>(value: RelatedOne<T>): T | null { return Array.isArray(value) ? (value[0] ?? null) : value; }
 
 interface EntryRow {
   id: string; starts_at: string; ends_at: string; break_minutes: number; notes: string | null;
-  status: ApprovalStatus; projects: RelatedOne<{ name: string }>; tasks: RelatedOne<{ name: string }>;
+  status: ApprovalStatus; project_id: string | null; task_id: string | null; site_id: string | null;
+  projects: RelatedOne<{ name: string }>; tasks: RelatedOne<{ name: string }>;
 }
 interface TimesheetRow {
-  id: string; status: ApprovalStatus; period_start: string; period_end: string;
+  id: string; user_id: string; status: ApprovalStatus; period_start: string; period_end: string;
   users: RelatedOne<{ name: string }>; timesheet_entries: EntryRow[] | null;
 }
 
@@ -105,8 +106,14 @@ export async function getPendingTimesheets(): Promise<PendingTimesheet[]> {
   });
 }
 
-export async function getTimesheetWorkspace(): Promise<{ timesheet: Timesheet; employees: string[]; projects: string[]; weekRanges: WeekRange[] }> {
-  const { companyId } = await requireActiveCompany();
+const managerRoles = ["owner", "admin", "administrator", "manager", "supervisor"];
+
+export async function getTimesheetWorkspace(): Promise<{
+  timesheet: Timesheet; employees: string[]; projects: string[]; weekRanges: WeekRange[];
+  projectOptions: Option[]; taskOptions: Option[]; siteOptions: Option[];
+}> {
+  const { companyId, session } = await requireActiveCompany();
+  const isManager = session.activeCompany!.roles.some((role) => managerRoles.includes(role));
   const supabase = await createClient();
 
   const currentMonday = mondayOf(new Date());
@@ -119,12 +126,14 @@ export async function getTimesheetWorkspace(): Promise<{ timesheet: Timesheet; e
   });
   const currentWeek = weekRanges[0];
 
-  const [{ data: memberRows }, { data: projectRows }, { data: timesheetRows, error }] = await Promise.all([
+  const [{ data: memberRows }, { data: projectRows }, { data: taskRows }, { data: siteRows }, { data: timesheetRows, error }] = await Promise.all([
     supabase.from("company_memberships").select("users!company_memberships_user_id_fkey(name)").eq("company_id", companyId).eq("status", "active"),
-    supabase.from("projects").select("name").eq("company_id", companyId).order("name"),
+    supabase.from("projects").select("id,name").eq("company_id", companyId).order("name"),
+    supabase.from("tasks").select("id,name").eq("company_id", companyId).order("name"),
+    supabase.from("sites").select("id,name").eq("company_id", companyId).order("name"),
     supabase
       .from("timesheets")
-      .select("id,status,period_start,period_end,users!timesheets_user_id_fkey(name),timesheet_entries(id,starts_at,ends_at,break_minutes,notes,status,projects(name),tasks(name))")
+      .select("id,user_id,status,period_start,period_end,users!timesheets_user_id_fkey(name),timesheet_entries(id,starts_at,ends_at,break_minutes,notes,status,project_id,task_id,site_id,projects(name),tasks(name))")
       .eq("company_id", companyId)
       .lte("period_start", currentWeek.endDate)
       .gte("period_end", currentWeek.startDate),
@@ -135,7 +144,10 @@ export async function getTimesheetWorkspace(): Promise<{ timesheet: Timesheet; e
     const user = first(row.users);
     return user ? [user.name] : [];
   }))].sort();
-  const projects = [...new Set((projectRows ?? []).map((row) => row.name))].sort();
+  const projectOptions = ((projectRows ?? []) as Option[]).map((row) => ({ id: row.id, name: row.name }));
+  const taskOptions = ((taskRows ?? []) as Option[]).map((row) => ({ id: row.id, name: row.name }));
+  const siteOptions = ((siteRows ?? []) as Option[]).map((row) => ({ id: row.id, name: row.name }));
+  const projects = [...new Set(projectOptions.map((option) => option.name))].sort();
 
   const rows = (timesheetRows ?? []) as TimesheetRow[];
   const entries: TimesheetEntry[] = rows.flatMap((sheet) => {
@@ -144,11 +156,19 @@ export async function getTimesheetWorkspace(): Promise<{ timesheet: Timesheet; e
       const project = first(row.projects);
       const task = first(row.tasks);
       return {
-        id: row.id, timesheetId: sheet.id, employee: employeeName, date: formatEntryDate(row.starts_at),
+        id: row.id, timesheetId: sheet.id, employee: employeeName,
+        date: formatEntryDate(row.starts_at), startsAtIso: row.starts_at,
         project: project?.name ?? "", task: task?.name ?? "",
+        projectId: row.project_id, taskId: row.task_id, siteId: row.site_id,
         startTime: formatTime(row.starts_at), endTime: formatTime(row.ends_at),
         breakMinutes: row.break_minutes, workedMinutes: workedMinutes(row),
         notes: row.notes ?? "", category: "regular", status: row.status,
+        // Mirrors the database rule rather than restating it: approved is
+        // immutable for everyone, submitted only a manager may correct, and
+        // your own draft is yours.
+        canEdit:
+          row.status !== "approved" &&
+          (isManager || (sheet.user_id === session.user.id && row.status !== "submitted")),
       };
     });
   });
@@ -161,5 +181,5 @@ export async function getTimesheetWorkspace(): Promise<{ timesheet: Timesheet; e
     entries,
   };
 
-  return { timesheet, employees, projects, weekRanges };
+  return { timesheet, employees, projects, weekRanges, projectOptions, taskOptions, siteOptions };
 }
