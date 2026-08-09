@@ -776,7 +776,8 @@
     "locationMissing": "Brak lokalizacji",
     "locationMissingHelp": "Bez niej ta budowa nie ma prognozy pogody i nie pojawia się na mapie.",
     "locationPin": "Znaleziono",
-    "clockedInOnSite": "Odbito na budowie"
+    "clockedInOnSite": "Odbito na budowie",
+    "geocode_not_allowed": "Nie masz uprawnień do wyszukiwania adresu."
   },
   "operationalReports": {
     "metadataTitle": "Raporty terenowe",

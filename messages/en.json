@@ -776,7 +776,8 @@
     "locationMissing": "No location yet",
     "locationMissingHelp": "Without it, this site has no weather forecast and does not appear on the map.",
     "locationPin": "Located",
-    "clockedInOnSite": "Clocked in on site"
+    "clockedInOnSite": "Clocked in on site",
+    "geocode_not_allowed": "You do not have permission to look up an address."
   },
   "operationalReports": {
     "metadataTitle": "Field Reports",

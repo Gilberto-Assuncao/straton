@@ -776,7 +776,8 @@
     "locationMissing": "Noch kein Standort",
     "locationMissingHelp": "Ohne Standort gibt es keine Wettervorhersage und die Baustelle erscheint nicht auf der Karte.",
     "locationPin": "Gefunden",
-    "clockedInOnSite": "Auf der Baustelle eingestempelt"
+    "clockedInOnSite": "Auf der Baustelle eingestempelt",
+    "geocode_not_allowed": "Du hast keine Berechtigung, eine Adresse zu suchen."
   },
   "operationalReports": {
     "metadataTitle": "Baustellenberichte",
