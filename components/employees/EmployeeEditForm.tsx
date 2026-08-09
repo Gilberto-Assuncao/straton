@@ -15,7 +15,10 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
   // The list of teams comes from the people already assigned, so a team the
   // company has but nobody is on yet would be missing — and so would
   // "Unassigned". Both are added here so the current value is always present.
-  const teamOptions = [...new Set([...teams, employee.team])].filter(Boolean).sort();
+  // Real teams only, plus whatever this person is on in case it is not in the
+  // list. "No team" is the empty option below, not an entry pretending to be a
+  // team — which is what "Unassigned" was doing here.
+  const teamOptions = [...new Set([...teams, employee.team].filter((name): name is string => Boolean(name)))].sort();
 
   const fields = [
     { id: "first-name", label: t("firstName"), name: "firstName", autoComplete: "given-name", defaultValue: employee.firstName },
@@ -43,7 +46,8 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
 
         <div>
           <label htmlFor="edit-team" className="text-sm font-medium text-[#E5E7EB]">{t("teamLabel")}</label>
-          <select id="edit-team" name="team" defaultValue={employee.team} className={field}>
+          <select id="edit-team" name="team" defaultValue={employee.team ?? ""} className={field}>
+            <option value="">{t("noTeam")}</option>
             {teamOptions.map((team) => <option key={team} value={team}>{team}</option>)}
           </select>
         </div>
