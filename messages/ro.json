@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Abatere de ore",
     "divergenceSubtitle": "Cine este peste sau sub media echipei săptămâna aceasta.",
     "noSiteRow": "Fără șantier"
+  },
+  "quickClock": {
+    "changeSite": "Schimbă locația",
+    "clockIn": "Pontează",
+    "clockOut": "Încheie",
+    "eyebrow": "Pontaj",
+    "idleTitle": "Gata de început",
+    "locationNotice": "Poziția ta este comparată cu locația de lucru în momentul pontării și nu este păstrată.",
+    "noSite": "Nicio locație aleasă",
+    "runningTitle": "Pontajul rulează",
+    "timer_alreadyRunning": "Un pontaj rulează deja pe alt dispozitiv.",
+    "timer_confirmed": "Mulțumim — cronometrul continuă.",
+    "timer_endBeforeStart": "Ora de final trebuie să fie după început.",
+    "timer_failed": "Nu s-a putut salva. Încearcă din nou.",
+    "timer_nothingRunning": "Nu rulează niciun pontaj.",
+    "timer_savedButStillOpen": "Orele au fost salvate, dar cronometrul pare activ.",
+    "timer_selectProjectAndTask": "Compania ta nu are încă lucrări configurate. Întreabă-ți managerul.",
+    "timer_started": "Pontat. Locație confirmată.",
+    "timer_stopped": "Încheiat. Ore salvate.",
+    "todaySoFar": "{hours} astăzi",
+    "whereLabel": "Locație de lucru",
+    "working": "O clipă…"
   }
 }

@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Divergência de horas",
     "divergenceSubtitle": "Quem está acima ou abaixo da média da equipe esta semana.",
     "noSiteRow": "Sem local"
+  },
+  "quickClock": {
+    "changeSite": "Mudar de local",
+    "clockIn": "Bater ponto",
+    "clockOut": "Encerrar",
+    "eyebrow": "Ponto",
+    "idleTitle": "Pronto para começar",
+    "locationNotice": "Sua posição é comparada com o local de trabalho no momento em que você bate o ponto, e não é guardada.",
+    "noSite": "Nenhum local escolhido",
+    "runningTitle": "Ponto rodando",
+    "timer_alreadyRunning": "Já existe um ponto rodando em outro dispositivo.",
+    "timer_confirmed": "Obrigado — o contador continua.",
+    "timer_endBeforeStart": "A hora de fim tem de ser depois do início.",
+    "timer_failed": "Não foi possível salvar. Tente de novo.",
+    "timer_nothingRunning": "Não há nenhum ponto rodando.",
+    "timer_savedButStillOpen": "Horas salvas, mas o contador continua ativo.",
+    "timer_selectProjectAndTask": "Sua empresa ainda não tem trabalho cadastrado. Fale com seu gestor.",
+    "timer_started": "Ponto batido. Localização confirmada.",
+    "timer_stopped": "Ponto encerrado. Horas salvas.",
+    "todaySoFar": "{hours} até agora hoje",
+    "whereLabel": "Local de trabalho",
+    "working": "Um momento…"
   }
 }

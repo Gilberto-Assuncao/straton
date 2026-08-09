@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Divergencia de horas",
     "divergenceSubtitle": "Quién está por encima o por debajo de la media de su equipo esta semana.",
     "noSiteRow": "Sin ubicación"
+  },
+  "quickClock": {
+    "changeSite": "Cambiar de ubicación",
+    "clockIn": "Fichar",
+    "clockOut": "Terminar",
+    "eyebrow": "Fichaje",
+    "idleTitle": "Listo para empezar",
+    "locationNotice": "Tu posición se compara con la ubicación de trabajo en el momento de fichar, y no se guarda.",
+    "noSite": "Ninguna ubicación elegida",
+    "runningTitle": "Fichaje en marcha",
+    "timer_alreadyRunning": "Ya hay un fichaje en marcha en otro dispositivo.",
+    "timer_confirmed": "Gracias — el contador sigue.",
+    "timer_endBeforeStart": "La hora de fin debe ser posterior al inicio.",
+    "timer_failed": "No se pudo guardar. Inténtalo de nuevo.",
+    "timer_nothingRunning": "No hay ningún fichaje en marcha.",
+    "timer_savedButStillOpen": "Horas guardadas, pero el contador sigue activo.",
+    "timer_selectProjectAndTask": "Tu empresa aún no tiene trabajo configurado. Habla con tu responsable.",
+    "timer_started": "Fichado. Ubicación confirmada.",
+    "timer_stopped": "Terminado. Horas guardadas.",
+    "todaySoFar": "{hours} hoy",
+    "whereLabel": "Ubicación de trabajo",
+    "working": "Un momento…"
   }
 }

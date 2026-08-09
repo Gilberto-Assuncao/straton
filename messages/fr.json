@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Écart d heures",
     "divergenceSubtitle": "Qui est au-dessus ou en dessous de la moyenne de son équipe cette semaine.",
     "noSiteRow": "Sans site"
+  },
+  "quickClock": {
+    "changeSite": "Changer de site",
+    "clockIn": "Pointer",
+    "clockOut": "Terminer",
+    "eyebrow": "Pointage",
+    "idleTitle": "Prêt à commencer",
+    "locationNotice": "Votre position est comparée au site de travail au moment du pointage, et n'est pas conservée.",
+    "noSite": "Aucun site choisi",
+    "runningTitle": "Pointage en cours",
+    "timer_alreadyRunning": "Un pointage est déjà en cours sur un autre appareil.",
+    "timer_confirmed": "Merci — le compteur continue.",
+    "timer_endBeforeStart": "L'heure de fin doit suivre le début.",
+    "timer_failed": "Enregistrement impossible. Réessayez.",
+    "timer_nothingRunning": "Aucun pointage en cours.",
+    "timer_savedButStillOpen": "Heures enregistrées, mais le compteur reste actif.",
+    "timer_selectProjectAndTask": "Votre entreprise n'a pas encore de travail configuré. Voyez avec votre responsable.",
+    "timer_started": "Pointage enregistré. Site confirmé.",
+    "timer_stopped": "Pointage terminé. Heures enregistrées.",
+    "todaySoFar": "{hours} aujourd'hui",
+    "whereLabel": "Site de travail",
+    "working": "Un instant…"
   }
 }

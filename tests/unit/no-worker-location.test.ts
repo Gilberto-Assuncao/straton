@@ -1,14 +1,23 @@
 import { readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 
 /**
- * We do not record where workers physically are (#61).
+ * We do not record where workers physically are (#61, amended #31).
  *
- * The decision was made once, in conversation: address and chantier, never
+ * The decision was made once, in conversation: address and location, never
  * coordinates. The code then drifted for weeks — `navigator.geolocation` on
  * clock-in, `start_latitude` / `start_longitude` on every entry — and nothing
  * objected, because a rule written in prose cannot defend itself.
+ *
+ * The rule has since been sharpened rather than relaxed. A clock-in now reads
+ * the position, compares it with the work location, and keeps only whether
+ * they matched — the company gets "this shift started at the site", which is
+ * the question it actually has, and nothing is written down that says where a
+ * person was. So *asking* is allowed; *storing* is what this file forbids.
+ *
+ * This test caught the change when it was made, which is the point of it: the
+ * amendment had to be deliberate and explained, not a quiet reintroduction.
  *
  * This is the rule as a test. It is deliberately a sweep and not a list, so it
  * also covers the screen nobody has written yet.
@@ -34,11 +43,21 @@ describe("worker location", () => {
     expect(sources.length).toBeGreaterThan(100);
   });
 
-  it("never asks the browser for a position", () => {
-    // `getCurrentPosition` and `watchPosition` are the only two ways in, so
-    // matching the namespace covers both and anything added beside them.
-    const offenders = sources.filter((file) => /navigator\s*\.\s*geolocation/.test(readFileSync(file, "utf8")));
-    expect(offenders, "files asking the browser for the user's position").toEqual([]);
+  it("asks for a position in exactly one place, and only to check it", () => {
+    // Reading the position is allowed now; keeping it is not. Pinning the count
+    // at one keeps that reviewable — a second caller is a second chance for
+    // somebody to store what they got.
+    const askers = sources.filter((file) => /navigator\s*\.\s*geolocation/.test(readFileSync(file, "utf8")));
+    expect(askers.map((file) => file.split(sep).join("/"))).toEqual(["components/time/QuickClock.tsx"]);
+  });
+
+  it("keeps no column for a person's position", () => {
+    // The verdict and a distance rounded to 10 m are what the schema holds.
+    // Anything shaped like a stored latitude is the thing we removed.
+    const offenders = sources.filter((file) =>
+      /(start_latitude|start_longitude|user_latitude|worker_latitude)/.test(readFileSync(file, "utf8")),
+    );
+    expect(offenders, "files storing a worker's coordinates").toEqual([]);
   });
 
   it("never reads or writes a per-entry coordinate", () => {

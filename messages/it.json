@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Scostamento ore",
     "divergenceSubtitle": "Chi è sopra o sotto la media della squadra questa settimana.",
     "noSiteRow": "Senza luogo"
+  },
+  "quickClock": {
+    "changeSite": "Cambia luogo",
+    "clockIn": "Timbra",
+    "clockOut": "Termina",
+    "eyebrow": "Timbratura",
+    "idleTitle": "Pronto a iniziare",
+    "locationNotice": "La tua posizione viene confrontata con il luogo di lavoro al momento della timbratura e non viene conservata.",
+    "noSite": "Nessun luogo scelto",
+    "runningTitle": "Timbratura in corso",
+    "timer_alreadyRunning": "C'è già una timbratura in corso su un altro dispositivo.",
+    "timer_confirmed": "Grazie — il contatore prosegue.",
+    "timer_endBeforeStart": "L'ora di fine deve essere successiva all'inizio.",
+    "timer_failed": "Impossibile salvare. Riprova.",
+    "timer_nothingRunning": "Nessuna timbratura in corso.",
+    "timer_savedButStillOpen": "Ore salvate, ma il contatore risulta ancora attivo.",
+    "timer_selectProjectAndTask": "La tua azienda non ha ancora lavori configurati. Chiedi al responsabile.",
+    "timer_started": "Timbrato. Luogo confermato.",
+    "timer_stopped": "Terminato. Ore salvate.",
+    "todaySoFar": "{hours} finora oggi",
+    "whereLabel": "Luogo di lavoro",
+    "working": "Un momento…"
   }
 }

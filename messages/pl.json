@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Odchylenie godzin",
     "divergenceSubtitle": "Kto w tym tygodniu jest powyżej lub poniżej średniej zespołu.",
     "noSiteRow": "Bez budowy"
+  },
+  "quickClock": {
+    "changeSite": "Zmień lokalizację",
+    "clockIn": "Rozpocznij",
+    "clockOut": "Zakończ",
+    "eyebrow": "Zegar",
+    "idleTitle": "Gotowe do startu",
+    "locationNotice": "Twoja pozycja jest porównywana z lokalizacją pracy w momencie rozpoczęcia i nie jest zapisywana.",
+    "noSite": "Nie wybrano lokalizacji",
+    "runningTitle": "Zegar działa",
+    "timer_alreadyRunning": "Zegar już działa na innym urządzeniu.",
+    "timer_confirmed": "Dzięki — zegar idzie dalej.",
+    "timer_endBeforeStart": "Koniec musi być po początku.",
+    "timer_failed": "Nie udało się zapisać. Spróbuj ponownie.",
+    "timer_nothingRunning": "Żaden zegar nie działa.",
+    "timer_savedButStillOpen": "Godziny zapisane, ale zegar nadal działa.",
+    "timer_selectProjectAndTask": "Twoja firma nie ma jeszcze skonfigurowanej pracy. Zapytaj menedżera.",
+    "timer_started": "Rozpoczęto. Lokalizacja potwierdzona.",
+    "timer_stopped": "Zakończono. Godziny zapisane.",
+    "todaySoFar": "{hours} dzisiaj",
+    "whereLabel": "Lokalizacja pracy",
+    "working": "Chwileczkę…"
   }
 }
