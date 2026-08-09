@@ -26,10 +26,19 @@
 -- have to permit. And triggers on insert as well as update, because guarding
 -- only the transition leaves the far cheaper attack of being born approved.
 
+/**
+ * Security definer, like `is_company_member` and `has_company_role` beside it.
+ *
+ * Not decoration. `authenticated` has no USAGE on the `private` schema, so a
+ * plain invoker function cannot resolve the helper it calls — a policy using it
+ * fails with "permission denied for schema private" the moment the branch is
+ * actually evaluated. Every existing helper here is definer for this reason.
+ */
 create or replace function private.can_review_timesheets(target_company_id uuid)
 returns boolean
 language sql
 stable
+security definer
 set search_path = ''
 as $$
   select private.has_company_role(
