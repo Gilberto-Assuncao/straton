@@ -1527,7 +1527,10 @@
     "description": "Geleistete Stunden und wohin die Zeit ging.",
     "divergenceTitle": "Stundenabweichung",
     "divergenceSubtitle": "Wer diese Woche über oder unter dem Teamdurchschnitt liegt.",
-    "noSiteRow": "Ohne Einsatzstelle"
+    "noSiteRow": "Ohne Einsatzstelle",
+    "locationsLabel": "Einsatzstellen",
+    "allLocations": "Alle",
+    "filteredNotice": "Diese Zahlen umfassen nur {count, plural, one {# Einsatzstelle} other {# Einsatzstellen}}, nicht das gesamte Unternehmen."
   },
   "quickClock": {
     "changeSite": "Einsatzstelle wechseln",

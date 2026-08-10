@@ -1527,7 +1527,10 @@
     "description": "Heures travaillées et répartition du temps.",
     "divergenceTitle": "Écart d heures",
     "divergenceSubtitle": "Qui est au-dessus ou en dessous de la moyenne de son équipe cette semaine.",
-    "noSiteRow": "Sans site"
+    "noSiteRow": "Sans site",
+    "locationsLabel": "Sites de travail",
+    "allLocations": "Tous",
+    "filteredNotice": "Ces chiffres ne couvrent que {count, plural, one {# site de travail} other {# sites de travail}}, pas toute l'entreprise."
   },
   "quickClock": {
     "changeSite": "Changer de site",

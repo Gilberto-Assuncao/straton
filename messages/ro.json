@@ -1527,7 +1527,10 @@
     "description": "Ore lucrate și unde s-a dus timpul.",
     "divergenceTitle": "Abatere de ore",
     "divergenceSubtitle": "Cine este peste sau sub media echipei săptămâna aceasta.",
-    "noSiteRow": "Fără șantier"
+    "noSiteRow": "Fără șantier",
+    "locationsLabel": "Locații",
+    "allLocations": "Toate",
+    "filteredNotice": "Aceste cifre acoperă doar {count, plural, one {# locație} few {# locații} other {# de locații}}, nu întreaga companie."
   },
   "quickClock": {
     "changeSite": "Schimbă locația",

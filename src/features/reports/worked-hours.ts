@@ -6,7 +6,7 @@ import type { WorkedHoursPerson, WorkedHoursReport, WorkedHoursSite } from "./wo
 
 // One import path for callers; the implementations live outside `server-only`
 // so the tests can reach them.
-export { formatMinutes, toCsv } from "./worked-hours-format";
+export { formatMinutes, parseSiteFilter, toCsv } from "./worked-hours-format";
 export type { WorkedHoursPerson, WorkedHoursReport, WorkedHoursSite } from "./worked-hours-format";
 
 /**
@@ -54,7 +54,13 @@ interface SiteRow {
   people_count: number;
 }
 
-export async function getWorkedHoursReport(month?: string): Promise<WorkedHoursReport> {
+/**
+ * @param siteIds Work locations to report on; empty or omitted means all of
+ *   them (#77). The manager asked for both — everything for accounting, a
+ *   chosen few for a client — and one is the array of length one, so there is
+ *   no single-location mode to build separately.
+ */
+export async function getWorkedHoursReport(month?: string, siteIds: string[] = []): Promise<WorkedHoursReport> {
   await requireActiveCompany();
   const range = monthRange(month);
   const supabase = await createClient();
@@ -62,9 +68,20 @@ export async function getWorkedHoursReport(month?: string): Promise<WorkedHoursR
   // Both functions are security invoker, so the caller's own RLS decides which
   // rows they see. There is deliberately no company filter here — adding one
   // would imply the isolation depends on this call getting it right.
+  //
+  // The same reasoning covers the filter: it narrows what RLS already allowed
+  // and can never widen it, so an id from another company returns nothing
+  // rather than that company's hours. Null, not an empty array, for "all" —
+  // the functions accept both, but null is what says "no filter" at a glance
+  // when this shows up in a query log.
+  const params = {
+    p_from: range.from.toISOString(),
+    p_to: range.to.toISOString(),
+    p_site_ids: siteIds.length ? siteIds : null,
+  };
   const [{ data: personRows }, { data: siteRows }] = await Promise.all([
-    supabase.rpc("worked_hours_by_person", { p_from: range.from.toISOString(), p_to: range.to.toISOString() }),
-    supabase.rpc("worked_hours_by_site", { p_from: range.from.toISOString(), p_to: range.to.toISOString() }),
+    supabase.rpc("worked_hours_by_person", params),
+    supabase.rpc("worked_hours_by_site", params),
   ]);
 
   const people: WorkedHoursPerson[] = ((personRows ?? []) as PersonRow[]).map((row) => ({
@@ -92,6 +109,7 @@ export async function getWorkedHoursReport(month?: string): Promise<WorkedHoursR
     month: range.month,
     people,
     sites,
+    siteIds,
     totals: {
       approvedMinutes: people.reduce((sum, person) => sum + person.approvedMinutes, 0),
       submittedMinutes: people.reduce((sum, person) => sum + person.submittedMinutes, 0),

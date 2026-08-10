@@ -1527,7 +1527,10 @@
     "description": "Horas trabajadas y en qué se fue el tiempo.",
     "divergenceTitle": "Divergencia de horas",
     "divergenceSubtitle": "Quién está por encima o por debajo de la media de su equipo esta semana.",
-    "noSiteRow": "Sin ubicación"
+    "noSiteRow": "Sin ubicación",
+    "locationsLabel": "Ubicaciones",
+    "allLocations": "Todas",
+    "filteredNotice": "Estas cifras solo cubren {count, plural, one {# ubicación} other {# ubicaciones}}, no toda la empresa."
   },
   "quickClock": {
     "changeSite": "Cambiar de ubicación",

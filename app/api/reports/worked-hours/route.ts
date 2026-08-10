@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getTranslations } from "next-intl/server";
-import { getWorkedHoursReport, toCsv } from "@/src/features/reports/worked-hours";
+import { getWorkedHoursReport, parseSiteFilter, toCsv } from "@/src/features/reports/worked-hours";
 
 /**
  * The worked-hours report as a CSV (#9).
@@ -12,8 +12,9 @@ import { getWorkedHoursReport, toCsv } from "@/src/features/reports/worked-hours
  */
 export async function GET(request: NextRequest) {
   const month = request.nextUrl.searchParams.get("month") ?? undefined;
+  const siteIds = parseSiteFilter(request.nextUrl.searchParams.get("sites") ?? undefined);
 
-  const report = await getWorkedHoursReport(month);
+  const report = await getWorkedHoursReport(month, siteIds);
   // Column headings in the reader's language, like the screen they came from.
   const t = await getTranslations("reports");
 
@@ -33,7 +34,14 @@ export async function GET(request: NextRequest) {
   return new NextResponse(`﻿${csv}`, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="straton-hours-${report.month}.csv"`,
+      // The filename says when it is filtered (#77). The rows themselves cannot
+      // carry that warning: a preamble line above the headers shifts every
+      // column and breaks the spreadsheet the file exists to feed. So the scope
+      // travels in the one place a downloaded file keeps — its name — and the
+      // accountant does not sum three locations believing they had eleven.
+      "Content-Disposition": `attachment; filename="straton-hours-${report.month}${
+        report.siteIds.length ? `-${report.siteIds.length}-locations` : ""
+      }.csv"`,
       // Payroll figures change as approvals come in; a cached copy of last
       // week's answer is worse than a slow one.
       "Cache-Control": "no-store",

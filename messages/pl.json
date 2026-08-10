@@ -1527,7 +1527,10 @@
     "description": "Przepracowane godziny i na co poszedł czas.",
     "divergenceTitle": "Odchylenie godzin",
     "divergenceSubtitle": "Kto w tym tygodniu jest powyżej lub poniżej średniej zespołu.",
-    "noSiteRow": "Bez budowy"
+    "noSiteRow": "Bez budowy",
+    "locationsLabel": "Lokalizacje",
+    "allLocations": "Wszystkie",
+    "filteredNotice": "Te dane obejmują tylko {count, plural, one {# lokalizację} few {# lokalizacje} many {# lokalizacji} other {# lokalizacji}}, a nie całą firmę."
   },
   "quickClock": {
     "changeSite": "Zmień lokalizację",

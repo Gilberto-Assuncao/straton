@@ -33,7 +33,39 @@ export interface WorkedHoursReport {
   month: string;
   people: WorkedHoursPerson[];
   sites: WorkedHoursSite[];
+  /**
+   * The work locations the figures cover, empty meaning all of them (#77).
+   *
+   * Echoed back rather than left implicit in the URL. Every number on the page
+   * and in the exported file is conditional on this, and a total that silently
+   * covers three of eleven locations is the kind of figure that reaches a
+   * client's invoice before anyone notices it is short.
+   */
+  siteIds: string[];
   totals: { approvedMinutes: number; submittedMinutes: number; draftMinutes: number };
+}
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * Reads the chosen work locations out of a query string (#77).
+ *
+ * Anything that is not a uuid is dropped rather than passed on. The report
+ * functions take `uuid[]`, so a hand-edited URL would otherwise reach Postgres
+ * as a cast error — a 500 on the reports page for what is really just noise in
+ * a parameter.
+ *
+ * Dropping is safe here *because* the filter can only narrow: the RLS decides
+ * what exists, and an id that survives this parse but belongs to another
+ * company simply matches nothing. This function is a parser, not a gate, and it
+ * is deliberately not the thing standing between a manager and someone else's
+ * hours.
+ */
+export function parseSiteFilter(value: string | string[] | undefined): string[] {
+  const raw = Array.isArray(value) ? value : value ? value.split(",") : [];
+  // Deduplicated: `?sites=a,a` would otherwise be a longer array asking the
+  // same question, and the count is shown to the user.
+  return Array.from(new Set(raw.map((id) => id.trim()).filter((id) => UUID.test(id))));
 }
 
 /** `7h30`, not `7.5` — a payroll office reads hours and minutes, not decimals. */

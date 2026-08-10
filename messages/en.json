@@ -1527,7 +1527,10 @@
     "description": "Worked hours and where the time went.",
     "divergenceTitle": "Hours divergence",
     "divergenceSubtitle": "Who is above or below their team average this week.",
-    "noSiteRow": "Without a location"
+    "noSiteRow": "Without a location",
+    "locationsLabel": "Work locations",
+    "allLocations": "All",
+    "filteredNotice": "These figures cover {count, plural, one {# work location} other {# work locations}} only, not the whole company."
   },
   "quickClock": {
     "changeSite": "Change location",
