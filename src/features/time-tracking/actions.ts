@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
+import { checkClockInLocation } from "./location-check";
 
 export type LogTimeEntryState = { status: "idle" | "success" | "error"; message: string };
 
@@ -125,11 +126,26 @@ export async function startSessionAction(input: {
   taskId: string;
   siteId?: string | null;
   notes?: string;
+  /**
+   * Where the phone said it was, at the moment the button was pressed.
+   *
+   * Used here and then dropped. What gets written is whether it matched the
+   * work location — see `location-check.ts`. There is no column for a person's
+   * position, deliberately: the company's question is "did this shift start
+   * where the work is", and answering it does not require keeping a trail.
+   */
+  coordinates?: { latitude: number; longitude: number } | null;
 }): Promise<TimerResult> {
   const { session, companyId } = await requireActiveCompany();
   if (!input.projectId || !input.taskId) return { ok: false, message: "selectProjectAndTask" };
 
   const supabase = await createClient();
+
+  const { data: site } = input.siteId
+    ? await supabase.from("sites").select("latitude,longitude").eq("company_id", companyId).eq("id", input.siteId).maybeSingle()
+    : { data: null };
+  const check = checkClockInLocation(input.coordinates, site);
+
   const { error } = await supabase.from("time_sessions").insert({
     company_id: companyId,
     user_id: session.user.id,
@@ -137,6 +153,8 @@ export async function startSessionAction(input: {
     task_id: input.taskId,
     site_id: input.siteId || null,
     notes: input.notes?.trim() || null,
+    started_within_site: check.withinSite,
+    start_distance_m: check.distanceMetres,
   });
 
   if (error) {
@@ -177,6 +195,18 @@ export async function stopSessionAction(input?: { endedAt?: string }): Promise<T
   const endsAt = input?.endedAt ? new Date(input.endedAt) : new Date();
   if (Number.isNaN(endsAt.getTime()) || endsAt <= startsAt) return { ok: false, message: "endBeforeStart" };
 
+  // The break is the employer's rule, applied on the way out. A worker on a
+  // phone at the end of a shift should not be doing arithmetic about lunch.
+  const { data: settings } = await supabase
+    .from("company_settings")
+    .select("default_break_minutes")
+    .eq("company_id", companyId)
+    .maybeSingle();
+  const workedMinutes = Math.round((endsAt.getTime() - startsAt.getTime()) / 60000);
+  // Never more break than shift: a short session would otherwise net to
+  // negative minutes, which the report floors to zero and silently loses.
+  const breakMinutes = Math.min(settings?.default_break_minutes ?? 0, Math.max(0, workedMinutes - 1));
+
   const timesheetId = await findOrCreateTimesheet(companyId, session.user.id, startsAt);
 
   // The entry first, then the session. If the order were reversed and this
@@ -192,7 +222,7 @@ export async function stopSessionAction(input?: { endedAt?: string }): Promise<T
       task_id: open.task_id,
       starts_at: startsAt.toISOString(),
       ends_at: endsAt.toISOString(),
-      break_minutes: 0,
+      break_minutes: breakMinutes,
       notes: (open.notes as string | null) ?? null,
     })
     .select("id")

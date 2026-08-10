@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Hours divergence",
     "divergenceSubtitle": "Who is above or below their team average this week.",
     "noSiteRow": "Without a location"
+  },
+  "quickClock": {
+    "changeSite": "Change location",
+    "clockIn": "Clock in",
+    "clockOut": "Clock out",
+    "eyebrow": "Clock",
+    "idleTitle": "Ready to start",
+    "locationNotice": "Your position is checked against the work location at the moment you clock in, and is not stored.",
+    "noSite": "No location chosen",
+    "runningTitle": "You are clocked in",
+    "timer_alreadyRunning": "A clock is already running on another device.",
+    "timer_confirmed": "Thanks — the clock keeps running.",
+    "timer_endBeforeStart": "The end time must be after the start.",
+    "timer_failed": "Could not save that. Try again.",
+    "timer_nothingRunning": "There is no clock running.",
+    "timer_savedButStillOpen": "Hours saved, but the clock still shows as running.",
+    "timer_selectProjectAndTask": "Your company has no work set up yet. Ask your manager.",
+    "timer_started": "Clocked in. Location confirmed.",
+    "timer_stopped": "Clocked out. Hours saved.",
+    "todaySoFar": "{hours} so far today",
+    "whereLabel": "Work location",
+    "working": "One moment…"
   }
 }

@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Stundenabweichung",
     "divergenceSubtitle": "Wer diese Woche über oder unter dem Teamdurchschnitt liegt.",
     "noSiteRow": "Ohne Einsatzstelle"
+  },
+  "quickClock": {
+    "changeSite": "Einsatzstelle wechseln",
+    "clockIn": "Einstempeln",
+    "clockOut": "Ausstempeln",
+    "eyebrow": "Stempeluhr",
+    "idleTitle": "Bereit zum Start",
+    "locationNotice": "Deine Position wird beim Einstempeln mit der Einsatzstelle verglichen und nicht gespeichert.",
+    "noSite": "Keine Einsatzstelle gewählt",
+    "runningTitle": "Du bist eingestempelt",
+    "timer_alreadyRunning": "Auf einem anderen Gerät läuft bereits eine Zeiterfassung.",
+    "timer_confirmed": "Danke — die Uhr läuft weiter.",
+    "timer_endBeforeStart": "Das Ende muss nach dem Beginn liegen.",
+    "timer_failed": "Konnte nicht gespeichert werden. Versuch es erneut.",
+    "timer_nothingRunning": "Es läuft keine Zeiterfassung.",
+    "timer_savedButStillOpen": "Stunden gespeichert, aber die Uhr läuft noch.",
+    "timer_selectProjectAndTask": "Dein Unternehmen hat noch keine Arbeit eingerichtet. Frag deine Führungskraft.",
+    "timer_started": "Eingestempelt. Einsatzstelle bestätigt.",
+    "timer_stopped": "Ausgestempelt. Stunden gespeichert.",
+    "todaySoFar": "{hours} heute bisher",
+    "whereLabel": "Einsatzstelle",
+    "working": "Einen Moment…"
   }
 }

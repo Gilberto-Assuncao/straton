@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Urenafwijking",
     "divergenceSubtitle": "Wie deze week boven of onder het teamgemiddelde zit.",
     "noSiteRow": "Zonder locatie"
+  },
+  "quickClock": {
+    "changeSite": "Locatie wijzigen",
+    "clockIn": "Inklokken",
+    "clockOut": "Uitklokken",
+    "eyebrow": "Prikklok",
+    "idleTitle": "Klaar om te starten",
+    "locationNotice": "Je positie wordt bij het inklokken vergeleken met de werklocatie en wordt niet bewaard.",
+    "noSite": "Geen locatie gekozen",
+    "runningTitle": "Je klok loopt",
+    "timer_alreadyRunning": "Er loopt al een klok op een ander toestel.",
+    "timer_confirmed": "Bedankt — de klok loopt door.",
+    "timer_endBeforeStart": "De eindtijd moet na de start liggen.",
+    "timer_failed": "Kon dat niet bewaren. Probeer opnieuw.",
+    "timer_nothingRunning": "Er loopt geen klok.",
+    "timer_savedButStillOpen": "Uren bewaard, maar de klok lijkt nog te lopen.",
+    "timer_selectProjectAndTask": "Je bedrijf heeft nog geen werk ingesteld. Vraag je manager.",
+    "timer_started": "Ingeklokt. Locatie bevestigd.",
+    "timer_stopped": "Uitgeklokt. Uren bewaard.",
+    "todaySoFar": "{hours} vandaag tot nu toe",
+    "whereLabel": "Werklocatie",
+    "working": "Een moment…"
   }
 }

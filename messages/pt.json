@@ -1528,5 +1528,27 @@
     "divergenceTitle": "Divergência de horas",
     "divergenceSubtitle": "Quem está acima ou abaixo da média da equipa esta semana.",
     "noSiteRow": "Sem local"
+  },
+  "quickClock": {
+    "changeSite": "Mudar de local",
+    "clockIn": "Registar ponto",
+    "clockOut": "Terminar",
+    "eyebrow": "Ponto",
+    "idleTitle": "Pronto para começar",
+    "locationNotice": "A sua posição é comparada com o local de trabalho no momento em que regista o ponto, e não é guardada.",
+    "noSite": "Nenhum local escolhido",
+    "runningTitle": "Ponto a contar",
+    "timer_alreadyRunning": "Já existe um ponto a contar noutro dispositivo.",
+    "timer_confirmed": "Obrigado — o contador continua.",
+    "timer_endBeforeStart": "A hora de fim tem de ser depois do início.",
+    "timer_failed": "Não foi possível guardar. Tente de novo.",
+    "timer_nothingRunning": "Não há nenhum ponto a contar.",
+    "timer_savedButStillOpen": "Horas guardadas, mas o contador continua ativo.",
+    "timer_selectProjectAndTask": "A sua empresa ainda não tem trabalho configurado. Fale com o seu gestor.",
+    "timer_started": "Ponto registado. Localização confirmada.",
+    "timer_stopped": "Ponto terminado. Horas guardadas.",
+    "todaySoFar": "{hours} até agora hoje",
+    "whereLabel": "Local de trabalho",
+    "working": "Um momento…"
   }
 }
