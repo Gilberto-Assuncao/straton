@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useFormatter, useTranslations } from "next-intl";
 import type { AppNotification } from "./types";
 
@@ -27,18 +28,40 @@ function NotificationItem({ item }: { item: AppNotification }) {
       })
     : item.description;
 
-  return (
-    <li className="border-b border-white/10 py-4">
-      <div className="flex gap-3">
-        {item.unread ? <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#22C55E]" aria-label={tShell("unread")} /> : null}
-        <div>
-          <h3 className="text-sm font-semibold text-[#E5E7EB]">{title}</h3>
-          <p className="mt-1 text-sm text-[#9CA3AF]">{body}</p>
-          <time dateTime={item.createdAt} className="mt-2 block text-xs text-[#6B7280]">
-            {format.relativeTime(new Date(item.createdAt))}
-          </time>
-        </div>
+  const content = (
+    <div className="flex gap-3">
+      {item.unread ? <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#22C55E]" aria-label={tShell("unread")} /> : null}
+      <div>
+        <h3 className="text-sm font-semibold text-[#E5E7EB]">{title}</h3>
+        <p className="mt-1 text-sm text-[#9CA3AF]">{body}</p>
+        <time dateTime={item.createdAt} className="mt-2 block text-xs text-[#6B7280]">
+          {format.relativeTime(new Date(item.createdAt))}
+        </time>
       </div>
+    </div>
+  );
+
+  return (
+    <li className="border-b border-white/10">
+      {/*
+        A link when there is somewhere to go, plain text otherwise (#83).
+        Rendering every notification as a link and letting the dead ones do
+        nothing is worse than not linking: the second time a click does nothing,
+        people stop clicking the ones that work.
+
+        A real link, not an onClick — so it can be opened in a new tab, and so
+        the keyboard reaches it without anything extra.
+      */}
+      {item.href ? (
+        <Link
+          href={item.href}
+          className="block rounded-lg py-4 transition hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+        >
+          {content}
+        </Link>
+      ) : (
+        <div className="py-4">{content}</div>
+      )}
     </li>
   );
 }

@@ -10,5 +10,12 @@ export interface AppUserSummary { name: string; email: string; initials: string 
  * `createdAt` stays an ISO string so the relative time is formatted by the
  * reader's locale too; it used to be built as "3h ago" on the server.
  */
-export interface AppNotification { id: string; title: string; description: string; createdAt: string; unread?: boolean; messageKey?: string; params?: Record<string, string> }
+/**
+ * `href` is where the notification came from (#83).
+ *
+ * Optional because the rows written before this have no target — an old
+ * notification becomes plain text rather than a link that goes nowhere, which
+ * is the failure people remember.
+ */
+export interface AppNotification { id: string; title: string; description: string; createdAt: string; unread?: boolean; messageKey?: string; params?: Record<string, string>; href?: string }
 export interface QuickAction { id: string; label: string; href: string; icon?: IconName }

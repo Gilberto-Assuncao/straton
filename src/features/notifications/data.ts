@@ -10,6 +10,7 @@ interface NotificationRow {
   message: string;
   read_at: string | null;
   created_at: string;
+  action_url: string | null;
   metadata: { key?: string; params?: Record<string, string> } | null;
 }
 
@@ -19,7 +20,7 @@ export async function getNotifications(): Promise<AppNotification[]> {
 
   const { data } = await supabase
     .from("notifications")
-    .select("id,title,message,read_at,created_at,metadata")
+    .select("id,title,message,read_at,created_at,action_url,metadata")
     .eq("user_id", session.user.id)
     .order("created_at", { ascending: false })
     .limit(20);
@@ -33,6 +34,10 @@ export async function getNotifications(): Promise<AppNotification[]> {
     // the reader. The component formats it now, in their locale.
     createdAt: row.created_at,
     unread: row.read_at === null,
+    // Where it happened. The column existed from the start and was never
+    // selected, so clicking a notification has always done nothing — the one
+    // thing the manager asked for by name (#83).
+    href: row.action_url ?? undefined,
     messageKey: row.metadata?.key,
     params: row.metadata?.params,
   }));
