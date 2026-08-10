@@ -1,7 +1,7 @@
 import "server-only";
 
 import { createClient } from "@/src/infrastructure/supabase/server";
-import { requireActiveCompany } from "@/src/application/session/server";
+import { requireActiveCompany, requireAuthenticatedSession } from "@/src/application/session/server";
 
 import type { ClientOption, SiteAddress, SiteRecord } from "./types";
 
@@ -204,4 +204,78 @@ export async function getClientOptions(): Promise<ClientOption[]> {
   const { data } = await supabase.from("companies").select("id,name,city").in("id", otherIds).order("name");
   return ((data ?? []) as { id: string; name: string; city: string | null }[])
     .map((row) => ({ id: row.id, name: row.name, city: row.city }));
+}
+
+/** One entry in the sidebar shortcut. */
+export interface RecentWorkLocation {
+  id: string;
+  name: string;
+}
+
+/**
+ * The work locations to put one click away (#76).
+ *
+ * A supervisor works at three or four places in a week and today has to walk
+ * the whole list every time they switch. This is a shortcut, not a filter: the
+ * click opens that location's page and changes nothing else. A context switch
+ * — the whole app filtered to one location, like the company switcher — is the
+ * version people get lost in, because they forget it is on and think their data
+ * disappeared.
+ *
+ * Ordered by the most recent clock-in, and RLS decides whose clock-ins those
+ * are: your own if you are a worker, the company's if you review hours. So the
+ * same query answers "where have I been" and "where is the company working"
+ * without either being asked for by name.
+ *
+ * Topped up with the locations that started most recently, because a company on
+ * its first day has no clock-ins at all and a permanently empty shortcut is
+ * indistinguishable from a broken one.
+ */
+export async function getRecentWorkLocations(limit = 5): Promise<RecentWorkLocation[]> {
+  /*
+   * Deliberately not `requireActiveCompany()`, which redirects to
+   * /dashboard/companies/new when there is none.
+   *
+   * This runs in the dashboard layout, and that page lives inside the same
+   * layout — so a newly registered person with no company yet would be
+   * redirected to the page that redirects them again. An infinite loop on the
+   * one screen where they would have fixed it.
+   *
+   * A sidebar shortcut has no business deciding where anybody goes.
+   */
+  const session = await requireAuthenticatedSession();
+  const companyId = session.activeCompany?.id;
+  if (!companyId) return [];
+
+  const supabase = await createClient();
+
+  const [{ data: sessions }, { data: sites }] = await Promise.all([
+    supabase
+      .from("time_sessions")
+      .select("site_id,started_at,sites(id,name)")
+      .eq("company_id", companyId)
+      .not("site_id", "is", null)
+      .order("started_at", { ascending: false })
+      .limit(60),
+    supabase
+      .from("sites")
+      .select("id,name,starts_at")
+      .eq("company_id", companyId)
+      .neq("status", "archived")
+      .order("starts_at", { ascending: false, nullsFirst: false })
+      .limit(limit),
+  ]);
+
+  const recent = new Map<string, RecentWorkLocation>();
+  for (const row of (sessions ?? []) as { sites: { id: string; name: string } | { id: string; name: string }[] | null }[]) {
+    const site = Array.isArray(row.sites) ? row.sites[0] : row.sites;
+    if (site && !recent.has(site.id)) recent.set(site.id, { id: site.id, name: site.name });
+    if (recent.size >= limit) break;
+  }
+  for (const site of (sites ?? []) as { id: string; name: string }[]) {
+    if (recent.size >= limit) break;
+    if (!recent.has(site.id)) recent.set(site.id, { id: site.id, name: site.name });
+  }
+
+  return [...recent.values()];
 }
