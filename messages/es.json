@@ -132,7 +132,9 @@
     "staleStillWorking": "Sí, sigo trabajando",
     "staleIFinishedEarlier": "No, terminé antes",
     "staleFinishedAt": "Terminé a las",
-    "staleSaveCorrection": "Guardar"
+    "staleSaveCorrection": "Guardar",
+    "noProject": "Sin proyecto",
+    "noTask": "Sin tarea"
   },
   "timesheets": {
     "eyebrow": "Plantilla",

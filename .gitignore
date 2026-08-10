@@ -44,3 +44,12 @@ CREDENTIALS.local.md
 *.tsbuildinfo
 next-env.d.ts
 .env*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# Local Supabase stack writes dev keys here
+supabase/.temp/

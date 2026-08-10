@@ -132,7 +132,9 @@
     "staleStillWorking": "Ja, noch bei der Arbeit",
     "staleIFinishedEarlier": "Nein, ich war früher fertig",
     "staleFinishedAt": "Fertig war ich um",
-    "staleSaveCorrection": "Speichern"
+    "staleSaveCorrection": "Speichern",
+    "noProject": "Kein Projekt",
+    "noTask": "Keine Aufgabe"
   },
   "timesheets": {
     "eyebrow": "Belegschaft",
