@@ -1527,7 +1527,10 @@
     "description": "Gewerkte uren en waar de tijd naartoe ging.",
     "divergenceTitle": "Urenafwijking",
     "divergenceSubtitle": "Wie deze week boven of onder het teamgemiddelde zit.",
-    "noSiteRow": "Zonder locatie"
+    "noSiteRow": "Zonder locatie",
+    "locationsLabel": "Werklocaties",
+    "allLocations": "Alle",
+    "filteredNotice": "Deze cijfers gelden voor slechts {count, plural, one {# werklocatie} other {# werklocaties}}, niet voor het hele bedrijf."
   },
   "quickClock": {
     "changeSite": "Locatie wijzigen",

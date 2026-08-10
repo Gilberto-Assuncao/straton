@@ -14,10 +14,43 @@ function recentMonths(current: string): string[] {
   });
 }
 
-export default async function WorkedHoursReport({ report }: { report: Report }) {
+export interface LocationOption {
+  id: string;
+  name: string;
+}
+
+/**
+ * The URL for the report with one work location toggled on or off (#77).
+ *
+ * Every filter state is a real address. A manager can send "these two sites,
+ * last month" to the accountant as a link and it opens showing exactly that —
+ * which is the whole reason the selection is not component state.
+ */
+function toggleLocationHref(report: Report, locationId: string | null): string {
+  const next =
+    locationId === null
+      ? []
+      : report.siteIds.includes(locationId)
+        ? report.siteIds.filter((id) => id !== locationId)
+        : [...report.siteIds, locationId];
+
+  const params = new URLSearchParams({ month: report.month });
+  if (next.length) params.set("sites", next.join(","));
+  return `/dashboard/reports?${params.toString()}`;
+}
+
+export default async function WorkedHoursReport({
+  report,
+  locations = [],
+}: {
+  report: Report;
+  locations?: LocationOption[];
+}) {
   const t = await getTranslations("reports");
   const months = recentMonths(report.month);
   const pendingMinutes = report.totals.submittedMinutes + report.totals.draftMinutes;
+  const filtering = report.siteIds.length > 0;
+  const csvHref = `/api/reports/worked-hours?month=${report.month}${filtering ? `&sites=${report.siteIds.join(",")}` : ""}`;
 
   return (
     <section aria-labelledby="worked-hours-heading" className="grid gap-5">
@@ -42,7 +75,10 @@ export default async function WorkedHoursReport({ report }: { report: Report }) 
                 {months.slice(0, 4).map((month) => (
                   <Link
                     key={month}
-                    href={`/dashboard/reports?month=${month}`}
+                    // Carries the location filter across. Without this, changing
+                    // month silently widens the report back to every location
+                    // while the page still looks like the filtered one.
+                    href={`/dashboard/reports?month=${month}${filtering ? `&sites=${report.siteIds.join(",")}` : ""}`}
                     aria-current={month === report.month ? "page" : undefined}
                     className={`flex min-h-11 items-center rounded-lg px-3 text-xs font-semibold ${
                       month === report.month
@@ -56,13 +92,69 @@ export default async function WorkedHoursReport({ report }: { report: Report }) 
               </div>
             </label>
             <a
-              href={`/api/reports/worked-hours?month=${report.month}`}
+              href={csvHref}
               className="flex min-h-11 items-center rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
             >
               {t("exportCsv")}
             </a>
           </div>
         </div>
+
+        {/*
+          The work locations the figures cover (#77). "Todos" is a link like the
+          rest rather than a checkbox, so clearing the filter is one click and
+          not "untick each of the eleven".
+
+          Hidden entirely for a company with a single location: a filter that
+          can only ever say "all" or "the one" is a control that does nothing.
+        */}
+        {locations.length > 1 ? (
+          <fieldset className="mt-5 border-0 p-0">
+            <legend className="text-xs text-[#9CA3AF]">{t("locationsLabel")}</legend>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              <Link
+                href={toggleLocationHref(report, null)}
+                aria-current={filtering ? undefined : "page"}
+                className={`flex min-h-11 items-center rounded-lg px-3 text-xs font-semibold ${
+                  filtering
+                    ? "border border-white/15 text-[#9CA3AF] hover:bg-white/5"
+                    : "bg-[#22C55E]/15 text-[#4ADE80]"
+                }`}
+              >
+                {t("allLocations")}
+              </Link>
+              {locations.map((location) => {
+                const selected = report.siteIds.includes(location.id);
+                return (
+                  <Link
+                    key={location.id}
+                    href={toggleLocationHref(report, location.id)}
+                    aria-pressed={selected}
+                    className={`flex min-h-11 items-center rounded-lg px-3 text-xs font-semibold ${
+                      selected
+                        ? "bg-[#22C55E]/15 text-[#4ADE80]"
+                        : "border border-white/15 text-[#9CA3AF] hover:bg-white/5"
+                    }`}
+                  >
+                    {location.name}
+                  </Link>
+                );
+              })}
+            </div>
+          </fieldset>
+        ) : null}
+
+        {/*
+          Said out loud, next to the numbers, whenever the report is narrowed.
+          A total that covers three of eleven locations looks exactly like a
+          total that covers everything — and this one gets copied onto an
+          invoice.
+        */}
+        {filtering ? (
+          <p className="mt-4 rounded-lg border border-amber-400/25 bg-amber-400/[0.06] px-3 py-2 text-xs text-amber-200">
+            {t("filteredNotice", { count: report.siteIds.length })}
+          </p>
+        ) : null}
 
         {/*
           Approved first and on its own, because it is the only figure that may

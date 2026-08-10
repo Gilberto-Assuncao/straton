@@ -27,6 +27,8 @@ function report(people: WorkedHoursReport["people"]): WorkedHoursReport {
     month: "2026-07",
     people,
     sites: [],
+    // Unfiltered: these cases are about the CSV, not about scope (#77).
+    siteIds: [],
     totals: {
       approvedMinutes: people.reduce((sum, person) => sum + person.approvedMinutes, 0),
       submittedMinutes: 0,

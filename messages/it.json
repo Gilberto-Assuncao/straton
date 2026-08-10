@@ -1527,7 +1527,10 @@
     "description": "Ore lavorate e dove è andato il tempo.",
     "divergenceTitle": "Scostamento ore",
     "divergenceSubtitle": "Chi è sopra o sotto la media della squadra questa settimana.",
-    "noSiteRow": "Senza luogo"
+    "noSiteRow": "Senza luogo",
+    "locationsLabel": "Luoghi di lavoro",
+    "allLocations": "Tutti",
+    "filteredNotice": "Questi dati coprono solo {count, plural, one {# luogo di lavoro} other {# luoghi di lavoro}}, non l'intera azienda."
   },
   "quickClock": {
     "changeSite": "Cambia luogo",
