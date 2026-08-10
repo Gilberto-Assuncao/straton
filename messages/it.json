@@ -132,7 +132,9 @@
     "staleStillWorking": "Sì, sto ancora lavorando",
     "staleIFinishedEarlier": "No, ho finito prima",
     "staleFinishedAt": "Ho finito alle",
-    "staleSaveCorrection": "Salva"
+    "staleSaveCorrection": "Salva",
+    "noProject": "Nessun progetto",
+    "noTask": "Nessuna attività"
   },
   "timesheets": {
     "eyebrow": "Personale",

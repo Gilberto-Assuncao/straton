@@ -132,7 +132,9 @@
     "staleStillWorking": "Tak, nadal pracuję",
     "staleIFinishedEarlier": "Nie, skończyłem wcześniej",
     "staleFinishedAt": "Skończyłem o",
-    "staleSaveCorrection": "Zapisz"
+    "staleSaveCorrection": "Zapisz",
+    "noProject": "Bez projektu",
+    "noTask": "Bez zadania"
   },
   "timesheets": {
     "eyebrow": "Pracownicy",

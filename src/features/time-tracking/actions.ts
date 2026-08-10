@@ -71,16 +71,21 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
   const date = String(formData.get("date") ?? "");
   const startTime = String(formData.get("startTime") ?? "");
   const endTime = String(formData.get("endTime") ?? "");
-  const projectId = String(formData.get("projectId") ?? "");
-  const taskId = String(formData.get("taskId") ?? "");
+  // Optional too, and for the same reason as the site below. A company that has
+  // not written down any tasks still has people working; requiring one meant
+  // the clock could not be started at all, because the dropdown was empty and
+  // there was nothing to choose. Both columns are nullable — the obligation was
+  // invented here, not by the model.
+  const projectId = String(formData.get("projectId") ?? "") || null;
+  const taskId = String(formData.get("taskId") ?? "") || null;
   // Optional. Office work, workshop time and travel are real hours without a
   // chantier — requiring one would push people to pick a wrong site rather
   // than none, which is worse for the report than an honest blank.
   const siteId = String(formData.get("siteId") ?? "") || null;
   const notes = String(formData.get("notes") ?? "").trim();
 
-  if (!date || !startTime || !endTime || !projectId || !taskId) {
-    return { status: "error", message: "Fill in the date, times, project, and task." };
+  if (!date || !startTime || !endTime) {
+    return { status: "error", message: "Fill in the date and the times." };
   }
 
   const startsAt = new Date(`${date}T${startTime}:00`);
@@ -122,8 +127,9 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
  * and this row becomes paid hours the moment it closes.
  */
 export async function startSessionAction(input: {
-  projectId: string;
-  taskId: string;
+  /** Optional: a company with no projects or tasks written down still works. */
+  projectId?: string | null;
+  taskId?: string | null;
   siteId?: string | null;
   notes?: string;
   /**
@@ -137,7 +143,11 @@ export async function startSessionAction(input: {
   coordinates?: { latitude: number; longitude: number } | null;
 }): Promise<TimerResult> {
   const { session, companyId } = await requireActiveCompany();
-  if (!input.projectId || !input.taskId) return { ok: false, message: "selectProjectAndTask" };
+  // Nothing is required to start the clock. Asking someone to "select a project
+  // and task" when the company has neither is a message with no action behind
+  // it — the fourth time a mandatory field with no valid value became a dead
+  // end. What the hours are attached to can be filled in later; the hours
+  // themselves cannot be recovered once the shift is over.
 
   const supabase = await createClient();
 
@@ -149,8 +159,8 @@ export async function startSessionAction(input: {
   const { error } = await supabase.from("time_sessions").insert({
     company_id: companyId,
     user_id: session.user.id,
-    project_id: input.projectId,
-    task_id: input.taskId,
+    project_id: input.projectId || null,
+    task_id: input.taskId || null,
     site_id: input.siteId || null,
     notes: input.notes?.trim() || null,
     started_within_site: check.withinSite,

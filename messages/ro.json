@@ -132,7 +132,9 @@
     "staleStillWorking": "Da, încă lucrez",
     "staleIFinishedEarlier": "Nu, am terminat mai devreme",
     "staleFinishedAt": "Am terminat la",
-    "staleSaveCorrection": "Salvează"
+    "staleSaveCorrection": "Salvează",
+    "noProject": "Fără proiect",
+    "noTask": "Fără sarcină"
   },
   "timesheets": {
     "eyebrow": "Forța de muncă",

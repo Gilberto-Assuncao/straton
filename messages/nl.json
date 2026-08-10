@@ -132,7 +132,9 @@
     "staleStillWorking": "Ja, nog aan het werk",
     "staleIFinishedEarlier": "Nee, ik stopte eerder",
     "staleFinishedAt": "Ik stopte om",
-    "staleSaveCorrection": "Bewaren"
+    "staleSaveCorrection": "Bewaren",
+    "noProject": "Geen project",
+    "noTask": "Geen taak"
   },
   "timesheets": {
     "eyebrow": "Personeel",

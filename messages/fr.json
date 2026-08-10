@@ -132,7 +132,9 @@
     "staleStillWorking": "Oui, toujours au travail",
     "staleIFinishedEarlier": "Non, j'ai fini plus tôt",
     "staleFinishedAt": "J'ai fini à",
-    "staleSaveCorrection": "Enregistrer"
+    "staleSaveCorrection": "Enregistrer",
+    "noProject": "Aucun projet",
+    "noTask": "Aucune tâche"
   },
   "timesheets": {
     "eyebrow": "Effectifs",

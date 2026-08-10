@@ -132,7 +132,9 @@
     "staleStillWorking": "Sim, ainda a trabalhar",
     "staleIFinishedEarlier": "Não, acabei mais cedo",
     "staleFinishedAt": "Acabei às",
-    "staleSaveCorrection": "Guardar"
+    "staleSaveCorrection": "Guardar",
+    "noProject": "Sem projeto",
+    "noTask": "Sem tarefa"
   },
   "timesheets": {
     "eyebrow": "Força de Trabalho",
