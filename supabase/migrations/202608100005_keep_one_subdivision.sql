@@ -13,32 +13,32 @@
 /**
  * Refuses to leave a location with no subdivisions.
  *
- * The whole difficulty is `on delete cascade`: deleting a location is supposed
- * to take its subdivisions with it, and this guard has to tell that apart from
+ * The difficulty is `on delete cascade`: deleting a location is supposed to
+ * take its subdivisions with it, and this guard has to tell that apart from
  * somebody emptying a location that is staying.
  *
- * The first attempt asked the question by looking: a constraint trigger
- * deferred to commit, checking whether the location was still there. The
- * reasoning was that at commit the parent is either gone — nothing to protect
- * — or still present. It is wrong, and the CI run on this branch is what said
- * so: a deferred trigger does not see the parent's deletion the way a fresh
- * statement would, so the cascade looked exactly like somebody emptying a
- * location, and deleting a work location started refusing itself with a
- * message about subdivisions. Precisely the failing-closed the first version
- * of this comment predicted and then walked into.
+ * `pg_trigger_depth()` answers it directly. It is 1 when a statement deleted
+ * this row itself, and 2 or more when the delete was issued from inside another
+ * trigger — which is what a cascade is, since referential integrity is
+ * implemented as a trigger on `sites`.
  *
- * So the question is asked directly instead of inferred. `pg_trigger_depth()`
- * is 1 when a statement deleted this row itself, and 2 or more when the delete
- * was issued from inside another trigger — which is what a cascade is, since
- * referential integrity is implemented as a trigger on `sites`. No snapshot
- * semantics involved, and both directions are covered by tests rather than by
- * confidence.
+ * A note on how this got here, because the history is misleading. The first
+ * version was a constraint trigger deferred to commit, checking whether the
+ * location still existed. When CI refused to delete a work location, that
+ * design was blamed — the theory being that a deferred trigger cannot see the
+ * parent's deletion — and it was rewritten. The theory was wrong. The real
+ * cause was a missing `grant delete on sites` (202608100007), which refuses at
+ * the privilege layer before any trigger runs, and the deferred version was
+ * very likely fine.
  *
- * The cost of going immediate: emptying a location and refilling it inside one
- * transaction is now refused, where the deferred version would have allowed it.
- * Nothing does that — the screen adds and removes one subdivision at a time —
- * and an invariant that holds at every moment is worth more than one that holds
- * only at the end and cannot be trusted to fire correctly.
+ * This version is kept anyway, and the reason is not that the other one was
+ * proven broken: it is that its behaviour can be asserted directly, in both
+ * directions, without resting on when a snapshot is taken — which is precisely
+ * the kind of subtlety the wrong diagnosis above came from.
+ *
+ * The cost of being immediate: emptying a location and refilling it inside one
+ * transaction is refused, where the deferred version would have allowed it.
+ * Nothing does that — the screen adds and removes one subdivision at a time.
  */
 create or replace function private.assert_site_keeps_a_subdivision()
 returns trigger
@@ -70,7 +70,7 @@ end;
 $$;
 
 comment on function private.assert_site_keeps_a_subdivision() is
-  'Refuses to leave a location with no subdivisions (#77). Tells a cascade from `sites` apart from a direct delete with pg_trigger_depth(), rather than by looking for the parent row — a deferred version that did the latter refused to let a work location be deleted at all.';
+  'Refuses to leave a location with no subdivisions (#77). Tells a cascade from `sites` apart from a direct delete with pg_trigger_depth(), which is assertable in both directions without depending on when a snapshot is taken.';
 
 drop trigger if exists site_keeps_a_subdivision on public.site_areas;
 create trigger site_keeps_a_subdivision

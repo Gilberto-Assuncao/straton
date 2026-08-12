@@ -164,14 +164,20 @@ describeIfDb("subdivisions of a work location", () => {
       const siteId = await createLocation(db, "Cascade fixture");
 
       /*
-       * The case that broke the first version of this guard, caught here.
+       * Two separate things have to be right for this to pass, and only one of
+       * them is about subdivisions.
        *
-       * `on delete cascade` empties the location of its subdivisions on the way
-       * out, which is not somebody emptying a location that is staying. The
-       * deferred trigger could not tell the two apart — it looked for the
-       * parent row and still found it — so deleting a work location started
-       * refusing itself with a message about subdivisions. The guard now asks
-       * `pg_trigger_depth()` instead, and this is the assertion that says so.
+       * `on delete cascade` empties the location on the way out, which is not
+       * somebody emptying a location that is staying — the guard tells them
+       * apart with `pg_trigger_depth()`.
+       *
+       * And `authenticated` has to be allowed to issue the delete at all. It
+       * was not: #84 added the delete *policy* on `sites` and no grant, so
+       * Postgres refused with "permission denied for table sites" before any
+       * policy or trigger was consulted (fixed in 202608100007). That is what
+       * this test actually caught first, and it had nothing to do with the
+       * feature it was written for — deleting a work location had never worked
+       * in any environment.
        */
       const outcome = await attempt(db, () =>
         db.query("delete from public.sites where id = $1", [siteId]),
