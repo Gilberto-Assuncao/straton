@@ -134,7 +134,10 @@
     "staleFinishedAt": "I finished at",
     "staleSaveCorrection": "Save",
     "noProject": "No project",
-    "noTask": "No task"
+    "noTask": "No task",
+    "subdivisionLabel": "Part of the location",
+    "noSubdivision": "Not specified",
+    "subdivisionWholeLocation": "Whole location"
   },
   "timesheets": {
     "eyebrow": "Workforce",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Description",
     "hoursWorkedOfEstimated": "{worked} of {estimated}",
     "budgetSpentOf": "{spent} of {total}",
-    "hoursRecentOnly": "The {count} most recent entries."
+    "hoursRecentOnly": "The {count} most recent entries.",
+    "areaUnattributed": "Not specified",
+    "areaPeopleCount": "{count} people"
   },
   "operationalReports": {
     "metadataTitle": "Field Reports",

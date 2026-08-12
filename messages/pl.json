@@ -134,7 +134,10 @@
     "staleFinishedAt": "Skończyłem o",
     "staleSaveCorrection": "Zapisz",
     "noProject": "Bez projektu",
-    "noTask": "Bez zadania"
+    "noTask": "Bez zadania",
+    "subdivisionLabel": "Część lokalizacji",
+    "noSubdivision": "Nie podano",
+    "subdivisionWholeLocation": "Cała lokalizacja"
   },
   "timesheets": {
     "eyebrow": "Pracownicy",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Opis",
     "hoursWorkedOfEstimated": "{worked} z {estimated}",
     "budgetSpentOf": "{spent} z {total}",
-    "hoursRecentOnly": "{count} najnowszych wpisów."
+    "hoursRecentOnly": "{count} najnowszych wpisów.",
+    "areaUnattributed": "Nie podano",
+    "areaPeopleCount": "{count} osób"
   },
   "operationalReports": {
     "metadataTitle": "Raporty terenowe",

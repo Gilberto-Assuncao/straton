@@ -134,7 +134,10 @@
     "staleFinishedAt": "Terminé a las",
     "staleSaveCorrection": "Guardar",
     "noProject": "Sin proyecto",
-    "noTask": "Sin tarea"
+    "noTask": "Sin tarea",
+    "subdivisionLabel": "Parte de la ubicación",
+    "noSubdivision": "Sin indicar",
+    "subdivisionWholeLocation": "Toda la ubicación"
   },
   "timesheets": {
     "eyebrow": "Plantilla",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Descripción",
     "hoursWorkedOfEstimated": "{worked} de {estimated}",
     "budgetSpentOf": "{spent} de {total}",
-    "hoursRecentOnly": "Los {count} registros más recientes."
+    "hoursRecentOnly": "Los {count} registros más recientes.",
+    "areaUnattributed": "Sin indicar",
+    "areaPeopleCount": "{count} personas"
   },
   "operationalReports": {
     "metadataTitle": "Informes de campo",

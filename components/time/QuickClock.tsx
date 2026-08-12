@@ -109,6 +109,13 @@ export default function QuickClock({
       {/*
         The location, shown as a fact rather than as a question. It is only a
         control when it is wrong, which on most days it is not.
+
+        No subdivision selector here, unlike the tracker and the manual form
+        (#77). This screen exists to be one tap, and a second dropdown is
+        exactly what turns it into two. An undivided location is filled in by
+        the database anyway; a divided one leaves these hours unattributed,
+        which the report shows as the honest gap it is. Somebody who needs to
+        say which floor has the full tracker to say it on.
       */}
       <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5 text-center">
         <p className="text-xs text-[#9CA3AF]">{t("whereLabel")}</p>

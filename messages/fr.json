@@ -134,7 +134,10 @@
     "staleFinishedAt": "J'ai fini à",
     "staleSaveCorrection": "Enregistrer",
     "noProject": "Aucun projet",
-    "noTask": "Aucune tâche"
+    "noTask": "Aucune tâche",
+    "subdivisionLabel": "Partie du lieu",
+    "noSubdivision": "Non précisé",
+    "subdivisionWholeLocation": "Tout le lieu"
   },
   "timesheets": {
     "eyebrow": "Effectifs",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Description",
     "hoursWorkedOfEstimated": "{worked} sur {estimated}",
     "budgetSpentOf": "{spent} sur {total}",
-    "hoursRecentOnly": "Les {count} saisies les plus récentes."
+    "hoursRecentOnly": "Les {count} saisies les plus récentes.",
+    "areaUnattributed": "Non précisé",
+    "areaPeopleCount": "{count} personnes"
   },
   "operationalReports": {
     "metadataTitle": "Rapports de terrain",

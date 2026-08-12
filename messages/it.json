@@ -134,7 +134,10 @@
     "staleFinishedAt": "Ho finito alle",
     "staleSaveCorrection": "Salva",
     "noProject": "Nessun progetto",
-    "noTask": "Nessuna attività"
+    "noTask": "Nessuna attività",
+    "subdivisionLabel": "Parte della sede",
+    "noSubdivision": "Non indicato",
+    "subdivisionWholeLocation": "Tutta la sede"
   },
   "timesheets": {
     "eyebrow": "Personale",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Descrizione",
     "hoursWorkedOfEstimated": "{worked} su {estimated}",
     "budgetSpentOf": "{spent} su {total}",
-    "hoursRecentOnly": "Le {count} registrazioni più recenti."
+    "hoursRecentOnly": "Le {count} registrazioni più recenti.",
+    "areaUnattributed": "Non indicato",
+    "areaPeopleCount": "{count} persone"
   },
   "operationalReports": {
     "metadataTitle": "Rapporti sul campo",

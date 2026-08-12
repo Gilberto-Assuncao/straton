@@ -385,6 +385,10 @@ function areaError(
 ): string {
   if (error.code === "23505") return "There is already a subdivision with that name in this location.";
   if (error.code === "23001") return "A work location has to keep at least one subdivision.";
+  // Hours point at it (#77), and the foreign key is `on delete restrict` on
+  // purpose: detaching paid work from the place it happened is not something
+  // a delete button should be able to do quietly. Closing is the way out.
+  if (error.code === "23503") return "That subdivision already has hours recorded against it. Close it instead of deleting it.";
 
   log.error({
     event: "site_area_write_failed",

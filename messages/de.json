@@ -134,7 +134,10 @@
     "staleFinishedAt": "Fertig war ich um",
     "staleSaveCorrection": "Speichern",
     "noProject": "Kein Projekt",
-    "noTask": "Keine Aufgabe"
+    "noTask": "Keine Aufgabe",
+    "subdivisionLabel": "Teil des Standorts",
+    "noSubdivision": "Nicht angegeben",
+    "subdivisionWholeLocation": "Ganzer Standort"
   },
   "timesheets": {
     "eyebrow": "Belegschaft",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Beschreibung",
     "hoursWorkedOfEstimated": "{worked} von {estimated}",
     "budgetSpentOf": "{spent} von {total}",
-    "hoursRecentOnly": "Die {count} neuesten Einträge."
+    "hoursRecentOnly": "Die {count} neuesten Einträge.",
+    "areaUnattributed": "Nicht angegeben",
+    "areaPeopleCount": "{count} Personen"
   },
   "operationalReports": {
     "metadataTitle": "Baustellenberichte",

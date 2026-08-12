@@ -83,6 +83,23 @@ export async function getProjectOptions(): Promise<{ id: string; name: string }[
  */
 export type SitePresence = { userId: string; name: string; startedAt: string };
 export type SiteHoursEntry = { id: string; person: string; date: string; minutes: number; status: string; task: string | null };
+
+/**
+ * Worked minutes broken down by subdivision (#77).
+ *
+ * The payoff for the whole subdivision chain: it is the number that makes
+ * dividing a location worth doing. `areaId` is null for the unattributed row —
+ * hours booked before the location was divided, or by somebody who did not say
+ * which floor — and that row is kept rather than dropped, so the parts always
+ * add up to the location's total.
+ */
+export type SiteAreaHours = {
+  areaId: string | null;
+  name: string | null;
+  isDefault: boolean;
+  minutes: number;
+  peopleCount: number;
+};
 export type SiteReportSummary = { id: string; date: string; worker: string; activity: string | null; status: string };
 export type SiteTeamMember = { membershipId: string; name: string; jobTitle: string | null; companyName: string };
 
@@ -98,7 +115,7 @@ export interface SiteDashboard {
    * sample. Now the sum comes from `worked_hours_by_site`, which aggregates in
    * SQL, and the count from an exact `head` count.
    */
-  hours: { entries: SiteHoursEntry[]; totalMinutes: number; pendingApproval: number };
+  hours: { entries: SiteHoursEntry[]; totalMinutes: number; pendingApproval: number; byArea: SiteAreaHours[] };
   reports: SiteReportSummary[];
   team: SiteTeamMember[];
 }
@@ -138,6 +155,7 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
     { data: siteRow },
     { data: totalRows },
     { count: pendingCount },
+    { data: areaHourRows },
   ] = await Promise.all([
     supabase
       .from("time_sessions")
@@ -171,6 +189,10 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
       .select("id", { count: "exact", head: true })
       .eq("company_id", companyId).eq("site_id", siteId)
       .eq("status", "submitted"),
+    // Security invoker as well, and no period: the location page shows the
+    // whole life of the chantier, and the function defaults to a range wide
+    // enough to mean that.
+    supabase.rpc("worked_hours_by_subdivision", { p_site_id: siteId }),
   ]);
 
   // One row per person: the partial unique index already guarantees a single
@@ -201,6 +223,21 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
   const totals = ((totalRows ?? []) as { approved_minutes: number; pending_minutes: number }[])[0];
   const totalMinutes = totals ? Number(totals.approved_minutes) + Number(totals.pending_minutes) : 0;
   const pendingApproval = pendingCount ?? 0;
+
+  type AreaHoursRow = {
+    site_area_id: string | null; area_name: string | null; is_default: boolean;
+    approved_minutes: number; pending_minutes: number; people_count: number;
+  };
+  const byArea: SiteAreaHours[] = ((areaHourRows ?? []) as AreaHoursRow[]).map((row) => ({
+    areaId: row.site_area_id,
+    name: row.area_name,
+    isDefault: row.is_default,
+    // Approved and pending together, matching the total above. Splitting them
+    // here would let the subdivisions sum to less than the location and give
+    // nobody a reason why.
+    minutes: Number(row.approved_minutes) + Number(row.pending_minutes),
+    peopleCount: Number(row.people_count),
+  }));
 
   const reports: SiteReportSummary[] = ((reportRows ?? []) as ReportRow[]).map((row) => ({
     id: row.id, date: row.report_date, activity: row.activity,
@@ -235,7 +272,7 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
     });
   }
 
-  return { presentToday, hours: { entries, totalMinutes, pendingApproval }, reports, team };
+  return { presentToday, hours: { entries, totalMinutes, pendingApproval, byArea }, reports, team };
 }
 
 // Companies this one has an active relationship with — readable since the

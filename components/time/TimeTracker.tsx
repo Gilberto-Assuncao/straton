@@ -6,6 +6,7 @@ import ManualEntryForm from "@/components/time/ManualEntryForm";
 import ProjectSelector from "@/components/time/ProjectSelector";
 import RecentEntries from "@/components/time/RecentEntries";
 import StaleSessionPrompt from "@/components/time/StaleSessionPrompt";
+import SubdivisionSelector from "@/components/time/SubdivisionSelector";
 import TaskSelector from "@/components/time/TaskSelector";
 import TimerDisplay from "@/components/time/TimerDisplay";
 import TodaySummary from "@/components/time/TodaySummary";
@@ -66,6 +67,7 @@ export default function TimeTracker({
    * but when the schedule already says where they are, nobody has to.
    */
   const [siteId, setSiteId] = useState(openSession?.siteId ?? currentAssignment?.siteId ?? "");
+  const [siteAreaId, setSiteAreaId] = useState(openSession?.siteAreaId ?? "");
   const [notes, setNotes] = useState(openSession?.notes ?? "");
   const [feedback, setFeedback] = useState("");
   const [busy, startTransition] = useTransition();
@@ -98,7 +100,13 @@ export default function TimeTracker({
 
   const start = () => {
     startTransition(async () => {
-      const result = await startSessionAction({ projectId, taskId, siteId: siteId || null, notes });
+      const result = await startSessionAction({
+        projectId,
+        taskId,
+        siteId: siteId || null,
+        siteAreaId: siteAreaId || null,
+        notes,
+      });
       setFeedback(t(`timer_${result.message}`));
     });
   };
@@ -142,7 +150,14 @@ export default function TimeTracker({
             <select
               id="tracker-site"
               value={siteId}
-              onChange={(event) => setSiteId(event.target.value)}
+              /*
+                Changing the location clears the subdivision. Keeping it would
+                leave a first floor selected against a different chantier, and
+                the database refuses that pairing — a refusal at Start, for a
+                field the person cannot see because the selector only shows the
+                new location's subdivisions.
+              */
+              onChange={(event) => { setSiteId(event.target.value); setSiteAreaId(""); }}
               disabled={locked}
               className="min-h-11 w-full rounded-xl border border-white/10 bg-[#111827] px-3 text-sm text-[#E5E7EB] outline-none transition focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 disabled:cursor-not-allowed disabled:opacity-60"
             >
@@ -156,6 +171,15 @@ export default function TimeTracker({
             {currentAssignment?.siteId && !running ? (
               <p className="mt-1 text-xs text-[#4ADE80]">{t("fromAgenda", { title: currentAssignment.title })}</p>
             ) : null}
+          </div>
+
+          <div className="mt-4">
+            <SubdivisionSelector
+              site={sites.find((site) => site.id === siteId)}
+              value={siteAreaId}
+              onChange={setSiteAreaId}
+              disabled={locked}
+            />
           </div>
 
           <div className="mt-4">

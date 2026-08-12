@@ -134,7 +134,10 @@
     "staleFinishedAt": "Am terminat la",
     "staleSaveCorrection": "Salvează",
     "noProject": "Fără proiect",
-    "noTask": "Fără sarcină"
+    "noTask": "Fără sarcină",
+    "subdivisionLabel": "Parte a locației",
+    "noSubdivision": "Neprecizat",
+    "subdivisionWholeLocation": "Toată locația"
   },
   "timesheets": {
     "eyebrow": "Forța de muncă",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Descriere",
     "hoursWorkedOfEstimated": "{worked} din {estimated}",
     "budgetSpentOf": "{spent} din {total}",
-    "hoursRecentOnly": "Cele mai recente {count} înregistrări."
+    "hoursRecentOnly": "Cele mai recente {count} înregistrări.",
+    "areaUnattributed": "Neprecizat",
+    "areaPeopleCount": "{count} persoane"
   },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",

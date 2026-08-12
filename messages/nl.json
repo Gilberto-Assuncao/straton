@@ -134,7 +134,10 @@
     "staleFinishedAt": "Ik stopte om",
     "staleSaveCorrection": "Bewaren",
     "noProject": "Geen project",
-    "noTask": "Geen taak"
+    "noTask": "Geen taak",
+    "subdivisionLabel": "Deel van de locatie",
+    "noSubdivision": "Niet opgegeven",
+    "subdivisionWholeLocation": "Hele locatie"
   },
   "timesheets": {
     "eyebrow": "Personeel",
@@ -810,7 +813,9 @@
     "descriptionLabel": "Omschrijving",
     "hoursWorkedOfEstimated": "{worked} van {estimated}",
     "budgetSpentOf": "{spent} van {total}",
-    "hoursRecentOnly": "De {count} meest recente registraties."
+    "hoursRecentOnly": "De {count} meest recente registraties.",
+    "areaUnattributed": "Niet opgegeven",
+    "areaPeopleCount": "{count} personen"
   },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",

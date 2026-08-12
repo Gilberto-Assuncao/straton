@@ -218,6 +218,37 @@ export async function HoursPanel({ data }: { data: SiteDashboard }) {
         <p className="text-sm text-[#9CA3AF]">{t("hoursTotal", { total: hours(data.hours.totalMinutes) })}</p>
       </div>
       <p className="mt-1 text-xs text-[#6B7280]">{t("hoursRecentOnly", { count: data.hours.entries.length })}</p>
+
+      {/*
+        The breakdown the subdivisions exist for (#77), and the reason it is
+        only drawn when there is more than one row: a location nobody divided
+        has all its hours under a single heading, which is a list of one
+        pretending to be an analysis.
+
+        The unattributed row is shown rather than hidden — hours booked before
+        the location was divided, or by somebody on the quick-clock page who was
+        never asked. Dropping it would make these rows sum to less than the
+        total two lines above, with nothing to explain the difference.
+      */}
+      {data.hours.byArea.length > 1 ? (
+        <ul className="mt-5 grid gap-2 border-b border-white/10 pb-5">
+          {data.hours.byArea.map((area) => (
+            <li key={area.areaId ?? "unattributed"} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#111C33] px-4 py-3">
+              <span className="text-sm text-[#E5E7EB]">
+                {area.areaId === null
+                  ? t("areaUnattributed")
+                  : area.isDefault
+                    ? t("areaWholeLocation")
+                    : area.name}
+              </span>
+              <span className="flex items-center gap-4 text-xs text-[#9CA3AF]">
+                <span>{t("areaPeopleCount", { count: area.peopleCount })}</span>
+                <span className="font-mono text-sm text-[#D1D5DB]">{hours(area.minutes)}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
       <ul className="mt-5 divide-y divide-white/10">
         {data.hours.entries.map((entry) => (
           <li key={entry.id} className="flex flex-wrap items-center justify-between gap-3 py-4">

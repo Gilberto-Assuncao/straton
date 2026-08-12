@@ -82,6 +82,11 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
   // chantier — requiring one would push people to pick a wrong site rather
   // than none, which is worse for the report than an honest blank.
   const siteId = String(formData.get("siteId") ?? "") || null;
+  // Optional in the same way, and usually not asked for at all: the selector
+  // only appears when the location has more than one subdivision, and the
+  // database fills in the single one when it does not. A question with one
+  // possible answer is not a question.
+  const siteAreaId = String(formData.get("siteAreaId") ?? "") || null;
   const notes = String(formData.get("notes") ?? "").trim();
 
   if (!date || !startTime || !endTime) {
@@ -102,6 +107,7 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
     timesheet_id: timesheetId,
     project_id: projectId,
     site_id: siteId,
+    site_area_id: siteAreaId,
     task_id: taskId,
     starts_at: startsAt.toISOString(),
     ends_at: endsAt.toISOString(),
@@ -131,6 +137,7 @@ export async function startSessionAction(input: {
   projectId?: string | null;
   taskId?: string | null;
   siteId?: string | null;
+  siteAreaId?: string | null;
   notes?: string;
   /**
    * Where the phone said it was, at the moment the button was pressed.
@@ -162,6 +169,7 @@ export async function startSessionAction(input: {
     project_id: input.projectId || null,
     task_id: input.taskId || null,
     site_id: input.siteId || null,
+    site_area_id: input.siteAreaId || null,
     notes: input.notes?.trim() || null,
     started_within_site: check.withinSite,
     start_distance_m: check.distanceMetres,
@@ -194,7 +202,7 @@ export async function stopSessionAction(input?: { endedAt?: string }): Promise<T
 
   const { data: open } = await supabase
     .from("time_sessions")
-    .select("id,started_at,project_id,task_id,site_id,notes")
+    .select("id,started_at,project_id,task_id,site_id,site_area_id,notes")
     .eq("company_id", companyId)
     .eq("user_id", session.user.id)
     .is("ended_at", null)
@@ -229,6 +237,10 @@ export async function stopSessionAction(input?: { endedAt?: string }): Promise<T
       timesheet_id: timesheetId,
       project_id: open.project_id,
       site_id: open.site_id,
+      // Carried from the session rather than resolved again. The subdivision
+      // was decided when the clock started; working it out at Stop would use
+      // today's subdivisions to describe a shift that began under yesterday's.
+      site_area_id: open.site_area_id,
       task_id: open.task_id,
       starts_at: startsAt.toISOString(),
       ends_at: endsAt.toISOString(),
