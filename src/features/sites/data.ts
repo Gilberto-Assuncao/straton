@@ -3,10 +3,10 @@ import "server-only";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany, requireAuthenticatedSession } from "@/src/application/session/server";
 
-import type { ClientOption, SiteAddress, SiteRecord } from "./types";
+import type { ClientOption, SiteAddress, SitePriority, SiteRecord } from "./types";
 
-export type { SiteAddress, SiteRecord, ClientOption } from "./types";
-export { SITE_STATUSES } from "./types";
+export type { SiteAddress, SiteRecord, ClientOption, SiteAreaRecord } from "./types";
+export { SITE_STATUSES, SITE_PRIORITIES } from "./types";
 
 type RelatedOne<T> = T | T[] | null;
 function first<T>(value: RelatedOne<T>): T | null { return Array.isArray(value) ? (value[0] ?? null) : value; }
@@ -17,6 +17,9 @@ interface SiteRow {
   po_number: string | null; cost_center: string | null; project_id: string | null;
   client_company_id: string | null;
   starts_at: string | null; ends_at: string | null;
+  description: string | null; priority: string | null;
+  estimated_hours: number | null; budget_amount: number | null;
+  budget_spent: number | null; budget_currency: string | null;
   projects: RelatedOne<{ name: string }>;
   companies: RelatedOne<{ name: string }>;
 }
@@ -30,10 +33,18 @@ function toRecord(row: SiteRow): SiteRecord {
     projectId: row.project_id, projectName: project?.name ?? null,
     clientCompanyId: row.client_company_id, clientName: first(row.companies)?.name ?? null,
     startsAt: row.starts_at, endsAt: row.ends_at,
+    description: row.description,
+    priority: (row.priority as SitePriority | null) ?? "medium",
+    estimatedHours: row.estimated_hours,
+    budgetAmount: row.budget_amount,
+    // The column is `not null default 0`, so a null here means the row came
+    // back without it, not that nothing was spent.
+    budgetSpent: row.budget_spent ?? 0,
+    budgetCurrency: row.budget_currency ?? "EUR",
   };
 }
 
-const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,project_id,client_company_id,starts_at,ends_at,projects(name),companies!sites_client_company_id_fkey(name)";
+const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,project_id,client_company_id,starts_at,ends_at,description,priority,estimated_hours,budget_amount,budget_spent,budget_currency,projects(name),companies!sites_client_company_id_fkey(name)";
 
 export async function getSites(): Promise<SiteRecord[]> {
   const { companyId } = await requireActiveCompany();
@@ -72,15 +83,52 @@ export async function getProjectOptions(): Promise<{ id: string; name: string }[
  */
 export type SitePresence = { userId: string; name: string; startedAt: string };
 export type SiteHoursEntry = { id: string; person: string; date: string; minutes: number; status: string; task: string | null };
+
+/**
+ * Worked minutes broken down by subdivision (#77).
+ *
+ * The payoff for the whole subdivision chain: it is the number that makes
+ * dividing a location worth doing. `areaId` is null for the unattributed row —
+ * hours booked before the location was divided, or by somebody who did not say
+ * which floor — and that row is kept rather than dropped, so the parts always
+ * add up to the location's total.
+ */
+export type SiteAreaHours = {
+  areaId: string | null;
+  name: string | null;
+  isDefault: boolean;
+  minutes: number;
+  peopleCount: number;
+};
 export type SiteReportSummary = { id: string; date: string; worker: string; activity: string | null; status: string };
 export type SiteTeamMember = { membershipId: string; name: string; jobTitle: string | null; companyName: string };
 
 export interface SiteDashboard {
   presentToday: SitePresence[];
-  hours: { entries: SiteHoursEntry[]; totalMinutes: number; pendingApproval: number };
+  /**
+   * `entries` is the 50 most recent, for the list. `totalMinutes` and
+   * `pendingApproval` are the real figures for the whole location.
+   *
+   * They used to be derived from the same 50 rows, so a location with more
+   * history than that reported a total that was silently the tail of it — and
+   * the tab called it "Total". Nothing on screen said the number was a
+   * sample. Now the sum comes from `worked_hours_by_site`, which aggregates in
+   * SQL, and the count from an exact `head` count.
+   */
+  hours: { entries: SiteHoursEntry[]; totalMinutes: number; pendingApproval: number; byArea: SiteAreaHours[] };
   reports: SiteReportSummary[];
   team: SiteTeamMember[];
 }
+
+/**
+ * Wide enough to mean "all of it".
+ *
+ * `worked_hours_by_site` takes a period because every other caller reports on
+ * a month; this one wants the lifetime of the location, and a range that
+ * cannot plausibly be reached is how you ask for that without a second
+ * function. Half-open, matching the report: `>= from` and `< to`.
+ */
+const ALL_TIME = { from: "2000-01-01T00:00:00.000Z", to: "2100-01-01T00:00:00.000Z" };
 
 interface PresenceRow {
   started_at: string; user_id: string;
@@ -100,7 +148,15 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
   const { companyId } = await requireActiveCompany();
   const supabase = await createClient();
 
-  const [{ data: presenceRows }, { data: hourRows }, { data: reportRows }, { data: siteRow }] = await Promise.all([
+  const [
+    { data: presenceRows },
+    { data: hourRows },
+    { data: reportRows },
+    { data: siteRow },
+    { data: totalRows },
+    { count: pendingCount },
+    { data: areaHourRows },
+  ] = await Promise.all([
     supabase
       .from("time_sessions")
       .select("started_at,user_id,users!time_sessions_user_id_fkey(name)")
@@ -120,6 +176,23 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
       .order("report_date", { ascending: false })
       .limit(20),
     supabase.from("sites").select("project_id").eq("company_id", companyId).eq("id", siteId).maybeSingle(),
+    // Security invoker, so RLS still decides which entries exist at all and
+    // naming another company's location returns nothing rather than their
+    // hours — the same argument as the report it was built for (#81).
+    supabase.rpc("worked_hours_by_site", {
+      p_from: ALL_TIME.from,
+      p_to: ALL_TIME.to,
+      p_site_ids: [siteId],
+    }),
+    supabase
+      .from("timesheet_entries")
+      .select("id", { count: "exact", head: true })
+      .eq("company_id", companyId).eq("site_id", siteId)
+      .eq("status", "submitted"),
+    // Security invoker as well, and no period: the location page shows the
+    // whole life of the chantier, and the function defaults to a range wide
+    // enough to mean that.
+    supabase.rpc("worked_hours_by_subdivision", { p_site_id: siteId }),
   ]);
 
   // One row per person: the partial unique index already guarantees a single
@@ -133,20 +206,38 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
     presentToday.push({ userId: row.user_id, name: user.name, startedAt: row.started_at });
   }
 
-  let totalMinutes = 0;
-  let pendingApproval = 0;
   const entries: SiteHoursEntry[] = ((hourRows ?? []) as HoursRow[]).flatMap((row) => {
     const timesheet = first(row.timesheets);
     const user = timesheet ? first(timesheet.users) : null;
     if (!user) return [];
     const minutes = Math.max(0, Math.round((new Date(row.ends_at).getTime() - new Date(row.starts_at).getTime()) / 60000) - row.break_minutes);
-    totalMinutes += minutes;
-    if (row.status === "submitted") pendingApproval += 1;
     return [{
       id: row.id, person: user.name, date: row.starts_at.slice(0, 10),
       minutes, status: row.status, task: first(row.tasks)?.name ?? null,
     }];
   });
+
+  // At most one row: the function groups by site and it was asked for one.
+  // Approved plus pending is every entry, because the function splits on
+  // `status = 'approved'` and nothing falls outside the two halves.
+  const totals = ((totalRows ?? []) as { approved_minutes: number; pending_minutes: number }[])[0];
+  const totalMinutes = totals ? Number(totals.approved_minutes) + Number(totals.pending_minutes) : 0;
+  const pendingApproval = pendingCount ?? 0;
+
+  type AreaHoursRow = {
+    site_area_id: string | null; area_name: string | null; is_default: boolean;
+    approved_minutes: number; pending_minutes: number; people_count: number;
+  };
+  const byArea: SiteAreaHours[] = ((areaHourRows ?? []) as AreaHoursRow[]).map((row) => ({
+    areaId: row.site_area_id,
+    name: row.area_name,
+    isDefault: row.is_default,
+    // Approved and pending together, matching the total above. Splitting them
+    // here would let the subdivisions sum to less than the location and give
+    // nobody a reason why.
+    minutes: Number(row.approved_minutes) + Number(row.pending_minutes),
+    peopleCount: Number(row.people_count),
+  }));
 
   const reports: SiteReportSummary[] = ((reportRows ?? []) as ReportRow[]).map((row) => ({
     id: row.id, date: row.report_date, activity: row.activity,
@@ -181,7 +272,7 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
     });
   }
 
-  return { presentToday, hours: { entries, totalMinutes, pendingApproval }, reports, team };
+  return { presentToday, hours: { entries, totalMinutes, pendingApproval, byArea }, reports, team };
 }
 
 // Companies this one has an active relationship with — readable since the

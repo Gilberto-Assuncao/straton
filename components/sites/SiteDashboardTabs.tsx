@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 
-export const SITE_TABS = ["overview", "presence", "weather", "hours", "reports", "team", "partners"] as const;
+// `areas` sits right after the overview because it is the structure of the
+// location — the subdivisions everything else is reported against — rather
+// than one more thing that happened at it (#77).
+export const SITE_TABS = ["overview", "areas", "presence", "weather", "hours", "reports", "team", "partners"] as const;
 export type SiteTab = (typeof SITE_TABS)[number];
 
 export function isSiteTab(value: string | undefined): value is SiteTab {

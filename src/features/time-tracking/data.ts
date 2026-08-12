@@ -41,7 +41,17 @@ function formatDate(iso: string): string {
   return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" }).format(new Date(iso));
 }
 
-export interface TrackerSite { id: string; name: string; projectId: string | null }
+/**
+ * A subdivision the clock can be pointed at (#77).
+ *
+ * `isDefault` is carried so the screen prints a translated "Whole location"
+ * rather than the name the trigger wrote, which is the location's own — the
+ * same rule the subdivisions tab follows, and the reason the flag exists at
+ * all.
+ */
+export interface TrackerArea { id: string; name: string; isDefault: boolean }
+
+export interface TrackerSite { id: string; name: string; projectId: string | null; areas: TrackerArea[] }
 
 /**
  * The site the person is expected to be at right now, from the agenda.
@@ -76,6 +86,7 @@ export interface OpenSession {
   projectId: string | null;
   taskId: string | null;
   siteId: string | null;
+  siteAreaId: string | null;
   notes: string;
   /** Running longer than a working day, and never confirmed by the person. */
   isStale: boolean;
@@ -94,7 +105,7 @@ export async function getOpenSession(): Promise<OpenSession | null> {
 
   const { data } = await supabase
     .from("time_sessions")
-    .select("id,started_at,project_id,task_id,site_id,notes,confirmed_at")
+    .select("id,started_at,project_id,task_id,site_id,site_area_id,notes,confirmed_at")
     .eq("company_id", companyId)
     .eq("user_id", session.user.id)
     .is("ended_at", null)
@@ -111,6 +122,7 @@ export async function getOpenSession(): Promise<OpenSession | null> {
     projectId: (data.project_id as string | null) ?? null,
     taskId: (data.task_id as string | null) ?? null,
     siteId: (data.site_id as string | null) ?? null,
+    siteAreaId: (data.site_area_id as string | null) ?? null,
     notes: (data.notes as string | null) ?? "",
     isStale: !data.confirmed_at && elapsedSeconds > STALE_SESSION_HOURS * 3600,
   };
@@ -134,10 +146,21 @@ export async function getTimeTrackingOverview(): Promise<{
   const from = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString();
   const to = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
 
-  const [{ data: projectRows }, { data: taskRows }, { data: siteRows }, { data: assignmentRows }, { data: entryRows, error }] = await Promise.all([
+  const [{ data: projectRows }, { data: taskRows }, { data: siteRows }, { data: areaRows }, { data: assignmentRows }, { data: entryRows, error }] = await Promise.all([
     supabase.from("projects").select("id,name").eq("company_id", companyId).order("name"),
     supabase.from("tasks").select("id,name").eq("company_id", companyId).eq("status", "active").order("name"),
     supabase.from("sites").select("id,name,project_id").eq("company_id", companyId).eq("status", "active").order("name"),
+    // Every subdivision of every active location, in one read rather than one
+    // per location: it is a small table with an index on (site_id, sort_order),
+    // and the selector has to know how many a location has before it can decide
+    // whether to appear at all.
+    supabase
+      .from("site_areas")
+      .select("id,site_id,name,is_default")
+      .eq("company_id", companyId)
+      .eq("is_active", true)
+      .order("sort_order", { ascending: true })
+      .order("name", { ascending: true }),
     supabase
       .from("assignments")
       .select("id,title,site_id,project_id,starts_at,assignment_assignees!inner(company_membership_id)")
@@ -159,8 +182,14 @@ export async function getTimeTrackingOverview(): Promise<{
 
   const projects: Project[] = projectRows ?? [];
   const tasks: Task[] = taskRows ?? [];
+  const areasBySite = new Map<string, TrackerArea[]>();
+  for (const row of (areaRows ?? []) as { id: string; site_id: string; name: string; is_default: boolean }[]) {
+    const list = areasBySite.get(row.site_id) ?? [];
+    list.push({ id: row.id, name: row.name, isDefault: row.is_default });
+    areasBySite.set(row.site_id, list);
+  }
   const sites: TrackerSite[] = ((siteRows ?? []) as { id: string; name: string; project_id: string | null }[]).map((row) => ({
-    id: row.id, name: row.name, projectId: row.project_id,
+    id: row.id, name: row.name, projectId: row.project_id, areas: areasBySite.get(row.id) ?? [],
   }));
 
   type AssignmentRow = { id: string; title: string; site_id: string | null; project_id: string | null };
