@@ -1568,7 +1568,12 @@
     "noSiteRow": "Senza luogo",
     "locationsLabel": "Luoghi di lavoro",
     "allLocations": "Tutti",
-    "filteredNotice": "Questi dati coprono solo {count, plural, one {# luogo di lavoro} other {# luoghi di lavoro}}, non l'intera azienda."
+    "filteredNotice": "Questi dati coprono solo {count, plural, one {# luogo di lavoro} other {# luoghi di lavoro}}, non l'intera azienda.",
+    "areasTitle": "Ore per suddivisione",
+    "areasSubtitle": "Dove è andato il tempo all’interno di ogni sede. Qui compaiono solo le sedi suddivise.",
+    "colArea": "Suddivisione",
+    "noAreaRow": "Non indicato",
+    "areaWholeLocation": "Tutta la sede"
   },
   "quickClock": {
     "changeSite": "Cambia luogo",

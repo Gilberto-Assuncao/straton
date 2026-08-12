@@ -1568,7 +1568,12 @@
     "noSiteRow": "Sem local",
     "locationsLabel": "Locais de trabalho",
     "allLocations": "Todos",
-    "filteredNotice": "Estes valores abrangem apenas {count, plural, one {# local de trabalho} other {# locais de trabalho}}, não toda a empresa."
+    "filteredNotice": "Estes valores abrangem apenas {count, plural, one {# local de trabalho} other {# locais de trabalho}}, não toda a empresa.",
+    "areasTitle": "Horas por subdivisão",
+    "areasSubtitle": "Onde foi o tempo dentro de cada local. Só aparecem aqui os locais que foram divididos.",
+    "colArea": "Subdivisão",
+    "noAreaRow": "Não indicado",
+    "areaWholeLocation": "Todo o local"
   },
   "quickClock": {
     "changeSite": "Mudar de local",

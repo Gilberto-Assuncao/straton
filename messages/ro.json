@@ -1568,7 +1568,12 @@
     "noSiteRow": "Fără șantier",
     "locationsLabel": "Locații",
     "allLocations": "Toate",
-    "filteredNotice": "Aceste cifre acoperă doar {count, plural, one {# locație} few {# locații} other {# de locații}}, nu întreaga companie."
+    "filteredNotice": "Aceste cifre acoperă doar {count, plural, one {# locație} few {# locații} other {# de locații}}, nu întreaga companie.",
+    "areasTitle": "Ore pe subdiviziune",
+    "areasSubtitle": "Unde s-a dus timpul în interiorul fiecărei locații. Aici apar doar locațiile împărțite.",
+    "colArea": "Subdiviziune",
+    "noAreaRow": "Neprecizat",
+    "areaWholeLocation": "Toată locația"
   },
   "quickClock": {
     "changeSite": "Schimbă locația",

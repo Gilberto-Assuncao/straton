@@ -189,10 +189,15 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
       .select("id", { count: "exact", head: true })
       .eq("company_id", companyId).eq("site_id", siteId)
       .eq("status", "submitted"),
-    // Security invoker as well, and no period: the location page shows the
-    // whole life of the chantier, and the function defaults to a range wide
-    // enough to mean that.
-    supabase.rpc("worked_hours_by_subdivision", { p_site_id: siteId }),
+    // The same function the company report uses, asked about one location
+    // (#77). It takes a set because the report needs a set, and one is an
+    // array of length one — building a single-location variant first is how a
+    // screen ends up unable to express "these three".
+    supabase.rpc("worked_hours_by_subdivision", {
+      p_from: ALL_TIME.from,
+      p_to: ALL_TIME.to,
+      p_site_ids: [siteId],
+    }),
   ]);
 
   // One row per person: the partial unique index already guarantees a single

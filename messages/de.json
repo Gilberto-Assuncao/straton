@@ -1568,7 +1568,12 @@
     "noSiteRow": "Ohne Einsatzstelle",
     "locationsLabel": "Einsatzstellen",
     "allLocations": "Alle",
-    "filteredNotice": "Diese Zahlen umfassen nur {count, plural, one {# Einsatzstelle} other {# Einsatzstellen}}, nicht das gesamte Unternehmen."
+    "filteredNotice": "Diese Zahlen umfassen nur {count, plural, one {# Einsatzstelle} other {# Einsatzstellen}}, nicht das gesamte Unternehmen.",
+    "areasTitle": "Stunden je Unterbereich",
+    "areasSubtitle": "Wohin die Zeit innerhalb eines Standorts ging. Hier erscheinen nur aufgeteilte Standorte.",
+    "colArea": "Unterbereich",
+    "noAreaRow": "Nicht angegeben",
+    "areaWholeLocation": "Ganzer Standort"
   },
   "quickClock": {
     "changeSite": "Einsatzstelle wechseln",

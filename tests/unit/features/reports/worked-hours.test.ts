@@ -27,6 +27,9 @@ function report(people: WorkedHoursReport["people"]): WorkedHoursReport {
     month: "2026-07",
     people,
     sites: [],
+    // The CSV is per person, so neither breakdown reaches it. Empty here says
+    // that on purpose rather than by omission (#77).
+    areas: [],
     // Unfiltered: these cases are about the CSV, not about scope (#77).
     siteIds: [],
     totals: {

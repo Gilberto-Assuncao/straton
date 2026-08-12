@@ -25,6 +25,10 @@ const describeIfDb = process.env.TEST_DATABASE_URL ? describe : describe.skip;
 /** Aline Dubois — owner/admin of BELNEX. */
 const ADMIN = DEMO.belnex.adminUserId;
 
+/** Wide enough to cover the synthetic week these fixtures are written in. */
+const FROM = "2000-01-01T00:00:00Z";
+const TO = "2100-01-01T00:00:00Z";
+
 type Db = Parameters<Parameters<typeof withRollback>[0]>[0];
 
 async function createLocation(db: Db, name: string): Promise<string> {
@@ -202,8 +206,8 @@ describeIfDb("hours against a subdivision", () => {
       await addEntry(db, timesheetId, siteId, null);
 
       const { rows } = await db.query<{ site_area_id: string | null; pending_minutes: string }>(
-        "select site_area_id, pending_minutes from public.worked_hours_by_subdivision($1)",
-        [siteId],
+        "select site_area_id, pending_minutes from public.worked_hours_by_subdivision($1, $2, $3)",
+        [FROM, TO, [siteId]],
       );
 
       expect(rows).toHaveLength(2);
@@ -225,10 +229,42 @@ describeIfDb("hours against a subdivision", () => {
       // Security invoker, like both neighbouring report functions: naming
       // somebody else's location returns nothing rather than their hours.
       const { rows } = await db.query(
-        "select * from public.worked_hours_by_subdivision($1)",
-        [DEMO.nordclean.siteId],
+        "select * from public.worked_hours_by_subdivision($1, $2, $3)",
+        [FROM, TO, [DEMO.nordclean.siteId]],
       );
       expect(rows, "another company's location, broken down").toHaveLength(0);
+    });
+  });
+
+  it("breaks down a chosen set of locations, and says which is which", async () => {
+    await withRollback(async (db) => {
+      await actAs(db, ADMIN);
+      await assertRlsIsEnforced(db);
+
+      const first = await createLocation(db, "Set fixture A");
+      const second = await createLocation(db, "Set fixture B");
+      const timesheetId = await createTimesheet(db);
+      await addEntry(db, timesheetId, first, null);
+      await addEntry(db, timesheetId, second, null);
+
+      const { rows } = await db.query<{ site_id: string; site_name: string }>(
+        "select site_id, site_name from public.worked_hours_by_subdivision($1, $2, $3)",
+        [FROM, TO, [first, second]],
+      );
+
+      // The location on every row is the point of carrying it. "1er étage" is
+      // a name two chantiers can both have, and rows that did not say which
+      // one they belonged to would be a breakdown nobody could act on.
+      expect(rows.map((row) => row.site_id).sort(), "both locations in the set").toEqual([first, second].sort());
+      expect(rows.every((row) => row.site_name.startsWith("Set fixture")), "each row naming its location").toBe(true);
+
+      // Narrowing to one drops the other, rather than the filter being a
+      // suggestion.
+      const { rows: narrowed } = await db.query<{ site_id: string }>(
+        "select site_id from public.worked_hours_by_subdivision($1, $2, $3)",
+        [FROM, TO, [first]],
+      );
+      expect(narrowed.map((row) => row.site_id), "narrowed to one location").toEqual([first]);
     });
   });
 });

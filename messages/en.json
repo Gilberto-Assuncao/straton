@@ -1568,7 +1568,12 @@
     "noSiteRow": "Without a location",
     "locationsLabel": "Work locations",
     "allLocations": "All",
-    "filteredNotice": "These figures cover {count, plural, one {# work location} other {# work locations}} only, not the whole company."
+    "filteredNotice": "These figures cover {count, plural, one {# work location} other {# work locations}} only, not the whole company.",
+    "areasTitle": "Hours by subdivision",
+    "areasSubtitle": "Where the time went inside each location. Only locations that were divided appear here.",
+    "colArea": "Subdivision",
+    "noAreaRow": "Not specified",
+    "areaWholeLocation": "Whole location"
   },
   "quickClock": {
     "changeSite": "Change location",

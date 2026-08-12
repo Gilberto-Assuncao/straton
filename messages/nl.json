@@ -1568,7 +1568,12 @@
     "noSiteRow": "Zonder locatie",
     "locationsLabel": "Werklocaties",
     "allLocations": "Alle",
-    "filteredNotice": "Deze cijfers gelden voor slechts {count, plural, one {# werklocatie} other {# werklocaties}}, niet voor het hele bedrijf."
+    "filteredNotice": "Deze cijfers gelden voor slechts {count, plural, one {# werklocatie} other {# werklocaties}}, niet voor het hele bedrijf.",
+    "areasTitle": "Uren per onderverdeling",
+    "areasSubtitle": "Waar de tijd binnen elke locatie naartoe ging. Alleen verdeelde locaties staan hier.",
+    "colArea": "Onderverdeling",
+    "noAreaRow": "Niet opgegeven",
+    "areaWholeLocation": "Hele locatie"
   },
   "quickClock": {
     "changeSite": "Locatie wijzigen",
