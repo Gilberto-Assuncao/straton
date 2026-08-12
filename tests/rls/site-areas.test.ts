@@ -38,24 +38,23 @@ async function createLocation(db: Db, name: string): Promise<string> {
 }
 
 /**
- * Runs `fn`, then forces the deferred constraints to fire, and reports whether
- * the pair was refused.
+ * Runs `fn` and reports whether it was refused, **and why**.
  *
- * `set constraints all immediate` is what stands in for the commit these tests
- * never reach — every case here runs inside a transaction that is rolled back,
- * so a check deferred to commit would otherwise never run at all and the test
- * would pass by never asking the question.
+ * The reason is the point. The first version of this helper swallowed the
+ * exception and returned a bare boolean, so when CI caught the cascade bug on
+ * this branch the failure read "expected true to be false" and named neither
+ * the constraint nor the message — leaving the next person to work out from
+ * scratch which of several candidates had fired.
  */
-async function refusedAtCommit(db: Db, fn: (db: Db) => Promise<void>): Promise<boolean> {
-  await db.query("savepoint deferred_check");
+async function attempt(db: Db, fn: (db: Db) => Promise<unknown>): Promise<{ refused: boolean; reason: string }> {
+  await db.query("savepoint attempt");
   try {
     await fn(db);
-    await db.query("set constraints all immediate");
-    await db.query("release savepoint deferred_check");
-    return false;
-  } catch {
-    await db.query("rollback to savepoint deferred_check");
-    return true;
+    await db.query("release savepoint attempt");
+    return { refused: false, reason: "" };
+  } catch (error) {
+    await db.query("rollback to savepoint attempt");
+    return { refused: true, reason: error instanceof Error ? error.message : String(error) };
   }
 }
 
@@ -116,10 +115,11 @@ describeIfDb("subdivisions of a work location", () => {
 
       const siteId = await createLocation(db, "Emptying fixture");
 
-      const refused = await refusedAtCommit(db, async () => {
-        await db.query("delete from public.site_areas where site_id = $1", [siteId]);
-      });
-      expect(refused, "emptying a location of its subdivisions").toBe(true);
+      const outcome = await attempt(db, () =>
+        db.query("delete from public.site_areas where site_id = $1", [siteId]),
+      );
+      expect(outcome.refused, `emptying a location of its subdivisions — ${outcome.reason}`).toBe(true);
+      expect(outcome.reason, "and it says which rule stopped it").toContain("at least one subdivision");
 
       const { rows } = await db.query<{ count: string }>(
         "select count(*) as count from public.site_areas where site_id = $1",
@@ -129,24 +129,30 @@ describeIfDb("subdivisions of a work location", () => {
     });
   });
 
-  it("may be replaced in one go, which is not the same as emptying", async () => {
+  it("cannot be emptied one row at a time either", async () => {
     await withRollback(async (db) => {
       await actAs(db, ADMIN);
       await assertRlsIsEnforced(db);
 
-      const siteId = await createLocation(db, "Replacement fixture");
+      const siteId = await createLocation(db, "Two-step fixture");
+      const second = await db.query<{ id: string }>(
+        "insert into public.site_areas (company_id, site_id, name) values ($1, $2, '1er étage') returning id",
+        [DEMO.belnex.companyId, siteId],
+      );
 
-      // The case an immediate check would have refused for no reason: at no
-      // single moment inside the transaction does the rule hold, and at the
-      // end it does.
-      const refused = await refusedAtCommit(db, async () => {
-        await db.query("delete from public.site_areas where site_id = $1", [siteId]);
-        await db.query(
-          "insert into public.site_areas (company_id, site_id, name) values ($1, $2, '1er étage')",
-          [DEMO.belnex.companyId, siteId],
-        );
-      });
-      expect(refused, "swapping the only subdivision for a named one").toBe(false);
+      // Deleting one of two is fine — that is the ordinary case the screen
+      // offers. It is the *last* one that has to be refused, and a guard that
+      // only looked at the statement rather than at what would survive it
+      // would let two deletes do what one cannot.
+      const first = await attempt(db, () =>
+        db.query("delete from public.site_areas where id = $1", [second.rows[0]!.id]),
+      );
+      expect(first.refused, `removing one subdivision of two — ${first.reason}`).toBe(false);
+
+      const last = await attempt(db, () =>
+        db.query("delete from public.site_areas where site_id = $1", [siteId]),
+      );
+      expect(last.refused, `removing the one that was left — ${last.reason}`).toBe(true);
     });
   });
 
@@ -157,15 +163,23 @@ describeIfDb("subdivisions of a work location", () => {
 
       const siteId = await createLocation(db, "Cascade fixture");
 
-      // The whole reason the guard is deferred. `on delete cascade` empties
-      // the location of its subdivisions on the way out, which is not somebody
-      // emptying a location that is staying — and a guard that could not tell
-      // the two apart would make deleting a work location impossible, with an
-      // error message about subdivisions.
-      const refused = await refusedAtCommit(db, async () => {
-        await db.query("delete from public.sites where id = $1", [siteId]);
-      });
-      expect(refused, "deleting a work location with its subdivisions attached").toBe(false);
+      /*
+       * The case that broke the first version of this guard, caught here.
+       *
+       * `on delete cascade` empties the location of its subdivisions on the way
+       * out, which is not somebody emptying a location that is staying. The
+       * deferred trigger could not tell the two apart — it looked for the
+       * parent row and still found it — so deleting a work location started
+       * refusing itself with a message about subdivisions. The guard now asks
+       * `pg_trigger_depth()` instead, and this is the assertion that says so.
+       */
+      const outcome = await attempt(db, () =>
+        db.query("delete from public.sites where id = $1", [siteId]),
+      );
+      expect(
+        outcome.refused,
+        `deleting a work location with its subdivisions attached — ${outcome.reason}`,
+      ).toBe(false);
 
       const { rows } = await db.query<{ count: string }>(
         "select count(*) as count from public.site_areas where site_id = $1",
