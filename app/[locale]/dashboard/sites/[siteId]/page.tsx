@@ -12,8 +12,10 @@ import {
   TeamPanel,
   WeatherPanel,
 } from "@/components/sites/SiteDashboardPanels";
+import SiteAreas from "@/components/sites/SiteAreas";
 import SitePartners from "@/components/sites/SitePartners";
 import { getSiteById, getSiteDashboard } from "@/src/features/sites/data";
+import { getSiteAreas } from "@/src/features/sites/areas";
 import { getInvitableCompanies, getSitePartners } from "@/src/features/sites/partners";
 import { getSiteWeather } from "@/src/features/weather/data";
 
@@ -33,7 +35,16 @@ export default async function SiteDashboardPage({
   const [{ siteId }, { tab }, t] = await Promise.all([params, searchParams, getTranslations("sites")]);
   const active: SiteTab = isSiteTab(tab) ? tab : "overview";
 
-  const [site, data] = await Promise.all([getSiteById(siteId), getSiteDashboard(siteId)]);
+  // Subdivisions are fetched on every tab, unlike the weather and the partners
+  // below. They are one indexed read of a small table, and the count is the
+  // thing that tells a manager at a glance whether this location is divided at
+  // all — a badge that only appeared once you were already looking at the tab
+  // would be telling you what you can see.
+  const [site, data, areas] = await Promise.all([
+    getSiteById(siteId),
+    getSiteDashboard(siteId),
+    getSiteAreas(siteId),
+  ]);
   if (!site) notFound();
 
   // Only fetched when the tab is open: the forecast is an outbound HTTP call,
@@ -63,6 +74,7 @@ export default async function SiteDashboardPage({
         siteId={site.id}
         active={active}
         counts={{
+          areas: areas.length,
           presence: data.presentToday.length,
           hours: data.hours.entries.length,
           reports: data.reports.length,
@@ -73,6 +85,7 @@ export default async function SiteDashboardPage({
 
       <div className="mt-8">
         {active === "overview" ? <OverviewPanel site={site} data={data} /> : null}
+        {active === "areas" ? <SiteAreas siteId={site.id} areas={areas} /> : null}
         {active === "presence" ? <PresencePanel data={data} /> : null}
         {active === "weather" ? <WeatherPanel weather={weather} /> : null}
         {active === "hours" ? <HoursPanel data={data} /> : null}

@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import type { SiteDashboard } from "@/src/features/sites/data";
+import { share } from "@/src/features/sites/planning";
 import type { SiteRecord } from "@/src/features/sites/types";
 import type { SiteWeather } from "@/src/features/weather/data";
 
@@ -29,16 +30,34 @@ function Badge({ status, label }: { status: string; label: string }) {
   return <span className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs font-semibold ${statusTone[status] ?? statusTone.draft}`}>{label}</span>;
 }
 
+function money(amount: number, currency: string): string {
+  return `${currency} ${amount.toLocaleString("en-GB", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+}
+
 export async function OverviewPanel({ site, data }: { site: SiteRecord; data: SiteDashboard }) {
   const t = await getTranslations("sites");
   const address = [site.address.street, site.address.postal_code, site.address.city].filter(Boolean).join(", ");
 
+  // Unchanged, but two of them mean something different now: the hours are the
+  // location's whole history rather than the last 50 entries, and the pending
+  // count is exact rather than however many of those 50 were awaiting review.
+  // The number of subdivisions is deliberately not a fifth tile — the tab
+  // already carries it, and a tile repeating a badge two centimetres away is
+  // one more thing to read and nothing more to learn.
   const stats = [
     { label: t("statPresentToday"), value: String(data.presentToday.length) },
     { label: t("statHoursLogged"), value: hours(data.hours.totalMinutes) },
     { label: t("statPendingApproval"), value: String(data.hours.pendingApproval), warn: data.hours.pendingApproval > 0 },
     { label: t("statReports"), value: String(data.reports.length) },
   ];
+
+  // Worked against planned, both in the units they were recorded in: minutes
+  // are kept as minutes until they are printed, and the percentage is computed
+  // from the totals rather than from the rounded hours on screen.
+  const estimatedMinutes = site.estimatedHours === null ? null : Math.round(site.estimatedHours * 60);
+  const hoursShare = share(data.hours.totalMinutes, estimatedMinutes);
+  const budgetShare = share(site.budgetSpent, site.budgetAmount);
+  const hasPlanning = site.estimatedHours !== null || site.budgetAmount !== null || Boolean(site.description);
 
   return (
     <div className="grid gap-5">
@@ -55,6 +74,7 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
         <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("detailsTitle")}</h2>
         <dl className="mt-5 grid gap-4 sm:grid-cols-2">
           <div><dt className="text-xs text-[#6B7280]">{t("nameLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.name}</dd></div>
+          <div><dt className="text-xs text-[#6B7280]">{t("priorityLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{t(`priority_${site.priority}` as "priority_medium")}</dd></div>
           <div><dt className="text-xs text-[#6B7280]">{t("projectLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.projectName ?? t("noProject")}</dd></div>
           <div className="sm:col-span-2"><dt className="text-xs text-[#6B7280]">{t("streetLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{address || t("noAddress")}</dd></div>
           {site.reference ? <div><dt className="text-xs text-[#6B7280]">{t("referenceLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.reference}</dd></div> : null}
@@ -76,6 +96,52 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
           </div>
         </dl>
       </div>
+
+      {/*
+        The planning that moved here from the project (#77). Shown only when
+        somebody has filled something in: a card of dashes and "0%" for a
+        company that costs its jobs elsewhere is noise on the page every other
+        screen links to.
+      */}
+      {hasPlanning ? (
+        <div className={card}>
+          <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("planningTitle")}</h2>
+          <dl className="mt-5 grid gap-4 sm:grid-cols-2">
+            {site.estimatedHours !== null ? (
+              <div>
+                <dt className="text-xs text-[#6B7280]">{t("estimatedHoursLabel")}</dt>
+                <dd className="mt-1 text-sm text-[#D1D5DB]">
+                  {t("hoursWorkedOfEstimated", {
+                    worked: hours(data.hours.totalMinutes),
+                    estimated: `${site.estimatedHours}h`,
+                  })}
+                  {hoursShare !== null ? <span className="ml-2 text-xs text-[#9CA3AF]">{hoursShare}%</span> : null}
+                </dd>
+              </div>
+            ) : null}
+            {site.budgetAmount !== null ? (
+              <div>
+                <dt className="text-xs text-[#6B7280]">{t("budgetLabel")}</dt>
+                <dd className="mt-1 text-sm text-[#D1D5DB]">
+                  {t("budgetSpentOf", {
+                    spent: money(site.budgetSpent, site.budgetCurrency),
+                    total: money(site.budgetAmount, site.budgetCurrency),
+                  })}
+                  {budgetShare !== null ? (
+                    <span className={`ml-2 text-xs ${budgetShare > 100 ? "text-red-300" : "text-[#9CA3AF]"}`}>{budgetShare}%</span>
+                  ) : null}
+                </dd>
+              </div>
+            ) : null}
+            {site.description ? (
+              <div className="sm:col-span-2">
+                <dt className="text-xs text-[#6B7280]">{t("descriptionLabel")}</dt>
+                <dd className="mt-1 whitespace-pre-line text-sm text-[#D1D5DB]">{site.description}</dd>
+              </div>
+            ) : null}
+          </dl>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -146,8 +212,12 @@ export async function HoursPanel({ data }: { data: SiteDashboard }) {
     <div className={card}>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("tab_hours")}</h2>
+        {/* The total is the location's, summed in SQL. The list below is the
+            50 most recent — it used to be both, so the total was silently the
+            tail of the history and still called itself the total. */}
         <p className="text-sm text-[#9CA3AF]">{t("hoursTotal", { total: hours(data.hours.totalMinutes) })}</p>
       </div>
+      <p className="mt-1 text-xs text-[#6B7280]">{t("hoursRecentOnly", { count: data.hours.entries.length })}</p>
       <ul className="mt-5 divide-y divide-white/10">
         {data.hours.entries.map((entry) => (
           <li key={entry.id} className="flex flex-wrap items-center justify-between gap-3 py-4">

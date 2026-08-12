@@ -18,9 +18,43 @@ export type SiteRecord = {
   clientName: string | null;
   startsAt: string | null;
   endsAt: string | null;
+  // What used to live on the project and now lives here (#77, migration
+  // 202608100002). Until this screen carried them the columns existed and
+  // nothing could read or write them, so the numbers the migration moved were
+  // reachable only from psql.
+  description: string | null;
+  priority: SitePriority;
+  estimatedHours: number | null;
+  budgetAmount: number | null;
+  budgetSpent: number;
+  budgetCurrency: string;
 };
 
 export const SITE_STATUSES = ["active", "paused", "completed", "archived"] as const;
 export type SiteStatus = (typeof SITE_STATUSES)[number];
 
+// Mirrors the `public.project_priority` enum, which the location now shares.
+export const SITE_PRIORITIES = ["low", "medium", "high", "critical"] as const;
+export type SitePriority = (typeof SITE_PRIORITIES)[number];
+
 export type ClientOption = { id: string; name: string; city: string | null };
+
+/**
+ * A subdivision inside a work location — "1er étage", "Elétrica da Sala".
+ *
+ * `isDefault` marks the one created with the location. The name cannot carry
+ * that meaning: the product speaks ten languages, and the row the trigger
+ * writes is named after the location itself, which is not a label anybody
+ * chose. So the screen prints a translated "Whole location" for it — and the
+ * moment somebody renames it the flag clears, because from then on the name is
+ * theirs and translating over it would be overwriting their answer.
+ */
+export type SiteAreaRecord = {
+  id: string;
+  siteId: string;
+  name: string;
+  description: string | null;
+  isActive: boolean;
+  isDefault: boolean;
+  sortOrder: number;
+};
