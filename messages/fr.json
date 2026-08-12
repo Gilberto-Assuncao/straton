@@ -1568,7 +1568,12 @@
     "noSiteRow": "Sans site",
     "locationsLabel": "Sites de travail",
     "allLocations": "Tous",
-    "filteredNotice": "Ces chiffres ne couvrent que {count, plural, one {# site de travail} other {# sites de travail}}, pas toute l'entreprise."
+    "filteredNotice": "Ces chiffres ne couvrent que {count, plural, one {# site de travail} other {# sites de travail}}, pas toute l'entreprise.",
+    "areasTitle": "Heures par subdivision",
+    "areasSubtitle": "Où le temps est passé à l’intérieur de chaque lieu. Seuls les lieux divisés apparaissent ici.",
+    "colArea": "Subdivision",
+    "noAreaRow": "Non précisé",
+    "areaWholeLocation": "Tout le lieu"
   },
   "quickClock": {
     "changeSite": "Changer de site",

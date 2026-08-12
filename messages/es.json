@@ -1568,7 +1568,12 @@
     "noSiteRow": "Sin ubicación",
     "locationsLabel": "Ubicaciones",
     "allLocations": "Todas",
-    "filteredNotice": "Estas cifras solo cubren {count, plural, one {# ubicación} other {# ubicaciones}}, no toda la empresa."
+    "filteredNotice": "Estas cifras solo cubren {count, plural, one {# ubicación} other {# ubicaciones}}, no toda la empresa.",
+    "areasTitle": "Horas por subdivisión",
+    "areasSubtitle": "Adónde fue el tiempo dentro de cada ubicación. Aquí solo aparecen las ubicaciones divididas.",
+    "colArea": "Subdivisión",
+    "noAreaRow": "Sin indicar",
+    "areaWholeLocation": "Toda la ubicación"
   },
   "quickClock": {
     "changeSite": "Cambiar de ubicación",

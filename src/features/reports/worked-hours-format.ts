@@ -26,6 +26,29 @@ export interface WorkedHoursSite {
   peopleCount: number;
 }
 
+/**
+ * One subdivision of one work location, for the period (#77).
+ *
+ * `siteName` rides along because a subdivision name is only unique inside its
+ * location — "1er étage" is a name two chantiers can both have, and two rows
+ * carrying it with different numbers and no way to tell them apart would be
+ * worse than no breakdown.
+ *
+ * `areaId` is null for hours nobody attributed: booked before the location was
+ * divided, or from the quick-clock page, which never asks. Kept rather than
+ * dropped, so a location's subdivisions always add up to the location.
+ */
+export interface WorkedHoursArea {
+  siteId: string;
+  siteName: string;
+  areaId: string | null;
+  areaName: string | null;
+  isDefault: boolean;
+  approvedMinutes: number;
+  pendingMinutes: number;
+  peopleCount: number;
+}
+
 export interface WorkedHoursReport {
   from: string;
   to: string;
@@ -33,6 +56,7 @@ export interface WorkedHoursReport {
   month: string;
   people: WorkedHoursPerson[];
   sites: WorkedHoursSite[];
+  areas: WorkedHoursArea[];
   /**
    * The work locations the figures cover, empty meaning all of them (#77).
    *

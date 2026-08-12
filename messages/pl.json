@@ -1568,7 +1568,12 @@
     "noSiteRow": "Bez budowy",
     "locationsLabel": "Lokalizacje",
     "allLocations": "Wszystkie",
-    "filteredNotice": "Te dane obejmują tylko {count, plural, one {# lokalizację} few {# lokalizacje} many {# lokalizacji} other {# lokalizacji}}, a nie całą firmę."
+    "filteredNotice": "Te dane obejmują tylko {count, plural, one {# lokalizację} few {# lokalizacje} many {# lokalizacji} other {# lokalizacji}}, a nie całą firmę.",
+    "areasTitle": "Godziny wg podobszaru",
+    "areasSubtitle": "Gdzie poszedł czas wewnątrz każdej lokalizacji. Pojawiają się tu tylko lokalizacje podzielone.",
+    "colArea": "Podobszar",
+    "noAreaRow": "Nie podano",
+    "areaWholeLocation": "Cała lokalizacja"
   },
   "quickClock": {
     "changeSite": "Zmień lokalizację",

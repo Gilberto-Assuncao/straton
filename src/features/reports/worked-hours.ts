@@ -2,12 +2,12 @@ import "server-only";
 
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany } from "@/src/application/session/server";
-import type { WorkedHoursPerson, WorkedHoursReport, WorkedHoursSite } from "./worked-hours-format";
+import type { WorkedHoursArea, WorkedHoursPerson, WorkedHoursReport, WorkedHoursSite } from "./worked-hours-format";
 
 // One import path for callers; the implementations live outside `server-only`
 // so the tests can reach them.
 export { formatMinutes, parseSiteFilter, toCsv } from "./worked-hours-format";
-export type { WorkedHoursPerson, WorkedHoursReport, WorkedHoursSite } from "./worked-hours-format";
+export type { WorkedHoursArea, WorkedHoursPerson, WorkedHoursReport, WorkedHoursSite } from "./worked-hours-format";
 
 /**
  * Worked hours per person, for a period (#9).
@@ -45,6 +45,17 @@ interface PersonRow {
   entry_count: number;
 }
 
+interface AreaRow {
+  site_id: string;
+  site_name: string;
+  site_area_id: string | null;
+  area_name: string | null;
+  is_default: boolean;
+  approved_minutes: number;
+  pending_minutes: number;
+  people_count: number;
+}
+
 interface SiteRow {
   site_id: string;
   site_name: string;
@@ -79,9 +90,15 @@ export async function getWorkedHoursReport(month?: string, siteIds: string[] = [
     p_to: range.to.toISOString(),
     p_site_ids: siteIds.length ? siteIds : null,
   };
-  const [{ data: personRows }, { data: siteRows }] = await Promise.all([
+  const [{ data: personRows }, { data: siteRows }, { data: areaRows }] = await Promise.all([
     supabase.rpc("worked_hours_by_person", params),
     supabase.rpc("worked_hours_by_site", params),
+    // The same period and the same filter, one level deeper (#77). A separate
+    // call rather than more columns on the per-site one: a row per subdivision
+    // of every location would make the locations table impossible to read, and
+    // the two answer different questions — what a chantier cost, and where
+    // inside it the time went.
+    supabase.rpc("worked_hours_by_subdivision", params),
   ]);
 
   const people: WorkedHoursPerson[] = ((personRows ?? []) as PersonRow[]).map((row) => ({
@@ -103,12 +120,24 @@ export async function getWorkedHoursReport(month?: string, siteIds: string[] = [
     peopleCount: Number(row.people_count),
   }));
 
+  const areas: WorkedHoursArea[] = ((areaRows ?? []) as AreaRow[]).map((row) => ({
+    siteId: row.site_id,
+    siteName: row.site_name,
+    areaId: row.site_area_id,
+    areaName: row.area_name,
+    isDefault: row.is_default,
+    approvedMinutes: Number(row.approved_minutes),
+    pendingMinutes: Number(row.pending_minutes),
+    peopleCount: Number(row.people_count),
+  }));
+
   return {
     from: range.from.toISOString(),
     to: range.to.toISOString(),
     month: range.month,
     people,
     sites,
+    areas,
     siteIds,
     totals: {
       approvedMinutes: people.reduce((sum, person) => sum + person.approvedMinutes, 0),

@@ -52,6 +52,16 @@ export default async function WorkedHoursReport({
   const filtering = report.siteIds.length > 0;
   const csvHref = `/api/reports/worked-hours?month=${report.month}${filtering ? `&sites=${report.siteIds.join(",")}` : ""}`;
 
+  /*
+   * Does any single location in this report have more than one subdivision to
+   * show? Counted per location rather than over the whole list, because eleven
+   * undivided chantiers produce eleven rows and not one of them says anything
+   * the locations table does not already say.
+   */
+  const rowsPerSite = new Map<string, number>();
+  for (const area of report.areas) rowsPerSite.set(area.siteId, (rowsPerSite.get(area.siteId) ?? 0) + 1);
+  const hasDividedLocation = [...rowsPerSite.values()].some((count) => count > 1);
+
   return (
     <section aria-labelledby="worked-hours-heading" className="grid gap-5">
       <div className={card}>
@@ -224,6 +234,56 @@ export default async function WorkedHoursReport({
           </div>
         )}
       </div>
+
+      {/*
+        Where the time went inside each chantier (#77).
+
+        Drawn only when some location in this report actually has more than one
+        subdivision. A company that never divided a location would otherwise get
+        a second table with one row per location — the same rows as the table
+        above, relabelled, which reads like a breakdown and contains no more
+        information than the thing it sits under.
+      */}
+      {hasDividedLocation ? (
+        <div className={card}>
+          <h3 className="text-sm font-semibold text-[#E5E7EB]">{t("areasTitle")}</h3>
+          <p className="mt-1 text-xs text-[#6B7280]">{t("areasSubtitle")}</p>
+          <div className="mt-4 overflow-x-auto">
+            <table className="w-full min-w-[32rem] border-collapse text-left">
+              <thead>
+                <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-[#6B7280]">
+                  <th className={cell}>{t("colSite")}</th>
+                  <th className={cell}>{t("colArea")}</th>
+                  <th className={`${cell} text-right`}>{t("approved")}</th>
+                  <th className={`${cell} text-right`}>{t("colPending")}</th>
+                  <th className={`${cell} text-right`}>{t("colPeople")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {report.areas.map((area) => (
+                  <tr key={`${area.siteId}:${area.areaId ?? "none"}`} className="border-b border-white/5">
+                    <td className={`${cell} text-[#9CA3AF]`}>{area.siteName}</td>
+                    {/* Unattributed in amber, like the location table's "no
+                        chantier" row: it is a gap to be closed, not a place. */}
+                    <td className={`${cell} font-medium ${area.areaId ? "text-[#E5E7EB]" : "text-amber-300"}`}>
+                      {area.areaId === null
+                        ? t("noAreaRow")
+                        : area.isDefault
+                          ? t("areaWholeLocation")
+                          : area.areaName}
+                    </td>
+                    <td className={`${cell} text-right font-mono text-[#4ADE80]`}>{formatMinutes(area.approvedMinutes)}</td>
+                    <td className={`${cell} text-right font-mono text-amber-300`}>
+                      {area.pendingMinutes ? formatMinutes(area.pendingMinutes) : "—"}
+                    </td>
+                    <td className={`${cell} text-right font-mono text-[#9CA3AF]`}>{area.peopleCount}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : null}
 
       {report.sites.length > 0 ? (
         <div className={card}>
