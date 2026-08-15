@@ -57,6 +57,11 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
           <label className="grid gap-1.5 text-sm">
             <span className="text-xs text-[#9CA3AF]">{t("areaNameLabel")}</span>
             <input
+              // Named so a test can find it. Every label here is translated, so
+              // a locator written against the wording breaks the day the suite
+              // runs in another locale — the same reason `#site-name` and
+              // `#login-email` exist.
+              id="area-name"
               className={field}
               value={name}
               onChange={(event) => setName(event.target.value)}
@@ -99,7 +104,11 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
         <h3 className="text-sm font-semibold text-[#E5E7EB]">{t("areasListTitle")}</h3>
         <ul className="mt-4 divide-y divide-white/10">
           {areas.map((area) => (
-            <li key={area.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
+            // Carries its id so a test can act on one row rather than on
+            // whichever the buttons happen to match — every row here has the
+            // same three buttons, and the default one is shown under a
+            // translated name that is not in the database at all.
+            <li key={area.id} data-area-id={area.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
               {editing?.id === area.id ? (
                 <>
                   <label className="min-w-0 flex-1 grid gap-1.5 text-sm">
