@@ -118,7 +118,6 @@ interface IncomingRow {
   site_id: string;
   note: string | null;
   created_at: string;
-  sites: RelatedOne<{ name: string }>;
   companies: RelatedOne<{ name: string }>;
 }
 
@@ -126,6 +125,12 @@ interface IncomingRow {
  * Invitations waiting on *this* company's answer. Without somewhere to see
  * these, an invitation can be sent but never accepted — and since accepting is
  * what grants the access, the handshake would never complete.
+ *
+ * The location's name comes from `invited_site_directory`, not from a join on
+ * `sites`. Accepting is what opens the location, so before that the row is not
+ * readable — the directory exposes the two columns an invitation needs and
+ * nothing else, so an invitee learns the name of the place without being handed
+ * its address, client and budget first.
  */
 export async function getIncomingInvitations(): Promise<IncomingInvitation[]> {
   const { companyId } = await requireActiveCompany();
@@ -133,15 +138,24 @@ export async function getIncomingInvitations(): Promise<IncomingInvitation[]> {
 
   const { data } = await supabase
     .from("site_partners")
-    .select("id,site_id,note,created_at,sites(name),companies!site_partners_owner_company_id_fkey(name)")
+    .select("id,site_id,note,created_at,companies!site_partners_owner_company_id_fkey(name)")
     .eq("company_id", companyId)
     .eq("status", "invited")
     .order("created_at", { ascending: false });
 
-  return ((data ?? []) as IncomingRow[]).map((row) => ({
+  const rows = (data ?? []) as IncomingRow[];
+  if (rows.length === 0) return [];
+
+  const { data: directory } = await supabase
+    .from("invited_site_directory")
+    .select("id,name")
+    .in("id", [...new Set(rows.map((row) => row.site_id))]);
+  const nameById = new Map(((directory ?? []) as { id: string; name: string }[]).map((row) => [row.id, row.name]));
+
+  return rows.map((row) => ({
     id: row.id,
     siteId: row.site_id,
-    siteName: first(row.sites)?.name ?? "",
+    siteName: nameById.get(row.site_id) ?? "",
     ownerCompanyName: first(row.companies)?.name ?? "",
     note: row.note,
     createdAt: row.created_at,

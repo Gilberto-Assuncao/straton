@@ -353,14 +353,63 @@ where pm.left_at is not null
 -- it". Both are kept for now — the project route still has to work until the
 -- menu goes — but the location route no longer depends on there being a
 -- project at all, which was the last thing making `project_id` load-bearing.
+--
+-- Accepted only. The project model let a *pending* partner read the project,
+-- on the reasoning that an invitation should not be a blind yes/no — and that
+-- was safe there, because a project was an abstraction with a name and its
+-- sites stayed hidden behind their own policy. It is not safe here: the
+-- location is the row carrying the address, the client, the coordinates and
+-- the budget. Handing all of that to somebody who has not accepted would make
+-- the invitation itself the leak.
 drop policy if exists sites_read_partner on public.sites;
 create policy sites_read_partner on public.sites
 for select to authenticated
 using (
   (select private.is_accepted_site_partner(id))
-  or (select private.is_pending_site_partner(id))
   or (project_id is not null and (select private.is_accepted_project_partner(project_id)))
 );
+
+/**
+ * Just enough of a location to answer an invitation: its id and its name.
+ *
+ * Needed because the policy above closes the door on a pending partner, and an
+ * invitation rendered without the name of the place is worse than no
+ * invitation at all — you would be accepting an unnamed job from a named
+ * company.
+ *
+ * The same shape as `company_directory`, which exists for the same reason one
+ * table over: a definer function returning the two safe columns, behind an
+ * invoker view so the caller's own identity still decides which rows come
+ * back. Narrower than that one, though — `company_directory` is readable by
+ * any authenticated user, and this is readable only by a company that has been
+ * invited to the location in question.
+ */
+create or replace function private.invited_site_rows()
+returns table (id uuid, name text)
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select s.id, s.name
+  from public.sites s
+  where exists (
+    select 1 from public.site_partners sp
+    where sp.site_id = s.id
+      and sp.status in ('invited', 'accepted')
+      and public.company_membership_exists(sp.company_id)
+  )
+$$;
+
+revoke all on function private.invited_site_rows() from public, anon;
+grant execute on function private.invited_site_rows() to authenticated;
+
+drop view if exists public.invited_site_directory;
+create view public.invited_site_directory
+with (security_invoker = true)
+as select * from private.invited_site_rows();
+
+grant select on table public.invited_site_directory to authenticated;
 
 -- Subdivisions follow the location exactly, which is the point: any rule that
 -- differed would be a way to reach through one to the other.

@@ -81,10 +81,39 @@ describeIfDb("a partner company on a work location", () => {
       // GeoTech has been invited and has not answered. The location must not be
       // readable yet: an invitation is an offer, and treating it as access
       // would make the accept button decorative.
+      //
+      // The first version of the policy allowed this, copied from the project
+      // model where a pending partner could read the project. That was safe
+      // there — a project was an abstraction with a name — and is not safe
+      // here, where the location carries the address, the client and the
+      // budget. CI caught it.
       await actAs(db, GEOTECH.adminUserId);
       await assertRlsIsEnforced(db);
       expect(await countVisible(db, "sites", "id = $1", [SITE]), "the location, before accepting").toBe(0);
       expect(await countVisible(db, "site_areas", "site_id = $1", [SITE]), "its subdivisions, before accepting").toBe(0);
+
+      // But the name is reachable, or the invitation would be a blind yes/no
+      // from a named company about an unnamed place.
+      expect(
+        await countVisible(db, "invited_site_directory", "id = $1", [SITE]),
+        "the name needed to answer the invitation",
+      ).toBe(1);
+    });
+  });
+
+  it("shows a stranger nothing at all, not even the name", async () => {
+    await withRollback(async (db) => {
+      await clearSeeded(db);
+
+      // NORDCLEAN was never invited. The directory is narrower than
+      // `company_directory`, which any authenticated user may read: this one
+      // answers only to a company holding an invitation.
+      await actAs(db, DEMO.nordclean.adminUserId);
+      await assertRlsIsEnforced(db);
+      expect(
+        await countVisible(db, "invited_site_directory", "id = $1", [SITE]),
+        "a location nobody invited them to",
+      ).toBe(0);
     });
   });
 
@@ -176,12 +205,17 @@ describeIfDb("crew allocated to a work location", () => {
   it("cannot be another company's people, even for the location's owner", async () => {
     await withRollback(async (db) => {
       await invite(db);
-      await actAs(db, DEMO.belnex.adminUserId);
-      await assertRlsIsEnforced(db);
+
+      // GeoTech accepts — nobody else can, which the case above asserts — and
+      // only then does Belnex try to place their people.
+      await actAs(db, GEOTECH.adminUserId);
       await db.query("update public.site_partners set status = 'accepted' where site_id = $1 and company_id = $2", [
         SITE,
         GEOTECH.companyId,
       ]);
+
+      await actAs(db, DEMO.belnex.adminUserId);
+      await assertRlsIsEnforced(db);
 
       /*
        * The boundary. Belnex owns this chantier and has invited GeoTech onto
