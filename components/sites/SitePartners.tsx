@@ -20,12 +20,10 @@ export default function SitePartners({
   siteId,
   partners,
   invitable,
-  hasProject,
 }: {
   siteId: string;
   partners: SitePartner[];
   invitable: { id: string; name: string; city: string | null }[];
-  hasProject: boolean;
 }) {
   const t = useTranslations("sites");
   const [selected, setSelected] = useState("");
@@ -57,39 +55,39 @@ export default function SitePartners({
         <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("partnersTitle")}</h2>
         <p className="mt-1 text-sm text-[#9CA3AF]">{t("partnersSubtitle")}</p>
 
-        {!hasProject ? (
-          <p className="mt-5 rounded-xl border border-dashed border-amber-400/30 px-4 py-5 text-sm text-amber-300">
-            {t("partnersNeedProject")}
-          </p>
-        ) : (
-          <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end">
-            <label className="grid gap-1.5 text-sm">
-              <span className="text-xs text-[#9CA3AF]">{t("partnerCompanyLabel")}</span>
-              <select className={field} value={selected} onChange={(event) => setSelected(event.target.value)}>
-                <option value="">{t("partnerChoose")}</option>
-                {invitable.map((company) => (
-                  <option key={company.id} value={company.id}>
-                    {company.city ? `${company.name} — ${company.city}` : company.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="grid gap-1.5 text-sm">
-              <span className="text-xs text-[#9CA3AF]">{t("partnerNoteLabel")}</span>
-              <input className={field} value={note} onChange={(event) => setNote(event.target.value)} maxLength={280} />
-            </label>
-            <button
-              type="button"
-              onClick={invite}
-              disabled={pending || !selected}
-              className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
-            >
-              {pending ? t("partnerInviting") : t("partnerInvite")}
-            </button>
-          </div>
-        )}
+        {/*
+          No "link this to a project first" any more (#77). That amber box was
+          the screen reporting a fact about the schema as though it were a fact
+          about the chantier — and it was a dead end, because nothing on this
+          page could create the project it was asking for.
+        */}
+        <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end">
+          <label className="grid gap-1.5 text-sm">
+            <span className="text-xs text-[#9CA3AF]">{t("partnerCompanyLabel")}</span>
+            <select className={field} value={selected} onChange={(event) => setSelected(event.target.value)}>
+              <option value="">{t("partnerChoose")}</option>
+              {invitable.map((company) => (
+                <option key={company.id} value={company.id}>
+                  {company.city ? `${company.name} — ${company.city}` : company.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-sm">
+            <span className="text-xs text-[#9CA3AF]">{t("partnerNoteLabel")}</span>
+            <input className={field} value={note} onChange={(event) => setNote(event.target.value)} maxLength={280} />
+          </label>
+          <button
+            type="button"
+            onClick={invite}
+            disabled={pending || !selected}
+            className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+          >
+            {pending ? t("partnerInviting") : t("partnerInvite")}
+          </button>
+        </div>
 
-        {hasProject && invitable.length === 0 ? (
+        {invitable.length === 0 ? (
           <p className="mt-3 text-xs text-[#6B7280]">{t("partnersNoCandidates")}</p>
         ) : null}
 
@@ -101,7 +99,7 @@ export default function SitePartners({
       </div>
 
       <div className={card}>
-        <h3 className="text-sm font-semibold text-[#E5E7EB]">{t("partnersOnProject")}</h3>
+        <h3 className="text-sm font-semibold text-[#E5E7EB]">{t("partnersOnSite")}</h3>
         {active.length === 0 ? (
           <p className="mt-4 text-sm text-[#6B7280]">{t("partnersEmpty")}</p>
         ) : (

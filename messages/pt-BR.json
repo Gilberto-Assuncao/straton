@@ -754,9 +754,7 @@
     "tab_partners": "Parceiros",
     "partnersTitle": "Empresas parceiras",
     "partnersSubtitle": "Convide outra empresa para este projeto. O acesso só existe depois de aceitar — e ela vê o projeto e os locais, nunca a sua equipe nem as suas horas.",
-    "partnersNeedProject": "Associe este local a um projeto antes de convidar um parceiro.",
     "partnersNoCandidates": "Todas as empresas com quem trabalha já estão neste projeto. Adicione uma nova pelo seletor de cliente.",
-    "partnersOnProject": "Neste projeto",
     "partnersEmpty": "Ainda não há empresas parceiras neste projeto.",
     "partnerCompanyLabel": "Empresa",
     "partnerChoose": "Escolha uma empresa…",
@@ -771,7 +769,7 @@
     "partnerStatus_revoked": "Removido",
     "invitationsTitle": "Convites para a sua empresa",
     "invitationsSubtitle": "Ao aceitar, a sua empresa passa a ver os locais do projeto e pode alocar nela os seus próprios trabalhadores.",
-    "invitationFrom": "{company} convidou você para {project}",
+    "invitationFrom": "{company} convidou você para {location}",
     "invitationAccept": "Aceitar",
     "invitationDecline": "Recusar",
     "locationTitle": "Localização",
@@ -815,7 +813,8 @@
     "budgetSpentOf": "{spent} de {total}",
     "hoursRecentOnly": "Os {count} registros mais recentes.",
     "areaUnattributed": "Não informado",
-    "areaPeopleCount": "{count} pessoas"
+    "areaPeopleCount": "{count} pessoas",
+    "partnersOnSite": "Neste local"
   },
   "operationalReports": {
     "metadataTitle": "Relatórios de Campo",

@@ -754,9 +754,7 @@
     "tab_partners": "Partners",
     "partnersTitle": "Partnerbedrijven",
     "partnersSubtitle": "Nodig een ander bedrijf uit voor dit project. Toegang ontstaat pas na aanvaarding — zij zien het project en de locaties, nooit uw personeel of uren.",
-    "partnersNeedProject": "Koppel deze locatie aan een project voordat u een partner uitnodigt.",
     "partnersNoCandidates": "Alle bedrijven waarmee u werkt staan al op dit project. Voeg een nieuw bedrijf toe via de klantkiezer.",
-    "partnersOnProject": "Op dit project",
     "partnersEmpty": "Nog geen partnerbedrijven op dit project.",
     "partnerCompanyLabel": "Bedrijf",
     "partnerChoose": "Kies een bedrijf…",
@@ -771,7 +769,7 @@
     "partnerStatus_revoked": "Verwijderd",
     "invitationsTitle": "Uitnodigingen aan uw bedrijf",
     "invitationsSubtitle": "Door te aanvaarden krijgt uw bedrijf toegang tot de locaties van het project en kunt u er eigen mensen op inzetten.",
-    "invitationFrom": "{company} heeft u uitgenodigd voor {project}",
+    "invitationFrom": "{company} heeft u uitgenodigd voor {location}",
     "invitationAccept": "Aanvaarden",
     "invitationDecline": "Weigeren",
     "locationTitle": "Locatie",
@@ -815,7 +813,8 @@
     "budgetSpentOf": "{spent} van {total}",
     "hoursRecentOnly": "De {count} meest recente registraties.",
     "areaUnattributed": "Niet opgegeven",
-    "areaPeopleCount": "{count} personen"
+    "areaPeopleCount": "{count} personen",
+    "partnersOnSite": "Op deze locatie"
   },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",

@@ -35,7 +35,7 @@ export default function IncomingInvitations({ invitations }: { invitations: Inco
           <li key={invitation.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">
               <p className="text-sm font-medium text-[#E5E7EB]">
-                {t("invitationFrom", { company: invitation.ownerCompanyName, project: invitation.projectName })}
+                {t("invitationFrom", { company: invitation.ownerCompanyName, project: invitation.siteName })}
               </p>
               {invitation.note ? <p className="mt-1 text-xs text-[#6B7280]">{invitation.note}</p> : null}
             </div>

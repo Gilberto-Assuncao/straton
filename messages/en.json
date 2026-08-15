@@ -754,9 +754,7 @@
     "tab_partners": "Partners",
     "partnersTitle": "Partner companies",
     "partnersSubtitle": "Invite another company onto this project. They only gain access once they accept — and they see the project and its locations, never your workforce or hours.",
-    "partnersNeedProject": "Link this location to a project before inviting a partner.",
     "partnersNoCandidates": "Every company you work with is already on this project. Add a new one from the client picker.",
-    "partnersOnProject": "On this project",
     "partnersEmpty": "No partner companies on this project yet.",
     "partnerCompanyLabel": "Company",
     "partnerChoose": "Choose a company…",
@@ -771,7 +769,7 @@
     "partnerStatus_revoked": "Removed",
     "invitationsTitle": "Invitations to your company",
     "invitationsSubtitle": "Accepting gives your company access to the project's locations and lets you assign your own people to it.",
-    "invitationFrom": "{company} invited you to {project}",
+    "invitationFrom": "{company} invited you to {location}",
     "invitationAccept": "Accept",
     "invitationDecline": "Decline",
     "locationTitle": "Location",
@@ -815,7 +813,8 @@
     "budgetSpentOf": "{spent} of {total}",
     "hoursRecentOnly": "The {count} most recent entries.",
     "areaUnattributed": "Not specified",
-    "areaPeopleCount": "{count} people"
+    "areaPeopleCount": "{count} people",
+    "partnersOnSite": "On this location"
   },
   "operationalReports": {
     "metadataTitle": "Field Reports",

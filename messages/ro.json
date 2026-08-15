@@ -754,9 +754,7 @@
     "tab_partners": "Parteneri",
     "partnersTitle": "Companii partenere",
     "partnersSubtitle": "Invitați o altă companie în acest proiect. Accesul apare doar după acceptare — vede proiectul și șantierele, niciodată angajații sau orele dumneavoastră.",
-    "partnersNeedProject": "Asociați acest șantier unui proiect înainte de a invita un partener.",
     "partnersNoCandidates": "Toate companiile cu care lucrați sunt deja în acest proiect. Adăugați una nouă din selectorul de client.",
-    "partnersOnProject": "În acest proiect",
     "partnersEmpty": "Încă nu există companii partenere în acest proiect.",
     "partnerCompanyLabel": "Companie",
     "partnerChoose": "Alegeți o companie…",
@@ -771,7 +769,7 @@
     "partnerStatus_revoked": "Eliminată",
     "invitationsTitle": "Invitații pentru compania dumneavoastră",
     "invitationsSubtitle": "Acceptarea oferă companiei acces la șantierele proiectului și vă permite să repartizați propriii angajați.",
-    "invitationFrom": "{company} v-a invitat la {project}",
+    "invitationFrom": "{company} v-a invitat la {location}",
     "invitationAccept": "Acceptă",
     "invitationDecline": "Refuză",
     "locationTitle": "Localizare",
@@ -815,7 +813,8 @@
     "budgetSpentOf": "{spent} din {total}",
     "hoursRecentOnly": "Cele mai recente {count} înregistrări.",
     "areaUnattributed": "Neprecizat",
-    "areaPeopleCount": "{count} persoane"
+    "areaPeopleCount": "{count} persoane",
+    "partnersOnSite": "În această locație"
   },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",

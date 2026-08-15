@@ -273,12 +273,17 @@ export async function createClientCompanyAction(input: {
 export type PartnerActionResult = { ok: boolean; message: string };
 
 /**
- * Invites a partner company onto the project this site belongs to.
+ * Invites a partner company onto this work location (#77).
+ *
+ * Used to invite onto the location's *project*, which meant a location with no
+ * project could not collaborate at all — the screen said so, in amber, and
+ * there was nothing the manager could do about it from there. The relationship
+ * belongs to the company; what a chantier gets is an allocation.
  *
  * The invitation grants nothing on its own — the partner has to accept, and
- * only then do they see the sites and gain the right to assign their own
+ * only then do they see the location and gain the right to allocate their own
  * people. That asymmetry is enforced in the database (migration
- * 202608010004), not here.
+ * 202608120002), not here.
  */
 export async function invitePartnerAction(
   siteId: string,
@@ -291,21 +296,12 @@ export async function invitePartnerAction(
 
   const supabase = await createClient();
 
-  const { data: site } = await supabase
-    .from("sites")
-    .select("project_id")
-    .eq("company_id", companyId)
-    .eq("id", siteId)
-    .maybeSingle();
-
-  const projectId = (site as { project_id: string | null } | null)?.project_id;
-  // A site with no project has nothing to invite anyone onto: the work — and
-  // therefore the collaboration — is organised at project level.
-  if (!projectId) return { ok: false, message: "Link this site to a project before inviting a partner." };
-
-  const { error } = await supabase.from("project_partners").insert({
-    project_id: projectId,
+  const { error } = await supabase.from("site_partners").insert({
+    site_id: siteId,
     company_id: partnerCompanyId,
+    // Checked against the location by the insert policy rather than trusted
+    // from here, so it cannot be used to forge an invitation onto somebody
+    // else's chantier.
     owner_company_id: companyId,
     invited_by: session.user.id,
     note: note.trim() || null,
@@ -316,7 +312,7 @@ export async function invitePartnerAction(
       ok: false,
       message:
         error.code === "23505"
-          ? "That company has already been invited to this project."
+          ? "That company has already been invited to this work location."
           : error.message,
     };
   }
@@ -334,7 +330,7 @@ export async function respondToInvitationAction(
 
   const supabase = await createClient();
   const { error } = await supabase
-    .from("project_partners")
+    .from("site_partners")
     .update({ status: accept ? "accepted" : "declined" })
     .eq("id", invitationId);
 
@@ -345,8 +341,8 @@ export async function respondToInvitationAction(
 }
 
 /**
- * Withdraws a partner from the project. The row is kept rather than deleted, so
- * the record of who was on the job — and when they left it — survives; on a
+ * Withdraws a partner from the location. The row is kept rather than deleted,
+ * so the record of who was on the job — and when they left it — survives; on a
  * Belgian site that history is the answer to a chain-liability question.
  */
 export async function revokePartnerAction(siteId: string, invitationId: string): Promise<PartnerActionResult> {
@@ -354,11 +350,11 @@ export async function revokePartnerAction(siteId: string, invitationId: string):
   if (!allowed) return { ok: false, message: "You do not have permission to remove partners." };
 
   const supabase = await createClient();
-  const { error } = await supabase.from("project_partners").update({ status: "revoked" }).eq("id", invitationId);
+  const { error } = await supabase.from("site_partners").update({ status: "revoked" }).eq("id", invitationId);
   if (error) return { ok: false, message: error.message };
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Partner removed from the project." };
+  return { ok: true, message: "Partner removed from this work location." };
 }
 
 // --- Subdivisions inside a work location (#77) ---------------------------

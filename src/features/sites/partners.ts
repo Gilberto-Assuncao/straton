@@ -19,8 +19,8 @@ export interface SitePartner {
 
 export interface IncomingInvitation {
   id: string;
-  projectId: string;
-  projectName: string;
+  siteId: string;
+  siteName: string;
   ownerCompanyName: string;
   note: string | null;
   createdAt: string;
@@ -29,24 +29,6 @@ export interface IncomingInvitation {
 type RelatedOne<T> = T | T[] | null;
 function first<T>(value: RelatedOne<T>): T | null {
   return Array.isArray(value) ? (value[0] ?? null) : value;
-}
-
-/**
- * Invitations live on the project, not the site: a partner brought in to do the
- * work is on the job, and a job spans every site under it. Sites are only where
- * the user thinks about it, which is why this takes a site id and resolves the
- * project itself.
- */
-async function projectIdForSite(siteId: string): Promise<string | null> {
-  const { companyId } = await requireActiveCompany();
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("sites")
-    .select("project_id")
-    .eq("company_id", companyId)
-    .eq("id", siteId)
-    .maybeSingle();
-  return (data as { project_id: string | null } | null)?.project_id ?? null;
 }
 
 interface PartnerRow {
@@ -60,17 +42,24 @@ interface PartnerRow {
   users: RelatedOne<{ name: string }>;
 }
 
+/**
+ * The partner companies allocated to this work location (#77).
+ *
+ * Used to resolve the location's project first and read the invitations from
+ * there, on the reasoning that "a partner brought in to do the work is on the
+ * job, and a job spans every site under it". The manager decided otherwise:
+ * the relationship belongs to the company, and what a chantier gets is an
+ * allocation. So a location with no project is no longer a location with no
+ * partners — it is a location you can invite somebody onto.
+ */
 export async function getSitePartners(siteId: string): Promise<SitePartner[]> {
-  const projectId = await projectIdForSite(siteId);
-  if (!projectId) return [];
-
   const supabase = await createClient();
   const { data } = await supabase
-    .from("project_partners")
+    .from("site_partners")
     .select(
-      "id,company_id,status,note,created_at,responded_at,companies!project_partners_company_id_fkey(name,city),users(name)",
+      "id,company_id,status,note,created_at,responded_at,companies!site_partners_company_id_fkey(name,city),users(name)",
     )
-    .eq("project_id", projectId)
+    .eq("site_id", siteId)
     .order("created_at", { ascending: false });
 
   return ((data ?? []) as PartnerRow[]).map((row) => ({
@@ -88,14 +77,11 @@ export async function getSitePartners(siteId: string): Promise<SitePartner[]> {
 
 /**
  * Companies you may invite: those you already have a relationship with, minus
- * the ones already on this project. A declined or revoked invitation is not
+ * the ones already on this location. A declined or revoked invitation is not
  * excluded — circumstances change, and re-inviting is a normal thing to do.
  */
 export async function getInvitableCompanies(siteId: string): Promise<{ id: string; name: string; city: string | null }[]> {
   const { companyId } = await requireActiveCompany();
-  const projectId = await projectIdForSite(siteId);
-  if (!projectId) return [];
-
   const supabase = await createClient();
 
   const { data: links } = await supabase
@@ -114,9 +100,9 @@ export async function getInvitableCompanies(siteId: string): Promise<{ id: strin
   if (otherIds.length === 0) return [];
 
   const { data: existing } = await supabase
-    .from("project_partners")
+    .from("site_partners")
     .select("company_id")
-    .eq("project_id", projectId)
+    .eq("site_id", siteId)
     .in("status", ["invited", "accepted"]);
 
   const taken = new Set(((existing ?? []) as { company_id: string }[]).map((row) => row.company_id));
@@ -129,10 +115,9 @@ export async function getInvitableCompanies(siteId: string): Promise<{ id: strin
 
 interface IncomingRow {
   id: string;
-  project_id: string;
+  site_id: string;
   note: string | null;
   created_at: string;
-  projects: RelatedOne<{ name: string }>;
   companies: RelatedOne<{ name: string }>;
 }
 
@@ -140,22 +125,37 @@ interface IncomingRow {
  * Invitations waiting on *this* company's answer. Without somewhere to see
  * these, an invitation can be sent but never accepted — and since accepting is
  * what grants the access, the handshake would never complete.
+ *
+ * The location's name comes from `invited_site_directory`, not from a join on
+ * `sites`. Accepting is what opens the location, so before that the row is not
+ * readable — the directory exposes the two columns an invitation needs and
+ * nothing else, so an invitee learns the name of the place without being handed
+ * its address, client and budget first.
  */
 export async function getIncomingInvitations(): Promise<IncomingInvitation[]> {
   const { companyId } = await requireActiveCompany();
   const supabase = await createClient();
 
   const { data } = await supabase
-    .from("project_partners")
-    .select("id,project_id,note,created_at,projects(name),companies!project_partners_owner_company_id_fkey(name)")
+    .from("site_partners")
+    .select("id,site_id,note,created_at,companies!site_partners_owner_company_id_fkey(name)")
     .eq("company_id", companyId)
     .eq("status", "invited")
     .order("created_at", { ascending: false });
 
-  return ((data ?? []) as IncomingRow[]).map((row) => ({
+  const rows = (data ?? []) as IncomingRow[];
+  if (rows.length === 0) return [];
+
+  const { data: directory } = await supabase
+    .from("invited_site_directory")
+    .select("id,name")
+    .in("id", [...new Set(rows.map((row) => row.site_id))]);
+  const nameById = new Map(((directory ?? []) as { id: string; name: string }[]).map((row) => [row.id, row.name]));
+
+  return rows.map((row) => ({
     id: row.id,
-    projectId: row.project_id,
-    projectName: first(row.projects)?.name ?? "",
+    siteId: row.site_id,
+    siteName: nameById.get(row.site_id) ?? "",
     ownerCompanyName: first(row.companies)?.name ?? "",
     note: row.note,
     createdAt: row.created_at,
