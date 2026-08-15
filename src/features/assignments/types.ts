@@ -33,7 +33,6 @@ export interface AssignmentRecord {
   status: AssignmentStatus;
   siteId: string | null;
   siteName: string | null;
-  projectId: string | null;
   projectName: string | null;
   /** Set when the booking was made as a team, so the UI can say so. */
   teamId: string | null;

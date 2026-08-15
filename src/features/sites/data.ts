@@ -14,23 +14,20 @@ function first<T>(value: RelatedOne<T>): T | null { return Array.isArray(value) 
 interface SiteRow {
   id: string; name: string; reference: string | null; status: string | null;
   address: SiteAddress | null; latitude: number | null; longitude: number | null;
-  po_number: string | null; cost_center: string | null; project_id: string | null;
+  po_number: string | null; cost_center: string | null;
   client_company_id: string | null;
   starts_at: string | null; ends_at: string | null;
   description: string | null; priority: string | null;
   estimated_hours: number | null; budget_amount: number | null;
   budget_spent: number | null; budget_currency: string | null;
-  projects: RelatedOne<{ name: string }>;
   companies: RelatedOne<{ name: string }>;
 }
 
 function toRecord(row: SiteRow): SiteRecord {
-  const project = first(row.projects);
   return {
     id: row.id, name: row.name, reference: row.reference, status: row.status ?? "active",
     address: row.address ?? {}, latitude: row.latitude, longitude: row.longitude,
     poNumber: row.po_number, costCenter: row.cost_center,
-    projectId: row.project_id, projectName: project?.name ?? null,
     clientCompanyId: row.client_company_id, clientName: first(row.companies)?.name ?? null,
     startsAt: row.starts_at, endsAt: row.ends_at,
     description: row.description,
@@ -44,7 +41,7 @@ function toRecord(row: SiteRow): SiteRecord {
   };
 }
 
-const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,project_id,client_company_id,starts_at,ends_at,description,priority,estimated_hours,budget_amount,budget_spent,budget_currency,projects(name),companies!sites_client_company_id_fkey(name)";
+const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,client_company_id,starts_at,ends_at,description,priority,estimated_hours,budget_amount,budget_spent,budget_currency,companies!sites_client_company_id_fkey(name)";
 
 export async function getSites(): Promise<SiteRecord[]> {
   const { companyId } = await requireActiveCompany();
@@ -59,13 +56,6 @@ export async function getSiteById(siteId: string): Promise<SiteRecord | null> {
   const supabase = await createClient();
   const { data } = await supabase.from("sites").select(SELECT).eq("company_id", companyId).eq("id", siteId).maybeSingle();
   return data ? toRecord(data as SiteRow) : null;
-}
-
-export async function getProjectOptions(): Promise<{ id: string; name: string }[]> {
-  const { companyId } = await requireActiveCompany();
-  const supabase = await createClient();
-  const { data } = await supabase.from("projects").select("id,name").eq("company_id", companyId).order("name");
-  return (data ?? []) as { id: string; name: string }[];
 }
 
 // --- Site dashboard (#30) ------------------------------------------------

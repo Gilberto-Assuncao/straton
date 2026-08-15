@@ -7,7 +7,7 @@ import { getOpenSession, getTimeTrackingOverview } from "@/src/features/time-tra
 export const metadata: Metadata = { title: "Time Tracking" };
 
 export default async function TimeTrackingPage() {
-  const [{ projects, tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary }, openSession, t] = await Promise.all([
+  const [{ tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary }, openSession, t] = await Promise.all([
     getTimeTrackingOverview(),
     getOpenSession(),
     getTranslations("time"),
@@ -24,7 +24,6 @@ export default async function TimeTrackingPage() {
         <TimeTracker
           sites={sites}
           currentAssignment={currentAssignment}
-          projects={projects}
           tasks={tasks}
           openSession={openSession}
           entries={recentEntries}

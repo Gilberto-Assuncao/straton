@@ -2,7 +2,7 @@ import "server-only";
 
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany } from "@/src/application/session/server";
-import type { DailySummary, EntryStatus, Project, Task, TimeEntry, WeeklySummary } from "@/lib/types/time";
+import type { DailySummary, EntryStatus, Task, TimeEntry, WeeklySummary } from "@/lib/types/time";
 
 const WEEKLY_TARGET_MINUTES = 2400;
 
@@ -13,8 +13,8 @@ interface EntryRow {
   ends_at: string;
   break_minutes: number;
   status: "draft" | "submitted" | "approved" | "rejected";
-  projects: RelatedOne<{ id: string; name: string }>;
-  tasks: RelatedOne<{ id: string; name: string }>;
+  sites: RelatedOne<{ name: string }>;
+  tasks: RelatedOne<{ name: string }>;
 }
 
 function first<T>(value: RelatedOne<T>): T | null { return Array.isArray(value) ? (value[0] ?? null) : value; }
@@ -51,7 +51,7 @@ function formatDate(iso: string): string {
  */
 export interface TrackerArea { id: string; name: string; isDefault: boolean }
 
-export interface TrackerSite { id: string; name: string; projectId: string | null; areas: TrackerArea[] }
+export interface TrackerSite { id: string; name: string; areas: TrackerArea[] }
 
 /**
  * The site the person is expected to be at right now, from the agenda.
@@ -61,7 +61,7 @@ export interface TrackerSite { id: string; name: string; projectId: string | nul
  * is not going to scroll a list before starting work — but if the schedule
  * already says where they are, nobody has to.
  */
-export interface CurrentAssignment { assignmentId: string; title: string; siteId: string | null; projectId: string | null }
+export interface CurrentAssignment { assignmentId: string; title: string; siteId: string | null }
 
 /**
  * A session that has been running past any plausible working day (#60).
@@ -83,7 +83,6 @@ export interface OpenSession {
    * impurity, and the first paint would disagree with the server's.
    */
   elapsedSeconds: number;
-  projectId: string | null;
   taskId: string | null;
   siteId: string | null;
   siteAreaId: string | null;
@@ -105,7 +104,7 @@ export async function getOpenSession(): Promise<OpenSession | null> {
 
   const { data } = await supabase
     .from("time_sessions")
-    .select("id,started_at,project_id,task_id,site_id,site_area_id,notes,confirmed_at")
+    .select("id,started_at,task_id,site_id,site_area_id,notes,confirmed_at")
     .eq("company_id", companyId)
     .eq("user_id", session.user.id)
     .is("ended_at", null)
@@ -119,7 +118,6 @@ export async function getOpenSession(): Promise<OpenSession | null> {
     id: data.id as string,
     startedAt: data.started_at as string,
     elapsedSeconds,
-    projectId: (data.project_id as string | null) ?? null,
     taskId: (data.task_id as string | null) ?? null,
     siteId: (data.site_id as string | null) ?? null,
     siteAreaId: (data.site_area_id as string | null) ?? null,
@@ -129,7 +127,7 @@ export async function getOpenSession(): Promise<OpenSession | null> {
 }
 
 export async function getTimeTrackingOverview(): Promise<{
-  projects: Project[]; tasks: Task[]; sites: TrackerSite[]; currentAssignment: CurrentAssignment | null;
+  tasks: Task[]; sites: TrackerSite[]; currentAssignment: CurrentAssignment | null;
   recentEntries: TimeEntry[]; todaySummary: DailySummary; weeklySummary: WeeklySummary;
 }> {
   const { session, companyId } = await requireActiveCompany();
@@ -146,10 +144,9 @@ export async function getTimeTrackingOverview(): Promise<{
   const from = new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString();
   const to = new Date(Date.now() + 2 * 60 * 60 * 1000).toISOString();
 
-  const [{ data: projectRows }, { data: taskRows }, { data: siteRows }, { data: areaRows }, { data: assignmentRows }, { data: entryRows, error }] = await Promise.all([
-    supabase.from("projects").select("id,name").eq("company_id", companyId).order("name"),
+  const [{ data: taskRows }, { data: siteRows }, { data: areaRows }, { data: assignmentRows }, { data: entryRows, error }] = await Promise.all([
     supabase.from("tasks").select("id,name").eq("company_id", companyId).eq("status", "active").order("name"),
-    supabase.from("sites").select("id,name,project_id").eq("company_id", companyId).eq("status", "active").order("name"),
+    supabase.from("sites").select("id,name").eq("company_id", companyId).eq("status", "active").order("name"),
     // Every subdivision of every active location, in one read rather than one
     // per location: it is a small table with an index on (site_id, sort_order),
     // and the selector has to know how many a location has before it can decide
@@ -163,7 +160,7 @@ export async function getTimeTrackingOverview(): Promise<{
       .order("name", { ascending: true }),
     supabase
       .from("assignments")
-      .select("id,title,site_id,project_id,starts_at,assignment_assignees!inner(company_membership_id)")
+      .select("id,title,site_id,starts_at,assignment_assignees!inner(company_membership_id)")
       .eq("company_id", companyId)
       .eq("assignment_assignees.company_membership_id", membershipId)
       .lte("starts_at", to)
@@ -172,7 +169,7 @@ export async function getTimeTrackingOverview(): Promise<{
       .limit(1),
     supabase
       .from("timesheet_entries")
-      .select("id,starts_at,ends_at,break_minutes,status,projects(id,name),tasks(id,name),timesheets!inner(user_id)")
+      .select("id,starts_at,ends_at,break_minutes,status,sites(name),tasks(name),timesheets!inner(user_id)")
       .eq("company_id", companyId)
       .eq("timesheets.user_id", userId)
       .gte("starts_at", weekStart.toISOString())
@@ -180,7 +177,6 @@ export async function getTimeTrackingOverview(): Promise<{
   ]);
   if (error) throw new Error("Unable to load time tracking entries.");
 
-  const projects: Project[] = projectRows ?? [];
   const tasks: Task[] = taskRows ?? [];
   const areasBySite = new Map<string, TrackerArea[]>();
   for (const row of (areaRows ?? []) as { id: string; site_id: string; name: string; is_default: boolean }[]) {
@@ -188,23 +184,28 @@ export async function getTimeTrackingOverview(): Promise<{
     list.push({ id: row.id, name: row.name, isDefault: row.is_default });
     areasBySite.set(row.site_id, list);
   }
-  const sites: TrackerSite[] = ((siteRows ?? []) as { id: string; name: string; project_id: string | null }[]).map((row) => ({
-    id: row.id, name: row.name, projectId: row.project_id, areas: areasBySite.get(row.id) ?? [],
+  const sites: TrackerSite[] = ((siteRows ?? []) as { id: string; name: string }[]).map((row) => ({
+    id: row.id, name: row.name, areas: areasBySite.get(row.id) ?? [],
   }));
 
-  type AssignmentRow = { id: string; title: string; site_id: string | null; project_id: string | null };
+  type AssignmentRow = { id: string; title: string; site_id: string | null };
   const assignment = ((assignmentRows ?? []) as AssignmentRow[])[0];
   const currentAssignment: CurrentAssignment | null = assignment
-    ? { assignmentId: assignment.id, title: assignment.title, siteId: assignment.site_id, projectId: assignment.project_id }
+    ? { assignmentId: assignment.id, title: assignment.title, siteId: assignment.site_id }
     : null;
   const rows = (entryRows ?? []) as unknown as EntryRow[];
 
-  const recentEntries: TimeEntry[] = rows.slice(0, 10).flatMap((row) => {
-    const project = first(row.projects);
-    const task = first(row.tasks);
-    if (!project || !task) return [];
-    return [{ id: row.id, project, task, durationMinutes: workedMinutes(row), date: formatDate(row.starts_at), status: statusLabel(row.status) }];
-  });
+  // No longer dropped when something is missing. `flatMap` with a guard on the
+  // project and the task is how hours worked without either quietly vanished
+  // from this list — and both are legitimately blank.
+  const recentEntries: TimeEntry[] = rows.slice(0, 10).map((row) => ({
+    id: row.id,
+    location: first(row.sites)?.name ?? null,
+    task: first(row.tasks)?.name ?? null,
+    durationMinutes: workedMinutes(row),
+    date: formatDate(row.starts_at),
+    status: statusLabel(row.status),
+  }));
 
   const today = dateKey(new Date().toISOString());
   const todayRows = rows.filter((row) => dateKey(row.starts_at) === today);
@@ -218,5 +219,5 @@ export async function getTimeTrackingOverview(): Promise<{
     targetMinutes: WEEKLY_TARGET_MINUTES,
   };
 
-  return { projects, tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary };
+  return { tasks, sites, currentAssignment, recentEntries, todaySummary, weeklySummary };
 }

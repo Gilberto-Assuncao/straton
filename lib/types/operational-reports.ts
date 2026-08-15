@@ -40,7 +40,6 @@ export type OperationalReportListItem = {
   reportDate: string;
   workerName: string;
   templateName: string | null;
-  projectName: string | null;
   siteName: string | null;
   status: OperationalReportStatus;
 };
@@ -62,8 +61,6 @@ export type OperationalReportDetail = {
   templateName: string | null;
   templateFields: ReportTemplateField[];
   teamId: string | null;
-  projectId: string | null;
-  projectName: string | null;
   siteId: string | null;
   siteName: string | null;
   reportDate: string;

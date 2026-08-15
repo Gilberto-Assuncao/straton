@@ -16,7 +16,6 @@ export type OperationalReportInput = {
   startsAt: string | null;
   endsAt: string | null;
   breakMinutes: number;
-  projectId: string | null;
   siteId: string | null;
   activity: string;
   notes: string;
@@ -57,7 +56,6 @@ export async function createOperationalReportAction(input: OperationalReportInpu
       template_id: input.templateId,
       worker_id: session.user.id,
       created_by: session.user.id,
-      project_id: input.projectId,
       site_id: input.siteId,
       report_date: input.reportDate,
       starts_at: input.startsAt,
@@ -92,7 +90,6 @@ export async function updateOperationalReportAction(reportId: string, input: Ope
     .from("operational_reports")
     .update({
       template_id: input.templateId,
-      project_id: input.projectId,
       site_id: input.siteId,
       report_date: input.reportDate,
       starts_at: input.startsAt,

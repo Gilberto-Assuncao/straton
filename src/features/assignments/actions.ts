@@ -103,17 +103,11 @@ export async function createAssignmentAction(formData: FormData): Promise<Assign
   if (bySource.size === 0) return { ok: false, message: "noAssignees" };
 
   const siteId = text(formData, "siteId") || null;
-  let projectId = text(formData, "projectId") || null;
-  if (siteId && !projectId) {
-    const { data: site } = await supabase.from("sites").select("project_id").eq("id", siteId).maybeSingle();
-    projectId = (site as { project_id: string | null } | null)?.project_id ?? null;
-  }
 
   const { data: created, error } = await supabase
     .from("assignments")
     .insert({
       company_id: companyId,
-      project_id: projectId,
       site_id: siteId,
       starts_at: start.toISOString(),
       ends_at: end.toISOString(),

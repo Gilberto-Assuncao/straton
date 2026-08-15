@@ -14,7 +14,7 @@ export type { ChainSide } from "./chain";
  * location now: the relationship belongs to the company, and what it produces
  * is an allocation to a chantier.
  */
-export interface NetworkProject {
+export interface NetworkLocation {
   id: string;
   name: string;
   /** true when the location is yours and they were invited onto it. */
@@ -35,9 +35,9 @@ export interface NetworkCompany {
   relationshipType: RelationshipType;
   relationshipStatus: RelationshipStatus;
   side: ChainSide;
-  projects: NetworkProject[];
+  locations: NetworkLocation[];
   /** Their people currently allocated to work locations of yours. */
-  peopleOnYourProjects: number;
+  peopleOnYourLocations: number;
 }
 
 export interface CompanyNetwork {
@@ -119,16 +119,16 @@ export async function getCompanyNetwork(): Promise<CompanyNetwork> {
     ((directoryRows ?? []) as { id: string; name: string; vat_number: string | null }[]).map((row) => [row.id, row]),
   );
 
-  const projectsByCompany = new Map<string, NetworkProject[]>();
+  const locationsByCompany = new Map<string, NetworkLocation[]>();
   for (const row of (partnerRows ?? []) as PartnerRow[]) {
     const project = first(row.sites);
     if (!project) continue;
     const yours = row.owner_company_id === companyId;
     const other = yours ? row.company_id : row.owner_company_id;
     if (other === companyId) continue;
-    const list = projectsByCompany.get(other) ?? [];
+    const list = locationsByCompany.get(other) ?? [];
     list.push({ id: project.id, name: project.name, yoursTheirs: yours, status: project.status });
-    projectsByCompany.set(other, list);
+    locationsByCompany.set(other, list);
   }
 
   const peopleByCompany = new Map<string, number>();
@@ -151,12 +151,12 @@ export async function getCompanyNetwork(): Promise<CompanyNetwork> {
         relationshipType: row.relationship_type,
         relationshipStatus: row.status,
         side: chainSide(row.relationship_type, isSource),
-        projects: projectsByCompany.get(otherId) ?? [],
-        peopleOnYourProjects: peopleByCompany.get(otherId) ?? 0,
+        locations: locationsByCompany.get(otherId) ?? [],
+        peopleOnYourLocations: peopleByCompany.get(otherId) ?? 0,
       },
     ];
   });
 
-  companies.sort((a, b) => b.projects.length - a.projects.length || a.name.localeCompare(b.name));
+  companies.sort((a, b) => b.locations.length - a.locations.length || a.name.localeCompare(b.name));
   return { companyName: session.activeCompany?.name ?? "", companies };
 }

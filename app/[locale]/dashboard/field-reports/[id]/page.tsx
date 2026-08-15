@@ -27,7 +27,7 @@ export default async function FieldReportDetailPage({ params }: { params: Promis
         <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
           <dl className="grid gap-5 sm:grid-cols-2">
             <div><dt className="text-sm text-[#9CA3AF]">Status</dt><dd className="mt-1 font-semibold text-[#E5E7EB]">{report.status.replace("_", " ")}</dd></div>
-            <div><dt className="text-sm text-[#9CA3AF]">Project</dt><dd className="mt-1 font-semibold text-[#E5E7EB]">{report.projectName ?? "—"}</dd></div>
+            <div><dt className="text-sm text-[#9CA3AF]">Project</dt><dd className="mt-1 font-semibold text-[#E5E7EB]">{report.siteName ?? "—"}</dd></div>
             <div><dt className="text-sm text-[#9CA3AF]">Work site</dt><dd className="mt-1 font-semibold text-[#E5E7EB]">{report.siteName ?? "—"}</dd></div>
             <div><dt className="text-sm text-[#9CA3AF]">Break</dt><dd className="mt-1 font-semibold text-[#E5E7EB]">{report.breakMinutes} min</dd></div>
             <div><dt className="text-sm text-[#9CA3AF]">Start</dt><dd className="mt-1 font-semibold text-[#E5E7EB]">{report.startsAt ?? "—"}</dd></div>

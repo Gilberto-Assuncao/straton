@@ -71,12 +71,11 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
   const date = String(formData.get("date") ?? "");
   const startTime = String(formData.get("startTime") ?? "");
   const endTime = String(formData.get("endTime") ?? "");
-  // Optional too, and for the same reason as the site below. A company that has
-  // not written down any tasks still has people working; requiring one meant
-  // the clock could not be started at all, because the dropdown was empty and
-  // there was nothing to choose. Both columns are nullable — the obligation was
-  // invented here, not by the model.
-  const projectId = String(formData.get("projectId") ?? "") || null;
+  // Optional, and for the same reason as the site below. A company that has not
+  // written down any tasks still has people working; requiring one meant the
+  // clock could not be started at all, because the dropdown was empty and there
+  // was nothing to choose. The column is nullable — the obligation was invented
+  // here, not by the model.
   const taskId = String(formData.get("taskId") ?? "") || null;
   // Optional. Office work, workshop time and travel are real hours without a
   // chantier — requiring one would push people to pick a wrong site rather
@@ -105,7 +104,6 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
   const { error } = await supabase.from("timesheet_entries").insert({
     company_id: companyId,
     timesheet_id: timesheetId,
-    project_id: projectId,
     site_id: siteId,
     site_area_id: siteAreaId,
     task_id: taskId,
@@ -133,8 +131,7 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
  * and this row becomes paid hours the moment it closes.
  */
 export async function startSessionAction(input: {
-  /** Optional: a company with no projects or tasks written down still works. */
-  projectId?: string | null;
+  /** Optional: a company with nothing written down still works. */
   taskId?: string | null;
   siteId?: string | null;
   siteAreaId?: string | null;
@@ -166,7 +163,6 @@ export async function startSessionAction(input: {
   const { error } = await supabase.from("time_sessions").insert({
     company_id: companyId,
     user_id: session.user.id,
-    project_id: input.projectId || null,
     task_id: input.taskId || null,
     site_id: input.siteId || null,
     site_area_id: input.siteAreaId || null,
@@ -202,7 +198,7 @@ export async function stopSessionAction(input?: { endedAt?: string }): Promise<T
 
   const { data: open } = await supabase
     .from("time_sessions")
-    .select("id,started_at,project_id,task_id,site_id,site_area_id,notes")
+    .select("id,started_at,task_id,site_id,site_area_id,notes")
     .eq("company_id", companyId)
     .eq("user_id", session.user.id)
     .is("ended_at", null)
@@ -235,7 +231,6 @@ export async function stopSessionAction(input?: { endedAt?: string }): Promise<T
     .insert({
       company_id: companyId,
       timesheet_id: timesheetId,
-      project_id: open.project_id,
       site_id: open.site_id,
       // Carried from the session rather than resolved again. The subdivision
       // was decided when the clock started; working it out at Stop would use

@@ -58,7 +58,7 @@ export async function getLivePresence(): Promise<LivePresenceSite[]> {
   // error page.
   const { data, error } = await supabase
     .from("time_sessions")
-    .select("id,user_id,started_at,users!time_sessions_user_id_fkey(name),sites(id,name,latitude,longitude,projects(name))")
+    .select("id,user_id,started_at,users!time_sessions_user_id_fkey(name),sites(id,name,latitude,longitude)")
     .eq("company_id", companyId)
     .is("ended_at", null)
     .order("started_at", { ascending: true });

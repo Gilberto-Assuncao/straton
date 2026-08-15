@@ -27,17 +27,17 @@ async function CompanyCard({ company }: { company: NetworkCompany }) {
         </span>
       </div>
 
-      {company.projects.length > 0 ? (
+      {company.locations.length > 0 ? (
         <ul className="mt-3 flex flex-wrap gap-2">
-          {company.projects.map((project) => (
-            <li key={project.id}>
+          {company.locations.map((location) => (
+            <li key={location.id}>
               <span
                 className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs ${
-                  project.yoursTheirs ? "bg-[#22C55E]/10 text-[#4ADE80]" : "bg-white/10 text-[#9CA3AF]"
+                  location.yoursTheirs ? "bg-[#22C55E]/10 text-[#4ADE80]" : "bg-white/10 text-[#9CA3AF]"
                 }`}
-                title={project.yoursTheirs ? t("projectYours") : t("projectTheirs")}
+                title={location.yoursTheirs ? t("projectYours") : t("projectTheirs")}
               >
-                {project.name}
+                {location.name}
               </span>
             </li>
           ))}
@@ -46,11 +46,11 @@ async function CompanyCard({ company }: { company: NetworkCompany }) {
         <p className="mt-3 text-xs text-[#6B7280]">{t("noSharedProjects")}</p>
       )}
 
-      {company.peopleOnYourProjects > 0 ? (
+      {company.peopleOnYourLocations > 0 ? (
         // The number that answers the chain-liability question: how many of
         // their people are on work you are responsible for.
         <p className="mt-3 text-xs text-[#D1D5DB]">
-          {t("peopleOnYourProjects", { count: company.peopleOnYourProjects })}
+          {t("peopleOnYourLocations", { count: company.peopleOnYourLocations })}
         </p>
       ) : null}
     </li>

@@ -3,7 +3,6 @@
 import { useActionState, useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import ManualEntryForm from "@/components/time/ManualEntryForm";
-import ProjectSelector from "@/components/time/ProjectSelector";
 import RecentEntries from "@/components/time/RecentEntries";
 import StaleSessionPrompt from "@/components/time/StaleSessionPrompt";
 import SubdivisionSelector from "@/components/time/SubdivisionSelector";
@@ -19,10 +18,9 @@ import {
   type LogTimeEntryState,
 } from "@/src/features/time-tracking/actions";
 import type { CurrentAssignment, OpenSession, TrackerSite } from "@/src/features/time-tracking/data";
-import type { DailySummary, Project, Task, TimeEntry, WeeklySummary as WeeklySummaryType } from "@/lib/types/time";
+import type { DailySummary, Task, TimeEntry, WeeklySummary as WeeklySummaryType } from "@/lib/types/time";
 
 type Props = {
-  projects: Project[];
   tasks: Task[];
   sites: TrackerSite[];
   /** The job the agenda says is running now, used to pre-fill the site. */
@@ -35,7 +33,6 @@ type Props = {
 };
 
 export default function TimeTracker({
-  projects,
   tasks,
   sites,
   currentAssignment,
@@ -57,7 +54,6 @@ export default function TimeTracker({
   const baseSeconds = openSession?.elapsedSeconds ?? 0;
   const [ticks, setTicks] = useState(0);
 
-  const [projectId, setProjectId] = useState(openSession?.projectId ?? currentAssignment?.projectId ?? projects[0]?.id ?? "");
   const [taskId, setTaskId] = useState(openSession?.taskId ?? tasks[0]?.id ?? "");
   /**
    * Pre-filled from the agenda when there is a job on now (#55).
@@ -101,7 +97,6 @@ export default function TimeTracker({
   const start = () => {
     startTransition(async () => {
       const result = await startSessionAction({
-        projectId,
         taskId,
         siteId: siteId || null,
         siteAreaId: siteAreaId || null,
@@ -138,8 +133,10 @@ export default function TimeTracker({
             <TimerDisplay seconds={elapsedSeconds} />
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <ProjectSelector projects={projects} value={projectId} onChange={setProjectId} disabled={locked} />
+          {/* The location is the question now, and the only one on the way to
+              Start. Projects were the other half of this row until #77 retired
+              them. */}
+          <div className="mt-8">
             <TaskSelector tasks={tasks} value={taskId} onChange={setTaskId} disabled={locked} />
           </div>
 
@@ -223,7 +220,7 @@ export default function TimeTracker({
         <WeeklySummary summary={weeklySummary} />
       </div>
 
-      <ManualEntryForm projects={projects} tasks={tasks} sites={sites} feedback={manualState.message} action={submitManual} />
+      <ManualEntryForm tasks={tasks} sites={sites} feedback={manualState.message} action={submitManual} />
       <RecentEntries entries={entries} />
     </div>
   );

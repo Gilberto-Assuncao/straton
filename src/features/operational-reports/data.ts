@@ -76,7 +76,6 @@ interface ListRow {
   worker_id: string;
   users: RelatedOne<{ name: string }>;
   report_templates: RelatedOne<{ name: string }>;
-  projects: RelatedOne<{ name: string }>;
   sites: RelatedOne<{ name: string }>;
 }
 
@@ -87,7 +86,7 @@ export async function getOperationalReports(): Promise<{ reports: OperationalRep
 
   let query = supabase
     .from("operational_reports")
-    .select("id,report_date,status,worker_id,users!operational_reports_worker_id_fkey(name),report_templates(name),projects(name),sites(name)")
+    .select("id,report_date,status,worker_id,users!operational_reports_worker_id_fkey(name),report_templates(name),sites(name)")
     .eq("company_id", companyId)
     .order("report_date", { ascending: false });
   if (!canReviewAll) query = query.eq("worker_id", session.user.id);
@@ -100,7 +99,6 @@ export async function getOperationalReports(): Promise<{ reports: OperationalRep
     reportDate: row.report_date,
     workerName: first(row.users)?.name ?? "—",
     templateName: first(row.report_templates)?.name ?? null,
-    projectName: first(row.projects)?.name ?? null,
     siteName: first(row.sites)?.name ?? null,
     status: row.status,
   }));
@@ -114,7 +112,6 @@ interface DetailRow {
   worker_id: string;
   template_id: string | null;
   team_id: string | null;
-  project_id: string | null;
   site_id: string | null;
   report_date: string;
   starts_at: string | null;
@@ -125,7 +122,6 @@ interface DetailRow {
   status: OperationalReportStatus;
   rejection_reason: string | null;
   users: RelatedOne<{ name: string }>;
-  projects: RelatedOne<{ name: string }>;
   sites: RelatedOne<{ name: string }>;
 }
 interface ValueRow {
@@ -160,7 +156,7 @@ export async function getOperationalReportDetail(reportId: string): Promise<Oper
     supabase
       .from("operational_reports")
       .select(
-        "id,company_id,worker_id,template_id,team_id,project_id,site_id,report_date,starts_at,ends_at,break_minutes,activity,notes,status,rejection_reason,users!operational_reports_worker_id_fkey(name),projects(name),sites(name)"
+        "id,company_id,worker_id,template_id,team_id,site_id,report_date,starts_at,ends_at,break_minutes,activity,notes,status,rejection_reason,users!operational_reports_worker_id_fkey(name),sites(name)"
       )
       .eq("id", reportId)
       .eq("company_id", companyId)
@@ -208,8 +204,6 @@ export async function getOperationalReportDetail(reportId: string): Promise<Oper
     templateName,
     templateFields,
     teamId: row.team_id,
-    projectId: row.project_id,
-    projectName: first(row.projects)?.name ?? null,
     siteId: row.site_id,
     siteName: first(row.sites)?.name ?? null,
     reportDate: row.report_date,
@@ -225,14 +219,11 @@ export async function getOperationalReportDetail(reportId: string): Promise<Oper
   };
 }
 
-export async function getProjectAndSiteOptions(): Promise<{ projects: { id: string; name: string }[]; sites: { id: string; name: string }[] }> {
+export async function getSiteOptions(): Promise<{ sites: { id: string; name: string }[] }> {
   const { companyId } = await requireActiveCompany();
   const supabase = await createClient();
-  const [{ data: projects }, { data: sites }] = await Promise.all([
-    supabase.from("projects").select("id,name").eq("company_id", companyId).order("name"),
-    supabase.from("sites").select("id,name").eq("company_id", companyId).order("name"),
-  ]);
-  return { projects: projects ?? [], sites: sites ?? [] };
+  const { data: sites } = await supabase.from("sites").select("id,name").eq("company_id", companyId).order("name");
+  return { sites: sites ?? [] };
 }
 
 // The management view differs from getReportTemplates in two ways: it includes

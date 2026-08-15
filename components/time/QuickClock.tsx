@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { startSessionAction, stopSessionAction } from "@/src/features/time-tracking/actions";
 import type { CurrentAssignment, OpenSession, TrackerSite } from "@/src/features/time-tracking/data";
-import type { Project, Task } from "@/lib/types/time";
+import type { Task } from "@/lib/types/time";
 
 /**
  * The clock-in page for somebody standing on a site (#31).
@@ -22,14 +22,12 @@ export default function QuickClock({
   openSession,
   currentAssignment,
   sites,
-  projects,
   tasks,
   todayMinutes,
 }: {
   openSession: OpenSession | null;
   currentAssignment: CurrentAssignment | null;
   sites: TrackerSite[];
-  projects: Project[];
   tasks: Task[];
   todayMinutes: number;
 }) {
@@ -80,7 +78,6 @@ export default function QuickClock({
     startTransition(async () => {
       const coordinates = await currentPosition();
       const result = await startSessionAction({
-        projectId: currentAssignment?.projectId ?? projects[0]?.id ?? "",
         taskId: tasks[0]?.id ?? "",
         siteId: siteId || null,
         coordinates,

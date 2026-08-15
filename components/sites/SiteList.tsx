@@ -55,7 +55,6 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
                   {site.reference ? <span className="text-xs text-[#6B7280]">{site.reference}</span> : null}
                 </div>
                 <p className="mt-1.5 text-sm text-[#9CA3AF]">{parts.length ? parts.join(", ") : t("noAddress")}</p>
-                {site.projectName ? <p className="mt-1 text-xs text-[#6B7280]">{t("projectLabel")}: {site.projectName}</p> : null}
               </div>
               <div className="flex shrink-0 gap-1">
                 <Link href={`/dashboard/sites/${site.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-[#22C55E] hover:text-[#16A34A] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("open")}</Link><Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("edit")}</Link>
