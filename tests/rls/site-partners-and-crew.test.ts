@@ -42,6 +42,21 @@ const SITE = DEMO.belnex.siteId;
 async function clearSeeded(db: Client): Promise<void> {
   await db.query("delete from public.site_partners where site_id = $1", [SITE]);
   await db.query("delete from public.site_crew where site_id = $1", [SITE]);
+  /*
+   * And the project-level partnership the seed set up, which still grants
+   * access on purpose: `sites_read_partner` keeps a legacy clause so the
+   * project route works until the menu is retired.
+   *
+   * Without this the location was readable through the old path and the case
+   * below passed or failed for a reason that had nothing to do with the rule
+   * it names — which is exactly how it failed on CI, saying "a pending partner
+   * can read the location" when what it had found was an accepted partner on
+   * the project underneath it. This deletion goes when the clause does.
+   */
+  await db.query(
+    "delete from public.project_partners where project_id = (select project_id from public.sites where id = $1)",
+    [SITE],
+  );
 }
 
 /** Invites GeoTech onto Belnex's location, acting as the Belnex admin. */
