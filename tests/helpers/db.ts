@@ -97,6 +97,18 @@ export const DEMO = {
     adminUserId: "d0000002-0000-4000-8000-000000000201",
     siteId: "d0000005-0000-4000-8000-000000000201",
   },
+  /**
+   * GeoTech, an accepted partner on Belnex's chantier.
+   *
+   * The delegation case, and the only one that can prove the privacy boundary
+   * of #83: two companies on the same location, each entitled to its own view.
+   * Nordclean is not a substitute — it is only *invited*, and on another site.
+   */
+  geotech: {
+    companyId: "d0000001-0000-4000-8000-000000000003",
+    adminUserId: "d0000002-0000-4000-8000-000000000301",
+    otherUserId: "d0000002-0000-4000-8000-000000000302",
+  },
   /** Client of Nordclean only — nothing links it to Belnex. */
   unrelatedCompanyId: "d0000001-0000-4000-8000-000000000005",
 } as const;
