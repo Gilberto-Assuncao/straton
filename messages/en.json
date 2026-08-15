@@ -740,7 +740,21 @@
     "hoursRecentOnly": "The {count} most recent entries.",
     "areaUnattributed": "Not specified",
     "areaPeopleCount": "{count} people",
-    "partnersOnSite": "On this location"
+    "partnersOnSite": "On this location",
+    "audienceTitle": "Who hears about this location",
+    "audienceSubtitle": "Chosen, never guessed. Someone added here is told when this location changes.",
+    "audiencePersonLabel": "Colleague",
+    "audiencePersonPlaceholder": "Choose somebody",
+    "audienceScopeLabel": "About",
+    "audienceScopeWholeSite": "The whole location",
+    "audienceAdd": "Add",
+    "audienceMineTitle": "From this company",
+    "audienceMineEmpty": "Nobody here is being told yet.",
+    "audienceRemove": "Remove",
+    "audienceCompaniesTitle": "Partner companies",
+    "audienceCompaniesSubtitle": "Each partner chooses its own people. You see how many, not who — their staff list is theirs.",
+    "audienceCompanyCount": "{count} listening",
+    "tab_notifications": "Notifications"
   },
   "operationalReports": {
     "metadataTitle": "Field Reports",

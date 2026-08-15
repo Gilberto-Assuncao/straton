@@ -740,7 +740,21 @@
     "hoursRecentOnly": "De {count} meest recente registraties.",
     "areaUnattributed": "Niet opgegeven",
     "areaPeopleCount": "{count} personen",
-    "partnersOnSite": "Op deze locatie"
+    "partnersOnSite": "Op deze locatie",
+    "audienceTitle": "Wie wordt geïnformeerd over deze locatie",
+    "audienceSubtitle": "Gekozen, nooit afgeleid. Wie hier wordt toegevoegd, hoort het als deze locatie verandert.",
+    "audiencePersonLabel": "Collega",
+    "audiencePersonPlaceholder": "Kies iemand",
+    "audienceScopeLabel": "Over",
+    "audienceScopeWholeSite": "De hele locatie",
+    "audienceAdd": "Toevoegen",
+    "audienceMineTitle": "Van dit bedrijf",
+    "audienceMineEmpty": "Nog niemand hier wordt geïnformeerd.",
+    "audienceRemove": "Verwijderen",
+    "audienceCompaniesTitle": "Partnerbedrijven",
+    "audienceCompaniesSubtitle": "Elke partner kiest zijn eigen mensen. U ziet hoeveel, niet wie — hun personeelslijst is van hen.",
+    "audienceCompanyCount": "{count} luisteren",
+    "tab_notifications": "Meldingen"
   },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",

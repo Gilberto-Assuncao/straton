@@ -521,3 +521,74 @@ export async function searchClientSuggestionsAction(name: string): Promise<Compa
   if (!allowed) return [];
   return searchBelgianCompanies(name);
 }
+
+export type AudienceActionResult = { ok: boolean; message: string };
+
+/**
+ * Põe um colega na lista de quem é avisado sobre este local (#83).
+ *
+ * `companyId` vem da sessão, nunca do formulário. A política de insert só
+ * verifica os valores que lhe entregam, e aceitar este do cliente seria
+ * oferecer a quem soubesse escrever um pedido a hipótese de subscrever gente
+ * de outra empresa — que é exatamente o que o gatilho recusa uma camada
+ * abaixo. Aqui é a primeira das duas fechaduras, não a única.
+ *
+ * `siteAreaId` vazio significa o local inteiro. É o caso comum e por isso é o
+ * valor por omissão do formulário, não uma opção escondida.
+ */
+export async function subscribeToSiteAction(
+  siteId: string,
+  userId: string,
+  siteAreaId: string,
+): Promise<AudienceActionResult> {
+  const { allowed, companyId } = await guard();
+  if (!allowed) return { ok: false, message: "You do not have permission to change this list." };
+  if (!userId) return { ok: false, message: "Choose somebody to add." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("site_notification_subscribers").insert({
+    site_id: siteId,
+    company_id: companyId,
+    user_id: userId,
+    site_area_id: siteAreaId || null,
+  });
+
+  if (error) {
+    // The duplicate is the one case worth naming: it is a thing the person did
+    // and can undo. Everything else is a refusal by a policy or a trigger, and
+    // repeating "new row violates row-level security policy" to a site manager
+    // tells them nothing they can act on — that belongs in the log (#27).
+    if (error.code === "23505") return { ok: false, message: "That person is already on this list." };
+    log.error({ event: "site_subscriber_insert_failed", source: "subscribeToSiteAction", code: error.code }, error);
+    return { ok: false, message: "That person could not be added to the list." };
+  }
+
+  revalidatePath(`/dashboard/sites/${siteId}`);
+  return { ok: true, message: "Added to the list." };
+}
+
+/**
+ * Tira alguém da lista.
+ *
+ * Apagado e não marcado como inativo, ao contrário do parceiro revogado: uma
+ * subscrição não é um facto histórico sobre quem esteve na obra, é uma
+ * preferência sobre o presente. Guardá-la só criaria uma segunda forma de
+ * estar na lista sem estar.
+ */
+export async function unsubscribeFromSiteAction(
+  siteId: string,
+  subscriberId: string,
+): Promise<AudienceActionResult> {
+  const { allowed } = await guard();
+  if (!allowed) return { ok: false, message: "You do not have permission to change this list." };
+
+  const supabase = await createClient();
+  const { error } = await supabase.from("site_notification_subscribers").delete().eq("id", subscriberId);
+  if (error) {
+    log.error({ event: "site_subscriber_delete_failed", source: "unsubscribeFromSiteAction", code: error.code }, error);
+    return { ok: false, message: "That person could not be removed from the list." };
+  }
+
+  revalidatePath(`/dashboard/sites/${siteId}`);
+  return { ok: true, message: "Removed from the list." };
+}

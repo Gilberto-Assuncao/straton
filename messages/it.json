@@ -740,7 +740,21 @@
     "hoursRecentOnly": "Le {count} registrazioni più recenti.",
     "areaUnattributed": "Non indicato",
     "areaPeopleCount": "{count} persone",
-    "partnersOnSite": "In questa sede"
+    "partnersOnSite": "In questa sede",
+    "audienceTitle": "Chi viene avvisato di questo cantiere",
+    "audienceSubtitle": "Scelto, mai dedotto. Chi viene aggiunto qui è avvisato quando questo cantiere cambia.",
+    "audiencePersonLabel": "Collega",
+    "audiencePersonPlaceholder": "Scegliere qualcuno",
+    "audienceScopeLabel": "Riguardo a",
+    "audienceScopeWholeSite": "Tutto il cantiere",
+    "audienceAdd": "Aggiungere",
+    "audienceMineTitle": "Di questa azienda",
+    "audienceMineEmpty": "Qui non è ancora avvisato nessuno.",
+    "audienceRemove": "Rimuovere",
+    "audienceCompaniesTitle": "Aziende partner",
+    "audienceCompaniesSubtitle": "Ogni partner sceglie le proprie persone. Vedete quante, non quali — il loro personale è loro.",
+    "audienceCompanyCount": "{count} in ascolto",
+    "tab_notifications": "Notifiche"
   },
   "operationalReports": {
     "metadataTitle": "Rapporti sul campo",

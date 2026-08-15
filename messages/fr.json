@@ -740,7 +740,21 @@
     "hoursRecentOnly": "Les {count} saisies les plus récentes.",
     "areaUnattributed": "Non précisé",
     "areaPeopleCount": "{count} personnes",
-    "partnersOnSite": "Sur ce lieu"
+    "partnersOnSite": "Sur ce lieu",
+    "audienceTitle": "Qui est informé de ce chantier",
+    "audienceSubtitle": "Choisi, jamais déduit. Une personne ajoutée ici est prévenue quand ce chantier change.",
+    "audiencePersonLabel": "Collègue",
+    "audiencePersonPlaceholder": "Choisir quelqu'un",
+    "audienceScopeLabel": "À propos de",
+    "audienceScopeWholeSite": "Tout le chantier",
+    "audienceAdd": "Ajouter",
+    "audienceMineTitle": "De cette entreprise",
+    "audienceMineEmpty": "Personne ici n'est encore prévenu.",
+    "audienceRemove": "Retirer",
+    "audienceCompaniesTitle": "Entreprises partenaires",
+    "audienceCompaniesSubtitle": "Chaque partenaire choisit ses propres personnes. Vous voyez combien, pas qui — leur personnel leur appartient.",
+    "audienceCompanyCount": "{count} à l'écoute",
+    "tab_notifications": "Notifications"
   },
   "operationalReports": {
     "metadataTitle": "Rapports de terrain",

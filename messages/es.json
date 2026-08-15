@@ -740,7 +740,21 @@
     "hoursRecentOnly": "Los {count} registros más recientes.",
     "areaUnattributed": "Sin indicar",
     "areaPeopleCount": "{count} personas",
-    "partnersOnSite": "En esta ubicación"
+    "partnersOnSite": "En esta ubicación",
+    "audienceTitle": "Quién recibe avisos de esta ubicación",
+    "audienceSubtitle": "Elegido, nunca deducido. Quien se añada aquí recibe aviso cuando esta ubicación cambia.",
+    "audiencePersonLabel": "Compañero",
+    "audiencePersonPlaceholder": "Elegir a alguien",
+    "audienceScopeLabel": "Sobre",
+    "audienceScopeWholeSite": "Toda la ubicación",
+    "audienceAdd": "Añadir",
+    "audienceMineTitle": "De esta empresa",
+    "audienceMineEmpty": "Todavía no se avisa a nadie de aquí.",
+    "audienceRemove": "Quitar",
+    "audienceCompaniesTitle": "Empresas asociadas",
+    "audienceCompaniesSubtitle": "Cada socio elige a su propia gente. Ve cuántas, no quiénes — su plantilla es suya.",
+    "audienceCompanyCount": "{count} escuchando",
+    "tab_notifications": "Notificaciones"
   },
   "operationalReports": {
     "metadataTitle": "Informes de campo",
