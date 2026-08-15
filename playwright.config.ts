@@ -58,7 +58,12 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
 
   webServer: {
-    command: "npm run dev",
+    // Locally the dev server, so a change is visible without rebuilding. In CI
+    // the built app, because `next dev` compiles each route the first time it
+    // is requested — which turns the first navigation of every test into a wait
+    // on the compiler, and then into a timeout that reads like a broken page.
+    // CI builds in its own step, so a build failure stays a build failure.
+    command: process.env.CI ? "npm run start" : "npm run dev",
     url: process.env.APP_URL ?? "http://localhost:3000",
     // Reuse a dev server that is already up locally; CI has none, so it starts
     // one. Two minutes because a cold Next build is not fast.
