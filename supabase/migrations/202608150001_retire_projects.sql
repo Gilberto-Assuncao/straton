@@ -396,3 +396,122 @@ $$;
 -- Unlike `project_priority`, which `sites.priority` still uses, nothing is left
 -- to describe.
 drop type if exists public.project_status;
+
+/**
+ * The fifth trigger, and the one that says something about how these were
+ * found.
+ *
+ * The first four came from a grep whose output I truncated, so this one was
+ * simply not in the list I read. It is the same shape as the others: a content
+ * comparison naming `new.project_id`, on a table people file reports into
+ * every day, failing only when somebody edits one.
+ *
+ * The list is exhaustive now, and it was made by matching every
+ * `create or replace function` body in the migrations against the objects this
+ * file handles rather than by reading and hoping.
+ */
+create or replace function private.enforce_operational_report()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  is_manager boolean;
+  owns_it boolean;
+  content_changed boolean;
+begin
+  -- No JWT: a migration or the seed, which has to be able to create history in
+  -- any state. Same escape as the timesheet triggers.
+  if (select auth.uid()) is null then
+    return new;
+  end if;
+
+  is_manager := private.is_company_manager(new.company_id);
+  owns_it := new.worker_id = (select auth.uid());
+
+  if tg_op = 'INSERT' then
+    if not owns_it and not is_manager then
+      raise exception 'You can only file a report in your own name.'
+        using errcode = 'insufficient_privilege';
+    end if;
+    if new.status <> 'draft' and not is_manager then
+      raise exception 'A new report starts as a draft.'
+        using errcode = 'insufficient_privilege';
+    end if;
+    -- Stamped, not trusted. Otherwise the record of who filed it says whatever
+    -- the request said it did.
+    new.created_by := (select auth.uid());
+    return new;
+  end if;
+
+  if new.company_id is distinct from old.company_id
+     or new.worker_id is distinct from old.worker_id then
+    raise exception 'A report cannot be reassigned to another person.'
+      using errcode = 'insufficient_privilege';
+  end if;
+
+  if new.status is distinct from old.status then
+    if new.status = 'submitted' then
+      if old.status not in ('draft', 'changes_requested') then
+        raise exception 'This report has already been submitted.'
+          using errcode = 'check_violation';
+      end if;
+      if not owns_it and not is_manager then
+        raise exception 'Only the worker who filed this report can submit it.'
+          using errcode = 'insufficient_privilege';
+      end if;
+    else
+      if not is_manager then
+        raise exception 'Only a manager can review a report.'
+          using errcode = 'insufficient_privilege';
+      end if;
+
+      if new.status in ('under_review', 'approved', 'rejected', 'changes_requested') then
+        if old.status not in ('submitted', 'under_review') then
+          raise exception 'Only a submitted report can be reviewed.'
+            using errcode = 'check_violation';
+        end if;
+        -- Same second-pair-of-eyes rule as the timesheets, and the same
+        -- exception: in a small firm the owner is often the only account, and
+        -- a report nobody can ever approve is worse than one they approve
+        -- themselves.
+        if owns_it and not private.has_company_role(new.company_id, array['owner']) then
+          raise exception 'You cannot review your own report.'
+            using errcode = 'insufficient_privilege';
+        end if;
+        new.reviewed_by := (select auth.uid());
+        new.reviewed_at := now();
+      end if;
+    end if;
+  end if;
+
+  content_changed := (new.report_date, new.starts_at, new.ends_at, new.break_minutes,
+                      new.activity, new.notes, new.site_id,
+                      new.template_id, new.team_id, new.client_company_id)
+    is distinct from (old.report_date, old.starts_at, old.ends_at, old.break_minutes,
+                      old.activity, old.notes, old.site_id,
+                      old.template_id, old.team_id, old.client_company_id);
+
+  if content_changed then
+    -- Approved is approved, for everyone. Reopening the report is the way back,
+    -- and that is a status change with a name against it.
+    if old.status = 'approved' then
+      raise exception 'An approved report cannot be edited. Reopen it first.'
+        using errcode = 'insufficient_privilege';
+    end if;
+    if not is_manager then
+      if not owns_it then
+        raise exception 'You can only edit your own report.'
+          using errcode = 'insufficient_privilege';
+      end if;
+      if old.status not in ('draft', 'changes_requested') then
+        raise exception 'This report is waiting for review.'
+          using errcode = 'check_violation';
+      end if;
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
