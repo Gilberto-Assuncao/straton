@@ -43,14 +43,17 @@ begin
   delete from public.assignment_assignees        where company_id = any(demo_companies);
   delete from public.assignments                 where company_id = any(demo_companies);
   delete from public.worker_availability         where company_id = any(demo_companies);
-  delete from public.project_memberships         where company_id = any(demo_companies);
+  -- Crew and partners are allocations onto a location (#77), so they go before
+  -- it. Both cascade from `sites` anyway; they are named here because a
+  -- teardown that relies on cascades is one schema change away from silently
+  -- leaving rows behind.
+  delete from public.site_crew                   where company_id = any(demo_companies);
   -- Either side is enough to make it demo data, and both sides are demo
   -- companies here — matching on one of them alone would leave the row behind
   -- if the demo set ever grows a partner outside it.
-  delete from public.project_partners
+  delete from public.site_partners
     where company_id = any(demo_companies) or owner_company_id = any(demo_companies);
   delete from public.sites                       where company_id = any(demo_companies);
-  delete from public.projects                    where company_id = any(demo_companies);
 
   delete from public.team_memberships            where company_id = any(demo_companies);
   delete from public.teams                       where company_id = any(demo_companies);
@@ -107,7 +110,8 @@ union all select 'auth.users',        count(*) from auth.users                wh
 union all select 'memberships',       count(*) from public.company_memberships where id::text like 'd0000003-%'
 union all select 'teams',             count(*) from public.teams              where id::text like 'd0000004-%'
 union all select 'sites',             count(*) from public.sites              where id::text like 'd0000005-%'
-union all select 'projects',          count(*) from public.projects           where id::text like 'd0000006-%'
+union all select 'site_crew',         count(*) from public.site_crew          where company_id::text like 'd0000001-%'
+union all select 'site_partners',     count(*) from public.site_partners      where owner_company_id::text like 'd0000001-%'
 union all select 'timesheets',        count(*) from public.timesheets         where company_id::text like 'd0000001-%'
 union all select 'timesheet_entries', count(*) from public.timesheet_entries  where company_id::text like 'd0000001-%'
 union all select 'payroll_periods',   count(*) from public.payroll_periods    where id::text like 'd0000009-%'

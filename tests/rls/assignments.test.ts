@@ -25,7 +25,7 @@ async function scheduleJob(db: Client): Promise<void> {
   await actAs(db, DEMO.belnex.adminUserId);
   await db.query(
     `insert into public.assignments (id, company_id, site_id, starts_at, ends_at, title, status)
-     values ($1, $2, $3, $4, now() + interval '2 days', now() + interval '2 days 8 hours', 'Panel mounting', 'sent')`,
+     values ($1, $2, $3, now() + interval '2 days', now() + interval '2 days 8 hours', 'Panel mounting', 'sent')`,
     [ASSIGNMENT_ID, DEMO.belnex.companyId, DEMO.belnex.siteId],
   );
   await db.query(

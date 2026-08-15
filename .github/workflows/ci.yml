@@ -79,3 +79,13 @@ jobs:
         run: npm run test:rls
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+
+      # Last, because it destroys the dataset the tests just used. Nothing else
+      # in the project ever executes this file, so retiring `projects` (#77)
+      # left it referencing three dropped tables and no check anywhere noticed.
+      # It only has to run for that to be caught: a delete against a table that
+      # no longer exists is an error, not a silent no-op.
+      - name: Demo teardown still runs
+        run: psql "$TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/seed-demo-down.sql
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
