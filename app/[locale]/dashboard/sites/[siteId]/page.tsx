@@ -92,7 +92,7 @@ export default async function SiteDashboardPage({
         {active === "reports" ? <ReportsPanel data={data} /> : null}
         {active === "team" ? <TeamPanel data={data} /> : null}
         {active === "partners" ? (
-          <SitePartners siteId={site.id} partners={partners} invitable={invitable} hasProject={Boolean(site.projectId)} />
+          <SitePartners siteId={site.id} partners={partners} invitable={invitable} />
         ) : null}
       </div>
     </section>

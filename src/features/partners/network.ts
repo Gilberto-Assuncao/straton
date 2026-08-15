@@ -7,10 +7,17 @@ import { chainSide, type ChainSide } from "./chain";
 
 export type { ChainSide } from "./chain";
 
+/**
+ * A work location the two companies share (#77).
+ *
+ * Was a project, because partnership was a project-level fact. It is a
+ * location now: the relationship belongs to the company, and what it produces
+ * is an allocation to a chantier.
+ */
 export interface NetworkProject {
   id: string;
   name: string;
-  /** true when the project is yours and they were invited onto it. */
+  /** true when the location is yours and they were invited onto it. */
   yoursTheirs: boolean;
   status: string;
 }
@@ -29,7 +36,7 @@ export interface NetworkCompany {
   relationshipStatus: RelationshipStatus;
   side: ChainSide;
   projects: NetworkProject[];
-  /** Their people currently assigned to projects of yours. */
+  /** Their people currently allocated to work locations of yours. */
   peopleOnYourProjects: number;
 }
 
@@ -49,12 +56,12 @@ interface PartnerRow {
   company_id: string;
   owner_company_id: string;
   status: string;
-  projects: { id: string; name: string; status: string } | { id: string; name: string; status: string }[] | null;
+  sites: { id: string; name: string; status: string } | { id: string; name: string; status: string }[] | null;
 }
 
-interface AssignmentRow {
+interface CrewRow {
   company_id: string;
-  projects: { company_id: string } | { company_id: string }[] | null;
+  sites: { company_id: string } | { company_id: string }[] | null;
 }
 
 function first<T>(value: T | T[] | null): T | null {
@@ -81,12 +88,12 @@ export async function getCompanyNetwork(): Promise<CompanyNetwork> {
       .select("source_company_id,target_company_id,relationship_type,status")
       .or(`source_company_id.eq.${companyId},target_company_id.eq.${companyId}`),
     supabase
-      .from("project_partners")
-      .select("company_id,owner_company_id,status,projects(id,name,status)")
+      .from("site_partners")
+      .select("company_id,owner_company_id,status,sites(id,name,status)")
       .eq("status", "accepted"),
     supabase
-      .from("project_memberships")
-      .select("company_id,projects!inner(company_id)")
+      .from("site_crew")
+      .select("company_id,sites!inner(company_id)")
       .neq("company_id", companyId)
       .is("left_at", null),
   ]);
@@ -114,7 +121,7 @@ export async function getCompanyNetwork(): Promise<CompanyNetwork> {
 
   const projectsByCompany = new Map<string, NetworkProject[]>();
   for (const row of (partnerRows ?? []) as PartnerRow[]) {
-    const project = first(row.projects);
+    const project = first(row.sites);
     if (!project) continue;
     const yours = row.owner_company_id === companyId;
     const other = yours ? row.company_id : row.owner_company_id;
@@ -125,8 +132,8 @@ export async function getCompanyNetwork(): Promise<CompanyNetwork> {
   }
 
   const peopleByCompany = new Map<string, number>();
-  for (const row of (assignmentRows ?? []) as AssignmentRow[]) {
-    if (first(row.projects)?.company_id !== companyId) continue;
+  for (const row of (assignmentRows ?? []) as CrewRow[]) {
+    if (first(row.sites)?.company_id !== companyId) continue;
     peopleByCompany.set(row.company_id, (peopleByCompany.get(row.company_id) ?? 0) + 1);
   }
 

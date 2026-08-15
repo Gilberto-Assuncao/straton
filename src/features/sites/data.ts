@@ -152,7 +152,6 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
     { data: presenceRows },
     { data: hourRows },
     { data: reportRows },
-    { data: siteRow },
     { data: totalRows },
     { count: pendingCount },
     { data: areaHourRows },
@@ -175,7 +174,6 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
       .eq("company_id", companyId).eq("site_id", siteId)
       .order("report_date", { ascending: false })
       .limit(20),
-    supabase.from("sites").select("project_id").eq("company_id", companyId).eq("id", siteId).maybeSingle(),
     // Security invoker, so RLS still decides which entries exist at all and
     // naming another company's location returns nothing rather than their
     // hours — the same argument as the report it was built for (#81).
@@ -249,33 +247,35 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
     status: row.status, worker: first(row.users)?.name ?? "",
   }));
 
-  // Whoever is on the site's project. A site without a project has no team of
-  // its own — the work is assigned at project level.
-  let team: SiteTeamMember[] = [];
-  const projectId = (siteRow as { project_id: string | null } | null)?.project_id;
-  if (projectId) {
-    const { data: memberRows } = await supabase
-      .from("project_memberships")
-      .select("company_membership_id,company_memberships!inner(job_title,users!company_memberships_user_id_fkey(name),companies!inner(name))")
-      .eq("project_id", projectId)
-      .is("left_at", null);
+  /*
+   * The crew allocated to this location (#77).
+   *
+   * Was "whoever is a member of the site's project", which meant a location
+   * with no project had no team — and the screen said so as if that were a
+   * fact about the chantier rather than about the schema. People are employed
+   * by a company and allocated to a place; this reads the allocation.
+   */
+  const { data: crewRows } = await supabase
+    .from("site_crew")
+    .select("company_membership_id,company_memberships!inner(job_title,users!company_memberships_user_id_fkey(name),companies!inner(name))")
+    .eq("site_id", siteId)
+    .is("left_at", null);
 
-    type MemberRow = {
-      company_membership_id: string;
-      company_memberships: RelatedOne<{ job_title: string | null; users: RelatedOne<{ name: string }>; companies: RelatedOne<{ name: string }> }>;
-    };
-    team = ((memberRows ?? []) as MemberRow[]).flatMap((row) => {
-      const membership = first(row.company_memberships);
-      const user = membership ? first(membership.users) : null;
-      if (!membership || !user) return [];
-      return [{
-        membershipId: row.company_membership_id, name: user.name,
-        jobTitle: membership.job_title,
-        // Shown so a partner company's people are never mistaken for your own.
-        companyName: first(membership.companies)?.name ?? "",
-      }];
-    });
-  }
+  type CrewRow = {
+    company_membership_id: string;
+    company_memberships: RelatedOne<{ job_title: string | null; users: RelatedOne<{ name: string }>; companies: RelatedOne<{ name: string }> }>;
+  };
+  const team: SiteTeamMember[] = ((crewRows ?? []) as CrewRow[]).flatMap((row) => {
+    const membership = first(row.company_memberships);
+    const user = membership ? first(membership.users) : null;
+    if (!membership || !user) return [];
+    return [{
+      membershipId: row.company_membership_id, name: user.name,
+      jobTitle: membership.job_title,
+      // Shown so a partner company's people are never mistaken for your own.
+      companyName: first(membership.companies)?.name ?? "",
+    }];
+  });
 
   return { presentToday, hours: { entries, totalMinutes, pendingApproval, byArea }, reports, team };
 }

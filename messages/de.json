@@ -754,9 +754,7 @@
     "tab_partners": "Partner",
     "partnersTitle": "Partnerunternehmen",
     "partnersSubtitle": "Laden Sie ein anderes Unternehmen zu diesem Projekt ein. Zugriff entsteht erst mit der Annahme — es sieht das Projekt und die Einsatzstellen, nie Ihre Belegschaft oder Stunden.",
-    "partnersNeedProject": "Verknüpfen Sie diese Einsatzstelle mit einem Projekt, bevor Sie einen Partner einladen.",
     "partnersNoCandidates": "Alle Unternehmen, mit denen Sie arbeiten, sind bereits in diesem Projekt. Fügen Sie über die Kundenauswahl ein neues hinzu.",
-    "partnersOnProject": "In diesem Projekt",
     "partnersEmpty": "Noch keine Partnerunternehmen in diesem Projekt.",
     "partnerCompanyLabel": "Unternehmen",
     "partnerChoose": "Unternehmen wählen…",
@@ -771,7 +769,7 @@
     "partnerStatus_revoked": "Entfernt",
     "invitationsTitle": "Einladungen an Ihr Unternehmen",
     "invitationsSubtitle": "Mit der Annahme erhält Ihr Unternehmen Zugriff auf die Einsatzstellen des Projekts und kann eigene Mitarbeiter darauf einsetzen.",
-    "invitationFrom": "{company} hat Sie zu {project} eingeladen",
+    "invitationFrom": "{company} hat Sie zu {location} eingeladen",
     "invitationAccept": "Annehmen",
     "invitationDecline": "Ablehnen",
     "locationTitle": "Standort",
@@ -815,7 +813,8 @@
     "budgetSpentOf": "{spent} von {total}",
     "hoursRecentOnly": "Die {count} neuesten Einträge.",
     "areaUnattributed": "Nicht angegeben",
-    "areaPeopleCount": "{count} Personen"
+    "areaPeopleCount": "{count} Personen",
+    "partnersOnSite": "An diesem Standort"
   },
   "operationalReports": {
     "metadataTitle": "Baustellenberichte",

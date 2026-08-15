@@ -754,9 +754,7 @@
     "tab_partners": "Partnerzy",
     "partnersTitle": "Firmy partnerskie",
     "partnersSubtitle": "Zaproś inną firmę do tego projektu. Dostęp powstaje dopiero po akceptacji — firma widzi projekt i jego place budowy, nigdy Twoich pracowników ani godzin.",
-    "partnersNeedProject": "Powiąż ten plac budowy z projektem, zanim zaprosisz partnera.",
     "partnersNoCandidates": "Wszystkie firmy, z którymi współpracujesz, są już w tym projekcie. Dodaj nową przez wybór klienta.",
-    "partnersOnProject": "W tym projekcie",
     "partnersEmpty": "Brak firm partnerskich w tym projekcie.",
     "partnerCompanyLabel": "Firma",
     "partnerChoose": "Wybierz firmę…",
@@ -771,7 +769,7 @@
     "partnerStatus_revoked": "Usunięto",
     "invitationsTitle": "Zaproszenia dla Twojej firmy",
     "invitationsSubtitle": "Akceptacja daje Twojej firmie dostęp do placów budowy projektu i pozwala przypisać do niego własnych pracowników.",
-    "invitationFrom": "{company} zaprosiła Cię do {project}",
+    "invitationFrom": "{company} zaprosiła Cię do {location}",
     "invitationAccept": "Akceptuj",
     "invitationDecline": "Odrzuć",
     "locationTitle": "Lokalizacja",
@@ -815,7 +813,8 @@
     "budgetSpentOf": "{spent} z {total}",
     "hoursRecentOnly": "{count} najnowszych wpisów.",
     "areaUnattributed": "Nie podano",
-    "areaPeopleCount": "{count} osób"
+    "areaPeopleCount": "{count} osób",
+    "partnersOnSite": "W tej lokalizacji"
   },
   "operationalReports": {
     "metadataTitle": "Raporty terenowe",
