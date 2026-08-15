@@ -70,29 +70,31 @@ jobs:
       - name: Start Supabase
         run: supabase start -x realtime,storage-api,imgproxy,studio,edge-runtime,logflare,vector,supavisor
 
-      # Right after the migrations and before anything else, so the inventory is
-      # produced even when the tests below fail — measuring the divergence is
-      # the point, and it must not depend on the rest of the job passing.
+      # Right after the migrations and before anything else, so o inventário é
+      # produzido mesmo quando os testes abaixo falham.
       #
-      # Informative for now (#91): it prints the difference and does not fail.
-      # The hosted database has ten migrations this repository never received,
-      # so this is expected to be non-empty on the first run — that output *is*
-      # the measurement the issue asks for. It becomes blocking once the gap is
-      # closed, which is the only version of this that keeps working.
-      - name: Schema inventory vs the hosted database (#91)
+      # `schema-inventory.txt` é o esquema que estas migrações têm de produzir.
+      # Mudar uma migração sem atualizar o ficheiro falha aqui, que é o ponto:
+      # até agora nada notava que a base hospedada e o repositório tinham
+      # deixado de descrever a mesma coisa, e a diferença chegou a ser uma
+      # coluna que o código lê e que uma base nova não teria (#91).
+      #
+      # Para atualizar depois de uma alteração de esquema intencional:
+      #   psql "$URL" -At -f supabase/schema-inventory.sql | LC_ALL=C sort \
+      #     > supabase/schema-inventory.txt
+      - name: O esquema é o que as migrações dizem (#91)
         run: |
           psql "$TEST_DATABASE_URL" -At -f supabase/schema-inventory.sql \
             | LC_ALL=C sort > /tmp/inventory-from-repo.txt
           echo "construído a partir das migrações: $(wc -l < /tmp/inventory-from-repo.txt) objetos"
-          echo "retrato da base hospedada:         $(wc -l < supabase/schema-inventory.hosted.txt) objetos"
+          echo "esperado pelo repositório:         $(wc -l < supabase/schema-inventory.txt) objetos"
           echo
-          echo "--- '-' só na base hospedada (falta uma migração no repositório)"
-          echo "--- '+' só no repositório (a base hospedada está atrasada)"
-          diff supabase/schema-inventory.hosted.txt /tmp/inventory-from-repo.txt \
+          echo "--- '-' consta do esperado e a migração não o cria"
+          echo "--- '+' a migração cria-o e não consta do esperado"
+          diff supabase/schema-inventory.txt /tmp/inventory-from-repo.txt \
             && echo "Sem divergência."
         env:
           TEST_DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
-        continue-on-error: true
 
       - name: Load the demo dataset
         run: psql "$TEST_DATABASE_URL" -v ON_ERROR_STOP=1 -f supabase/seed-demo.sql

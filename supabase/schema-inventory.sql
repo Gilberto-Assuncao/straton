@@ -5,6 +5,11 @@
 -- a base hospedada — para que uma diferença no resultado não possa vir da
 -- forma de perguntar.
 --
+-- O resultado esperado está em `schema-inventory.txt`, e o `rls-isolation`
+-- compara-o a cada push. A fonte da verdade é o repositório: se uma alteração
+-- de esquema for intencional, o ficheiro é atualizado no mesmo commit que a
+-- migração.
+--
 -- Inventário e não `pg_dump`, de propósito. Um dump são milhares de linhas de
 -- DDL onde a ordem das cláusulas e o espaçamento produzem ruído que não é
 -- divergência nenhuma. A pergunta aqui é *que objetos existem*, e essa tem uma
