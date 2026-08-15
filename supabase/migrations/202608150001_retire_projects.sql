@@ -21,21 +21,7 @@
 -- to work out why it is there.
 
 -- ---------------------------------------------------------------------------
--- 1. Nothing points at a project any more
--- ---------------------------------------------------------------------------
-
--- Dropped in dependency order, and the timesheet columns first: they are the
--- ones carrying real hours, and if any step of this migration is going to fail
--- it should fail before anything else has been taken apart.
-alter table public.timesheet_entries drop column if exists project_id;
-alter table public.time_sessions     drop column if exists project_id;
-alter table public.tasks             drop column if exists project_id;
-alter table public.operational_reports drop column if exists project_id;
-alter table public.assignments       drop column if exists project_id;
-alter table public.sites             drop column if exists project_id;
-
--- ---------------------------------------------------------------------------
--- 2. The policies and helpers that spoke about projects
+-- 1. The policies and helpers that spoke about projects
 -- ---------------------------------------------------------------------------
 
 -- `sites_read_partner` and `site_areas_read_partner` each kept a legacy clause
@@ -99,6 +85,32 @@ $$;
 
 drop policy if exists projects_read_partner on public.projects;
 drop policy if exists project_memberships_tenant_insert on public.project_memberships;
+
+-- ---------------------------------------------------------------------------
+-- 2. Nothing points at a project any more
+-- ---------------------------------------------------------------------------
+--
+-- After the policies above, not before. A policy that mentions a column is a
+-- dependency on it, and Postgres refuses the drop while one exists — which is
+-- exactly how the first version of this migration failed in CI:
+--
+--   cannot drop column project_id of table sites because other objects
+--   depend on it
+--
+-- Note the second line of that error: `site_areas_read_partner` depends on
+-- `sites.project_id` even though it is a policy on another table, because it
+-- reached through a subquery. Dropping a column takes every policy that ever
+-- mentioned it, on any table, with it.
+--
+-- The timesheet columns go first among these: they are the ones carrying real
+-- hours, and if any of this is going to fail it should fail before anything
+-- else has been taken apart.
+alter table public.timesheet_entries drop column if exists project_id;
+alter table public.time_sessions     drop column if exists project_id;
+alter table public.tasks             drop column if exists project_id;
+alter table public.operational_reports drop column if exists project_id;
+alter table public.assignments       drop column if exists project_id;
+alter table public.sites             drop column if exists project_id;
 
 -- ---------------------------------------------------------------------------
 -- 3. The tables
