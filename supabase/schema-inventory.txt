@@ -307,6 +307,7 @@ col:site_notification_subscribers.company_id
 col:site_notification_subscribers.created_at
 col:site_notification_subscribers.created_by
 col:site_notification_subscribers.id
+col:site_notification_subscribers.site_area_id
 col:site_notification_subscribers.site_id
 col:site_notification_subscribers.user_id
 col:site_partners.company_id
@@ -483,6 +484,7 @@ fn:private.prevent_tenant_key_change()
 fn:private.protect_answered_fields()
 fn:private.set_updated_at()
 fn:private.shares_location_with_me(p_user_id uuid)
+fn:private.site_notification_audience(p_site_id uuid, p_site_area_id uuid)
 fn:private.update_team(team_id_input uuid, name_input text, description_input text, leader_membership_id_input uuid, status_input team_status, color_input text, icon_input text)
 fn:private.validate_employee_record_company()
 fn:private.validate_team_leader_company()
