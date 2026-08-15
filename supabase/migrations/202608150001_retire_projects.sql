@@ -136,3 +136,263 @@ drop table if exists public.projects;
 -- location's priority with it.
 comment on type public.project_priority is
   'Priority of a work location. Named for the projects it was introduced with (#77 retired those); kept rather than renamed, because renaming a type in use rewrites every column that depends on it for a cosmetic gain.';
+
+-- ---------------------------------------------------------------------------
+-- 4. The objects that still spoke about projects from the inside
+-- ---------------------------------------------------------------------------
+--
+-- Sections 1 to 3 handled everything that *names* a project in a policy or a
+-- foreign key. These four are different: their dependency is inside a function
+-- body, which Postgres does not resolve until the function runs. Creating them
+-- succeeded, dropping the table succeeded, and the failure waits for the first
+-- caller — which for two of these is a trigger on a table people use every day.
+--
+-- CI found the report function on the fourth round of this branch. The other
+-- three were found by then reading every surviving object rather than waiting
+-- to be told again.
+
+/**
+ * Worked minutes per work location (#9, #81).
+ *
+ * Loses its `project_name` column. It was the last consumer of
+ * `sites.project_id`, joined so the report could show which job a chantier
+ * belonged to — a question that no longer has an answer, because the chantier
+ * *is* the job now.
+ *
+ * Dropped and recreated rather than replaced: the return type changes, and
+ * `create or replace` cannot do that.
+ */
+drop function if exists public.worked_hours_by_site(timestamptz, timestamptz, uuid[]);
+
+create or replace function public.worked_hours_by_site(
+  p_from timestamptz,
+  p_to timestamptz,
+  p_site_ids uuid[] default null
+)
+returns table (
+  site_id uuid,
+  site_name text,
+  approved_minutes bigint,
+  pending_minutes bigint,
+  people_count bigint
+)
+language sql
+stable
+security invoker
+set search_path = ''
+as $$
+  select
+    s.id,
+    s.name,
+    coalesce(sum(case when e.status = 'approved' then greatest(0,
+      (extract(epoch from (e.ends_at - e.starts_at)) / 60)::int - e.break_minutes) end), 0)::bigint,
+    coalesce(sum(case when e.status <> 'approved' then greatest(0,
+      (extract(epoch from (e.ends_at - e.starts_at)) / 60)::int - e.break_minutes) end), 0)::bigint,
+    count(distinct t.user_id)::bigint
+  from public.timesheet_entries e
+  join public.timesheets t on t.id = e.timesheet_id
+  -- Left join, deliberately. An inner join silently dropped every entry with no
+  -- site, so hours worked without a chantier vanished from the report instead of
+  -- being reported as unattributed — a smaller number with no explanation is
+  -- worse than an honest gap.
+  left join public.sites s on s.id = e.site_id
+  where e.starts_at >= p_from
+    and e.starts_at < p_to
+    and (p_site_ids is null or cardinality(p_site_ids) = 0 or e.site_id = any(p_site_ids))
+  group by s.id, s.name
+  order by 3 desc, s.name nulls last
+$$;
+
+revoke all on function public.worked_hours_by_site(timestamptz, timestamptz, uuid[]) from public;
+grant execute on function public.worked_hours_by_site(timestamptz, timestamptz, uuid[]) to authenticated;
+
+/**
+ * Whose name you may read because you work alongside them.
+ *
+ * These two are the reason a partner company's technician appears on the site
+ * dashboard with a name rather than a blank. They resolved "we share a project"
+ * through `project_memberships`; they resolve "we are on the same chantier"
+ * through `site_crew` now, which is the same relationship the manager
+ * described — people belong to a company, and a location is where they meet.
+ *
+ * Renamed rather than left with the old names: a function called
+ * `shares_project_with_me` that reads `site_crew` is a lie in the one place
+ * nobody reads twice.
+ */
+create or replace function private.shares_location_with_me(p_user_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists(
+    select 1
+    from public.site_crew theirs
+    join public.company_memberships cm on cm.id = theirs.company_membership_id
+    join public.site_crew mine on mine.site_id = theirs.site_id
+    join public.company_memberships me on me.id = mine.company_membership_id
+    where cm.user_id = p_user_id
+      and theirs.left_at is null
+      and mine.left_at is null
+      and me.user_id = (select auth.uid())
+  )
+$$;
+
+create or replace function private.membership_on_my_location(p_membership_id uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = ''
+as $$
+  select exists(
+    select 1
+    from public.site_crew theirs
+    join public.sites s on s.id = theirs.site_id
+    where theirs.company_membership_id = p_membership_id
+      and theirs.left_at is null
+      and public.company_membership_exists(s.company_id)
+  )
+$$;
+
+drop policy if exists users_read_project_collaborators on public.users;
+create policy users_read_location_colleagues on public.users
+for select to authenticated
+using ((select private.shares_location_with_me(id)));
+
+drop policy if exists memberships_read_project_collaborators on public.company_memberships;
+create policy memberships_read_location_colleagues on public.company_memberships
+for select to authenticated
+using ((select private.membership_on_my_location(id)));
+
+drop function if exists private.shares_project_with_me(uuid);
+drop function if exists private.membership_on_my_project(uuid);
+
+/**
+ * The two triggers that named `project_id` on a row that no longer has one.
+ *
+ * Both compare the old row with the new to decide whether the *work* changed,
+ * and plpgsql resolves `new.project_id` when the trigger fires — so neither
+ * would have failed until somebody edited an assignment or a time entry, in
+ * production, on a column they had never heard of.
+ */
+create or replace function public.enforce_assignment_update()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  is_manager boolean := private.has_company_role(
+    old.company_id, array['owner', 'admin', 'administrator', 'manager', 'supervisor']
+  );
+begin
+  if is_manager then
+    return new;
+  end if;
+
+  if new.title is distinct from old.title
+     or new.instructions is distinct from old.instructions
+     or new.starts_at is distinct from old.starts_at
+     or new.ends_at is distinct from old.ends_at
+     or new.site_id is distinct from old.site_id
+     or new.company_id is distinct from old.company_id
+     or new.parent_assignment_id is distinct from old.parent_assignment_id then
+    raise exception 'Only a supervisor can change the work itself';
+  end if;
+
+  if new.status is distinct from old.status and not private.is_assignee(old.id) then
+    raise exception 'Only someone assigned to this work can change its status';
+  end if;
+
+  return new;
+end;
+$$;
+
+create or replace function private.enforce_entry_review()
+returns trigger
+language plpgsql
+security definer
+set search_path = ''
+as $$
+declare
+  is_manager boolean;
+  owns_it boolean;
+  content_changed boolean;
+begin
+  -- No JWT: a migration, the seed, or a maintenance task.
+  if (select auth.uid()) is null then
+    return new;
+  end if;
+
+  is_manager := private.can_review_timesheets(new.company_id);
+
+  if tg_op = 'INSERT' then
+    if new.status in ('approved', 'rejected') and not is_manager then
+      raise exception 'Only a manager can approve or reject time entries.'
+        using errcode = 'insufficient_privilege';
+    end if;
+    return new;
+  end if;
+
+  -- An entry belongs to one week of one person. Letting either move would be a
+  -- way to relabel someone else's hours as your own.
+  if new.timesheet_id is distinct from old.timesheet_id
+     or new.company_id is distinct from old.company_id then
+    raise exception 'An entry cannot be moved to another timesheet.'
+      using errcode = 'insufficient_privilege';
+  end if;
+
+  if new.status is distinct from old.status
+     and new.status in ('approved', 'rejected')
+     and not is_manager then
+    raise exception 'Only a manager can approve or reject time entries.'
+      using errcode = 'insufficient_privilege';
+  end if;
+
+  -- `site_area_id` joins the comparison as `project_id` leaves it (#77):
+  -- moving hours from one floor to another is a change to the work, and the
+  -- per-subdivision report is only as trustworthy as that being noticed.
+  content_changed := (new.starts_at, new.ends_at, new.break_minutes, new.site_area_id, new.task_id, new.site_id, new.notes)
+    is distinct from (old.starts_at, old.ends_at, old.break_minutes, old.site_area_id, old.task_id, old.site_id, old.notes);
+
+  if not content_changed then
+    return new;
+  end if;
+
+  -- Immutable once approved — including for the manager who approved it, and
+  -- including the person whose hours they are. The status column is left out of
+  -- this check on purpose: reopening the week is how a correction gets made,
+  -- and blocking that would leave a mistake permanent.
+  if old.status = 'approved' then
+    raise exception 'Approved hours cannot be edited. Reopen the timesheet first.'
+      using errcode = 'insufficient_privilege';
+  end if;
+
+  owns_it := exists (
+    select 1 from public.timesheets t
+    where t.id = new.timesheet_id and t.user_id = (select auth.uid())
+  );
+
+  if not is_manager then
+    if not owns_it then
+      raise exception 'You can only edit your own hours.'
+        using errcode = 'insufficient_privilege';
+    end if;
+    -- Waiting for someone to look at it. Editing underneath a reviewer means
+    -- they approve a different week from the one they read.
+    if old.status = 'submitted' then
+      raise exception 'This week is waiting for review. Ask for it to be sent back first.'
+        using errcode = 'check_violation';
+    end if;
+  end if;
+
+  return new;
+end;
+$$;
+
+-- `project_status` had exactly one column: the one on the table just dropped.
+-- Unlike `project_priority`, which `sites.priority` still uses, nothing is left
+-- to describe.
+drop type if exists public.project_status;

@@ -20,7 +20,6 @@ export interface WorkedHoursPerson {
 export interface WorkedHoursSite {
   siteId: string;
   siteName: string | null;
-  projectName: string | null;
   approvedMinutes: number;
   pendingMinutes: number;
   peopleCount: number;
