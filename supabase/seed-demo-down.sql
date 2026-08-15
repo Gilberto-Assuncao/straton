@@ -36,6 +36,13 @@ begin
   delete from public.payroll_periods             where company_id = any(demo_companies);
   delete from public.time_classifications        where company_id = any(demo_companies);
 
+  -- Before the entries it points at, and well before `tasks`, `sites` and
+  -- `users`: of its five foreign keys only `company_id` cascades, so an open
+  -- session holds all four of those tables hostage. This table was seeded from
+  -- the day it was added (202608090002) and never torn down, which no one could
+  -- notice while nothing ever ran this file.
+  delete from public.time_sessions                where company_id = any(demo_companies);
+
   delete from public.timesheet_entries           where company_id = any(demo_companies);
   delete from public.timesheets                  where company_id = any(demo_companies);
 
