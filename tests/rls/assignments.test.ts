@@ -24,9 +24,9 @@ const BYSTANDER = { userId: "d0000002-0000-4000-8000-000000000106" } as const;
 async function scheduleJob(db: Client): Promise<void> {
   await actAs(db, DEMO.belnex.adminUserId);
   await db.query(
-    `insert into public.assignments (id, company_id, project_id, site_id, starts_at, ends_at, title, status)
-     values ($1, $2, $3, $4, now() + interval '2 days', now() + interval '2 days 8 hours', 'Panel mounting', 'sent')`,
-    [ASSIGNMENT_ID, DEMO.belnex.companyId, DEMO.belnex.projectId, DEMO.belnex.siteId],
+    `insert into public.assignments (id, company_id, site_id, starts_at, ends_at, title, status)
+     values ($1, $2, $3, now() + interval '2 days', now() + interval '2 days 8 hours', 'Panel mounting', 'sent')`,
+    [ASSIGNMENT_ID, DEMO.belnex.companyId, DEMO.belnex.siteId],
   );
   await db.query(
     `insert into public.assignment_assignees (company_id, assignment_id, company_membership_id, source)

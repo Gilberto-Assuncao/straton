@@ -1,9 +1,0 @@
-import type { Metadata } from "next"; import Link from "next/link"; import { notFound } from "next/navigation"; import { getTranslations } from "next-intl/server"; import PageHeader from "@/components/dashboard/PageHeader"; import ProjectSummary from "@/components/projects/ProjectSummary"; import { getProjectById } from "@/src/features/projects/data";
-export async function generateMetadata({ params }: { params: Promise<{ projectId: string }> }): Promise<Metadata> { const { projectId } = await params; const result = await getProjectById(projectId); return { title: result?.project.name ?? "Project" }; }
-export default async function ProjectDetailsPage({ params }: { params: Promise<{ projectId: string }> }) {
-  const { projectId } = await params;
-  const [result, t] = await Promise.all([getProjectById(projectId), getTranslations("projects")]);
-  if (!result) notFound();
-  const { project, client } = result;
-  return <section aria-labelledby="project-heading"><Link href="/dashboard/projects" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">← {t("backToProjects")}</Link><div className="mb-6 mt-3"><PageHeader headingId="project-heading" eyebrow={t("projectDetailsEyebrow")} title={project.name} description={`${project.startDate} — ${project.endDate}`} actions={<button type="button" className="min-h-11 rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("editProject")}</button>}/></div><ProjectSummary project={project} client={client}/></section>;
-}

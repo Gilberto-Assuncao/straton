@@ -22,14 +22,12 @@ const field =
  */
 export default function EditEntryModal({
   entry,
-  projects,
   tasks,
   sites,
   onClose,
   onSaved,
 }: {
   entry: TimesheetEntry;
-  projects: Option[];
   tasks: Option[];
   sites: Option[];
   onClose: () => void;
@@ -40,9 +38,8 @@ export default function EditEntryModal({
   const [error, setError] = useState("");
   const [pending, startTransition] = useTransition();
 
-  const [projectId, setProjectId] = useState(entry.projectId ?? "");
-  const [taskId, setTaskId] = useState(entry.taskId ?? "");
   const [siteId, setSiteId] = useState(entry.siteId ?? "");
+  const [taskId, setTaskId] = useState(entry.taskId ?? "");
   const [startTime, setStartTime] = useState(entry.startTime);
   const [endTime, setEndTime] = useState(entry.endTime);
   const [breakMinutes, setBreakMinutes] = useState(String(entry.breakMinutes));
@@ -66,9 +63,8 @@ export default function EditEntryModal({
         startTime,
         endTime,
         breakMinutes: Number(breakMinutes),
-        projectId: projectId || null,
-        taskId: taskId || null,
         siteId: siteId || null,
+        taskId: taskId || null,
         notes,
       });
       // A refusal keeps the dialog open with the values still in it. Closing on
@@ -117,19 +113,6 @@ export default function EditEntryModal({
 
         <form onSubmit={submit} className="mt-6 grid gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
-            <div>
-              <label htmlFor="edit-project" className="text-sm font-medium text-[#D1D5DB]">
-                {t("fieldProject")}
-              </label>
-              <select id="edit-project" value={projectId} onChange={(event) => setProjectId(event.target.value)} className={field}>
-                <option value="">—</option>
-                {projects.map((project) => (
-                  <option key={project.id} value={project.id}>
-                    {project.name}
-                  </option>
-                ))}
-              </select>
-            </div>
             <div>
               <label htmlFor="edit-task" className="text-sm font-medium text-[#D1D5DB]">
                 {t("fieldTask")}

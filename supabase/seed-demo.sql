@@ -2,7 +2,7 @@
 -- STRATON — Demo dataset
 -- ----------------------------------------------------------------------------
 -- Populates the platform with three fully-operational fictitious companies so
--- every module (dashboard, timesheets, teams, projects, sites, payroll,
+-- every module (dashboard, timesheets, teams, work locations, payroll,
 -- operational reports, notifications) has realistic data to render.
 --
 -- All rows created here use a `d000000x-` UUID prefix so the dataset can be
@@ -38,9 +38,8 @@ begin
   delete from public.timesheet_entries           where company_id = any(demo_companies);
   delete from public.timesheets                  where company_id = any(demo_companies);
   delete from public.tasks                       where company_id = any(demo_companies);
-  delete from public.project_memberships         where company_id = any(demo_companies);
+  delete from public.site_crew                   where company_id = any(demo_companies);
   delete from public.sites                       where company_id = any(demo_companies);
-  delete from public.projects                    where company_id = any(demo_companies);
   delete from public.team_memberships            where company_id = any(demo_companies);
   delete from public.teams                       where company_id = any(demo_companies);
   delete from public.employee_records            where company_id = any(demo_companies);
@@ -316,123 +315,94 @@ from (values
 -- ---------------------------------------------------------------------------
 -- 6. Projects, sites, memberships and tasks
 -- ---------------------------------------------------------------------------
-insert into public.projects (
-  id, company_id, client_company_id, name, description, status, manager_id,
-  starts_at, ends_at, estimated_hours, cost_center, priority, budget_amount, budget_spent, budget_currency
-) values
-  ('d0000006-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000004',
-   'Le Parc — Rooftop PV 320 kWp','Installation of 780 panels across four residential blocks, including inverter room retrofit.',
-   'active','d0000002-0000-4000-8000-000000000102', current_date - 90, current_date + 45, 2400,'CC-SOLAR','high', 412000, 268400,'EUR'),
-  ('d0000006-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001',null,
-   'Grid Connection Upgrade — Louise','Medium-voltage cabin upgrade and metering replacement for the Louise office complex.',
-   'active','d0000002-0000-4000-8000-000000000102', current_date - 40, current_date + 20, 640,'CC-GRID','critical', 96000, 51200,'EUR'),
-  ('d0000006-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001',null,
-   'Maintenance Contract 2026','Annual preventive maintenance across the installed base.',
-   'planning','d0000002-0000-4000-8000-000000000101', current_date + 30, current_date + 395, 1200,'CC-MAINT','medium', 145000, 0,'EUR'),
-
-  ('d0000006-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d0000001-0000-4000-8000-000000000005',
-   'Haven Noord — Warehouse Cleaning','Daily industrial cleaning of three warehouse halls and loading bays.',
-   'active','d0000002-0000-4000-8000-000000000202', current_date - 200, current_date + 165, 5200,'CC-IND','high', 318000, 187600,'EUR'),
-  ('d0000006-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002',null,
-   'Office Cleaning Circuit — Antwerp','Rotating morning circuit covering eleven office clients in Antwerp centre.',
-   'active','d0000002-0000-4000-8000-000000000202', current_date - 320, current_date + 45, 3800,'CC-OFF','medium', 142000, 121300,'EUR'),
-
-  ('d0000006-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','d0000001-0000-4000-8000-000000000004',
-   'Le Parc — Structural Inspection','Full structural survey and load assessment ahead of the PV installation.',
-   'completed','d0000002-0000-4000-8000-000000000302', current_date - 180, current_date - 100, 420,'CC-SURV','high', 68000, 64200,'EUR'),
-  ('d0000006-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003',null,
-   'HVAC Preventive Maintenance','Quarterly HVAC maintenance rounds across twelve client sites.',
-   'active','d0000002-0000-4000-8000-000000000302', current_date - 150, current_date + 215, 1800,'CC-HVAC','medium', 214000, 96300,'EUR'),
-  ('d0000006-0000-4000-8000-000000000303','d0000001-0000-4000-8000-000000000003',null,
-   'Topographic Survey — Meuse Bank','Riverbank topographic survey for the regional flood-defence study.',
-   'paused','d0000002-0000-4000-8000-000000000302', current_date - 60, current_date + 90, 300,'CC-SURV','low', 47000, 18900,'EUR')
-on conflict (id) do nothing;
-
 insert into public.sites (
-  id, company_id, project_id, client_company_id, name, address, latitude, longitude,
+  id, company_id, client_company_id, name, address, latitude, longitude,
   po_number, cost_center, manager_id, starts_at, ends_at, status, reference
 ) values
-  ('d0000005-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000004',
+  ('d0000005-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000004',
    'Le Parc — Block A','{"street":"Chaussée de Dinant 410","city":"Namur","postal_code":"5000","country":"BE"}'::jsonb,
    50.4530, 4.8720,'PO-2026-0141','CC-SOLAR','d0000002-0000-4000-8000-000000000102', current_date - 90, current_date + 20,'active','SITE-BLX-A'),
-  ('d0000005-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000004',
+  ('d0000005-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000004',
    'Le Parc — Block C','{"street":"Chaussée de Dinant 414","city":"Namur","postal_code":"5000","country":"BE"}'::jsonb,
    50.4535, 4.8731,'PO-2026-0142','CC-SOLAR','d0000002-0000-4000-8000-000000000102', current_date - 40, current_date + 45,'active','SITE-BLX-C'),
-  ('d0000005-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000102',null,
+  ('d0000005-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001',null,
    'Louise MV Cabin','{"street":"Avenue Louise 143","city":"Brussels","postal_code":"1050","country":"BE"}'::jsonb,
    50.8270, 4.3610,'PO-2026-0155','CC-GRID','d0000002-0000-4000-8000-000000000102', current_date - 40, current_date + 20,'active','SITE-BLX-LOU'),
 
-  ('d0000005-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000005',
+  ('d0000005-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d0000001-0000-4000-8000-000000000005',
    'Haven Noord — Hall 3','{"street":"Scheldelaan 12","city":"Antwerp","postal_code":"2040","country":"BE"}'::jsonb,
    51.2960, 4.3210,'PO-2026-0088','CC-IND','d0000002-0000-4000-8000-000000000202', current_date - 200, current_date + 165,'active','SITE-NCL-H3'),
-  ('d0000005-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000202',null,
+  ('d0000005-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002',null,
    'Meir Office Tower','{"street":"Meir 78","city":"Antwerp","postal_code":"2000","country":"BE"}'::jsonb,
    51.2185, 4.4065,'PO-2026-0092','CC-OFF','d0000002-0000-4000-8000-000000000202', current_date - 320, current_date + 45,'active','SITE-NCL-MEIR'),
 
-  ('d0000005-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000302',null,
+  ('d0000005-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003',null,
    'Liège Tech Park — HVAC','{"street":"Rue de la Station 22","city":"Liège","postal_code":"4000","country":"BE"}'::jsonb,
    50.6330, 5.5680,'PO-2026-0203','CC-HVAC','d0000002-0000-4000-8000-000000000302', current_date - 150, current_date + 215,'active','SITE-GTC-HVAC'),
-  ('d0000005-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000303',null,
+  ('d0000005-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003',null,
    'Meuse Riverbank Sector 4','{"street":"Quai de Rome","city":"Liège","postal_code":"4000","country":"BE"}'::jsonb,
    50.6262, 5.5710,'PO-2026-0211','CC-SURV','d0000002-0000-4000-8000-000000000302', current_date - 60, current_date + 90,'paused','SITE-GTC-MEUSE')
 on conflict (id) do nothing;
 
-insert into public.project_memberships (id, company_id, project_id, company_membership_id, role, joined_at)
+-- The crew allocated to each location (#77). People are employed by a company
+-- and put on a chantier; this is that allocation.
+insert into public.site_crew (id, company_id, site_id, company_membership_id, role, joined_at)
 select
-  ('d0000011-0000-4000-8000-0000000' || lpad(row_number() over (order by v.project_id, v.membership_id)::text, 5, '0'))::uuid,
-  v.company_id::uuid, v.project_id::uuid, v.membership_id::uuid, v.role, now() - interval '90 days'
+  ('d0000011-0000-4000-8000-0000000' || lpad(row_number() over (order by v.site_id, v.membership_id)::text, 5, '0'))::uuid,
+  v.company_id::uuid, v.site_id::uuid, v.membership_id::uuid, v.role, now() - interval '90 days'
 from (values
-  ('d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','d0000003-0000-4000-8000-000000000102','manager'),
-  ('d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','d0000003-0000-4000-8000-000000000104','lead'),
-  ('d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','d0000003-0000-4000-8000-000000000106','member'),
-  ('d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000102','d0000003-0000-4000-8000-000000000105','lead'),
-  ('d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000102','d0000003-0000-4000-8000-000000000104','member'),
-  ('d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000201','d0000003-0000-4000-8000-000000000202','manager'),
-  ('d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000201','d0000003-0000-4000-8000-000000000205','member'),
-  ('d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000202','d0000003-0000-4000-8000-000000000204','lead'),
-  ('d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000302','d0000003-0000-4000-8000-000000000302','manager'),
-  ('d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000302','d0000003-0000-4000-8000-000000000304','lead'),
-  ('d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000303','d0000003-0000-4000-8000-000000000305','lead')
-) as v(company_id, project_id, membership_id, role)
+  ('d0000001-0000-4000-8000-000000000001','d0000005-0000-4000-8000-000000000101','d0000003-0000-4000-8000-000000000102','manager'),
+  ('d0000001-0000-4000-8000-000000000001','d0000005-0000-4000-8000-000000000101','d0000003-0000-4000-8000-000000000104','lead'),
+  ('d0000001-0000-4000-8000-000000000001','d0000005-0000-4000-8000-000000000101','d0000003-0000-4000-8000-000000000106','member'),
+  ('d0000001-0000-4000-8000-000000000001','d0000005-0000-4000-8000-000000000103','d0000003-0000-4000-8000-000000000105','lead'),
+  ('d0000001-0000-4000-8000-000000000001','d0000005-0000-4000-8000-000000000103','d0000003-0000-4000-8000-000000000104','member'),
+  ('d0000001-0000-4000-8000-000000000002','d0000005-0000-4000-8000-000000000201','d0000003-0000-4000-8000-000000000202','manager'),
+  ('d0000001-0000-4000-8000-000000000002','d0000005-0000-4000-8000-000000000201','d0000003-0000-4000-8000-000000000205','member'),
+  ('d0000001-0000-4000-8000-000000000002','d0000005-0000-4000-8000-000000000202','d0000003-0000-4000-8000-000000000204','lead'),
+  ('d0000001-0000-4000-8000-000000000003','d0000005-0000-4000-8000-000000000301','d0000003-0000-4000-8000-000000000302','manager'),
+  ('d0000001-0000-4000-8000-000000000003','d0000005-0000-4000-8000-000000000301','d0000003-0000-4000-8000-000000000304','lead'),
+  ('d0000001-0000-4000-8000-000000000003','d0000005-0000-4000-8000-000000000302','d0000003-0000-4000-8000-000000000305','lead')
+) as v(company_id, site_id, membership_id, role)
 on conflict (id) do nothing;
 
--- Partner companies on a project (#33). Two states on purpose: one accepted, so
--- the collaboration is visible end to end, and one still waiting, so the
--- invited company has something real to answer when you log in as them.
-insert into public.project_partners (id, project_id, company_id, owner_company_id, status, invited_by, note, created_at, responded_at) values
-  ('d0000012-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000003',
+-- Partner companies on a work location (#33, moved in #77). Two states on
+-- purpose: one accepted, so the collaboration is visible end to end, and one
+-- still waiting, so the invited company has something real to answer when you
+-- log in as them.
+insert into public.site_partners (id, site_id, company_id, owner_company_id, status, invited_by, note, created_at, responded_at) values
+  ('d0000012-0000-4000-8000-000000000001','d0000005-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000003',
    'd0000001-0000-4000-8000-000000000001','accepted','d0000002-0000-4000-8000-000000000101',
    'Thermal survey of the roof before panel mounting', now() - interval '21 days', now() - interval '20 days'),
-  ('d0000012-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000002',
+  ('d0000012-0000-4000-8000-000000000002','d0000005-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000002',
    'd0000001-0000-4000-8000-000000000001','invited','d0000002-0000-4000-8000-000000000101',
    'Site clean-up after commissioning', now() - interval '3 days', null)
 on conflict (id) do nothing;
 
 -- Follows from the accepted invitation above: GeoTech put one of their own
--- technicians on Belnex's project. This is the row that makes a partner's
+-- technicians on Belnex's location. This is the row that makes a partner's
 -- person appear on Belnex's site dashboard, name and company shown.
-insert into public.project_memberships (id, company_id, project_id, company_membership_id, role, joined_at) values
-  ('d0000011-0000-4000-8000-000000090001','d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000101',
+insert into public.site_crew (id, company_id, site_id, company_membership_id, role, joined_at) values
+  ('d0000011-0000-4000-8000-000000090001','d0000001-0000-4000-8000-000000000003','d0000005-0000-4000-8000-000000000101',
    'd0000003-0000-4000-8000-000000000304','member', now() - interval '20 days')
 on conflict (id) do nothing;
 
 -- Agenda (#23). Dates are relative to current_date, so the week always has
 -- something in it no matter when the seed is loaded.
-insert into public.assignments (id, company_id, project_id, site_id, team_id, starts_at, ends_at, title, instructions, status, created_by) values
+insert into public.assignments (id, company_id, site_id, team_id, starts_at, ends_at, title, instructions, status, created_by) values
   ('a0000001-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000001',
-   'd0000006-0000-4000-8000-000000000101','d0000005-0000-4000-8000-000000000101','d0000004-0000-4000-8000-000000000101',
+   'd0000005-0000-4000-8000-000000000101','d0000004-0000-4000-8000-000000000101',
    current_date + 1 + time '07:30', current_date + 1 + time '16:00',
    'Panel mounting - roof section A','Scaffolding is already up. Start at the north edge.','accepted','d0000002-0000-4000-8000-000000000101'),
   ('a0000001-0000-4000-8000-000000000002','d0000001-0000-4000-8000-000000000001',
-   'd0000006-0000-4000-8000-000000000101','d0000005-0000-4000-8000-000000000101', null,
+   'd0000005-0000-4000-8000-000000000101', null,
    current_date + 2 + time '08:00', current_date + 2 + time '12:00',
    'Cable routing to inverter', null,'sent','d0000002-0000-4000-8000-000000000101'),
   ('a0000001-0000-4000-8000-000000000003','d0000001-0000-4000-8000-000000000001',
-   'd0000006-0000-4000-8000-000000000102', null, null,
+   'd0000005-0000-4000-8000-000000000103', null,
    current_date + 3 + time '09:00', current_date + 3 + time '17:00',
    'Meter replacement - Louise','Client contact on site from 09:00.','planned','d0000002-0000-4000-8000-000000000101'),
   ('a0000001-0000-4000-8000-000000000004','d0000001-0000-4000-8000-000000000002',
-   'd0000006-0000-4000-8000-000000000201','d0000005-0000-4000-8000-000000000201', null,
+   'd0000005-0000-4000-8000-000000000201', null,
    current_date + 1 + time '18:00', current_date + 1 + time '22:00',
    'Evening office round', null,'in_progress','d0000002-0000-4000-8000-000000000201')
 on conflict (id) do nothing;
@@ -462,17 +432,17 @@ insert into public.worker_availability (id, company_id, company_membership_id, s
    current_date + 14, current_date + 16,'unavailable','personal', null)
 on conflict (id) do nothing;
 
-insert into public.tasks (id, company_id, project_id, name, status) values
-  ('d0000007-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','Panel mounting','active'),
-  ('d0000007-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000101','Cable routing','active'),
-  ('d0000007-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000102','Inverter commissioning','active'),
-  ('d0000007-0000-4000-8000-000000000104','d0000001-0000-4000-8000-000000000001','d0000006-0000-4000-8000-000000000102','Metering replacement','active'),
-  ('d0000007-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000201','Floor scrubbing','active'),
-  ('d0000007-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000201','Waste handling','active'),
-  ('d0000007-0000-4000-8000-000000000203','d0000001-0000-4000-8000-000000000002','d0000006-0000-4000-8000-000000000202','Office round','active'),
-  ('d0000007-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000302','Filter replacement','active'),
-  ('d0000007-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000302','Coolant check','active'),
-  ('d0000007-0000-4000-8000-000000000303','d0000001-0000-4000-8000-000000000003','d0000006-0000-4000-8000-000000000303','Field measurement','active')
+insert into public.tasks (id, company_id, name, status) values
+  ('d0000007-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','Panel mounting','active'),
+  ('d0000007-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','Cable routing','active'),
+  ('d0000007-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001','Inverter commissioning','active'),
+  ('d0000007-0000-4000-8000-000000000104','d0000001-0000-4000-8000-000000000001','Metering replacement','active'),
+  ('d0000007-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','Floor scrubbing','active'),
+  ('d0000007-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002','Waste handling','active'),
+  ('d0000007-0000-4000-8000-000000000203','d0000001-0000-4000-8000-000000000002','Office round','active'),
+  ('d0000007-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','Filter replacement','active'),
+  ('d0000007-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003','Coolant check','active'),
+  ('d0000007-0000-4000-8000-000000000303','d0000001-0000-4000-8000-000000000003','Field measurement','active')
 on conflict (id) do nothing;
 
 -- ---------------------------------------------------------------------------
@@ -513,10 +483,8 @@ declare
   day_date   date;
   start_ts   timestamptz;
   end_ts     timestamptz;
-  projs      uuid[];
   site_ids   uuid[];
   task_ids   uuid[];
-  idx        int;
   end_hour   int;
   brk        int;
   this_monday date := date_trunc('week', current_date)::date;
@@ -539,14 +507,12 @@ begin
        and er.employment_type in ('employee','worker','contractor','temporary','apprentice')
        and cm.job_title not in ('Managing Director','HR & Payroll Officer','HR Officer','Financial Controller')
   loop
-    select array_agg(id order by id) into projs
-      from public.projects where company_id = emp.company_id and status = 'active';
     select array_agg(id order by id) into site_ids
       from public.sites where company_id = emp.company_id;
     select array_agg(id order by id) into task_ids
       from public.tasks where company_id = emp.company_id;
 
-    continue when projs is null or site_ids is null;
+    continue when site_ids is null;
 
     for wk in reverse 5..0 loop
       p_start := this_monday - (wk * 7);
@@ -572,8 +538,6 @@ begin
         -- One absence: mid-period Wednesday four weeks back
         continue when wk = 4 and d = 2;
 
-        idx := 1 + ((wk * 5 + d) % array_length(projs, 1));
-
         -- Long shifts on the last working day of some weeks feed the
         -- "hour divergence" KPI (anything over 10h net).
         end_hour := case when d = 4 and wk % 2 = 0 then 19 else 17 end;
@@ -583,11 +547,10 @@ begin
         end_ts   := (day_date + make_time(end_hour, 0, 0))::timestamptz;
 
         insert into public.timesheet_entries (
-          id, company_id, timesheet_id, project_id, site_id, task_id,
+          id, company_id, timesheet_id, site_id, task_id,
           starts_at, ends_at, break_minutes, notes, status
         ) values (
           gen_random_uuid(), emp.company_id, ts_id,
-          projs[idx],
           site_ids[1 + ((wk * 5 + d) % array_length(site_ids, 1))],
           case when task_ids is null then null else task_ids[1 + ((wk * 5 + d) % array_length(task_ids, 1))] end,
           start_ts, end_ts, brk,
@@ -718,12 +681,12 @@ insert into public.report_template_fields (id, template_id, company_id, key, lab
 on conflict (id) do nothing;
 
 insert into public.operational_reports (
-  id, company_id, template_id, worker_id, team_id, project_id, site_id, client_company_id,
+  id, company_id, template_id, worker_id, team_id, site_id, client_company_id,
   report_date, starts_at, ends_at, break_minutes, activity, notes, status,
   created_by, submitted_at, reviewed_by, reviewed_at, rejection_reason
 ) values
   ('d000000c-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d000000a-0000-4000-8000-000000000101',
-   'd0000002-0000-4000-8000-000000000104','d0000004-0000-4000-8000-000000000101','d0000006-0000-4000-8000-000000000101',
+   'd0000002-0000-4000-8000-000000000104','d0000004-0000-4000-8000-000000000101',
    'd0000005-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000004',
    current_date - 3, (current_date - 3 + time '08:00')::timestamptz, (current_date - 3 + time '17:00')::timestamptz, 30,
    'Panel mounting — Block A, rows 1 to 6','Mounting rails aligned; two damaged clamps replaced.','approved',
@@ -731,14 +694,14 @@ insert into public.operational_reports (
    'd0000002-0000-4000-8000-000000000102', (current_date - 2 + time '09:05')::timestamptz, null),
 
   ('d000000c-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d000000a-0000-4000-8000-000000000101',
-   'd0000002-0000-4000-8000-000000000106','d0000004-0000-4000-8000-000000000101','d0000006-0000-4000-8000-000000000101',
+   'd0000002-0000-4000-8000-000000000106','d0000004-0000-4000-8000-000000000101',
    'd0000005-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000004',
    current_date - 1, (current_date - 1 + time '08:00')::timestamptz, (current_date - 1 + time '16:30')::timestamptz, 30,
    'Cable routing — Block C riser','Rain from 14:00; roof work suspended, continued indoors.','submitted',
    'd0000002-0000-4000-8000-000000000106', (current_date - 1 + time '16:45')::timestamptz, null, null, null),
 
   ('d000000c-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001','d000000a-0000-4000-8000-000000000102',
-   'd0000002-0000-4000-8000-000000000105','d0000004-0000-4000-8000-000000000102','d0000006-0000-4000-8000-000000000102',
+   'd0000002-0000-4000-8000-000000000105','d0000004-0000-4000-8000-000000000102',
    'd0000005-0000-4000-8000-000000000103', null,
    current_date - 5, (current_date - 5 + time '08:00')::timestamptz, (current_date - 5 + time '19:00')::timestamptz, 45,
    'Inverter commissioning — cabin 2','Grid sync achieved on the second attempt after transformer tap adjustment.','approved',
@@ -746,7 +709,7 @@ insert into public.operational_reports (
    'd0000002-0000-4000-8000-000000000102', (current_date - 4 + time '08:40')::timestamptz, null),
 
   ('d000000c-0000-4000-8000-000000000104','d0000001-0000-4000-8000-000000000001','d000000a-0000-4000-8000-000000000101',
-   'd0000002-0000-4000-8000-000000000104','d0000004-0000-4000-8000-000000000101','d0000006-0000-4000-8000-000000000101',
+   'd0000002-0000-4000-8000-000000000104','d0000004-0000-4000-8000-000000000101',
    'd0000005-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000004',
    current_date - 8, (current_date - 8 + time '08:00')::timestamptz, (current_date - 8 + time '17:00')::timestamptz, 30,
    'Panel mounting — Block A, rows 7 to 9','Panel count did not match the delivery note.','changes_requested',
@@ -755,7 +718,7 @@ insert into public.operational_reports (
    'Panel count does not reconcile with delivery note DN-2026-0412. Please recount and resubmit.'),
 
   ('d000000c-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d000000a-0000-4000-8000-000000000201',
-   'd0000002-0000-4000-8000-000000000204','d0000004-0000-4000-8000-000000000201','d0000006-0000-4000-8000-000000000202',
+   'd0000002-0000-4000-8000-000000000204','d0000004-0000-4000-8000-000000000201',
    'd0000005-0000-4000-8000-000000000202', null,
    current_date - 2, (current_date - 2 + time '06:00')::timestamptz, (current_date - 2 + time '14:00')::timestamptz, 30,
    'Morning office circuit — floors 3 to 7','Floor 5 meeting rooms occupied; rescheduled to the next round.','approved',
@@ -763,14 +726,14 @@ insert into public.operational_reports (
    'd0000002-0000-4000-8000-000000000202', (current_date - 1 + time '07:30')::timestamptz, null),
 
   ('d000000c-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002','d000000a-0000-4000-8000-000000000201',
-   'd0000002-0000-4000-8000-000000000205','d0000004-0000-4000-8000-000000000202','d0000006-0000-4000-8000-000000000201',
+   'd0000002-0000-4000-8000-000000000205','d0000004-0000-4000-8000-000000000202',
    'd0000005-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000005',
    current_date - 1, (current_date - 1 + time '06:00')::timestamptz, (current_date - 1 + time '14:30')::timestamptz, 30,
    'Hall 3 industrial scrub and waste removal','Scrubber battery underperforming — maintenance requested.','under_review',
    'd0000002-0000-4000-8000-000000000205', (current_date - 1 + time '14:40')::timestamptz, null, null, null),
 
   ('d000000c-0000-4000-8000-000000000301','d0000001-0000-4000-8000-000000000003','d000000a-0000-4000-8000-000000000301',
-   'd0000002-0000-4000-8000-000000000304','d0000004-0000-4000-8000-000000000301','d0000006-0000-4000-8000-000000000302',
+   'd0000002-0000-4000-8000-000000000304','d0000004-0000-4000-8000-000000000301',
    'd0000005-0000-4000-8000-000000000301', null,
    current_date - 4, (current_date - 4 + time '08:30')::timestamptz, (current_date - 4 + time '17:30')::timestamptz, 45,
    'Quarterly HVAC round — units 1 to 6','Unit 4 pressure below threshold; follow-up scheduled.','approved',
@@ -778,7 +741,7 @@ insert into public.operational_reports (
    'd0000002-0000-4000-8000-000000000302', (current_date - 3 + time '09:00')::timestamptz, null),
 
   ('d000000c-0000-4000-8000-000000000302','d0000001-0000-4000-8000-000000000003','d000000a-0000-4000-8000-000000000301',
-   'd0000002-0000-4000-8000-000000000305','d0000004-0000-4000-8000-000000000302','d0000006-0000-4000-8000-000000000303',
+   'd0000002-0000-4000-8000-000000000305','d0000004-0000-4000-8000-000000000302',
    'd0000005-0000-4000-8000-000000000302', null,
    current_date, (current_date + time '08:30')::timestamptz, null, 0,
    'Riverbank survey — sector 4 setup', null,'draft',
@@ -847,7 +810,7 @@ insert into public.notifications (id, company_id, user_id, type, title, message,
   (gen_random_uuid(),'d0000001-0000-4000-8000-000000000001','d0000002-0000-4000-8000-000000000104','WARNING','Report changes requested','Your installation report of the 8th needs a panel recount before it can be approved.','/dashboard/field-reports', null, now() - interval '7 days','{}'::jsonb),
   (gen_random_uuid(),'d0000001-0000-4000-8000-000000000002','d0000002-0000-4000-8000-000000000202','ACTION_REQUIRED','Report under review','The Hall 3 shift report flags a scrubber battery fault.','/dashboard/field-reports', null, now() - interval '20 hours','{}'::jsonb),
   (gen_random_uuid(),'d0000001-0000-4000-8000-000000000002','d0000002-0000-4000-8000-000000000201','SUCCESS','Monthly payroll closed','Last month''s payroll period was closed and exported to Yuki.','/dashboard/finance', now() - interval '19 days', now() - interval '20 days','{}'::jsonb),
-  (gen_random_uuid(),'d0000001-0000-4000-8000-000000000003','d0000002-0000-4000-8000-000000000302','INFO','Maintenance follow-up required','Unit 4 at Liège Tech Park is below the pressure threshold.','/dashboard/projects', null, now() - interval '3 days','{}'::jsonb),
+  (gen_random_uuid(),'d0000001-0000-4000-8000-000000000003','d0000002-0000-4000-8000-000000000302','INFO','Maintenance follow-up required','Unit 4 at Liège Tech Park is below the pressure threshold.','/dashboard/sites', null, now() - interval '3 days','{}'::jsonb),
   (gen_random_uuid(),'d0000001-0000-4000-8000-000000000003','d0000002-0000-4000-8000-000000000303','INFO','Cost analysis export ready','Your cost analysis export for HVAC Preventive Maintenance is available.','/dashboard/reports', now() - interval '10 days', now() - interval '11 days','{}'::jsonb);
 
 insert into public.certificates (id, user_id, name, issuer, issued_at, expires_at, credential_id) values
@@ -889,7 +852,7 @@ begin
     i := i + 1;
     continue when i % 5 = 0;
 
-    select id, name, latitude, longitude, project_id into site_row
+    select id, name, latitude, longitude into site_row
       from public.sites
      where company_id = w.company_id and status = 'active'
      order by id
@@ -898,14 +861,14 @@ begin
     continue when site_row.id is null;
 
     select id into tsk from public.tasks
-     where company_id = w.company_id and (project_id = site_row.project_id or project_id is null)
+     where company_id = w.company_id
      order by id limit 1;
 
     insert into public.timesheet_entries (
-      id, company_id, timesheet_id, project_id, site_id, task_id,
+      id, company_id, timesheet_id, site_id, task_id,
       starts_at, ends_at, break_minutes, notes, status
     ) values (
-      gen_random_uuid(), w.company_id, w.timesheet_id, site_row.project_id, site_row.id, tsk,
+      gen_random_uuid(), w.company_id, w.timesheet_id, site_row.id, tsk,
       (current_date + time '07:45' + (i * interval '7 minutes')),
       (current_date + time '16:30'), 30, 'Check-in on site.', 'draft'
     );
@@ -915,9 +878,9 @@ begin
     -- above is finished work, which is exactly what the old map mistook for
     -- presence.
     insert into public.time_sessions (
-      company_id, user_id, project_id, site_id, task_id, started_at, notes
+      company_id, user_id, site_id, task_id, started_at, notes
     )
-    select w.company_id, t.user_id, site_row.project_id, site_row.id, tsk,
+    select w.company_id, t.user_id, site_row.id, tsk,
            now() - ((i % 4) + 1) * interval '37 minutes', 'On site.'
       from public.timesheets t where t.id = w.timesheet_id
     on conflict do nothing;
@@ -935,7 +898,7 @@ union all select 'memberships',           count(*) from public.company_membershi
 union all select 'employee_records',      count(*) from public.employee_records      where id::text like 'd000000f-%'
 union all select 'teams',                 count(*) from public.teams                 where id::text like 'd0000004-%'
 union all select 'team_memberships',      count(*) from public.team_memberships      where id::text like 'd0000010-%'
-union all select 'projects',              count(*) from public.projects              where id::text like 'd0000006-%'
+union all select 'site_crew',             count(*) from public.site_crew             where id::text like 'd0000011-%'
 union all select 'sites',                 count(*) from public.sites                 where id::text like 'd0000005-%'
 union all select 'timesheets',            count(*) from public.timesheets            where company_id::text like 'd0000001-%'
 union all select 'timesheet_entries',     count(*) from public.timesheet_entries     where company_id::text like 'd0000001-%'

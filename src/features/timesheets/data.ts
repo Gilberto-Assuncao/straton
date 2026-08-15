@@ -9,8 +9,8 @@ function first<T>(value: RelatedOne<T>): T | null { return Array.isArray(value) 
 
 interface EntryRow {
   id: string; starts_at: string; ends_at: string; break_minutes: number; notes: string | null;
-  status: ApprovalStatus; project_id: string | null; task_id: string | null; site_id: string | null;
-  projects: RelatedOne<{ name: string }>; tasks: RelatedOne<{ name: string }>;
+  status: ApprovalStatus; task_id: string | null; site_id: string | null;
+  sites: RelatedOne<{ name: string }>; tasks: RelatedOne<{ name: string }>;
 }
 interface TimesheetRow {
   id: string; user_id: string; status: ApprovalStatus; period_start: string; period_end: string;
@@ -109,8 +109,8 @@ export async function getPendingTimesheets(): Promise<PendingTimesheet[]> {
 const managerRoles = ["owner", "admin", "administrator", "manager", "supervisor"];
 
 export async function getTimesheetWorkspace(): Promise<{
-  timesheet: Timesheet; employees: string[]; projects: string[]; weekRanges: WeekRange[];
-  projectOptions: Option[]; taskOptions: Option[]; siteOptions: Option[];
+  timesheet: Timesheet; employees: string[]; locations: string[]; weekRanges: WeekRange[];
+  taskOptions: Option[]; siteOptions: Option[];
 }> {
   const { companyId, session } = await requireActiveCompany();
   const isManager = session.activeCompany!.roles.some((role) => managerRoles.includes(role));
@@ -126,14 +126,13 @@ export async function getTimesheetWorkspace(): Promise<{
   });
   const currentWeek = weekRanges[0];
 
-  const [{ data: memberRows }, { data: projectRows }, { data: taskRows }, { data: siteRows }, { data: timesheetRows, error }] = await Promise.all([
+  const [{ data: memberRows }, { data: taskRows }, { data: siteRows }, { data: timesheetRows, error }] = await Promise.all([
     supabase.from("company_memberships").select("users!company_memberships_user_id_fkey(name)").eq("company_id", companyId).eq("status", "active"),
-    supabase.from("projects").select("id,name").eq("company_id", companyId).order("name"),
     supabase.from("tasks").select("id,name").eq("company_id", companyId).order("name"),
     supabase.from("sites").select("id,name").eq("company_id", companyId).order("name"),
     supabase
       .from("timesheets")
-      .select("id,user_id,status,period_start,period_end,users!timesheets_user_id_fkey(name),timesheet_entries(id,starts_at,ends_at,break_minutes,notes,status,project_id,task_id,site_id,projects(name),tasks(name))")
+      .select("id,user_id,status,period_start,period_end,users!timesheets_user_id_fkey(name),timesheet_entries(id,starts_at,ends_at,break_minutes,notes,status,task_id,site_id,sites(name),tasks(name))")
       .eq("company_id", companyId)
       .lte("period_start", currentWeek.endDate)
       .gte("period_end", currentWeek.startDate),
@@ -144,22 +143,23 @@ export async function getTimesheetWorkspace(): Promise<{
     const user = first(row.users);
     return user ? [user.name] : [];
   }))].sort();
-  const projectOptions = ((projectRows ?? []) as Option[]).map((row) => ({ id: row.id, name: row.name }));
   const taskOptions = ((taskRows ?? []) as Option[]).map((row) => ({ id: row.id, name: row.name }));
   const siteOptions = ((siteRows ?? []) as Option[]).map((row) => ({ id: row.id, name: row.name }));
-  const projects = [...new Set(projectOptions.map((option) => option.name))].sort();
+  // The filter lists the locations that exist, not the ones this week happens
+  // to mention: a manager clearing a filter should see every choice again.
+  const locations = [...new Set(siteOptions.map((option) => option.name))].sort();
 
   const rows = (timesheetRows ?? []) as TimesheetRow[];
   const entries: TimesheetEntry[] = rows.flatMap((sheet) => {
     const employeeName = first(sheet.users)?.name ?? "Unknown";
     return (sheet.timesheet_entries ?? []).map((row) => {
-      const project = first(row.projects);
+      const site = first(row.sites);
       const task = first(row.tasks);
       return {
         id: row.id, timesheetId: sheet.id, employee: employeeName,
         date: formatEntryDate(row.starts_at), startsAtIso: row.starts_at,
-        project: project?.name ?? "", task: task?.name ?? "",
-        projectId: row.project_id, taskId: row.task_id, siteId: row.site_id,
+        location: site?.name ?? "", task: task?.name ?? "",
+        taskId: row.task_id, siteId: row.site_id,
         startTime: formatTime(row.starts_at), endTime: formatTime(row.ends_at),
         breakMinutes: row.break_minutes, workedMinutes: workedMinutes(row),
         notes: row.notes ?? "", category: "regular", status: row.status,
@@ -181,5 +181,5 @@ export async function getTimesheetWorkspace(): Promise<{
     entries,
   };
 
-  return { timesheet, employees, projects, weekRanges, projectOptions, taskOptions, siteOptions };
+  return { timesheet, employees, locations, weekRanges, taskOptions, siteOptions };
 }

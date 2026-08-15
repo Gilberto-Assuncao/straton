@@ -59,7 +59,6 @@ interface AreaRow {
 interface SiteRow {
   site_id: string;
   site_name: string;
-  project_name: string | null;
   approved_minutes: number;
   pending_minutes: number;
   people_count: number;
@@ -114,7 +113,6 @@ export async function getWorkedHoursReport(month?: string, siteIds: string[] = [
   const sites: WorkedHoursSite[] = ((siteRows ?? []) as SiteRow[]).map((row) => ({
     siteId: row.site_id,
     siteName: row.site_name,
-    projectName: row.project_name,
     approvedMinutes: Number(row.approved_minutes),
     pendingMinutes: Number(row.pending_minutes),
     peopleCount: Number(row.people_count),

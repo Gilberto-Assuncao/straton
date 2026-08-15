@@ -225,7 +225,6 @@ export interface EditEntryInput {
   startTime: string;
   endTime: string;
   breakMinutes: number;
-  projectId: string | null;
   taskId: string | null;
   siteId: string | null;
   notes: string;
@@ -283,7 +282,6 @@ export async function editTimeEntryAction(input: EditEntryInput): Promise<Timesh
       starts_at: startsAt.toISOString(),
       ends_at: endsAt.toISOString(),
       break_minutes: input.breakMinutes,
-      project_id: input.projectId || null,
       task_id: input.taskId || null,
       site_id: input.siteId || null,
       notes: input.notes.trim() || null,

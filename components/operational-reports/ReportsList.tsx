@@ -37,7 +37,7 @@ export default async function ReportsList({ reports }: { reports: OperationalRep
                 </td>
                 <td className="px-5 py-4 text-[#E5E7EB]">{report.workerName}</td>
                 <td className="px-5 py-4 text-[#9CA3AF]">{report.templateName ?? t("generic")}</td>
-                <td className="px-5 py-4 text-[#9CA3AF]">{[report.projectName, report.siteName].filter(Boolean).join(" · ") || "—"}</td>
+                <td className="px-5 py-4 text-[#9CA3AF]">{report.siteName ?? "—"}</td>
                 <td className="px-5 py-4">
                   <span className={`rounded-full px-3 py-1 text-xs font-semibold ${statusStyles[report.status] ?? "bg-white/10 text-[#9CA3AF]"}`}>{t(`status_${report.status}` as "status_draft")}</span>
                 </td>

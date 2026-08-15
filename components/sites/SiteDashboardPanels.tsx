@@ -75,7 +75,6 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
         <dl className="mt-5 grid gap-4 sm:grid-cols-2">
           <div><dt className="text-xs text-[#6B7280]">{t("nameLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.name}</dd></div>
           <div><dt className="text-xs text-[#6B7280]">{t("priorityLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{t(`priority_${site.priority}` as "priority_medium")}</dd></div>
-          <div><dt className="text-xs text-[#6B7280]">{t("projectLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.projectName ?? t("noProject")}</dd></div>
           <div className="sm:col-span-2"><dt className="text-xs text-[#6B7280]">{t("streetLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{address || t("noAddress")}</dd></div>
           {site.reference ? <div><dt className="text-xs text-[#6B7280]">{t("referenceLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.reference}</dd></div> : null}
           {site.poNumber ? <div><dt className="text-xs text-[#6B7280]">{t("poLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.poNumber}</dd></div> : null}

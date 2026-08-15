@@ -12,12 +12,11 @@ const label = "text-sm font-medium text-[#E5E7EB]";
 
 type Props = {
   templates: ReportTemplate[];
-  projects: { id: string; name: string }[];
   sites: { id: string; name: string }[];
   existingReport?: OperationalReportDetail;
 };
 
-export default function OperationalReportForm({ templates, projects, sites, existingReport }: Props) {
+export default function OperationalReportForm({ templates, sites, existingReport }: Props) {
   const t = useTranslations("operationalReports");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
@@ -27,7 +26,6 @@ export default function OperationalReportForm({ templates, projects, sites, exis
   const [startsAt, setStartsAt] = useState(existingReport?.startsAt?.slice(0, 16) ?? "");
   const [endsAt, setEndsAt] = useState(existingReport?.endsAt?.slice(0, 16) ?? "");
   const [breakMinutes, setBreakMinutes] = useState(String(existingReport?.breakMinutes ?? 0));
-  const [projectId, setProjectId] = useState(existingReport?.projectId ?? "");
   const [siteId, setSiteId] = useState(existingReport?.siteId ?? "");
   const [activity, setActivity] = useState(existingReport?.activity ?? "");
   const [notes, setNotes] = useState(existingReport?.notes ?? "");
@@ -55,7 +53,6 @@ export default function OperationalReportForm({ templates, projects, sites, exis
       startsAt: startsAt ? new Date(startsAt).toISOString() : null,
       endsAt: endsAt ? new Date(endsAt).toISOString() : null,
       breakMinutes: Number(breakMinutes) || 0,
-      projectId: projectId || null,
       siteId: siteId || null,
       activity,
       notes,
@@ -95,13 +92,6 @@ export default function OperationalReportForm({ templates, projects, sites, exis
         <div>
           <label className={label} htmlFor="report-break">{t("breakMinutes")}</label>
           <input id="report-break" type="number" min="0" className={field} value={breakMinutes} onChange={(event) => setBreakMinutes(event.target.value)} />
-        </div>
-        <div>
-          <label className={label} htmlFor="report-project">{t("project")}</label>
-          <select id="report-project" className={field} value={projectId} onChange={(event) => setProjectId(event.target.value)}>
-            <option value="">—</option>
-            {projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
-          </select>
         </div>
         <div>
           <label className={label} htmlFor="report-site">{t("site")}</label>

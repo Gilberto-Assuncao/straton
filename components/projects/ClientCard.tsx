@@ -1,5 +1,0 @@
-"use client";
-
-import { useTranslations } from "next-intl";
-import type { Client } from "@/lib/types/project";
-export default function ClientCard({ client }: { client: Client }) { const t = useTranslations("projects"); return <article className="rounded-2xl border border-white/10 bg-[#111827]/70 p-5"><p className="text-xs font-semibold uppercase tracking-wider text-[#22C55E]">{t("client")}</p><h3 className="mt-2 text-lg font-semibold text-[#E5E7EB]">{client.companyName}</h3><dl className="mt-4 grid gap-3 text-sm"><div><dt className="text-[#9CA3AF]">{t("contact")}</dt><dd className="text-[#E5E7EB]">{client.contactName}</dd></div><div><dt className="text-[#9CA3AF]">{t("email")}</dt><dd className="break-all text-[#E5E7EB]">{client.email}</dd></div><div><dt className="text-[#9CA3AF]">{t("phone")}</dt><dd className="text-[#E5E7EB]">{client.phone}</dd></div><div><dt className="text-[#9CA3AF]">{t("countryVat")}</dt><dd className="text-[#E5E7EB]">{client.country} · {client.vat}</dd></div><div><dt className="text-[#9CA3AF]">{t("address")}</dt><dd className="text-[#E5E7EB]">{client.address}</dd></div></dl></article>; }

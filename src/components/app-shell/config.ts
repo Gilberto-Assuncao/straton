@@ -31,7 +31,6 @@ export const defaultAppNavigation: AppNavigationItem[] = [
   { id: "map", label: "Live Map", href: "/dashboard/map", icon: "globe", section: "general" },
 
   // Where the work is.
-  { id: "projects", label: "Projects", href: "/dashboard/projects", icon: "layers", section: "operations" },
   { id: "sites", label: "Sites", href: "/dashboard/sites", icon: "location", section: "operations" },
   { id: "field-reports", label: "Field Reports", href: "/dashboard/field-reports", icon: "check", section: "operations" },
 

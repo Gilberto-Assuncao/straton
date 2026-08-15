@@ -32,13 +32,13 @@ export async function getCompanyDetail(companyId?: string): Promise<CompanyDetai
   const membership = session.companies.find(({ id }) => id === targetId);
   if (!targetId || !membership) return null;
   const supabase = await createClient();
-  const [{ data: row, error }, members, teams, leaders, teamMembers, projects, settings] = await Promise.all([
+  const [{ data: row, error }, members, teams, leaders, teamMembers, locations, settings] = await Promise.all([
     supabase.from("companies").select("id,name,legal_name,display_name,slug,registration_number,vat_number,country_code,default_language,timezone,currency,phone,email,website,address_line_1,address_line_2,postal_code,city,region,logo_url,status,created_at").eq("id", targetId).maybeSingle(),
     supabase.from("company_memberships").select("status").eq("company_id", targetId),
     supabase.from("teams").select("status").eq("company_id", targetId),
     supabase.from("teams").select("id", { count: "exact", head: true }).eq("company_id", targetId).not("leader_membership_id", "is", null),
     supabase.from("team_memberships").select("id", { count: "exact", head: true }).eq("company_id", targetId).is("left_at", null),
-    supabase.from("projects").select("id", { count: "exact", head: true }).eq("company_id", targetId).eq("status", "active"),
+    supabase.from("sites").select("id", { count: "exact", head: true }).eq("company_id", targetId).eq("status", "active"),
     supabase.from("company_settings").select("week_starts_on,date_format,time_format,expected_start_time,expected_end_time,grace_minutes,punctuality_reminders_enabled").eq("company_id", targetId).maybeSingle(),
   ]);
   if (error || !row) return null;
@@ -61,6 +61,6 @@ export async function getCompanyDetail(companyId?: string): Promise<CompanyDetai
     memberCounts: { total: memberRows.length, active: memberRows.filter(({ status }) => status === "active").length,
       invited: memberRows.filter(({ status }) => status === "invited").length, suspended: memberRows.filter(({ status }) => status === "suspended").length },
     teamCounts: { total: teamRows.length, active: teamRows.filter(({ status }) => status === "active").length,
-      leaders: leaders.count ?? 0, members: teamMembers.count ?? 0 }, activeProjects: projects.count ?? 0,
+      leaders: leaders.count ?? 0, members: teamMembers.count ?? 0 }, activeProjects: locations.count ?? 0,
   };
 }

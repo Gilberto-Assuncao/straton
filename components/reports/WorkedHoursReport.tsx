@@ -293,7 +293,6 @@ export default async function WorkedHoursReport({
               <thead>
                 <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-[#6B7280]">
                   <th className={cell}>{t("colSite")}</th>
-                  <th className={cell}>{t("colProject")}</th>
                   <th className={`${cell} text-right`}>{t("approved")}</th>
                   <th className={`${cell} text-right`}>{t("colPending")}</th>
                   <th className={`${cell} text-right`}>{t("colPeople")}</th>
@@ -303,7 +302,6 @@ export default async function WorkedHoursReport({
                 {report.sites.map((site) => (
                   <tr key={site.siteId} className="border-b border-white/5">
                     <td className={`${cell} font-medium ${site.siteId ? "text-[#E5E7EB]" : "text-amber-300"}`}>{site.siteName ?? t("noSiteRow")}</td>
-                    <td className={`${cell} text-[#9CA3AF]`}>{site.projectName ?? "—"}</td>
                     <td className={`${cell} text-right font-mono text-[#4ADE80]`}>{formatMinutes(site.approvedMinutes)}</td>
                     <td className={`${cell} text-right font-mono text-amber-300`}>
                       {site.pendingMinutes ? formatMinutes(site.pendingMinutes) : "—"}

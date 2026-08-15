@@ -8,7 +8,6 @@ export * from "./localization-settings";
 export * from "./notification";
 export * from "./permission";
 export * from "./professional-profile";
-export * from "./project";
 export * from "./report";
 export * from "./role";
 export * from "./shared";

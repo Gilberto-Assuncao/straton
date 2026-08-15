@@ -4,7 +4,7 @@ const iconPaths: Record<KpiIcon, string> = {
   clock: "M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z",
   users: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm13 10v-2a4 4 0 0 0-3-3.87",
   approval: "M9 11l2 2 4-4M5 3h14v18H5V3Zm4 0v3h6V3",
-  projects: "M3 7h18v13H3V7Zm0 4h18M8 7V4h8v3",
+  locations: "M3 7h18v13H3V7Zm0 4h18M8 7V4h8v3",
 };
 
 const stateStyles = {

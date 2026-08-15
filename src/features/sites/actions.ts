@@ -30,7 +30,7 @@ const managerRoles = ["owner", "admin", "administrator", "manager"];
 /** Every field `parseSite` reads, so nothing typed is dropped on a refusal. */
 const SITE_FIELDS = [
   "name", "reference", "status", "street", "city", "postal_code", "latitude", "longitude",
-  "poNumber", "costCenter", "projectId", "clientCompanyId", "startsAt", "endsAt",
+  "poNumber", "costCenter", "clientCompanyId", "startsAt", "endsAt",
   "priority", "estimatedHours", "budgetAmount", "budgetCurrency", "description",
 ] as const;
 
@@ -43,7 +43,7 @@ function submitted(formData: FormData): Record<string, string> {
 type ParsedSite = {
   name: string; reference: string | null; status: string;
   address: Record<string, string>; latitude: number | null; longitude: number | null;
-  po_number: string | null; cost_center: string | null; project_id: string | null;
+  po_number: string | null; cost_center: string | null;
   client_company_id: string | null;
   starts_at: string | null; ends_at: string | null;
   priority: string; estimated_hours: number | null;
@@ -113,7 +113,6 @@ function parseSite(formData: FormData): ParsedSite | { error: string } {
     reference: text(formData, "reference") || null,
     po_number: text(formData, "poNumber") || null,
     cost_center: text(formData, "costCenter") || null,
-    project_id: text(formData, "projectId") || null,
     client_company_id: text(formData, "clientCompanyId") || null,
     starts_at: startsAt || null,
     ends_at: endsAt || null,

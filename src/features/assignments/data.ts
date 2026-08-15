@@ -24,7 +24,6 @@ interface AssignmentRow {
   ends_at: string;
   status: AssignmentStatus;
   site_id: string | null;
-  project_id: string | null;
   team_id: string | null;
   sites: RelatedOne<{ name: string }>;
   projects: RelatedOne<{ name: string }>;
@@ -91,7 +90,7 @@ export async function getAgenda(weekStartISO?: string): Promise<Agenda> {
   const { data: assignmentRows } = await supabase
     .from("assignments")
     .select(
-      "id,title,instructions,starts_at,ends_at,status,site_id,project_id,team_id,sites(name),projects(name),teams(name)",
+      "id,title,instructions,starts_at,ends_at,status,site_id,team_id,sites(name),teams(name)",
     )
     .eq("company_id", companyId)
     .gte("starts_at", monday.toISOString())
@@ -135,7 +134,6 @@ export async function getAgenda(weekStartISO?: string): Promise<Agenda> {
       status: row.status,
       siteId: row.site_id,
       siteName: first(row.sites)?.name ?? null,
-      projectId: row.project_id,
       projectName: first(row.projects)?.name ?? null,
       teamId: row.team_id,
       teamName: first(row.teams)?.name ?? null,
@@ -178,7 +176,7 @@ function toDateKey(date: Date): string {
 export interface AssignmentOptions {
   people: { membershipId: string; name: string }[];
   teams: { id: string; name: string }[];
-  sites: { id: string; name: string; projectId: string | null }[];
+  sites: { id: string; name: string }[];
 }
 
 export async function getAssignmentOptions(): Promise<AssignmentOptions> {
@@ -192,7 +190,7 @@ export async function getAssignmentOptions(): Promise<AssignmentOptions> {
       .eq("company_id", companyId)
       .eq("status", "active"),
     supabase.from("teams").select("id,name").eq("company_id", companyId).order("name"),
-    supabase.from("sites").select("id,name,project_id").eq("company_id", companyId).order("name"),
+    supabase.from("sites").select("id,name").eq("company_id", companyId).order("name"),
   ]);
 
   type PersonRow = { id: string; users: RelatedOne<{ name: string }> };
@@ -202,10 +200,9 @@ export async function getAssignmentOptions(): Promise<AssignmentOptions> {
       .filter((person) => person.name)
       .sort((a, b) => a.name.localeCompare(b.name)),
     teams: (teams ?? []) as { id: string; name: string }[],
-    sites: ((sites ?? []) as { id: string; name: string; project_id: string | null }[]).map((row) => ({
+    sites: ((sites ?? []) as { id: string; name: string }[]).map((row) => ({
       id: row.id,
       name: row.name,
-      projectId: row.project_id,
     })),
   };
 }

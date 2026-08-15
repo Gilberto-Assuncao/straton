@@ -8,8 +8,8 @@ export type TimesheetEntry = {
   id: string; timesheetId: string; employee: string;
   /** Formatted for reading. `startsAtIso` is what edits are rebuilt from. */
   date: string; startsAtIso: string;
-  project: string; task: string;
-  projectId: string | null; taskId: string | null; siteId: string | null;
+  location: string; task: string;
+  taskId: string | null; siteId: string | null;
   startTime: string; endTime: string; breakMinutes: number; workedMinutes: number;
   notes: string; category: EntryCategory; status: ApprovalStatus;
   /**

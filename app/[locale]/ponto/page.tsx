@@ -15,7 +15,7 @@ export const metadata: Metadata = { title: "Ponto" };
  * Saved to a phone's home screen it behaves like the app we do not have yet.
  */
 export default async function ClockPage() {
-  const [{ sites, currentAssignment, projects, tasks, todaySummary }, openSession] = await Promise.all([
+  const [{ sites, currentAssignment, tasks, todaySummary }, openSession] = await Promise.all([
     getTimeTrackingOverview(),
     getOpenSession(),
   ]);
@@ -25,7 +25,6 @@ export default async function ClockPage() {
       openSession={openSession}
       currentAssignment={currentAssignment}
       sites={sites}
-      projects={projects}
       tasks={tasks}
       todayMinutes={todaySummary.workedMinutes}
     />

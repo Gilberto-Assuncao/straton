@@ -64,27 +64,25 @@ test.describe("work location", () => {
  * be recovered later.
  */
 test.describe("clock", () => {
-  test("starts with no project and no task", async ({ page }) => {
+  test("starts with no location and no task", async ({ page }) => {
     const db = admin();
 
     await signIn(page);
     await page.goto("/en/dashboard/time");
 
     // Empty on purpose. This is exactly the state that was a dead end.
-    await page.locator("#tracker-project").selectOption("");
     await page.locator("#tracker-task").selectOption("");
     await page.getByRole("button", { name: /^start$/i }).click();
 
     await expect(async () => {
       const { data } = await db
         .from("time_sessions")
-        .select("id,project_id,task_id")
+        .select("id,task_id")
         .is("ended_at", null)
         .order("started_at", { ascending: false })
         .limit(1)
         .maybeSingle();
       expect(data, "the open session the clock should have opened").not.toBeNull();
-      expect(data!.project_id, "project, left blank on purpose").toBeNull();
       expect(data!.task_id, "task, left blank on purpose").toBeNull();
     }).toPass({ timeout: 20_000 });
 

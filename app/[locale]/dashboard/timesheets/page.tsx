@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "Timesheets" };
 const managerRoles = ["owner", "admin", "administrator", "manager", "supervisor"];
 
 export default async function TimesheetsPage() {
-  const [{ timesheet, employees, projects, weekRanges, projectOptions, taskOptions, siteOptions }, pending, { session }, t] = await Promise.all([
+  const [{ timesheet, employees, locations, weekRanges, taskOptions, siteOptions }, pending, { session }, t] = await Promise.all([
     getTimesheetWorkspace(),
     getPendingTimesheets(),
     requireActiveCompany(),
@@ -29,7 +29,7 @@ export default async function TimesheetsPage() {
       */}
       <div className="mt-8 grid gap-5">
         <ApprovalQueue pending={pending} canReview={canReview} />
-        <TimesheetPage timesheet={timesheet} employees={employees} projects={projects} weekRanges={weekRanges} projectOptions={projectOptions} taskOptions={taskOptions} siteOptions={siteOptions} />
+        <TimesheetPage timesheet={timesheet} employees={employees} locations={locations} weekRanges={weekRanges} taskOptions={taskOptions} siteOptions={siteOptions} />
       </div>
     </section>
   );

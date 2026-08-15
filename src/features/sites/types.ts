@@ -12,8 +12,6 @@ export type SiteRecord = {
   longitude: number | null;
   poNumber: string | null;
   costCenter: string | null;
-  projectId: string | null;
-  projectName: string | null;
   clientCompanyId: string | null;
   clientName: string | null;
   startsAt: string | null;

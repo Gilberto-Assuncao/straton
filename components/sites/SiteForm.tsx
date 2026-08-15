@@ -17,7 +17,6 @@ function storedFields(site?: SiteRecord): Fields {
   return {
     name: site?.name ?? "",
     reference: site?.reference ?? "",
-    projectId: site?.projectId ?? "",
     street: site?.address.street ?? "",
     city: site?.address.city ?? "",
     postal_code: site?.address.postal_code ?? "",
@@ -36,7 +35,7 @@ function storedFields(site?: SiteRecord): Fields {
   };
 }
 
-export default function SiteForm({ site, projects, clients }: { site?: SiteRecord; projects: { id: string; name: string }[]; clients: ClientOption[] }) {
+export default function SiteForm({ site, clients }: { site?: SiteRecord; clients: ClientOption[] }) {
   const t = useTranslations("sites");
   const [state, formAction] = useActionState(
     site ? updateSiteAction : createSiteAction,
@@ -116,14 +115,6 @@ export default function SiteForm({ site, projects, clients }: { site?: SiteRecor
         <div>
           <label htmlFor="site-reference" className={label}>{t("referenceLabel")}</label>
           <input id="site-reference" name="reference" value={fields.reference} onChange={(event) => set("reference", event.target.value)} className={field} />
-        </div>
-
-        <div>
-          <label htmlFor="site-project" className={label}>{t("projectLabel")}</label>
-          <select id="site-project" name="projectId" value={fields.projectId} onChange={(event) => set("projectId", event.target.value)} className={field}>
-            <option value="">{t("noProject")}</option>
-            {projects.map((project) => <option key={project.id} value={project.id}>{project.name}</option>)}
-          </select>
         </div>
 
         {/* Holds its own selection in state, so the reset does not reach it. */}

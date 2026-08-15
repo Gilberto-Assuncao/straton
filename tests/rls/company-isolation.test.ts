@@ -31,7 +31,7 @@ describeIfDb("tenant isolation", () => {
   // Each table is named explicitly rather than looped, so a failure says which
   // one leaked without reading the loop index.
   const tenantTables = [
-    "projects",
+    "sites",
     "sites",
     "timesheets",
     "timesheet_entries",
@@ -62,7 +62,7 @@ describeIfDb("tenant isolation", () => {
     await withRollback(async (db) => {
       await actAs(db, DEMO.belnex.adminUserId);
       const { rows } = await db.query<{ count: string }>(
-        "select count(*)::text as count from public.projects where company_id = $1",
+        "select count(*)::text as count from public.sites where company_id = $1",
         [DEMO.belnex.companyId],
       );
       expect(Number(rows[0].count)).toBeGreaterThan(0);
@@ -76,14 +76,14 @@ describeIfDb("tenant isolation", () => {
       // accepted and filtered to nothing. A created row is not.
       await attemptWrite(
         db,
-        `insert into public.projects (company_id, name, description, status)
+        `insert into public.sites (company_id, name, address, status)
          values ($1, '__leak test__', 'should never exist', 'planning')`,
         [DEMO.nordclean.companyId],
       );
 
       await db.query("reset role");
       const { rows } = await db.query<{ count: string }>(
-        "select count(*)::text as count from public.projects where name = '__leak test__'",
+        "select count(*)::text as count from public.sites where name = '__leak test__'",
       );
       expect(rows[0].count).toBe("0");
     });
@@ -92,13 +92,13 @@ describeIfDb("tenant isolation", () => {
   it("does not allow updating another company's rows", async () => {
     await withRollback(async (db) => {
       await actAs(db, DEMO.belnex.adminUserId);
-      await attemptWrite(db, "update public.projects set name = '__hijacked__' where company_id = $1", [
+      await attemptWrite(db, "update public.sites set name = '__hijacked__' where company_id = $1", [
         DEMO.nordclean.companyId,
       ]);
 
       await db.query("reset role");
       const { rows } = await db.query<{ count: string }>(
-        "select count(*)::text as count from public.projects where name = '__hijacked__'",
+        "select count(*)::text as count from public.sites where name = '__hijacked__'",
       );
       expect(rows[0].count).toBe("0");
     });
@@ -116,9 +116,9 @@ describeIfDb("related-company visibility", () => {
       await actAs(db, DEMO.belnex.adminUserId);
       const { rows } = await db.query<{ name: string }>(
         `select c.name from public.companies c
-         join public.projects p on p.client_company_id = c.id
+         join public.sites p on p.client_company_id = c.id
          where p.id = $1`,
-        [DEMO.belnex.projectId],
+        [DEMO.belnex.siteId],
       );
       expect(rows).toHaveLength(1);
     });

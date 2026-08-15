@@ -61,7 +61,7 @@ export default async function SiteDashboardPage({
       <div className="mt-3">
         <PageHeader
           headingId="site-heading"
-          eyebrow={site.projectName ?? t("eyebrow")}
+          eyebrow={t("eyebrow")}
           title={site.name}
           description={[site.address.street, site.address.postal_code, site.address.city].filter(Boolean).join(", ") || t("noAddress")}
           actions={

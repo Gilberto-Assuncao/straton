@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import PageHeader from "@/components/dashboard/PageHeader";
 import OperationalReportForm from "@/components/operational-reports/OperationalReportForm";
-import { getOperationalReportDetail, getReportTemplates, getProjectAndSiteOptions } from "@/src/features/operational-reports/data";
+import { getOperationalReportDetail, getReportTemplates, getSiteOptions } from "@/src/features/operational-reports/data";
 import { requireActiveCompany } from "@/src/application/session/server";
 
 export const metadata: Metadata = { title: "Edit Field Report" };
@@ -12,11 +12,11 @@ const editableStatuses = ["draft", "changes_requested"];
 
 export default async function EditFieldReportPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [{ session }, report, templates, { projects, sites }] = await Promise.all([
+  const [{ session }, report, templates, { sites }] = await Promise.all([
     requireActiveCompany(),
     getOperationalReportDetail(id),
     getReportTemplates(),
-    getProjectAndSiteOptions(),
+    getSiteOptions(),
   ]);
   if (!report) notFound();
   if (report.workerId !== session.user.id || !editableStatuses.includes(report.status)) redirect(`/dashboard/field-reports/${id}`);
@@ -27,7 +27,7 @@ export default async function EditFieldReportPage({ params }: { params: Promise<
       <div className="mb-6 mt-3">
         <PageHeader headingId="edit-field-report-heading" title="Edit field report" description="Update the report before submitting it for approval." />
       </div>
-      <OperationalReportForm templates={templates} projects={projects} sites={sites} existingReport={report} />
+      <OperationalReportForm templates={templates} sites={sites} existingReport={report} />
     </section>
   );
 }

@@ -31,7 +31,7 @@ describeIfDb("the company's structure", () => {
 
       const created = await attemptWrite(
         db,
-        "insert into public.projects (company_id, name, status) values ($1, 'invented', 'active')",
+        "insert into public.sites (company_id, name, address, status) values ($1, 'invented', '{}'::jsonb, 'active')",
         [DEMO.belnex.companyId],
       );
       expect(created).toBe(false);
@@ -45,7 +45,7 @@ describeIfDb("the company's structure", () => {
 
       const created = await attemptWrite(
         db,
-        "insert into public.projects (company_id, name, status) values ($1, 'legitimate', 'active')",
+        "insert into public.sites (company_id, name, address, status) values ($1, 'legitimate', '{}'::jsonb, 'active')",
         [DEMO.belnex.companyId],
       );
       expect(created).toBe(true);
@@ -82,21 +82,23 @@ describeIfDb("the company's structure", () => {
   });
 });
 
-describeIfDb("project roles", () => {
+describeIfDb("crew roles", () => {
   it("cannot be raised by the person they apply to", async () => {
-    // Not vandalism — this is how a worker becomes a project manager.
+    // Not vandalism — this is how a worker makes themselves the lead on a
+    // chantier. The table moved from projects to locations in #77; the rule it
+    // is here to hold did not.
     await withRollback(async (db) => {
       await actAs(db, WORKER);
       await assertRlsIsEnforced(db);
 
-      await attemptWrite(db, "update public.project_memberships set role = 'manager' where company_id = $1", [
+      await attemptWrite(db, "update public.site_crew set role = 'manager' where company_id = $1", [
         DEMO.belnex.companyId,
       ]);
       const { rows } = await db.query<{ count: string }>(
         `select count(*)::text as count
-         from public.project_memberships pm
-         join public.company_memberships cm on cm.id = pm.company_membership_id
-         where cm.user_id = $1 and pm.role = 'manager'`,
+         from public.site_crew sc
+         join public.company_memberships cm on cm.id = sc.company_membership_id
+         where cm.user_id = $1 and sc.role = 'manager'`,
         [WORKER],
       );
       expect(Number(rows[0].count)).toBe(0);

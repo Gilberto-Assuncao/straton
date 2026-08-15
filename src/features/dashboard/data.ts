@@ -141,9 +141,9 @@ interface EntryRow { starts_at: string; ends_at: string; break_minutes: number; 
 interface TimesheetRow {
   id: string; status: string; submitted_at: string | null; period_end: string;
   users: RelatedOne<{ name: string }>;
-  timesheet_entries: { starts_at: string; ends_at: string; break_minutes: number; projects: RelatedOne<{ name: string }> }[] | null;
+  timesheet_entries: { starts_at: string; ends_at: string; break_minutes: number; sites: RelatedOne<{ name: string }> }[] | null;
 }
-interface ProjectUpdateRow { id: string; name: string; updated_at: string }
+interface SiteUpdateRow { id: string; name: string; updated_at: string }
 
 export async function getExcessShiftsCount(): Promise<number> {
   const session = await requireAuthenticatedSession();
@@ -191,16 +191,16 @@ export async function getDashboardOverview(): Promise<{
     { data: recentProjects },
   ] = await Promise.all([
     supabase.from("employee_records").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("employment_status", "active"),
-    supabase.from("projects").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("status", "active"),
+    supabase.from("sites").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("status", "active"),
     supabase.from("timesheet_entries").select("starts_at,ends_at,break_minutes,status").eq("company_id", companyId).gte("starts_at", weekStartKey).lte("starts_at", weekEndKey),
     supabase.from("timesheet_entries").select("id", { count: "exact", head: true }).eq("company_id", companyId).eq("status", "submitted"),
     supabase
       .from("timesheets")
-      .select("id,status,submitted_at,period_end,users!timesheets_user_id_fkey(name),timesheet_entries(starts_at,ends_at,break_minutes,projects(name))")
+      .select("id,status,submitted_at,period_end,users!timesheets_user_id_fkey(name),timesheet_entries(starts_at,ends_at,break_minutes,sites(name))")
       .eq("company_id", companyId)
       .order("period_end", { ascending: false })
       .limit(5),
-    supabase.from("projects").select("id,name,updated_at").eq("company_id", companyId).order("updated_at", { ascending: false }).limit(5),
+    supabase.from("sites").select("id,name,updated_at").eq("company_id", companyId).order("updated_at", { ascending: false }).limit(5),
   ]);
 
   const entries = (weekEntries ?? []) as EntryRow[];
@@ -218,7 +218,7 @@ export async function getDashboardOverview(): Promise<{
     { id: "hours", label: t("kpiHoursLabel"), value: `${Math.round((totalWeekMinutes / 60) * 10) / 10}h`, comparison: t("kpiHoursComparison"), state: "neutral", icon: "clock" },
     { id: "employees", label: t("kpiEmployeesLabel"), value: String(activeEmployees ?? 0), comparison: t("kpiCurrentCompany"), state: "neutral", icon: "users" },
     { id: "approvals", label: t("kpiApprovalsLabel"), value: String(pendingApprovals ?? 0), comparison: (pendingApprovals ?? 0) > 0 ? t("kpiApprovalsAttention") : t("kpiApprovalsOk"), state: (pendingApprovals ?? 0) > 0 ? "attention" : "positive", icon: "approval" },
-    { id: "projects", label: t("kpiProjectsLabel"), value: String(activeProjects ?? 0), comparison: t("kpiCurrentCompany"), state: "neutral", icon: "projects" },
+    { id: "locations", label: t("kpiLocationsLabel"), value: String(activeProjects ?? 0), comparison: t("kpiCurrentCompany"), state: "neutral", icon: "locations" },
   ];
 
   const recentTimesheets: RecentTimesheet[] = ((timesheetRows ?? []) as TimesheetRow[]).flatMap((row) => {
@@ -226,9 +226,9 @@ export async function getDashboardOverview(): Promise<{
     if (!user) return [];
     const rowEntries = row.timesheet_entries ?? [];
     const hours = Math.round((rowEntries.reduce((sum, entry) => sum + workedMinutes(entry.starts_at, entry.ends_at, entry.break_minutes), 0) / 60) * 10) / 10;
-    const projectNames = [...new Set(rowEntries.flatMap((entry) => { const project = first(entry.projects); return project ? [project.name] : []; }))];
-    const project = projectNames.length === 0 ? "—" : projectNames.length === 1 ? projectNames[0] : t("projectMultiple");
-    return [{ id: row.id, employee: user.name, project, hours, date: row.period_end, status: toTimesheetStatus(row.status) }];
+    const names = [...new Set(rowEntries.flatMap((entry) => { const site = first(entry.sites); return site ? [site.name] : []; }))];
+    const location = names.length === 0 ? "—" : names.length === 1 ? names[0]! : t("locationMultiple");
+    return [{ id: row.id, employee: user.name, location, hours, date: row.period_end, status: toTimesheetStatus(row.status) }];
   });
 
   const submissionActivities: (TeamActivityItem & { occurredAt: string })[] = ((timesheetRows ?? []) as TimesheetRow[]).flatMap((row) => {
@@ -237,13 +237,13 @@ export async function getDashboardOverview(): Promise<{
     const type = row.status === "approved" ? "timesheet_approved" : "timesheet_submitted";
     return [{ id: `timesheet-${row.id}`, person: user.name, action: row.status === "approved" ? t("activityApproved") : t("activitySubmitted"), context: t("activityWeekEnding", { date: row.period_end }), time: timeAgo(row.submitted_at, t), type, occurredAt: row.submitted_at }];
   });
-  const projectActivities: (TeamActivityItem & { occurredAt: string })[] = ((recentProjects ?? []) as ProjectUpdateRow[]).map((row) => ({
-    id: `project-${row.id}`, person: t("activityTeam"), action: t("activityUpdatedProject"), context: row.name, time: timeAgo(row.updated_at, t), type: "project_updated", occurredAt: row.updated_at,
+  const locationActivities: (TeamActivityItem & { occurredAt: string })[] = ((recentProjects ?? []) as SiteUpdateRow[]).map((row) => ({
+    id: `location-${row.id}`, person: t("activityTeam"), action: t("activityUpdatedLocation"), context: row.name, time: timeAgo(row.updated_at, t), type: "location_updated", occurredAt: row.updated_at,
   }));
   // Sort by the raw timestamp, not the already-formatted "N min/hr/days ago"
   // string — comparing those strings lexicographically would not produce
   // chronological order.
-  const teamActivities: TeamActivityItem[] = [...submissionActivities, ...projectActivities]
+  const teamActivities: TeamActivityItem[] = [...submissionActivities, ...locationActivities]
     .sort((a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime())
     .slice(0, 5)
     .map((activity) => ({ id: activity.id, person: activity.person, action: activity.action, context: activity.context, time: activity.time, type: activity.type }));
