@@ -13,7 +13,7 @@ import type { IncomingInvitation } from "@/src/features/sites/partners";
  */
 export default function IncomingInvitations({ invitations }: { invitations: IncomingInvitation[] }) {
   const t = useTranslations("sites");
-  const [answered, setAnswered] = useState<Record<string, string>>({});
+  const [answered, setAnswered] = useState<Record<string, boolean>>({});
   const [pending, startTransition] = useTransition();
 
   const open = invitations.filter((invitation) => !answered[invitation.id]);
@@ -22,7 +22,7 @@ export default function IncomingInvitations({ invitations }: { invitations: Inco
   function respond(invitationId: string, accept: boolean) {
     startTransition(async () => {
       const result = await respondToInvitationAction(invitationId, accept);
-      if (result.ok) setAnswered((current) => ({ ...current, [invitationId]: result.message }));
+      if (result.ok) setAnswered((current) => ({ ...current, [invitationId]: true }));
     });
   }
 

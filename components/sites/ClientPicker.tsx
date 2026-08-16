@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import type { SiteMessageKey } from "@/src/features/sites/messages";
 import {
   createClientCompanyAction,
   searchClientSuggestionsAction,
@@ -28,7 +29,7 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<CompanySuggestion[] | null>(null);
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<SiteMessageKey | null>(null);
 
   function search() {
     if (query.trim().length < 3) return;
@@ -43,7 +44,7 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
     startTransition(async () => {
       const result = await createClientCompanyAction(input);
       if (!result.ok) {
-        setError(result.message);
+        setError(result.messageKey);
         return;
       }
       // Appended and selected straight away, so the form can be submitted
@@ -129,7 +130,7 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
             </div>
           ) : null}
 
-          {error ? <p role="alert" className="mt-4 rounded-lg bg-red-400/10 p-3 text-xs text-red-300">{error}</p> : null}
+          {error ? <p role="alert" className="mt-4 rounded-lg bg-red-400/10 p-3 text-xs text-red-300">{t(error)}</p> : null}
         </div>
       ) : null}
     </div>

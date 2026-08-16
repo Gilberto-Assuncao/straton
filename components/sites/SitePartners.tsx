@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import type { SiteMessageKey } from "@/src/features/sites/messages";
 import { invitePartnerAction, revokePartnerAction } from "@/src/features/sites/actions";
 import type { SitePartner } from "@/src/features/sites/partners";
 
@@ -28,7 +29,7 @@ export default function SitePartners({
   const t = useTranslations("sites");
   const [selected, setSelected] = useState("");
   const [note, setNote] = useState("");
-  const [feedback, setFeedback] = useState<{ ok: boolean; message: string } | null>(null);
+  const [feedback, setFeedback] = useState<{ ok: boolean; messageKey: SiteMessageKey } | null>(null);
   const [pending, startTransition] = useTransition();
 
   function invite() {
@@ -93,7 +94,7 @@ export default function SitePartners({
 
         {feedback ? (
           <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-[#4ADE80]" : "text-red-300"}`}>
-            {feedback.message}
+            {t(feedback.messageKey)}
           </p>
         ) : null}
       </div>

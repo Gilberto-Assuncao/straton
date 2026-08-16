@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import type { SiteMessageKey } from "@/src/features/sites/messages";
 import {
   createSiteAreaAction,
   deleteSiteAreaAction,
@@ -21,7 +22,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [editing, setEditing] = useState<{ id: string; name: string } | null>(null);
-  const [feedback, setFeedback] = useState<{ ok: boolean; message: string } | null>(null);
+  const [feedback, setFeedback] = useState<{ ok: boolean; messageKey: SiteMessageKey } | null>(null);
   const [pending, startTransition] = useTransition();
 
   /**
@@ -37,7 +38,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
     return area.isDefault ? t("areaWholeLocation") : area.name;
   }
 
-  function run(action: () => Promise<{ ok: boolean; message: string }>, onOk?: () => void) {
+  function run(action: () => Promise<{ ok: boolean; messageKey: SiteMessageKey }>, onOk?: () => void) {
     startTransition(async () => {
       const result = await action();
       setFeedback(result);
@@ -95,7 +96,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
 
         {feedback ? (
           <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-[#4ADE80]" : "text-red-300"}`}>
-            {feedback.message}
+            {t(feedback.messageKey)}
           </p>
         ) : null}
       </div>
