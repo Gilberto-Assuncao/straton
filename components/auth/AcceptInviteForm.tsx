@@ -11,7 +11,7 @@ import AuthStatus from "./AuthStatus";
 import AuthSubmitButton from "./AuthSubmitButton";
 import PasswordInput from "./PasswordInput";
 
-const initialState: AcceptInviteState = { status: "idle", message: "" };
+const initialState: AcceptInviteState = { status: "idle" };
 
 export default function AcceptInviteForm() {
   const t = useTranslations("auth");

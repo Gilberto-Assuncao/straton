@@ -293,7 +293,24 @@
     "emailNotEditable": "Służbowego adresu e-mail nie można tu zmienić.",
     "deactivateConfirm": "Dezaktywować tego pracownika? Straci dostęp i opuści zespół. Historia zostanie zachowana.",
     "workforceOverviewLink": "Przegląd funkcji i kompetencji",
-    "noTeam": "Na razie bez zespołu"
+    "noTeam": "Na razie bez zespołu",
+    "errNoPermissionInvite": "Nie masz uprawnień do zapraszania pracowników.",
+    "errNoPermissionEdit": "Nie masz uprawnień do edytowania pracowników.",
+    "errNoPermissionStatus": "Nie masz uprawnień do zmiany statusu pracowników.",
+    "errRequiredFields": "Wypełnij wszystkie wymagane pola.",
+    "errInvalidTeam": "Wybierz prawidłowy zespół.",
+    "errRoleUnresolved": "Nie udało się ustalić roli pracownika.",
+    "errAlreadyInCompany": "Ta osoba już należy do Twojej firmy.",
+    "errEmployeeNotFound": "Nie znaleziono pracownika.",
+    "errCannotDeactivateSelf": "Nie możesz dezaktywować własnego konta.",
+    "errLeadsTheirTeam": "Ta osoba kieruje swoim obecnym zespołem. Wyznacz innego lidera przed jej przeniesieniem.",
+    "errInviteEmailFailed": "Nie udało się wysłać e-maila z zaproszeniem. Zdarzenie zapisano w dzienniku; spróbuj ponownie za chwilę.",
+    "errInviteSaveFailed": "Nie udało się zapisać zaproszenia. Spróbuj ponownie.",
+    "errEmployeeSaveFailed": "Nie udało się zapisać zmian. Spróbuj ponownie.",
+    "errTeamMoveFailed": "Nie udało się zapisać zmiany zespołu. Spróbuj ponownie.",
+    "errStatusChangeFailed": "Nie udało się zmienić statusu. Spróbuj ponownie.",
+    "okEmployeeReactivated": "Pracownik ponownie aktywny.",
+    "okEmployeeDeactivated": "Pracownik dezaktywowany; historia została zachowana."
   },
   "roster": {
     "eyebrow": "Firma",
@@ -1016,7 +1033,10 @@
     "pageReset": "Zresetuj hasło",
     "pageAcceptInvite": "Zaakceptuj zaproszenie",
     "socialFailed": "Nie udało się zalogować przez {provider}. Spróbuj ponownie lub użyj e-maila i hasła.",
-    "socialNotEnabled": "Logowanie przez {provider} nie jest jeszcze włączone. Użyj e-maila i hasła."
+    "socialNotEnabled": "Logowanie przez {provider} nie jest jeszcze włączone. Użyj e-maila i hasła.",
+    "errInviteExpired": "Twój link z zaproszeniem wygasł. Poproś o nowy.",
+    "errActivationFailed": "Nie udało się aktywować Twojego konta. Spróbuj ponownie.",
+    "okAccountActivated": "Konto aktywowane."
   },
   "appShell": {
     "currentCompany": "Bieżąca firma",

@@ -11,14 +11,14 @@ const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#11182
 
 export default function EmployeeEditForm({ employee, teams }: { employee: Employee; teams: string[] }) {
   const t = useTranslations("employees");
-  const [state, formAction] = useActionState(updateEmployeeAction, { status: "idle", message: "" } as UpdateEmployeeState);
+  const [state, formAction] = useActionState(updateEmployeeAction, { status: "idle", messageKey: null } as UpdateEmployeeState);
 
   // Unlike the invite form, this one opens with the person's stored details —
   // so a refusal has to fall back to those, not to blank. What was typed wins
   // while it exists; the record is what it started from (#74).
   const submitted = state.values;
   const { touched, onInput, formKey } = useSubmittedValues(
-    `${JSON.stringify(state.values ?? null)}|${state.message}`,
+    `${JSON.stringify(state.values ?? null)}|${state.messageKey ?? ""}`,
   );
   const kept = (name: string, stored: string) => submitted?.[name] ?? stored;
 
@@ -77,8 +77,10 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
         </div>
       </div>
 
-      {state.status === "error" && !touched ? (
-        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
+      {/* Keyed off the message, not the status: `messageKey` is null while
+          idle, and testing it is what tells the compiler there is a key here. */}
+      {state.messageKey && !touched ? (
+        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

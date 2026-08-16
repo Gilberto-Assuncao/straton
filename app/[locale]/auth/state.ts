@@ -16,7 +16,13 @@ export type AuthMessageKey =
   | "okPasswordUpdated"
   | "errSessionExpired"
   | "errNoCompanyAccess"
-  | "errCallbackFailed";
+  | "errCallbackFailed"
+  // Accepting an invitation (#104). Distinct from `errSessionExpired`: nothing
+  // has expired for a person who never had a session — their *link* has, and
+  // the way out is to ask for another one, not to sign in again.
+  | "errInviteExpired"
+  | "errActivationFailed"
+  | "okAccountActivated";
 
 /**
  * What was typed, echoed back with a refusal (#74).

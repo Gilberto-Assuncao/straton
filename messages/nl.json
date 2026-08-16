@@ -293,7 +293,24 @@
     "emailNotEditable": "Het werk-e-mailadres kan hier niet worden gewijzigd.",
     "deactivateConfirm": "Deze medewerker deactiveren? Toegang vervalt en hij verlaat het team. Historiek blijft bewaard.",
     "workforceOverviewLink": "Overzicht functies en vaardigheden",
-    "noTeam": "Voorlopig geen team"
+    "noTeam": "Voorlopig geen team",
+    "errNoPermissionInvite": "U hebt geen toestemming om medewerkers uit te nodigen.",
+    "errNoPermissionEdit": "U hebt geen toestemming om medewerkers te bewerken.",
+    "errNoPermissionStatus": "U hebt geen toestemming om de status van medewerkers te wijzigen.",
+    "errRequiredFields": "Vul alle verplichte velden in.",
+    "errInvalidTeam": "Selecteer een geldig team.",
+    "errRoleUnresolved": "Kan de rol van de medewerker niet bepalen.",
+    "errAlreadyInCompany": "Deze persoon maakt al deel uit van uw bedrijf.",
+    "errEmployeeNotFound": "Medewerker niet gevonden.",
+    "errCannotDeactivateSelf": "U kunt uw eigen account niet deactiveren.",
+    "errLeadsTheirTeam": "Deze persoon leidt het huidige team. Wijs een andere leider aan voordat u de persoon verplaatst.",
+    "errInviteEmailFailed": "De uitnodigingsmail kon niet worden verzonden. Dit is gelogd; probeer het zo meteen opnieuw.",
+    "errInviteSaveFailed": "De uitnodiging kon niet worden opgeslagen. Probeer het opnieuw.",
+    "errEmployeeSaveFailed": "De wijzigingen konden niet worden opgeslagen. Probeer het opnieuw.",
+    "errTeamMoveFailed": "De teamwijziging kon niet worden opgeslagen. Probeer het opnieuw.",
+    "errStatusChangeFailed": "De status kon niet worden gewijzigd. Probeer het opnieuw.",
+    "okEmployeeReactivated": "Medewerker opnieuw geactiveerd.",
+    "okEmployeeDeactivated": "Medewerker gedeactiveerd; de historiek is bewaard."
   },
   "roster": {
     "eyebrow": "Bedrijf",
@@ -1016,7 +1033,10 @@
     "pageReset": "Wachtwoord opnieuw instellen",
     "pageAcceptInvite": "Uitnodiging accepteren",
     "socialFailed": "Aanmelden met {provider} is niet gelukt. Probeer opnieuw of gebruik uw e-mail en wachtwoord.",
-    "socialNotEnabled": "Aanmelden met {provider} is nog niet ingeschakeld. Gebruik uw e-mail en wachtwoord."
+    "socialNotEnabled": "Aanmelden met {provider} is nog niet ingeschakeld. Gebruik uw e-mail en wachtwoord.",
+    "errInviteExpired": "Uw uitnodigingslink is verlopen. Vraag een nieuwe aan.",
+    "errActivationFailed": "Uw account kon niet worden geactiveerd. Probeer het opnieuw.",
+    "okAccountActivated": "Account geactiveerd."
   },
   "appShell": {
     "currentCompany": "Huidig bedrijf",

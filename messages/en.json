@@ -293,7 +293,24 @@
     "emailNotEditable": "The work email cannot be changed here.",
     "deactivateConfirm": "Deactivate this employee? They will lose access and be removed from their team. Past records are kept.",
     "workforceOverviewLink": "Roles and skills overview",
-    "noTeam": "No team for now"
+    "noTeam": "No team for now",
+    "errNoPermissionInvite": "You do not have permission to invite employees.",
+    "errNoPermissionEdit": "You do not have permission to edit employees.",
+    "errNoPermissionStatus": "You do not have permission to change employee status.",
+    "errRequiredFields": "Fill in all required fields.",
+    "errInvalidTeam": "Select a valid team.",
+    "errRoleUnresolved": "Unable to resolve the employee role.",
+    "errAlreadyInCompany": "This person is already part of your company.",
+    "errEmployeeNotFound": "Employee not found.",
+    "errCannotDeactivateSelf": "You cannot deactivate your own account.",
+    "errLeadsTheirTeam": "This person leads their current team. Assign another leader before moving them.",
+    "errInviteEmailFailed": "Could not send the invitation email. It has been logged; try again shortly.",
+    "errInviteSaveFailed": "The invitation could not be saved. Please try again.",
+    "errEmployeeSaveFailed": "The changes could not be saved. Please try again.",
+    "errTeamMoveFailed": "The team change could not be saved. Please try again.",
+    "errStatusChangeFailed": "The status could not be changed. Please try again.",
+    "okEmployeeReactivated": "Employee reactivated.",
+    "okEmployeeDeactivated": "Employee deactivated; history was preserved."
   },
   "roster": {
     "eyebrow": "Company",
@@ -1016,7 +1033,10 @@
     "pageReset": "Reset password",
     "pageAcceptInvite": "Accept invitation",
     "socialFailed": "Could not start sign-in with {provider}. Please try again or use your email and password.",
-    "socialNotEnabled": "{provider} sign-in is not enabled for this workspace yet. Use your email and password."
+    "socialNotEnabled": "{provider} sign-in is not enabled for this workspace yet. Use your email and password.",
+    "errInviteExpired": "Your invite link has expired. Ask for a new one.",
+    "errActivationFailed": "Your account could not be activated. Please try again.",
+    "okAccountActivated": "Account activated."
   },
   "appShell": {
     "currentCompany": "Current company",

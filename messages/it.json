@@ -293,7 +293,24 @@
     "emailNotEditable": "L'email di lavoro non può essere modificata qui.",
     "deactivateConfirm": "Disattivare questo dipendente? Perderà l'accesso e uscirà dal team. Lo storico viene conservato.",
     "workforceOverviewLink": "Panoramica ruoli e competenze",
-    "noTeam": "Nessun team per ora"
+    "noTeam": "Nessun team per ora",
+    "errNoPermissionInvite": "Non hai il permesso di invitare dipendenti.",
+    "errNoPermissionEdit": "Non hai il permesso di modificare i dipendenti.",
+    "errNoPermissionStatus": "Non hai il permesso di cambiare lo stato dei dipendenti.",
+    "errRequiredFields": "Compila tutti i campi obbligatori.",
+    "errInvalidTeam": "Seleziona un team valido.",
+    "errRoleUnresolved": "Non è stato possibile determinare il ruolo del dipendente.",
+    "errAlreadyInCompany": "Questa persona fa già parte della tua azienda.",
+    "errEmployeeNotFound": "Dipendente non trovato.",
+    "errCannotDeactivateSelf": "Non puoi disattivare il tuo account.",
+    "errLeadsTheirTeam": "Questa persona guida il team attuale. Assegna un altro responsabile prima di spostarla.",
+    "errInviteEmailFailed": "Non è stato possibile inviare l'e-mail di invito. È stata registrata; riprova tra poco.",
+    "errInviteSaveFailed": "Non è stato possibile salvare l'invito. Riprova.",
+    "errEmployeeSaveFailed": "Non è stato possibile salvare le modifiche. Riprova.",
+    "errTeamMoveFailed": "Non è stato possibile salvare il cambio di team. Riprova.",
+    "errStatusChangeFailed": "Non è stato possibile cambiare lo stato. Riprova.",
+    "okEmployeeReactivated": "Dipendente riattivato.",
+    "okEmployeeDeactivated": "Dipendente disattivato; lo storico è stato conservato."
   },
   "roster": {
     "eyebrow": "Azienda",
@@ -1016,7 +1033,10 @@
     "pageReset": "Reimposta password",
     "pageAcceptInvite": "Accetta invito",
     "socialFailed": "Impossibile accedere con {provider}. Riprova o usa e-mail e password.",
-    "socialNotEnabled": "L accesso con {provider} non è ancora attivo. Usa e-mail e password."
+    "socialNotEnabled": "L accesso con {provider} non è ancora attivo. Usa e-mail e password.",
+    "errInviteExpired": "Il tuo link di invito è scaduto. Richiedine uno nuovo.",
+    "errActivationFailed": "Non è stato possibile attivare il tuo account. Riprova.",
+    "okAccountActivated": "Account attivato."
   },
   "appShell": {
     "currentCompany": "Azienda corrente",

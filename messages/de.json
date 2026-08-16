@@ -293,7 +293,24 @@
     "emailNotEditable": "Die Arbeits-E-Mail kann hier nicht geändert werden.",
     "deactivateConfirm": "Diesen Mitarbeiter deaktivieren? Der Zugang entfällt und das Team wird verlassen. Der Verlauf bleibt erhalten.",
     "workforceOverviewLink": "Übersicht Funktionen und Qualifikationen",
-    "noTeam": "Vorerst kein Team"
+    "noTeam": "Vorerst kein Team",
+    "errNoPermissionInvite": "Sie haben keine Berechtigung, Mitarbeiter einzuladen.",
+    "errNoPermissionEdit": "Sie haben keine Berechtigung, Mitarbeiter zu bearbeiten.",
+    "errNoPermissionStatus": "Sie haben keine Berechtigung, den Status von Mitarbeitern zu ändern.",
+    "errRequiredFields": "Füllen Sie alle Pflichtfelder aus.",
+    "errInvalidTeam": "Wählen Sie ein gültiges Team.",
+    "errRoleUnresolved": "Die Rolle des Mitarbeiters konnte nicht ermittelt werden.",
+    "errAlreadyInCompany": "Diese Person gehört bereits zu Ihrem Unternehmen.",
+    "errEmployeeNotFound": "Mitarbeiter nicht gefunden.",
+    "errCannotDeactivateSelf": "Sie können Ihr eigenes Konto nicht deaktivieren.",
+    "errLeadsTheirTeam": "Diese Person leitet ihr aktuelles Team. Bestimmen Sie eine andere Leitung, bevor Sie sie versetzen.",
+    "errInviteEmailFailed": "Die Einladungs-E-Mail konnte nicht gesendet werden. Der Fehler wurde protokolliert; versuchen Sie es gleich erneut.",
+    "errInviteSaveFailed": "Die Einladung konnte nicht gespeichert werden. Bitte erneut versuchen.",
+    "errEmployeeSaveFailed": "Die Änderungen konnten nicht gespeichert werden. Bitte erneut versuchen.",
+    "errTeamMoveFailed": "Der Teamwechsel konnte nicht gespeichert werden. Bitte erneut versuchen.",
+    "errStatusChangeFailed": "Der Status konnte nicht geändert werden. Bitte erneut versuchen.",
+    "okEmployeeReactivated": "Mitarbeiter reaktiviert.",
+    "okEmployeeDeactivated": "Mitarbeiter deaktiviert; der Verlauf bleibt erhalten."
   },
   "roster": {
     "eyebrow": "Unternehmen",
@@ -1016,7 +1033,10 @@
     "pageReset": "Passwort zurücksetzen",
     "pageAcceptInvite": "Einladung annehmen",
     "socialFailed": "Anmeldung mit {provider} konnte nicht gestartet werden. Bitte erneut versuchen oder E-Mail und Passwort verwenden.",
-    "socialNotEnabled": "Die Anmeldung mit {provider} ist noch nicht aktiviert. Bitte E-Mail und Passwort verwenden."
+    "socialNotEnabled": "Die Anmeldung mit {provider} ist noch nicht aktiviert. Bitte E-Mail und Passwort verwenden.",
+    "errInviteExpired": "Ihr Einladungslink ist abgelaufen. Fordern Sie einen neuen an.",
+    "errActivationFailed": "Ihr Konto konnte nicht aktiviert werden. Bitte erneut versuchen.",
+    "okAccountActivated": "Konto aktiviert."
   },
   "appShell": {
     "currentCompany": "Aktuelles Unternehmen",
