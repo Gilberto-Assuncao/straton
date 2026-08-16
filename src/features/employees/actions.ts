@@ -6,6 +6,8 @@ import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { createAdminClient } from "@/src/infrastructure/supabase/admin";
 import { log } from "@/src/infrastructure/observability/logger";
+import type { EmployeeMessageKey } from "./messages";
+import type { AuthActionState } from "@/app/[locale]/auth/state";
 
 /**
  * `values` is what was typed, echoed back with the refusal (#74).
@@ -15,7 +17,8 @@ import { log } from "@/src/infrastructure/observability/logger";
  */
 export type InviteEmployeeState = {
   status: "idle" | "error";
-  message: string;
+  /** null while idle. A key into `employees`, never a sentence (#104). */
+  messageKey: EmployeeMessageKey | null;
   values?: Record<string, string>;
 };
 
@@ -45,7 +48,7 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   const values = submittedInvite(formData);
   const { session, companyId } = await requireActiveCompany();
   const isManager = session.activeCompany!.roles.some((role) => managerRoles.includes(role));
-  if (!isManager) return { status: "error", message: "You do not have permission to invite employees.", values };
+  if (!isManager) return { status: "error", messageKey: "errNoPermissionInvite", values };
 
   const firstName = String(formData.get("firstName") ?? "").trim();
   const lastName = String(formData.get("lastName") ?? "").trim();
@@ -66,7 +69,7 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   // nullable, and the workforce screen already renders "Unassigned" — only the
   // form insisted.
   if (!firstName || !lastName || !email || !jobTitle || !startDate) {
-    return { status: "error", message: "Fill in all required fields.", values };
+    return { status: "error", messageKey: "errRequiredFields", values };
   }
 
   const supabase = await createClient();
@@ -81,13 +84,13 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   ]);
   // A team that was named but does not exist is still an error — that is a
   // typo or a stale form, not a choice. Naming none is the choice.
-  if (team && !teamRow) return { status: "error", message: "Select a valid team.", values };
-  if (!roleRow) return { status: "error", message: "Unable to resolve the employee role.", values };
+  if (team && !teamRow) return { status: "error", messageKey: "errInvalidTeam", values };
+  if (!roleRow) return { status: "error", messageKey: "errRoleUnresolved", values };
 
   let userId = existingUser?.id as string | undefined;
   if (userId) {
     const { data: existingMembership } = await admin.from("company_memberships").select("id").eq("company_id", companyId).eq("user_id", userId).maybeSingle();
-    if (existingMembership) return { status: "error", message: "This person is already part of your company.", values };
+    if (existingMembership) return { status: "error", messageKey: "errAlreadyInCompany", values };
     await admin.from("users").update({ first_name: firstName, last_name: lastName, phone: phone || null }).eq("id", userId);
   } else {
     const appUrl = process.env.APP_URL ?? "http://localhost:3000";
@@ -111,7 +114,7 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
         { event: "invite_email_failed", source: "inviteEmployeeAction", companyId, userId: session.user.id },
         inviteError,
       );
-      return { status: "error", message: "Could not send the invitation email. It has been logged; try again shortly.", values };
+      return { status: "error", messageKey: "errInviteEmailFailed", values };
     }
     userId = invited.user.id;
     await admin.from("users").update({ first_name: firstName, last_name: lastName, phone: phone || null }).eq("id", userId);
@@ -122,16 +125,25 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
     .insert({ company_id: companyId, user_id: userId, job_title: jobTitle, status: "invited", pending_team_id: teamRow?.id ?? null })
     .select("id")
     .single();
-  if (membershipError || !membership) return { status: "error", message: membershipError?.message ?? "Unable to create the membership.", values };
+  if (membershipError || !membership) {
+    log.error({ event: "membership_insert_failed", source: "inviteEmployeeAction", companyId, code: membershipError?.code }, membershipError);
+    return { status: "error", messageKey: "errInviteSaveFailed", values };
+  }
 
   const { error: roleError } = await admin.from("membership_roles").insert({ membership_id: membership.id, role_id: roleRow.id });
-  if (roleError) return { status: "error", message: roleError.message, values };
+  if (roleError) {
+    log.error({ event: "membership_role_insert_failed", source: "inviteEmployeeAction", companyId, code: roleError.code }, roleError);
+    return { status: "error", messageKey: "errInviteSaveFailed", values };
+  }
 
   const { error: recordError } = await admin.from("employee_records").insert({
     company_id: companyId, company_membership_id: membership.id, job_title: jobTitle,
     employment_type: employmentType, employment_status: "pending", start_date: startDate,
   });
-  if (recordError) return { status: "error", message: recordError.message, values };
+  if (recordError) {
+    log.error({ event: "employee_record_insert_failed", source: "inviteEmployeeAction", companyId, code: recordError.code }, recordError);
+    return { status: "error", messageKey: "errInviteSaveFailed", values };
+  }
 
   // Team assignment happens once the invite is accepted (acceptInviteAction
   // below) — validate_team_operational_membership requires the membership to
@@ -142,13 +154,26 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   redirect("/dashboard/employees");
 }
 
-export type AcceptInviteState = { status: "idle" | "error" | "success"; message: string };
+/**
+ * The same state the rest of the auth screens use, aliased rather than copied.
+ *
+ * It *was* a copy — `{ status; message: string }` — and on 26 July `AuthStatus`
+ * moved to `messageKey` while this stayed behind. Structural typing let the old
+ * shape keep satisfying the component's prop, so nothing failed to compile and
+ * no test noticed: `AuthStatus` simply found no `messageKey` and returned null.
+ * From that day until now, somebody accepting an invitation with a short
+ * password watched the button do nothing at all, with no message.
+ *
+ * An alias is the fix, not a second field. Two types describing one screen is
+ * what let them drift apart silently in the first place.
+ */
+export type AcceptInviteState = AuthActionState;
 
 export async function acceptInviteAction(_: AcceptInviteState, formData: FormData): Promise<AcceptInviteState> {
   const password = String(formData.get("password") ?? "");
   const accessToken = String(formData.get("accessToken") ?? "");
-  if (password.length < 8) return { status: "error", message: "Password must be at least 8 characters." };
-  if (!accessToken) return { status: "error", message: "Your invite link has expired. Ask for a new one." };
+  if (password.length < 8) return { status: "error", messageKey: "errPasswordTooShort" };
+  if (!accessToken) return { status: "error", messageKey: "errInviteExpired" };
 
   // Invite links deliver the session via a URL fragment (#access_token=...)
   // that only the browser can read, and @supabase/ssr's cookie sync doesn't
@@ -159,25 +184,34 @@ export async function acceptInviteAction(_: AcceptInviteState, formData: FormDat
   // against GoTrue rather than trusted from cookies.
   const admin = createAdminClient();
   const { data: tokenUser, error: tokenError } = await admin.auth.getUser(accessToken);
-  if (tokenError || !tokenUser.user) return { status: "error", message: "Your invite link has expired. Ask for a new one." };
+  if (tokenError || !tokenUser.user) return { status: "error", messageKey: "errInviteExpired" };
   const user = tokenUser.user;
 
   const { error: passwordError } = await admin.auth.admin.updateUserById(user.id, { password });
-  if (passwordError) return { status: "error", message: passwordError.message };
+  if (passwordError) {
+    log.error({ event: "invite_password_set_failed", source: "acceptInviteAction", userId: user.id }, passwordError);
+    return { status: "error", messageKey: "errActivationFailed" };
+  }
 
   const { data: memberships, error: fetchError } = await admin
     .from("company_memberships")
     .select("id,company_id,pending_team_id")
     .eq("user_id", user.id)
     .eq("status", "invited");
-  if (fetchError) return { status: "error", message: fetchError.message };
+  if (fetchError) {
+    log.error({ event: "invite_memberships_read_failed", source: "acceptInviteAction", userId: user.id, code: fetchError.code }, fetchError);
+    return { status: "error", messageKey: "errActivationFailed" };
+  }
 
   for (const membership of memberships ?? []) {
     const { error: activateError } = await admin
       .from("company_memberships")
       .update({ status: "active", starts_at: new Date().toISOString(), pending_team_id: null })
       .eq("id", membership.id);
-    if (activateError) return { status: "error", message: activateError.message };
+    if (activateError) {
+      log.error({ event: "membership_activate_failed", source: "acceptInviteAction", userId: user.id, code: activateError.code }, activateError);
+      return { status: "error", messageKey: "errActivationFailed" };
+    }
 
     if (membership.pending_team_id) {
       await admin.from("team_memberships").insert({
@@ -187,12 +221,13 @@ export async function acceptInviteAction(_: AcceptInviteState, formData: FormDat
     }
   }
 
-  return { status: "success", message: "Account activated." };
+  return { status: "success", messageKey: "okAccountActivated" };
 }
 
 export type UpdateEmployeeState = {
   status: "idle" | "error";
-  message: string;
+  /** null while idle. A key into `employees`, never a sentence (#104). */
+  messageKey: EmployeeMessageKey | null;
   /** What was typed, echoed back with the refusal (#74). */
   values?: Record<string, string>;
 };
@@ -231,7 +266,7 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
   const values = submittedUpdate(formData);
   const { session, companyId } = await requireActiveCompany();
   if (!session.activeCompany!.roles.some((role) => managerRoles.includes(role))) {
-    return { status: "error", message: "You do not have permission to edit employees.", values };
+    return { status: "error", messageKey: "errNoPermissionEdit", values };
   }
 
   const employeeId = String(formData.get("employeeId") ?? "");
@@ -244,11 +279,11 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
   const startDate = String(formData.get("startDate") ?? "");
 
   if (!firstName || !lastName || !jobTitle || !startDate) {
-    return { status: "error", message: "Fill in all required fields.", values };
+    return { status: "error", messageKey: "errRequiredFields", values };
   }
 
   const target = await loadEditableEmployee(employeeId, companyId);
-  if (!target) return { status: "error", message: "Employee not found.", values };
+  if (!target) return { status: "error", messageKey: "errEmployeeNotFound", values };
 
   const admin = createAdminClient();
   const supabase = await createClient();
@@ -257,19 +292,28 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
     .from("users")
     .update({ first_name: firstName, last_name: lastName, phone: phone || null })
     .eq("id", target.userId);
-  if (userError) return { status: "error", message: userError.message, values };
+  if (userError) {
+    log.error({ event: "employee_user_update_failed", source: "updateEmployeeAction", companyId, code: userError.code }, userError);
+    return { status: "error", messageKey: "errEmployeeSaveFailed", values };
+  }
 
   const { error: membershipError } = await admin
     .from("company_memberships")
     .update({ job_title: jobTitle })
     .eq("id", target.membershipId);
-  if (membershipError) return { status: "error", message: membershipError.message, values };
+  if (membershipError) {
+    log.error({ event: "employee_membership_update_failed", source: "updateEmployeeAction", companyId, code: membershipError.code }, membershipError);
+    return { status: "error", messageKey: "errEmployeeSaveFailed", values };
+  }
 
   const { error: recordError } = await admin
     .from("employee_records")
     .update({ job_title: jobTitle, employment_type: employmentType, start_date: startDate })
     .eq("id", target.recordId);
-  if (recordError) return { status: "error", message: recordError.message, values };
+  if (recordError) {
+    log.error({ event: "employee_record_update_failed", source: "updateEmployeeAction", companyId, code: recordError.code }, recordError);
+    return { status: "error", messageKey: "errEmployeeSaveFailed", values };
+  }
 
   /*
    * Team moves close the current link instead of deleting it, so the history of
@@ -285,7 +329,7 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
     ? await supabase.from("teams").select("id").eq("company_id", companyId).eq("name", team).maybeSingle()
     : { data: null };
   // Named but non-existent is still an error: that is a typo or a stale form.
-  if (team && !teamRow) return { status: "error", message: "Select a valid team.", values };
+  if (team && !teamRow) return { status: "error", messageKey: "errInvalidTeam", values };
 
   const { data: currentLink } = await supabase
     .from("team_memberships")
@@ -296,12 +340,15 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
 
   if ((currentLink?.team_id ?? null) !== (teamRow?.id ?? null)) {
     if (currentLink?.team_role === "leader") {
-      return { status: "error", message: "This person leads their current team. Assign another leader before moving them.", values };
+      return { status: "error", messageKey: "errLeadsTheirTeam", values };
     }
     if (currentLink) {
       const now = new Date().toISOString();
       const { error } = await admin.from("team_memberships").update({ left_at: now, removed_at: now }).eq("id", currentLink.id);
-      if (error) return { status: "error", message: error.message, values };
+      if (error) {
+        log.error({ event: "team_link_close_failed", source: "updateEmployeeAction", companyId, code: error.code }, error);
+        return { status: "error", messageKey: "errTeamMoveFailed", values };
+      }
     }
     // Only active memberships may join a team (enforced by
     // validate_team_operational_membership); invited people keep the team on
@@ -311,10 +358,16 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
         company_id: companyId, team_id: teamRow.id,
         company_membership_id: target.membershipId, team_role: "member",
       });
-      if (error) return { status: "error", message: error.message, values };
+      if (error) {
+        log.error({ event: "team_link_open_failed", source: "updateEmployeeAction", companyId, code: error.code }, error);
+        return { status: "error", messageKey: "errTeamMoveFailed", values };
+      }
     } else {
       const { error } = await admin.from("company_memberships").update({ pending_team_id: teamRow?.id ?? null }).eq("id", target.membershipId);
-      if (error) return { status: "error", message: error.message, values };
+      if (error) {
+        log.error({ event: "pending_team_update_failed", source: "updateEmployeeAction", companyId, code: error.code }, error);
+        return { status: "error", messageKey: "errTeamMoveFailed", values };
+      }
     }
   }
 
@@ -326,15 +379,15 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
 // Deactivation suspends the membership and closes the team link, keeping every
 // past timesheet, assignment and team record intact. Reactivation is included
 // deliberately: a one-way switch would strand people with no route back.
-export async function setEmployeeActiveAction(employeeId: string, active: boolean): Promise<{ ok: boolean; message: string }> {
+export async function setEmployeeActiveAction(employeeId: string, active: boolean): Promise<{ ok: boolean; messageKey: EmployeeMessageKey }> {
   const { session, companyId } = await requireActiveCompany();
   if (!session.activeCompany!.roles.some((role) => managerRoles.includes(role))) {
-    return { ok: false, message: "You do not have permission to change employee status." };
+    return { ok: false, messageKey: "errNoPermissionStatus" };
   }
 
   const target = await loadEditableEmployee(employeeId, companyId);
-  if (!target) return { ok: false, message: "Employee not found." };
-  if (target.userId === session.user.id) return { ok: false, message: "You cannot deactivate your own account." };
+  if (!target) return { ok: false, messageKey: "errEmployeeNotFound" };
+  if (target.userId === session.user.id) return { ok: false, messageKey: "errCannotDeactivateSelf" };
 
   const admin = createAdminClient();
   const now = new Date().toISOString();
@@ -343,13 +396,19 @@ export async function setEmployeeActiveAction(employeeId: string, active: boolea
     .from("company_memberships")
     .update(active ? { status: "active", ends_at: null } : { status: "suspended", ends_at: now })
     .eq("id", target.membershipId);
-  if (membershipError) return { ok: false, message: membershipError.message };
+  if (membershipError) {
+    log.error({ event: "employee_status_membership_failed", source: "setEmployeeActiveAction", companyId, code: membershipError.code }, membershipError);
+    return { ok: false, messageKey: "errStatusChangeFailed" };
+  }
 
   const { error: recordError } = await admin
     .from("employee_records")
     .update({ employment_status: active ? "active" : "inactive" })
     .eq("id", target.recordId);
-  if (recordError) return { ok: false, message: recordError.message };
+  if (recordError) {
+    log.error({ event: "employee_status_record_failed", source: "setEmployeeActiveAction", companyId, code: recordError.code }, recordError);
+    return { ok: false, messageKey: "errStatusChangeFailed" };
+  }
 
   if (!active) {
     await admin.from("team_memberships").update({ left_at: now, removed_at: now })
@@ -358,5 +417,5 @@ export async function setEmployeeActiveAction(employeeId: string, active: boolea
 
   revalidatePath("/dashboard/employees");
   revalidatePath(`/dashboard/employees/${employeeId}`);
-  return { ok: true, message: active ? "Employee reactivated." : "Employee deactivated; history was preserved." };
+  return { ok: true, messageKey: active ? "okEmployeeReactivated" : "okEmployeeDeactivated" };
 }

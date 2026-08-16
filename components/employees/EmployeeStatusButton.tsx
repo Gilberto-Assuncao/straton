@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import type { EmployeeMessageKey } from "@/src/features/employees/messages";
 import { setEmployeeActiveAction } from "@/src/features/employees/actions";
 import type { EmployeeStatus } from "@/lib/types/employee";
 
@@ -12,7 +13,7 @@ export default function EmployeeStatusButton({ employeeId, status, className }: 
   const t = useTranslations("employees");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<EmployeeMessageKey | null>(null);
   const isActive = status !== "inactive";
 
   function run() {
@@ -20,7 +21,7 @@ export default function EmployeeStatusButton({ employeeId, status, className }: 
     setError(null);
     startTransition(async () => {
       const result = await setEmployeeActiveAction(employeeId, !isActive);
-      if (!result.ok) setError(result.message);
+      if (!result.ok) setError(result.messageKey);
       else router.refresh();
     });
   }
@@ -35,7 +36,7 @@ export default function EmployeeStatusButton({ employeeId, status, className }: 
       >
         {pending ? t("saving") : isActive ? t("deactivate") : t("reactivate")}
       </button>
-      {error ? <span role="alert" className="block text-xs text-red-300">{error}</span> : null}
+      {error ? <span role="alert" className="block text-xs text-red-300">{t(error)}</span> : null}
     </>
   );
 }

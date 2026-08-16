@@ -293,7 +293,24 @@
     "emailNotEditable": "El correo de trabajo no se puede cambiar aquí.",
     "deactivateConfirm": "¿Desactivar a este empleado? Perderá el acceso y saldrá de su equipo. El historial se conserva.",
     "workforceOverviewLink": "Vista de funciones y competencias",
-    "noTeam": "Sin equipo por ahora"
+    "noTeam": "Sin equipo por ahora",
+    "errNoPermissionInvite": "No tiene permiso para invitar empleados.",
+    "errNoPermissionEdit": "No tiene permiso para editar empleados.",
+    "errNoPermissionStatus": "No tiene permiso para cambiar el estado de los empleados.",
+    "errRequiredFields": "Complete todos los campos obligatorios.",
+    "errInvalidTeam": "Seleccione un equipo válido.",
+    "errRoleUnresolved": "No se pudo determinar el rol del empleado.",
+    "errAlreadyInCompany": "Esta persona ya forma parte de su empresa.",
+    "errEmployeeNotFound": "Empleado no encontrado.",
+    "errCannotDeactivateSelf": "No puede desactivar su propia cuenta.",
+    "errLeadsTheirTeam": "Esta persona lidera su equipo actual. Asigne otro responsable antes de moverla.",
+    "errInviteEmailFailed": "No se pudo enviar el correo de invitación. Ha quedado registrado; inténtelo de nuevo en un momento.",
+    "errInviteSaveFailed": "No se pudo guardar la invitación. Inténtelo de nuevo.",
+    "errEmployeeSaveFailed": "No se pudieron guardar los cambios. Inténtelo de nuevo.",
+    "errTeamMoveFailed": "No se pudo guardar el cambio de equipo. Inténtelo de nuevo.",
+    "errStatusChangeFailed": "No se pudo cambiar el estado. Inténtelo de nuevo.",
+    "okEmployeeReactivated": "Empleado reactivado.",
+    "okEmployeeDeactivated": "Empleado desactivado; se conservó el historial."
   },
   "roster": {
     "eyebrow": "Empresa",
@@ -1016,7 +1033,10 @@
     "pageReset": "Restablecer contraseña",
     "pageAcceptInvite": "Aceptar invitación",
     "socialFailed": "No se pudo iniciar sesión con {provider}. Inténtelo de nuevo o use su correo y contraseña.",
-    "socialNotEnabled": "El inicio de sesión con {provider} aún no está activado. Use su correo y contraseña."
+    "socialNotEnabled": "El inicio de sesión con {provider} aún no está activado. Use su correo y contraseña.",
+    "errInviteExpired": "Su enlace de invitación ha caducado. Solicite uno nuevo.",
+    "errActivationFailed": "No se pudo activar su cuenta. Inténtelo de nuevo.",
+    "okAccountActivated": "Cuenta activada."
   },
   "appShell": {
     "currentCompany": "Empresa actual",

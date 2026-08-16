@@ -20,6 +20,7 @@ const UNIONS = [
   { file: "src/features/weather/messages.ts", type: "WeatherMessageKey", namespace: "weather" },
   { file: "src/features/weather/messages.ts", type: "AlertReasonKey", namespace: "weather" },
   { file: "src/features/sites/messages.ts", type: "SiteMessageKey", namespace: "sites" },
+  { file: "src/features/employees/messages.ts", type: "EmployeeMessageKey", namespace: "employees" },
 ];
 
 type Messages = Record<string, Record<string, string>>;

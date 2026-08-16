@@ -293,7 +293,24 @@
     "emailNotEditable": "E-mailul de serviciu nu poate fi modificat aici.",
     "deactivateConfirm": "Dezactivați acest angajat? Va pierde accesul și va părăsi echipa. Istoricul se păstrează.",
     "workforceOverviewLink": "Vedere funcții și competențe",
-    "noTeam": "Deocamdată fără echipă"
+    "noTeam": "Deocamdată fără echipă",
+    "errNoPermissionInvite": "Nu aveți permisiunea de a invita angajați.",
+    "errNoPermissionEdit": "Nu aveți permisiunea de a edita angajați.",
+    "errNoPermissionStatus": "Nu aveți permisiunea de a schimba statutul angajaților.",
+    "errRequiredFields": "Completați toate câmpurile obligatorii.",
+    "errInvalidTeam": "Selectați o echipă validă.",
+    "errRoleUnresolved": "Rolul angajatului nu a putut fi determinat.",
+    "errAlreadyInCompany": "Această persoană face deja parte din compania dumneavoastră.",
+    "errEmployeeNotFound": "Angajatul nu a fost găsit.",
+    "errCannotDeactivateSelf": "Nu vă puteți dezactiva propriul cont.",
+    "errLeadsTheirTeam": "Această persoană conduce echipa actuală. Desemnați alt lider înainte de a o muta.",
+    "errInviteEmailFailed": "E-mailul de invitație nu a putut fi trimis. A fost înregistrat; încercați din nou în scurt timp.",
+    "errInviteSaveFailed": "Invitația nu a putut fi salvată. Încercați din nou.",
+    "errEmployeeSaveFailed": "Modificările nu au putut fi salvate. Încercați din nou.",
+    "errTeamMoveFailed": "Schimbarea echipei nu a putut fi salvată. Încercați din nou.",
+    "errStatusChangeFailed": "Statutul nu a putut fi schimbat. Încercați din nou.",
+    "okEmployeeReactivated": "Angajat reactivat.",
+    "okEmployeeDeactivated": "Angajat dezactivat; istoricul a fost păstrat."
   },
   "roster": {
     "eyebrow": "Companie",
@@ -1016,7 +1033,10 @@
     "pageReset": "Resetează parola",
     "pageAcceptInvite": "Acceptă invitația",
     "socialFailed": "Conectarea cu {provider} nu a putut fi inițiată. Încercați din nou sau folosiți e-mailul și parola.",
-    "socialNotEnabled": "Conectarea cu {provider} nu este încă activată. Folosiți e-mailul și parola."
+    "socialNotEnabled": "Conectarea cu {provider} nu este încă activată. Folosiți e-mailul și parola.",
+    "errInviteExpired": "Linkul dumneavoastră de invitație a expirat. Solicitați unul nou.",
+    "errActivationFailed": "Contul nu a putut fi activat. Încercați din nou.",
+    "okAccountActivated": "Cont activat."
   },
   "appShell": {
     "currentCompany": "Compania curentă",

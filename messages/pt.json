@@ -293,7 +293,24 @@
     "emailNotEditable": "O email profissional não pode ser alterado aqui.",
     "deactivateConfirm": "Desativar este funcionário? Perde o acesso e sai da equipa. O histórico é mantido.",
     "workforceOverviewLink": "Visão de funções e competências",
-    "noTeam": "Sem equipa por agora"
+    "noTeam": "Sem equipa por agora",
+    "errNoPermissionInvite": "Não tem permissão para convidar funcionários.",
+    "errNoPermissionEdit": "Não tem permissão para editar funcionários.",
+    "errNoPermissionStatus": "Não tem permissão para alterar o estado dos funcionários.",
+    "errRequiredFields": "Preencha todos os campos obrigatórios.",
+    "errInvalidTeam": "Selecione uma equipa válida.",
+    "errRoleUnresolved": "Não foi possível determinar a função do funcionário.",
+    "errAlreadyInCompany": "Esta pessoa já faz parte da sua empresa.",
+    "errEmployeeNotFound": "Funcionário não encontrado.",
+    "errCannotDeactivateSelf": "Não pode desativar a sua própria conta.",
+    "errLeadsTheirTeam": "Esta pessoa lidera a equipa atual. Atribua outro líder antes de a mudar.",
+    "errInviteEmailFailed": "Não foi possível enviar o e-mail de convite. Ficou registado; tente novamente daqui a pouco.",
+    "errInviteSaveFailed": "Não foi possível guardar o convite. Tente novamente.",
+    "errEmployeeSaveFailed": "Não foi possível guardar as alterações. Tente novamente.",
+    "errTeamMoveFailed": "Não foi possível guardar a mudança de equipa. Tente novamente.",
+    "errStatusChangeFailed": "Não foi possível alterar o estado. Tente novamente.",
+    "okEmployeeReactivated": "Funcionário reativado.",
+    "okEmployeeDeactivated": "Funcionário desativado; o histórico foi preservado."
   },
   "roster": {
     "eyebrow": "Empresa",
@@ -1016,7 +1033,10 @@
     "pageReset": "Redefinir palavra-passe",
     "pageAcceptInvite": "Aceitar convite",
     "socialFailed": "Não foi possível iniciar sessão com {provider}. Tente de novo ou use o seu email e palavra-passe.",
-    "socialNotEnabled": "O início de sessão com {provider} ainda não está ativo. Use o seu email e palavra-passe."
+    "socialNotEnabled": "O início de sessão com {provider} ainda não está ativo. Use o seu email e palavra-passe.",
+    "errInviteExpired": "A sua ligação de convite expirou. Peça uma nova.",
+    "errActivationFailed": "Não foi possível ativar a sua conta. Tente novamente.",
+    "okAccountActivated": "Conta ativada."
   },
   "appShell": {
     "currentCompany": "Empresa atual",

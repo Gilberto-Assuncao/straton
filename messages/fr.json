@@ -293,7 +293,24 @@
     "emailNotEditable": "L'e-mail professionnel ne peut pas être modifié ici.",
     "deactivateConfirm": "Désactiver cet employé ? Il perdra l'accès et quittera son équipe. L'historique est conservé.",
     "workforceOverviewLink": "Vue des fonctions et compétences",
-    "noTeam": "Pas d'équipe pour l'instant"
+    "noTeam": "Pas d'équipe pour l'instant",
+    "errNoPermissionInvite": "Vous n'avez pas l'autorisation d'inviter des employés.",
+    "errNoPermissionEdit": "Vous n'avez pas l'autorisation de modifier des employés.",
+    "errNoPermissionStatus": "Vous n'avez pas l'autorisation de changer le statut des employés.",
+    "errRequiredFields": "Remplissez tous les champs obligatoires.",
+    "errInvalidTeam": "Sélectionnez une équipe valide.",
+    "errRoleUnresolved": "Impossible de déterminer le rôle de l'employé.",
+    "errAlreadyInCompany": "Cette personne fait déjà partie de votre entreprise.",
+    "errEmployeeNotFound": "Employé introuvable.",
+    "errCannotDeactivateSelf": "Vous ne pouvez pas désactiver votre propre compte.",
+    "errLeadsTheirTeam": "Cette personne dirige son équipe actuelle. Désignez un autre responsable avant de la déplacer.",
+    "errInviteEmailFailed": "L'e-mail d'invitation n'a pas pu être envoyé. Il a été journalisé ; réessayez dans un instant.",
+    "errInviteSaveFailed": "L'invitation n'a pas pu être enregistrée. Réessayez.",
+    "errEmployeeSaveFailed": "Les modifications n'ont pas pu être enregistrées. Réessayez.",
+    "errTeamMoveFailed": "Le changement d'équipe n'a pas pu être enregistré. Réessayez.",
+    "errStatusChangeFailed": "Le statut n'a pas pu être modifié. Réessayez.",
+    "okEmployeeReactivated": "Employé réactivé.",
+    "okEmployeeDeactivated": "Employé désactivé ; l'historique a été conservé."
   },
   "roster": {
     "eyebrow": "Entreprise",
@@ -1016,7 +1033,10 @@
     "pageReset": "Réinitialiser le mot de passe",
     "pageAcceptInvite": "Accepter l'invitation",
     "socialFailed": "Impossible de se connecter avec {provider}. Réessayez ou utilisez votre e-mail et mot de passe.",
-    "socialNotEnabled": "La connexion via {provider} n est pas encore activée. Utilisez votre e-mail et mot de passe."
+    "socialNotEnabled": "La connexion via {provider} n est pas encore activée. Utilisez votre e-mail et mot de passe.",
+    "errInviteExpired": "Votre lien d'invitation a expiré. Demandez-en un nouveau.",
+    "errActivationFailed": "Votre compte n'a pas pu être activé. Réessayez.",
+    "okAccountActivated": "Compte activé."
   },
   "appShell": {
     "currentCompany": "Entreprise actuelle",
