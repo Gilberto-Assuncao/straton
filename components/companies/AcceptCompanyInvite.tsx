@@ -10,8 +10,8 @@ import {
 } from "@/src/features/partners/invite-actions";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-[#111C33] px-3 text-sm text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]";
-const labelText = "text-xs text-[#9CA3AF]";
+  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+const labelText = "text-xs text-ink-muted";
 
 /**
  * The invitee's side of the handshake.
@@ -56,33 +56,33 @@ export default function AcceptCompanyInvite({ token }: { token: string | null })
     });
   }
 
-  if (loading) return <p className="text-sm text-[#9CA3AF]">{t("loading")}</p>;
+  if (loading) return <p className="text-sm text-ink-muted">{t("loading")}</p>;
 
   // One message for a missing, wrong, spent or expired token. Telling them
   // apart would let someone probe which tokens once existed.
   if (!token || !preview) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-[#161A34] p-6">
-        <h1 className="text-lg font-semibold text-[#E5E7EB]">{t("invalidTitle")}</h1>
-        <p className="mt-2 text-sm text-[#9CA3AF]">{t("invalidBody")}</p>
+      <div className="rounded-2xl border border-white/10 bg-surface p-6">
+        <h1 className="text-lg font-semibold text-ink">{t("invalidTitle")}</h1>
+        <p className="mt-2 text-sm text-ink-muted">{t("invalidBody")}</p>
       </div>
     );
   }
 
   return (
-    <form action={submit} className="rounded-2xl border border-white/10 bg-[#161A34] p-6">
+    <form action={submit} className="rounded-2xl border border-white/10 bg-surface p-6">
       <input type="hidden" name="token" value={token} />
 
-      <h1 className="text-lg font-semibold text-[#E5E7EB]">
+      <h1 className="text-lg font-semibold text-ink">
         {t("acceptTitle", { inviter: preview.inviterName })}
       </h1>
-      <p className="mt-2 text-sm text-[#9CA3AF]">
+      <p className="mt-2 text-sm text-ink-muted">
         {t("acceptBody", {
           inviter: preview.inviterName,
           type: t(`type_${preview.relationshipType}` as "type_subcontractor"),
         })}
       </p>
-      {preview.note ? <p className="mt-3 rounded-lg bg-[#111C33] p-3 text-sm text-[#D1D5DB]">{preview.note}</p> : null}
+      {preview.note ? <p className="mt-3 rounded-lg bg-surface-inset p-3 text-sm text-ink-soft">{preview.note}</p> : null}
 
       {/* Prefilled from what the inviter looked up, and every field editable:
           they know their own company better than the register does. */}
@@ -122,7 +122,7 @@ export default function AcceptCompanyInvite({ token }: { token: string | null })
         <label className="grid gap-1.5">
           <span className={labelText}>{t("jobTitleLabel")}</span>
           <input name="jobTitle" className={field} />
-          <span className="text-xs text-[#6B7280]">{t("ownerHint")}</span>
+          <span className="text-xs text-ink-subtle">{t("ownerHint")}</span>
         </label>
       </div>
 
@@ -135,7 +135,7 @@ export default function AcceptCompanyInvite({ token }: { token: string | null })
       <button
         type="submit"
         disabled={pending}
-        className="mt-6 min-h-11 w-full rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+        className="mt-6 min-h-11 w-full rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
       >
         {pending ? t("accepting") : t("accept")}
       </button>

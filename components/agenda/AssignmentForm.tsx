@@ -6,8 +6,8 @@ import { createAssignmentAction, type ConflictWarning } from "@/src/features/ass
 import type { AssignmentOptions } from "@/src/features/assignments/data";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-[#111C33] px-3 text-sm text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]";
-const labelText = "text-xs text-[#9CA3AF]";
+  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+const labelText = "text-xs text-ink-muted";
 
 export default function AssignmentForm({ options }: { options: AssignmentOptions }) {
   const t = useTranslations("agenda");
@@ -25,9 +25,9 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
   }
 
   return (
-    <form action={submit} className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6">
-      <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("formTitle")}</h2>
-      <p className="mt-1 text-sm text-[#9CA3AF]">{t("formHint")}</p>
+    <form action={submit} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
+      <h2 className="text-lg font-semibold text-ink">{t("formTitle")}</h2>
+      <p className="mt-1 text-sm text-ink-muted">{t("formHint")}</p>
 
       <div className="mt-5 grid gap-4">
         <label className="grid gap-1.5">
@@ -71,8 +71,8 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
                 aria-pressed={mode === option}
                 className={`min-h-11 rounded-lg border px-4 text-sm font-semibold ${
                   mode === option
-                    ? "border-[#22C55E] bg-[#22C55E]/10 text-[#4ADE80]"
-                    : "border-white/15 text-[#9CA3AF] hover:bg-white/5"
+                    ? "border-brand bg-brand/10 text-brand-bright"
+                    : "border-white/15 text-ink-muted hover:bg-white/5"
                 }`}
               >
                 {t(`assignBy_${option}` as "assignBy_people")}
@@ -92,14 +92,14 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
                 </option>
               ))}
             </select>
-            <span className="text-xs text-[#6B7280]">{t("teamFreezeHint")}</span>
+            <span className="text-xs text-ink-subtle">{t("teamFreezeHint")}</span>
           </label>
         ) : (
           <fieldset className="grid gap-1.5">
             <legend className={labelText}>{t("peopleLabel")}</legend>
             <div className="mt-1 grid max-h-56 gap-1 overflow-y-auto rounded-lg border border-white/10 p-2">
               {options.people.map((person) => (
-                <label key={person.membershipId} className="flex min-h-11 items-center gap-3 px-2 text-sm text-[#D1D5DB]">
+                <label key={person.membershipId} className="flex min-h-11 items-center gap-3 px-2 text-sm text-ink-soft">
                   <input type="checkbox" name="assigneeIds" value={person.membershipId} className="size-4" />
                   {person.name}
                 </label>
@@ -115,7 +115,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
       </div>
 
       {message ? (
-        <p role="status" className={`mt-4 text-sm ${message.ok ? "text-[#4ADE80]" : "text-red-300"}`}>
+        <p role="status" className={`mt-4 text-sm ${message.ok ? "text-brand-bright" : "text-red-300"}`}>
           {t(`message_${message.key}` as "message_created")}
         </p>
       ) : null}
@@ -142,7 +142,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
       <button
         type="submit"
         disabled={pending}
-        className="mt-5 min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+        className="mt-5 min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
       >
         {pending ? t("saving") : t("save")}
       </button>

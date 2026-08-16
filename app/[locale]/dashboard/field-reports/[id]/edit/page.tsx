@@ -23,7 +23,7 @@ export default async function EditFieldReportPage({ params }: { params: Promise<
 
   return (
     <section aria-labelledby="edit-field-report-heading" className="mx-auto max-w-4xl">
-      <Link href={`/dashboard/field-reports/${id}`} className="inline-flex min-h-11 items-center text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB]">← Back to report</Link>
+      <Link href={`/dashboard/field-reports/${id}`} className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink">← Back to report</Link>
       <div className="mb-6 mt-3">
         <PageHeader headingId="edit-field-report-heading" title="Edit field report" description="Update the report before submitting it for approval." />
       </div>

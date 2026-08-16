@@ -7,8 +7,8 @@ import { createSiteAction, geocodeSiteAddressAction, updateSiteAction, type Site
 import { SITE_PRIORITIES, SITE_STATUSES, type ClientOption, type SiteRecord } from "@/src/features/sites/types";
 import ClientPicker from "./ClientPicker";
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#111827] px-4 text-base text-[#E5E7EB] outline-none placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 user-invalid:border-red-400";
-const label = "text-sm font-medium text-[#E5E7EB]";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
+const label = "text-sm font-medium text-ink";
 
 type Fields = Record<string, string>;
 
@@ -114,7 +114,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
   }
 
   return (
-    <form action={formAction} className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
+    <form action={formAction} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
       {site ? <input type="hidden" name="siteId" value={site.id} /> : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
@@ -146,14 +146,14 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           <input id="site-postal" name="postal_code" value={fields.postal_code} onChange={(event) => set("postal_code", event.target.value)} className={field} />
         </div>
 
-        <div className="sm:col-span-2 rounded-xl border border-white/10 bg-[#111C33] p-4">
-          <p className="text-sm font-semibold text-[#E5E7EB]">{t("locationTitle")}</p>
-          <p className="mt-1 text-xs leading-5 text-[#9CA3AF]">{t("locationHelp")}</p>
+        <div className="sm:col-span-2 rounded-xl border border-white/10 bg-surface-inset p-4">
+          <p className="text-sm font-semibold text-ink">{t("locationTitle")}</p>
+          <p className="mt-1 text-xs leading-5 text-ink-muted">{t("locationHelp")}</p>
           <button
             type="button"
             onClick={findCoordinates}
             disabled={geocoding || !canGeocode}
-            className="mt-4 inline-flex min-h-11 items-center rounded-lg border border-[#22C55E]/40 bg-[#22C55E]/10 px-4 text-sm font-semibold text-[#4ADE80] transition hover:bg-[#22C55E]/20 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+            className="mt-4 inline-flex min-h-11 items-center rounded-lg border border-brand/40 bg-brand/10 px-4 text-sm font-semibold text-brand-bright transition hover:bg-brand/20 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
           >
             {geocoding ? t("geocodeSearching") : t("geocodeFromAddress")}
           </button>
@@ -165,10 +165,10 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
             and this form is used on phones.
           */}
           {!canGeocode ? (
-            <p className="mt-2 text-xs leading-5 text-[#9CA3AF]">{t("geocodeNeedsAddress")}</p>
+            <p className="mt-2 text-xs leading-5 text-ink-muted">{t("geocodeNeedsAddress")}</p>
           ) : null}
           {geocodeNote ? (
-            <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-[#4ADE80]" : "text-amber-300"}`}>{geocodeNote.text}</p>
+            <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-brand-bright" : "text-amber-300"}`}>{geocodeNote.text}</p>
           ) : null}
 
           {/*
@@ -182,10 +182,10 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           <input type="hidden" name="latitude" value={fields.latitude} />
           <input type="hidden" name="longitude" value={fields.longitude} />
 
-          <p className={`mt-4 text-xs font-semibold ${located ? "text-[#4ADE80]" : "text-amber-300"}`}>
+          <p className={`mt-4 text-xs font-semibold ${located ? "text-brand-bright" : "text-amber-300"}`}>
             {located ? t("locationConfirmed") : t("locationMissing")}
           </p>
-          {!located ? <p className="mt-1 text-xs leading-5 text-[#6B7280]">{t("locationMissingHelp")}</p> : null}
+          {!located ? <p className="mt-1 text-xs leading-5 text-ink-subtle">{t("locationMissingHelp")}</p> : null}
         </div>
 
         <div>
@@ -261,8 +261,8 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href="/dashboard/sites" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("cancel")}</Link>
-        <button type="submit" className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]">{site ? t("saveChanges") : t("createSite")}</button>
+        <Link href="/dashboard/sites" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
+        <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{site ? t("saveChanges") : t("createSite")}</button>
       </div>
     </form>
   );

@@ -8,8 +8,8 @@ import type { ReportMessageKey } from "@/src/features/operational-reports/messag
 import { createOperationalReportAction, updateOperationalReportAction, type FieldValueInput } from "@/src/features/operational-reports/actions";
 import type { FieldValue, OperationalReportDetail, ReportTemplate } from "@/lib/types/operational-reports";
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#111827] px-4 text-base text-[#E5E7EB] outline-none placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20";
-const label = "text-sm font-medium text-[#E5E7EB]";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20";
+const label = "text-sm font-medium text-ink";
 
 type Props = {
   templates: ReportTemplate[];
@@ -69,7 +69,7 @@ export default function OperationalReportForm({ templates, sites, existingReport
   }
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
+    <div className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label className={label} htmlFor="report-template">{t("template")}</label>
@@ -113,14 +113,14 @@ export default function OperationalReportForm({ templates, sites, existingReport
 
       {activeTemplate && activeTemplate.fields.length > 0 ? (
         <div className="mt-7 border-t border-white/10 pt-6">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[#6B7280]">{t("templateFields", { name: activeTemplate.name })}</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-ink-subtle">{t("templateFields", { name: activeTemplate.name })}</p>
           <div className="mt-4 grid gap-5 sm:grid-cols-2">
             {activeTemplate.fields.map((templateField) => {
               const current = values[templateField.key] ?? values[templateField.id] ?? null;
               if (templateField.fieldType === "boolean") {
                 return (
-                  <label key={templateField.id} className="flex items-center gap-2.5 text-sm text-[#E5E7EB]">
-                    <input type="checkbox" checked={Boolean(current)} onChange={(event) => setFieldValue(templateField.key, event.target.checked)} className="h-5 w-5 rounded border-white/20 bg-[#111827] accent-[#22C55E]" />
+                  <label key={templateField.id} className="flex items-center gap-2.5 text-sm text-ink">
+                    <input type="checkbox" checked={Boolean(current)} onChange={(event) => setFieldValue(templateField.key, event.target.checked)} className="h-5 w-5 rounded border-white/20 bg-surface-alt accent-brand" />
                     {templateField.label}{templateField.required ? " *" : ""}
                   </label>
                 );
@@ -143,7 +143,7 @@ export default function OperationalReportForm({ templates, sites, existingReport
                     <p className={label}>{templateField.label}{templateField.required ? " *" : ""}</p>
                     <div className="mt-2 grid grid-cols-2 gap-2">
                       {templateField.options.map((option) => (
-                        <label key={option.value} className="flex items-center gap-2 text-sm text-[#E5E7EB]">
+                        <label key={option.value} className="flex items-center gap-2 text-sm text-ink">
                           <input
                             type="checkbox"
                             checked={selected.includes(option.value)}
@@ -151,7 +151,7 @@ export default function OperationalReportForm({ templates, sites, existingReport
                               const next = event.target.checked ? [...selected, option.value] : selected.filter((value) => value !== option.value);
                               setFieldValue(templateField.key, next);
                             }}
-                            className="h-4 w-4 rounded border-white/20 bg-[#111827] accent-[#22C55E]"
+                            className="h-4 w-4 rounded border-white/20 bg-surface-alt accent-brand"
                           />
                           {option.label}
                         </label>
@@ -184,11 +184,11 @@ export default function OperationalReportForm({ templates, sites, existingReport
         </div>
       ) : null}
 
-      {feedback ? <p role="status" className="mt-6 rounded-lg bg-[#22C55E]/8 p-4 text-sm leading-6 text-[#9CA3AF]">{t(feedback)}</p> : null}
+      {feedback ? <p role="status" className="mt-6 rounded-lg bg-brand/8 p-4 text-sm leading-6 text-ink-muted">{t(feedback)}</p> : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href="/dashboard/field-reports" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5">{t("cancel")}</Link>
-        <button type="button" disabled={pending} onClick={submit} className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] disabled:opacity-60">
+        <Link href="/dashboard/field-reports" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5">{t("cancel")}</Link>
+        <button type="button" disabled={pending} onClick={submit} className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover disabled:opacity-60">
           {existingReport ? t("saveChanges") : t("saveDraft")}
         </button>
       </div>

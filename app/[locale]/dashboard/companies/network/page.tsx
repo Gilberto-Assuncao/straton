@@ -14,7 +14,7 @@ export default async function CompanyNetworkPage() {
     <section aria-labelledby="network-heading">
       <Link
         href="/dashboard/companies"
-        className="inline-flex min-h-11 items-center text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+        className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand"
       >
         ← {t("backToCompanies")}
       </Link>

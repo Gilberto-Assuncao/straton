@@ -6,7 +6,7 @@ import { editTimeEntryAction } from "@/src/features/timesheets/actions";
 import type { Option, TimesheetEntry } from "@/lib/types/timesheet";
 
 const field =
-  "mt-2 min-h-11 w-full rounded-lg border border-white/10 bg-[#111827] px-3 text-sm text-[#E5E7EB] outline-none focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20";
+  "mt-2 min-h-11 w-full rounded-lg border border-white/10 bg-surface-alt px-3 text-sm text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
 
 /**
  * Correcting an entry that came in wrong from the field (#56).
@@ -89,14 +89,14 @@ export default function EditEntryModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-entry-title"
-        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl border border-white/10 bg-[#161A34] p-5 shadow-2xl sm:max-w-2xl sm:rounded-2xl sm:p-6"
+        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl border border-white/10 bg-surface p-5 shadow-2xl sm:max-w-2xl sm:rounded-2xl sm:p-6"
       >
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h3 id="edit-entry-title" className="text-xl font-semibold text-[#E5E7EB]">
+            <h3 id="edit-entry-title" className="text-xl font-semibold text-ink">
               {t("editEntryTitle")}
             </h3>
-            <p className="mt-1 text-xs text-[#9CA3AF]">
+            <p className="mt-1 text-xs text-ink-muted">
               {entry.employee} · {entry.date}
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function EditEntryModal({
             type="button"
             onClick={onClose}
             aria-label={t("editEntryClose")}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-xl text-[#9CA3AF] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-xl text-ink-muted hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
           >
             ×
           </button>
@@ -114,7 +114,7 @@ export default function EditEntryModal({
         <form onSubmit={submit} className="mt-6 grid gap-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label htmlFor="edit-task" className="text-sm font-medium text-[#D1D5DB]">
+              <label htmlFor="edit-task" className="text-sm font-medium text-ink-soft">
                 {t("fieldTask")}
               </label>
               <select id="edit-task" value={taskId} onChange={(event) => setTaskId(event.target.value)} className={field}>
@@ -132,7 +132,7 @@ export default function EditEntryModal({
               way to give them one.
             */}
             <div className="sm:col-span-2">
-              <label htmlFor="edit-site" className="text-sm font-medium text-[#D1D5DB]">
+              <label htmlFor="edit-site" className="text-sm font-medium text-ink-soft">
                 {t("fieldSite")}
               </label>
               <select id="edit-site" value={siteId} onChange={(event) => setSiteId(event.target.value)} className={field}>
@@ -145,7 +145,7 @@ export default function EditEntryModal({
               </select>
             </div>
             <div>
-              <label htmlFor="edit-start" className="text-sm font-medium text-[#D1D5DB]">
+              <label htmlFor="edit-start" className="text-sm font-medium text-ink-soft">
                 {t("fieldStart")}
               </label>
               <input
@@ -158,7 +158,7 @@ export default function EditEntryModal({
               />
             </div>
             <div>
-              <label htmlFor="edit-end" className="text-sm font-medium text-[#D1D5DB]">
+              <label htmlFor="edit-end" className="text-sm font-medium text-ink-soft">
                 {t("fieldEnd")}
               </label>
               <input
@@ -171,7 +171,7 @@ export default function EditEntryModal({
               />
             </div>
             <div>
-              <label htmlFor="edit-break" className="text-sm font-medium text-[#D1D5DB]">
+              <label htmlFor="edit-break" className="text-sm font-medium text-ink-soft">
                 {t("fieldBreak")}
               </label>
               <input
@@ -188,7 +188,7 @@ export default function EditEntryModal({
           </div>
 
           <div>
-            <label htmlFor="edit-notes" className="text-sm font-medium text-[#D1D5DB]">
+            <label htmlFor="edit-notes" className="text-sm font-medium text-ink-soft">
               {t("fieldNotes")}
             </label>
             <textarea
@@ -211,14 +211,14 @@ export default function EditEntryModal({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-11 rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+              className="min-h-11 rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
             >
               {t("cancel")}
             </button>
             <button
               type="submit"
               disabled={pending}
-              className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E] disabled:opacity-50"
+              className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-50"
             >
               {t("save")}
             </button>

@@ -46,7 +46,7 @@ export function CompanyDangerZone({
   return (
     <section className="rounded-2xl border border-red-400/30 bg-red-400/5 p-5">
       <h2 className="text-lg font-semibold text-red-100">{t("dangerTitle")}</h2>
-      <p className="mt-2 text-sm text-[#D1D5DB]">{archived ? t("dangerReactivateBody") : t("dangerArchiveBody")}</p>
+      <p className="mt-2 text-sm text-ink-soft">{archived ? t("dangerReactivateBody") : t("dangerArchiveBody")}</p>
 
       <div className="mt-4">
         <Button variant={archived ? "outline" : "danger"} loading={pending} onClick={() => setOpen(true)}>
@@ -55,7 +55,7 @@ export function CompanyDangerZone({
       </div>
 
       {messageKey ? (
-        <p aria-live="polite" className="mt-3 text-sm text-[#D1D5DB]">
+        <p aria-live="polite" className="mt-3 text-sm text-ink-soft">
           {t(`message_${messageKey}` as "message_failed")}
         </p>
       ) : null}

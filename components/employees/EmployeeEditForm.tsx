@@ -7,7 +7,7 @@ import Link from "next/link";
 import { updateEmployeeAction, type UpdateEmployeeState } from "@/src/features/employees/actions";
 import type { Employee } from "@/lib/types/employee";
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#111827] px-4 text-base text-[#E5E7EB] outline-none placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 user-invalid:border-red-400";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
 
 export default function EmployeeEditForm({ employee, teams }: { employee: Employee; teams: string[] }) {
   const t = useTranslations("employees");
@@ -38,24 +38,24 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
   ];
 
   return (
-    <form action={formAction} className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
+    <form action={formAction} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
       <input type="hidden" name="employeeId" value={employee.id} />
       <div className="grid gap-5 sm:grid-cols-2">
         {fields.map((item) => (
           <div key={`${item.id}-${formKey}`}>
-            <label htmlFor={item.id} className="text-sm font-medium text-[#E5E7EB]">{item.label}</label>
+            <label htmlFor={item.id} className="text-sm font-medium text-ink">{item.label}</label>
             <input id={item.id} name={item.name} type={item.type} autoComplete={item.autoComplete} required={!item.optional} defaultValue={kept(item.name, item.defaultValue)} onInput={onInput} className={field} />
           </div>
         ))}
 
         <div>
-          <label htmlFor="edit-email" className="text-sm font-medium text-[#E5E7EB]">{t("workEmail")}</label>
+          <label htmlFor="edit-email" className="text-sm font-medium text-ink">{t("workEmail")}</label>
           <input id="edit-email" type="email" value={employee.email} disabled readOnly className={`${field} cursor-not-allowed opacity-60`} />
-          <p className="mt-2 text-xs text-[#6B7280]">{t("emailNotEditable")}</p>
+          <p className="mt-2 text-xs text-ink-subtle">{t("emailNotEditable")}</p>
         </div>
 
         <div>
-          <label htmlFor="edit-team" className="text-sm font-medium text-[#E5E7EB]">{t("teamLabel")}</label>
+          <label htmlFor="edit-team" className="text-sm font-medium text-ink">{t("teamLabel")}</label>
           <select key={`team-${formKey}`} id="edit-team" name="team" defaultValue={kept("team", employee.team ?? "")} onInput={onInput} className={field}>
             <option value="">{t("noTeam")}</option>
             {teamOptions.map((team) => <option key={team} value={team}>{team}</option>)}
@@ -63,7 +63,7 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
         </div>
 
         <div>
-          <label htmlFor="edit-employment-type" className="text-sm font-medium text-[#E5E7EB]">{t("employmentType")}</label>
+          <label htmlFor="edit-employment-type" className="text-sm font-medium text-ink">{t("employmentType")}</label>
           <select key={`type-${formKey}`} id="edit-employment-type" name="employmentType" required defaultValue={kept("employmentType", employee.employmentType)} onInput={onInput} className={field}>
             <option value="employee">{t("employmentTypeEmployee")}</option>
             <option value="contractor">{t("employmentTypeContractor")}</option>
@@ -72,7 +72,7 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
         </div>
 
         <div>
-          <label htmlFor="edit-start-date" className="text-sm font-medium text-[#E5E7EB]">{t("startDate")}</label>
+          <label htmlFor="edit-start-date" className="text-sm font-medium text-ink">{t("startDate")}</label>
           <input key={`start-${formKey}`} id="edit-start-date" name="startDate" type="date" required defaultValue={kept("startDate", employee.startDate)} onInput={onInput} className={field} />
         </div>
       </div>
@@ -84,8 +84,8 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href={`/dashboard/employees/${employee.id}`} className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("cancel")}</Link>
-        <button type="submit" className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]">{t("saveChanges")}</button>
+        <Link href={`/dashboard/employees/${employee.id}`} className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
+        <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{t("saveChanges")}</button>
       </div>
     </form>
   );

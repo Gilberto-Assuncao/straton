@@ -23,7 +23,7 @@ export default async function EditEmployeePage({ params }: { params: Promise<{ e
 
   return (
     <section aria-labelledby="edit-employee-heading">
-      <Link href={`/dashboard/employees/${employee.id}`} className="inline-flex min-h-11 items-center text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">← {t("backToProfile")}</Link>
+      <Link href={`/dashboard/employees/${employee.id}`} className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand">← {t("backToProfile")}</Link>
       <div className="mb-6 mt-3">
         <PageHeader headingId="edit-employee-heading" eyebrow={t("employeeProfile")} title={t("editEmployee")} description={`${employee.firstName} ${employee.lastName}`} />
       </div>

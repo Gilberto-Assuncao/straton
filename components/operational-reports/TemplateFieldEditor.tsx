@@ -17,8 +17,8 @@ import type { ReportFieldType, ReportTemplateField } from "@/lib/types/operation
 const FIELD_TYPES: ReportFieldType[] = ["text", "number", "date", "boolean", "select", "multiselect", "checklist", "photo", "signature"];
 const CHOICE_TYPES: ReportFieldType[] = ["select", "multiselect", "checklist"];
 
-const input = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#111827] px-4 text-base text-[#E5E7EB] outline-none placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20";
-const labelClass = "text-sm font-medium text-[#E5E7EB]";
+const input = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20";
+const labelClass = "text-sm font-medium text-ink";
 
 export default function TemplateFieldEditor({ templateId, fields, editing }: { templateId: string; fields: ReportTemplateField[]; editing?: ReportTemplateField }) {
   const t = useTranslations("reportTemplates");
@@ -50,30 +50,30 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
     <div className="grid gap-6">
       {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
 
-      <section className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
-        <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("fieldsTitle")}</h2>
-        <p className="mt-1 text-sm text-[#9CA3AF]">{t("fieldsDescription")}</p>
+      <section className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
+        <h2 className="text-lg font-semibold text-ink">{t("fieldsTitle")}</h2>
+        <p className="mt-1 text-sm text-ink-muted">{t("fieldsDescription")}</p>
 
         {fields.length === 0 ? (
-          <p className="mt-6 rounded-lg border border-dashed border-white/15 px-4 py-8 text-center text-sm text-[#6B7280]">{t("noFields")}</p>
+          <p className="mt-6 rounded-lg border border-dashed border-white/15 px-4 py-8 text-center text-sm text-ink-subtle">{t("noFields")}</p>
         ) : (
           <ol className="mt-6 grid gap-3">
             {fields.map((item, index) => (
-              <li key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#111C33] p-4">
+              <li key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-inset p-4">
                 <div className="min-w-0">
-                  <p className="text-sm font-semibold text-[#E5E7EB]">
+                  <p className="text-sm font-semibold text-ink">
                     {item.label}
                     {item.required ? <span className="ml-1.5 text-red-300" title={t("requiredLabel")}>*</span> : null}
                   </p>
-                  <p className="mt-1 font-mono text-xs text-[#6B7280]">
+                  <p className="mt-1 font-mono text-xs text-ink-subtle">
                     {item.key} · {t(`type_${item.fieldType}` as "type_text")}
                     {CHOICE_TYPES.includes(item.fieldType) ? ` · ${t("optionCount", { count: item.options.length })}` : ""}
                   </p>
                 </div>
                 <div className="flex shrink-0 items-center gap-1">
-                  <button type="button" aria-label={t("moveUp")} disabled={pending || index === 0} onClick={() => run(() => moveFieldAction(templateId, item.id, "up"))} className="min-h-11 min-w-11 rounded-lg text-[#9CA3AF] hover:bg-white/5 hover:text-[#E5E7EB] disabled:opacity-30">↑</button>
-                  <button type="button" aria-label={t("moveDown")} disabled={pending || index === fields.length - 1} onClick={() => run(() => moveFieldAction(templateId, item.id, "down"))} className="min-h-11 min-w-11 rounded-lg text-[#9CA3AF] hover:bg-white/5 hover:text-[#E5E7EB] disabled:opacity-30">↓</button>
-                  <Link href={`/dashboard/field-reports/templates/${templateId}?field=${item.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-[#22C55E] hover:text-[#16A34A]">{t("edit")}</Link>
+                  <button type="button" aria-label={t("moveUp")} disabled={pending || index === 0} onClick={() => run(() => moveFieldAction(templateId, item.id, "up"))} className="min-h-11 min-w-11 rounded-lg text-ink-muted hover:bg-white/5 hover:text-ink disabled:opacity-30">↑</button>
+                  <button type="button" aria-label={t("moveDown")} disabled={pending || index === fields.length - 1} onClick={() => run(() => moveFieldAction(templateId, item.id, "down"))} className="min-h-11 min-w-11 rounded-lg text-ink-muted hover:bg-white/5 hover:text-ink disabled:opacity-30">↓</button>
+                  <Link href={`/dashboard/field-reports/templates/${templateId}?field=${item.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand hover:text-brand-hover">{t("edit")}</Link>
                   <button type="button" disabled={pending} onClick={() => { if (window.confirm(t("removeFieldConfirm"))) run(() => removeFieldAction(templateId, item.id)); }} className="min-h-11 px-3 text-sm font-semibold text-red-300 hover:text-red-200 disabled:opacity-50">{t("remove")}</button>
                 </div>
               </li>
@@ -82,11 +82,11 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
         )}
       </section>
 
-      <form action={formAction} className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
+      <form action={formAction} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
         <input type="hidden" name="templateId" value={templateId} />
         {editing ? <input type="hidden" name="fieldId" value={editing.id} /> : null}
 
-        <h2 className="text-lg font-semibold text-[#E5E7EB]">{editing ? t("editField") : t("addField")}</h2>
+        <h2 className="text-lg font-semibold text-ink">{editing ? t("editField") : t("addField")}</h2>
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
@@ -97,7 +97,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
           <div>
             <label htmlFor="field-key" className={labelClass}>{t("fieldKeyLabel")}</label>
             <input key={`key-${formKey}`} id="field-key" name="key" required defaultValue={kept("key", editing?.key ?? "")} onInput={onInput} placeholder="panels_installed" pattern="[a-zA-Z0-9_ ]+" className={`${input} font-mono`} />
-            <p className="mt-2 text-xs text-[#6B7280]">{t("fieldKeyHelp")}</p>
+            <p className="mt-2 text-xs text-ink-subtle">{t("fieldKeyHelp")}</p>
           </div>
 
           <div>
@@ -108,8 +108,8 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
           </div>
 
           <div className="flex items-end">
-            <label className="flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[#D1D5DB]">
-              <input key={`required-${formKey}`} type="checkbox" name="required" defaultChecked={submitted ? submitted.required === "on" : editing?.required} onInput={onInput} className="h-5 w-5 rounded border-white/20 accent-[#22C55E]" />
+            <label className="flex min-h-12 cursor-pointer items-center gap-3 text-sm text-ink-soft">
+              <input key={`required-${formKey}`} type="checkbox" name="required" defaultChecked={submitted ? submitted.required === "on" : editing?.required} onInput={onInput} className="h-5 w-5 rounded border-white/20 accent-brand" />
               {t("requiredLabel")}
             </label>
           </div>
@@ -130,7 +130,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
                 placeholder={t("optionsPlaceholder")}
                 className={`${input} py-3 font-mono text-sm`}
               />
-              <p className="mt-2 text-xs leading-5 text-[#6B7280]">{t("optionsHelp")}</p>
+              <p className="mt-2 text-xs leading-5 text-ink-subtle">{t("optionsHelp")}</p>
             </div>
           ) : null}
         </div>
@@ -143,9 +143,9 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
 
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
           {editing ? (
-            <Link href={`/dashboard/field-reports/templates/${templateId}`} className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5">{t("cancel")}</Link>
+            <Link href={`/dashboard/field-reports/templates/${templateId}`} className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5">{t("cancel")}</Link>
           ) : null}
-          <button type="submit" className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]">
+          <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
             {editing ? t("saveField") : t("addField")}
           </button>
         </div>

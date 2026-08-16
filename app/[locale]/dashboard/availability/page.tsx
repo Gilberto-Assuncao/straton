@@ -26,7 +26,7 @@ export default async function AvailabilityPage() {
       <div className="mt-8 grid gap-6 xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)] xl:items-start">
         <AvailabilityForm people={people} myMembershipId={view.myMembershipId} isManager={view.isManager} />
         <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-[#6B7280]">{t("listTitle")}</h2>
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-ink-subtle">{t("listTitle")}</h2>
           <div className="mt-4">
             <AvailabilityList records={view.records} />
           </div>

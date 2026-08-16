@@ -14,7 +14,7 @@ const RELATIONSHIP_TYPES: RelationshipType[] = ["client", "contractor", "subcont
 
 const statusStyles: Record<string, string> = {
   pending: "bg-amber-400/10 text-amber-300",
-  active: "bg-[#22C55E]/10 text-[#4ADE80]",
+  active: "bg-brand/10 text-brand-bright",
   rejected: "bg-red-400/10 text-red-300",
 };
 
@@ -64,10 +64,10 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
   const others = relationships.filter((r) => !(r.direction === "incoming" && r.status === "pending"));
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6">
+    <div className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
       <div>
-        <h3 className="text-lg font-semibold text-[#E5E7EB]">{t("partnersTitle")}</h3>
-        <p className="mt-1 text-sm text-[#9CA3AF]">{t("partnersSubtitle")}</p>
+        <h3 className="text-lg font-semibold text-ink">{t("partnersTitle")}</h3>
+        <p className="mt-1 text-sm text-ink-muted">{t("partnersSubtitle")}</p>
       </div>
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -76,13 +76,13 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
             value={query}
             onChange={(event) => runSearch(event.target.value)}
             placeholder={t("searchPlaceholder")}
-            className="min-h-11 w-full rounded-lg border border-white/10 bg-[#111827] px-4 text-sm text-[#E5E7EB] outline-none placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20"
+            className="min-h-11 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-sm text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
           {query.trim().length >= 2 ? (
-            <div className="absolute z-10 mt-1 w-full rounded-lg border border-white/10 bg-[#111827] p-1 shadow-xl">
-              {searching ? <p className="px-3 py-2 text-sm text-[#6B7280]">{t("searching")}</p> : null}
+            <div className="absolute z-10 mt-1 w-full rounded-lg border border-white/10 bg-surface-alt p-1 shadow-xl">
+              {searching ? <p className="px-3 py-2 text-sm text-ink-subtle">{t("searching")}</p> : null}
               {!searching && results.length === 0 ? (
-                <p className="px-3 py-2 text-sm text-[#6B7280]">{t("noCompaniesFound")}</p>
+                <p className="px-3 py-2 text-sm text-ink-subtle">{t("noCompaniesFound")}</p>
               ) : null}
               {results.map((company) => (
                 <button
@@ -90,10 +90,10 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
                   type="button"
                   disabled={pending}
                   onClick={() => request(company.id)}
-                  className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-[#E5E7EB] hover:bg-white/5 disabled:opacity-60"
+                  className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-ink hover:bg-white/5 disabled:opacity-60"
                 >
                   <span>{company.name}</span>
-                  <span className="text-xs text-[#4ADE80]">{t("inviteAs", { type: typeLabel(relationshipType) })}</span>
+                  <span className="text-xs text-brand-bright">{t("inviteAs", { type: typeLabel(relationshipType) })}</span>
                 </button>
               ))}
             </div>
@@ -102,7 +102,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
         <select
           value={relationshipType}
           onChange={(event) => setRelationshipType(event.target.value as RelationshipType)}
-          className="min-h-11 rounded-lg border border-white/10 bg-[#111827] px-3 text-sm text-[#E5E7EB]"
+          className="min-h-11 rounded-lg border border-white/10 bg-surface-alt px-3 text-sm text-ink"
         >
           {RELATIONSHIP_TYPES.map((type) => (
             <option key={type} value={type}>
@@ -113,27 +113,27 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
       </div>
 
       {feedback ? (
-        <p role="status" className="mt-4 text-sm text-[#9CA3AF]">
+        <p role="status" className="mt-4 text-sm text-ink-muted">
           {feedback}
         </p>
       ) : null}
 
       {incomingPending.length > 0 ? (
         <div className="mt-6">
-          <p className="text-sm font-semibold uppercase tracking-wide text-[#6B7280]">{t("awaitingResponse")}</p>
+          <p className="text-sm font-semibold uppercase tracking-wide text-ink-subtle">{t("awaitingResponse")}</p>
           <ul className="mt-3 space-y-2">
             {incomingPending.map((r) => (
               <li key={r.id} className="flex items-center justify-between gap-3 rounded-lg border border-amber-400/20 bg-amber-400/5 px-4 py-3">
                 <div>
-                  <p className="font-medium text-[#E5E7EB]">{r.companyName}</p>
-                  <p className="text-xs text-[#9CA3AF]">{t("wantsToBe", { type: typeLabel(r.relationshipType) })}</p>
+                  <p className="font-medium text-ink">{r.companyName}</p>
+                  <p className="text-xs text-ink-muted">{t("wantsToBe", { type: typeLabel(r.relationshipType) })}</p>
                 </div>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     disabled={pending}
                     onClick={() => respond(r.id, true)}
-                    className="min-h-11 rounded-lg bg-[#22C55E] px-3 text-xs font-semibold text-[#07110B]"
+                    className="min-h-11 rounded-lg bg-brand px-3 text-xs font-semibold text-on-brand"
                   >
                     {t("accept")}
                   </button>
@@ -153,16 +153,16 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
       ) : null}
 
       <div className="mt-6">
-        <p className="text-sm font-semibold uppercase tracking-wide text-[#6B7280]">{t("relationships")}</p>
+        <p className="text-sm font-semibold uppercase tracking-wide text-ink-subtle">{t("relationships")}</p>
         {others.length === 0 ? (
-          <p className="mt-3 text-sm text-[#6B7280]">{t("noPartnersYet")}</p>
+          <p className="mt-3 text-sm text-ink-subtle">{t("noPartnersYet")}</p>
         ) : (
           <ul className="mt-3 space-y-2">
             {others.map((r) => (
               <li key={r.id} className="flex items-center justify-between gap-3 rounded-lg bg-white/[0.03] px-4 py-3">
                 <div>
-                  <p className="font-medium text-[#E5E7EB]">{r.companyName}</p>
-                  <p className="text-xs text-[#9CA3AF]">
+                  <p className="font-medium text-ink">{r.companyName}</p>
+                  <p className="text-xs text-ink-muted">
                     {typeLabel(r.relationshipType)} · {r.direction === "outgoing" ? t("youInvited") : t("invitedYou")}
                   </p>
                 </div>

@@ -99,8 +99,8 @@ export default function QuickClock({
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center gap-6 px-5 py-10">
       <div className="text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#22C55E]">{t("eyebrow")}</p>
-        <h1 className="mt-1 text-2xl font-bold text-[#E5E7EB]">{running ? t("runningTitle") : t("idleTitle")}</h1>
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">{t("eyebrow")}</p>
+        <h1 className="mt-1 text-2xl font-bold text-ink">{running ? t("runningTitle") : t("idleTitle")}</h1>
       </div>
 
       {/*
@@ -114,9 +114,9 @@ export default function QuickClock({
         which the report shows as the honest gap it is. Somebody who needs to
         say which floor has the full tracker to say it on.
       */}
-      <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5 text-center">
-        <p className="text-xs text-[#9CA3AF]">{t("whereLabel")}</p>
-        <p className="mt-1 text-lg font-semibold text-[#E5E7EB]">{siteName ?? t("noSite")}</p>
+      <div className="rounded-2xl border border-white/10 bg-surface p-5 text-center">
+        <p className="text-xs text-ink-muted">{t("whereLabel")}</p>
+        <p className="mt-1 text-lg font-semibold text-ink">{siteName ?? t("noSite")}</p>
 
         {changingSite ? (
           <select
@@ -126,7 +126,7 @@ export default function QuickClock({
               setSiteId(event.target.value);
               setChangingSite(false);
             }}
-            className="mt-3 min-h-12 w-full rounded-xl border border-white/15 bg-[#111827] px-3 text-base text-[#E5E7EB]"
+            className="mt-3 min-h-12 w-full rounded-xl border border-white/15 bg-surface-alt px-3 text-base text-ink"
           >
             <option value="">{t("noSite")}</option>
             {sites.map((site) => (
@@ -139,7 +139,7 @@ export default function QuickClock({
           <button
             type="button"
             onClick={() => setChangingSite(true)}
-            className="mt-2 min-h-11 text-sm font-semibold text-[#4ADE80] underline-offset-4 hover:underline"
+            className="mt-2 min-h-11 text-sm font-semibold text-brand-bright underline-offset-4 hover:underline"
           >
             {t("changeSite")}
           </button>
@@ -147,9 +147,9 @@ export default function QuickClock({
       </div>
 
       {running ? (
-        <p className="text-center font-mono text-5xl font-bold tabular-nums text-[#4ADE80]">{hours}</p>
+        <p className="text-center font-mono text-5xl font-bold tabular-nums text-brand-bright">{hours}</p>
       ) : todayMinutes > 0 ? (
-        <p className="text-center text-sm text-[#9CA3AF]">
+        <p className="text-center text-sm text-ink-muted">
           {t("todaySoFar", { hours: `${Math.floor(todayMinutes / 60)}h${String(todayMinutes % 60).padStart(2, "0")}` })}
         </p>
       ) : null}
@@ -165,19 +165,19 @@ export default function QuickClock({
         className={`min-h-20 w-full rounded-2xl text-xl font-bold transition disabled:opacity-60 ${
           running
             ? "border-2 border-red-400/40 bg-red-400/10 text-red-200"
-            : "bg-[#22C55E] text-[#07110B] hover:bg-[#16A34A]"
+            : "bg-brand text-on-brand hover:bg-brand-hover"
         }`}
       >
         {busy ? t("working") : running ? t("clockOut") : t("clockIn")}
       </button>
 
       {feedback ? (
-        <p role="status" className={`text-center text-sm ${feedback.ok ? "text-[#4ADE80]" : "text-amber-300"}`}>
+        <p role="status" className={`text-center text-sm ${feedback.ok ? "text-brand-bright" : "text-amber-300"}`}>
           {feedback.text}
         </p>
       ) : null}
 
-      <p className="text-center text-xs leading-5 text-[#6B7280]">{t("locationNotice")}</p>
+      <p className="text-center text-xs leading-5 text-ink-subtle">{t("locationNotice")}</p>
     </main>
   );
 }

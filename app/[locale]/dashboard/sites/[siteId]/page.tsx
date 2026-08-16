@@ -62,7 +62,7 @@ export default async function SiteDashboardPage({
 
   return (
     <section aria-labelledby="site-heading">
-      <Link href="/dashboard/sites" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">← {t("backToSites")}</Link>
+      <Link href="/dashboard/sites" className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand">← {t("backToSites")}</Link>
       <div className="mt-3">
         <PageHeader
           headingId="site-heading"
@@ -70,7 +70,7 @@ export default async function SiteDashboardPage({
           title={site.name}
           description={[site.address.street, site.address.postal_code, site.address.city].filter(Boolean).join(", ") || t("noAddress")}
           actions={
-            <Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]">{t("edit")}</Link>
+            <Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("edit")}</Link>
           }
         />
       </div>

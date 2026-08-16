@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import type { TrackerSite } from "@/src/features/time-tracking/data";
 
 const control =
-  "min-h-11 w-full rounded-xl border border-white/10 bg-[#111827] px-3 text-sm text-[#E5E7EB] outline-none transition focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 disabled:cursor-not-allowed disabled:opacity-60";
+  "min-h-11 w-full rounded-xl border border-white/10 bg-surface-alt px-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
  * Which part of the work location these hours belong to (#77).
@@ -44,8 +44,8 @@ export default function SubdivisionSelector({
 
   return (
     <div>
-      <label htmlFor={id} className="mb-2 block text-sm font-medium text-[#D1D5DB]">
-        {t("subdivisionLabel")} <span className="text-[#6B7280]">{t("optional")}</span>
+      <label htmlFor={id} className="mb-2 block text-sm font-medium text-ink-soft">
+        {t("subdivisionLabel")} <span className="text-ink-subtle">{t("optional")}</span>
       </label>
       <select
         id={id}

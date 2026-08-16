@@ -14,14 +14,14 @@ import { useTranslations } from "next-intl";
 export default function TimesheetToolbar({ feedback, onSubmit }: { feedback: string; onSubmit: () => void }) {
   const t = useTranslations("timesheets");
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-[#161A34] p-4 sm:flex-row sm:items-center sm:justify-between">
-      <p aria-live="polite" className="min-h-5 text-sm text-[#9CA3AF]">
+    <div className="flex flex-col gap-3 rounded-2xl border border-white/10 bg-surface p-4 sm:flex-row sm:items-center sm:justify-between">
+      <p aria-live="polite" className="min-h-5 text-sm text-ink-muted">
         {feedback || t("toolbarDefaultFeedback")}
       </p>
       <button
         type="button"
         onClick={onSubmit}
-        className="min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E]"
+        className="min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
       >
         {t("submit")}
       </button>

@@ -56,11 +56,11 @@ export function TeamMembersManager({
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-[#161A34] p-5">
+    <section className="rounded-2xl border border-white/10 bg-surface p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold">{t("membersTitle")}</h2>
-          <p className="mt-1 text-sm text-[#9CA3AF]">{t("membersSubtitle")}</p>
+          <p className="mt-1 text-sm text-ink-muted">{t("membersSubtitle")}</p>
         </div>
         {canManage ? (
           <Button variant="outline" onClick={() => setOpen(true)} disabled={!available.length}>
@@ -70,7 +70,7 @@ export function TeamMembersManager({
       </div>
 
       {messageKey ? (
-        <p aria-live="polite" className="mt-4 text-sm text-[#D1D5DB]">
+        <p aria-live="polite" className="mt-4 text-sm text-ink-soft">
           {t(`message_${messageKey}` as "message_failed")}
         </p>
       ) : null}
@@ -79,16 +79,16 @@ export function TeamMembersManager({
         <ul className="mt-5 divide-y divide-white/10">
           {members.map((member) => (
             <li key={member.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#22C55E]/10 font-semibold text-[#22C55E]">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/10 font-semibold text-brand">
                 {member.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("")}
               </span>
               <div className="min-w-0 flex-1">
                 <p className="font-medium">{member.name}</p>
-                <p className="text-sm text-[#9CA3AF]">
+                <p className="text-sm text-ink-muted">
                   {member.jobTitle} · {t(`teamRole_${member.role}` as "teamRole_member")}
                 </p>
               </div>
-              <time className="text-xs text-[#9CA3AF]">
+              <time className="text-xs text-ink-muted">
                 {t("joined")} {format.dateTime(new Date(member.joinedAt), { dateStyle: "medium" })}
               </time>
               {canManage ? (
@@ -100,7 +100,7 @@ export function TeamMembersManager({
           ))}
         </ul>
       ) : (
-        <p className="mt-5 rounded-xl border border-dashed border-white/15 p-6 text-center text-sm text-[#9CA3AF]">
+        <p className="mt-5 rounded-xl border border-dashed border-white/15 p-6 text-center text-sm text-ink-muted">
           {t("noMembers")}
         </p>
       )}

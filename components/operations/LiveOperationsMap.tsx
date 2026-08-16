@@ -57,7 +57,7 @@ export default function LiveOperationsMap({ sites }: { sites: LivePresenceSite[]
 
   return (
     <div className="grid gap-5">
-      <p className="text-sm text-[#9CA3AF]">{t("clockedInNow", { count: total })}</p>
+      <p className="text-sm text-ink-muted">{t("clockedInNow", { count: total })}</p>
 
       {placed.length ? (
         <MapContainer label={t("mapLabel")}>
@@ -75,14 +75,14 @@ export default function LiveOperationsMap({ sites }: { sites: LivePresenceSite[]
                   <span
                     role="img"
                     aria-label={t("peopleAtSite", { count: site.people.length, site: site.siteName ?? "" })}
-                    className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-mono text-sm font-bold text-[#07110B] shadow-lg transition-transform ${
-                      isSelected ? "scale-125 bg-[#4ADE80] ring-4 ring-[#4ADE80]/40" : "bg-[#22C55E]"
+                    className={`inline-flex h-11 w-11 items-center justify-center rounded-full font-mono text-sm font-bold text-on-brand shadow-lg transition-transform ${
+                      isSelected ? "scale-125 bg-brand-bright ring-4 ring-brand-bright/40" : "bg-brand"
                     }`}
                   >
                     {site.people.length}
                   </span>
                   <span
-                    className={`absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-[#0F172A] px-2 py-1 text-xs font-medium text-[#E5E7EB] shadow transition-opacity ${
+                    className={`absolute left-1/2 top-full mt-1 -translate-x-1/2 whitespace-nowrap rounded-md bg-surface-deep px-2 py-1 text-xs font-medium text-ink shadow transition-opacity ${
                       isSelected ? "opacity-100" : "pointer-events-none opacity-0"
                     }`}
                   >
@@ -99,13 +99,13 @@ export default function LiveOperationsMap({ sites }: { sites: LivePresenceSite[]
         {sites.map((site) => (
           <li
             key={site.siteId ?? "no-site"}
-            className={`rounded-xl border p-4 ${site.siteId ? "border-white/10 bg-[#161A34]" : "border-amber-400/25 bg-amber-400/[0.04]"}`}
+            className={`rounded-xl border p-4 ${site.siteId ? "border-white/10 bg-surface" : "border-amber-400/25 bg-amber-400/[0.04]"}`}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className={`font-semibold ${site.siteId ? "text-[#E5E7EB]" : "text-amber-200"}`}>
+              <p className={`font-semibold ${site.siteId ? "text-ink" : "text-amber-200"}`}>
                 {site.siteName ?? t("noSite")}
               </p>
-              <p className="text-xs text-[#9CA3AF]">
+              <p className="text-xs text-ink-muted">
                 {site.projectName ? `${site.projectName} · ` : ""}
                 {t("peopleCount", { count: site.people.length })}
               </p>
@@ -113,11 +113,11 @@ export default function LiveOperationsMap({ sites }: { sites: LivePresenceSite[]
             <ul className="mt-3 grid gap-2">
               {site.people.map((person) => (
                 <li key={person.userId} className="flex items-center justify-between gap-3 text-sm">
-                  <span className="flex items-center gap-2 text-[#E5E7EB]">
-                    <span className="inline-flex h-2 w-2 rounded-full bg-[#22C55E]" aria-hidden="true" />
+                  <span className="flex items-center gap-2 text-ink">
+                    <span className="inline-flex h-2 w-2 rounded-full bg-brand" aria-hidden="true" />
                     {person.name}
                   </span>
-                  <span className="text-xs text-[#9CA3AF]">{t("workingFor", { time: elapsed(person.minutesElapsed, t) })}</span>
+                  <span className="text-xs text-ink-muted">{t("workingFor", { time: elapsed(person.minutesElapsed, t) })}</span>
                 </li>
               ))}
             </ul>
@@ -125,7 +125,7 @@ export default function LiveOperationsMap({ sites }: { sites: LivePresenceSite[]
         ))}
       </ul>
 
-      <p className="flex items-start gap-2 text-xs text-[#6B7280]">
+      <p className="flex items-start gap-2 text-xs text-ink-subtle">
         <Icon name="location" />
         {/* Said plainly, because the previous version did track people. */}
         {t("sitePinsOnly")}

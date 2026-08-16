@@ -19,16 +19,16 @@ function ApprovalStatCards({ entries }: { entries: TimesheetEntry[] }) {
   const approved = entries.filter((entry) => entry.status === "approved").length;
   const rejected = entries.filter((entry) => entry.status === "rejected").length;
   const cards = [
-    { label: t("statAwaitingApproval"), value: submitted, color: "text-[#F59E0B]", border: "border-amber-400/30" },
-    { label: t("statApprovedThisWeek"), value: approved, color: "text-[#4ADE80]", border: "border-white/10" },
-    { label: t("statNeedsCorrection"), value: rejected, color: "text-[#F87171]", border: "border-[#F87171]/30" },
-    { label: t("statTotalEntries"), value: entries.length, color: "text-[#E5E7EB]", border: "border-white/10" },
+    { label: t("statAwaitingApproval"), value: submitted, color: "text-warning", border: "border-amber-400/30" },
+    { label: t("statApprovedThisWeek"), value: approved, color: "text-brand-bright", border: "border-white/10" },
+    { label: t("statNeedsCorrection"), value: rejected, color: "text-danger", border: "border-danger/30" },
+    { label: t("statTotalEntries"), value: entries.length, color: "text-ink", border: "border-white/10" },
   ];
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
       {cards.map((card) => (
-        <div key={card.label} className={`rounded-2xl border ${card.border} bg-[#161A34] p-4.5`}>
-          <p className="text-xs text-[#9CA3AF]">{card.label}</p>
+        <div key={card.label} className={`rounded-2xl border ${card.border} bg-surface p-4.5`}>
+          <p className="text-xs text-ink-muted">{card.label}</p>
           <p className={`mt-2 font-mono text-2xl font-bold ${card.color}`}>{card.value}</p>
         </div>
       ))}

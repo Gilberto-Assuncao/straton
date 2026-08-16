@@ -6,11 +6,11 @@ import { deleteAvailabilityAction } from "@/src/features/availability/actions";
 import type { AvailabilityRecord } from "@/src/features/availability/types";
 
 const reasonTone: Record<string, string> = {
-  holiday: "bg-[#22C55E]/10 text-[#4ADE80]",
+  holiday: "bg-brand/10 text-brand-bright",
   sick: "bg-red-400/10 text-red-300",
   training: "bg-sky-400/10 text-sky-300",
-  personal: "bg-white/10 text-[#9CA3AF]",
-  other: "bg-white/10 text-[#9CA3AF]",
+  personal: "bg-white/10 text-ink-muted",
+  other: "bg-white/10 text-ink-muted",
 };
 
 function day(iso: string): string {
@@ -33,19 +33,19 @@ export default function AvailabilityList({ records }: { records: AvailabilityRec
 
   if (visible.length === 0) {
     return (
-      <p className="rounded-xl border border-dashed border-white/15 px-4 py-10 text-center text-sm text-[#6B7280]">
+      <p className="rounded-xl border border-dashed border-white/15 px-4 py-10 text-center text-sm text-ink-subtle">
         {t("empty")}
       </p>
     );
   }
 
   return (
-    <ul className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-[#161A34]">
+    <ul className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-surface">
       {visible.map((record) => (
         <li key={record.id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
           <div className="min-w-0">
-            <p className="text-sm font-medium text-[#E5E7EB]">{record.personName}</p>
-            <p className="mt-1 text-xs text-[#6B7280]">
+            <p className="text-sm font-medium text-ink">{record.personName}</p>
+            <p className="mt-1 text-xs text-ink-subtle">
               {day(record.startsAt)} → {day(record.endsAt)}
               {/* Null for colleagues by design — the range is what scheduling
                   needs; why someone is away is not everyone's business. */}
@@ -67,7 +67,7 @@ export default function AvailabilityList({ records }: { records: AvailabilityRec
                 type="button"
                 onClick={() => remove(record.id)}
                 disabled={pending}
-                className="min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+                className="min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
               >
                 {t("remove")}
               </button>
