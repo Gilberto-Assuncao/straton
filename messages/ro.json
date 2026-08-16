@@ -756,6 +756,21 @@
     "audienceCompanyCount": "{count} ascultă",
     "tab_notifications": "Notificări"
   },
+  "weather": {
+    "errNoCoordinates": "Încă nu există coordonate pentru acest șantier.",
+    "errForecastUnavailable": "Prognoză temporar indisponibilă.",
+    "emptyTitle": "Încă nu există șantiere",
+    "emptyDescription": "Șantierele cu coordonate vor afișa aici prognoza pe 7 zile și riscul de întârziere.",
+    "levelNone": "Senin",
+    "levelWatch": "De urmărit",
+    "levelDelayRisk": "Risc de întârziere",
+    "rainAndWind": "Ploaie {rain}% · Vânt {wind} km/h",
+    "reasonStrongWind": "Vântul puternic poate împiedica lucrul în exterior",
+    "reasonHeavyRain": "Probabilitate mare de ploaie abundentă",
+    "reasonModerateWind": "Se așteaptă vânt moderat",
+    "reasonRainLikely": "Ploaie probabilă pentru o parte a zilei",
+    "reasonNoRisk": "Nu se preconizează riscuri meteo"
+  },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",
     "eyebrow": "Operațiuni",

@@ -1,17 +1,24 @@
+import { getFormatter, getTranslations } from "next-intl/server";
 import { Badge, EmptyState } from "@/src/components/data-display";
 import type { SiteWeather } from "@/src/features/weather/data";
-
-function formatDay(date: string): string {
-  return new Intl.DateTimeFormat("en", { weekday: "short", month: "short", day: "numeric" }).format(new Date(`${date}T00:00:00`));
-}
+import type { AlertLevel } from "@/src/features/weather/alerts";
 
 const alertTone = { none: "neutral", watch: "warning", "delay-risk": "danger" } as const;
-const alertLabel = { none: "Clear", watch: "Watch", "delay-risk": "Delay risk" } as const;
+// The level is a stable identifier; the label is what a person reads. Mapping
+// through here keeps `delay-risk` out of the message files (#14).
+const alertLabelKey = { none: "levelNone", watch: "levelWatch", "delay-risk": "levelDelayRisk" } as const satisfies Record<AlertLevel, string>;
 
-export default function SiteWeatherOverview({ sites }: { sites: SiteWeather[] }) {
+export default async function SiteWeatherOverview({ sites }: { sites: SiteWeather[] }) {
+  const [t, format] = await Promise.all([getTranslations("weather"), getFormatter()]);
+
   if (!sites.length) {
-    return <EmptyState title="No sites yet" description="Sites with coordinates will show a 7-day forecast and delay risk here." />;
+    return <EmptyState title={t("emptyTitle")} description={t("emptyDescription")} />;
   }
+
+  // Was `Intl.DateTimeFormat("en", …)`, which printed "Mon, Jul 22" to every
+  // reader regardless of language. `getFormatter` carries the request locale.
+  const formatDay = (date: string) =>
+    format.dateTime(new Date(`${date}T00:00:00`), { weekday: "short", month: "short", day: "numeric" });
 
   return <div className="grid gap-5">
     {sites.map((site) => <section key={site.id} aria-labelledby={`site-${site.id}-title`} className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6">
@@ -20,15 +27,15 @@ export default function SiteWeatherOverview({ sites }: { sites: SiteWeather[] })
         {site.city ? <span className="text-sm text-[#9CA3AF]">{site.city}</span> : null}
       </div>
 
-      {site.error ? <p className="mt-4 text-sm text-[#9CA3AF]">{site.error}</p> : null}
+      {site.error ? <p className="mt-4 text-sm text-[#9CA3AF]">{t(site.error)}</p> : null}
 
       {site.forecast ? <div className="mt-4 overflow-x-auto"><div className="flex min-w-max gap-3">
         {site.forecast.map((day) => <div key={day.date} className="flex w-32 flex-col gap-2 rounded-xl bg-white/5 p-3">
           <span className="text-xs font-semibold uppercase tracking-wide text-[#9CA3AF]">{formatDay(day.date)}</span>
           <span className="text-lg font-bold text-[#E5E7EB]">{Math.round(day.temperatureMaxC)}° <span className="text-sm font-normal text-[#9CA3AF]">/ {Math.round(day.temperatureMinC)}°</span></span>
-          <span className="text-xs text-[#9CA3AF]">Rain {Math.round(day.precipitationProbability)}% · Wind {Math.round(day.windSpeedMaxKmh)} km/h</span>
-          <Badge tone={alertTone[day.alert.level]}>{alertLabel[day.alert.level]}</Badge>
-          {day.alert.level !== "none" ? <span className="text-xs text-[#9CA3AF]">{day.alert.reason}</span> : null}
+          <span className="text-xs text-[#9CA3AF]">{t("rainAndWind", { rain: Math.round(day.precipitationProbability), wind: Math.round(day.windSpeedMaxKmh) })}</span>
+          <Badge tone={alertTone[day.alert.level]}>{t(alertLabelKey[day.alert.level])}</Badge>
+          {day.alert.level !== "none" ? <span className="text-xs text-[#9CA3AF]">{t(day.alert.reasonKey)}</span> : null}
         </div>)}
       </div></div> : null}
     </section>)}
