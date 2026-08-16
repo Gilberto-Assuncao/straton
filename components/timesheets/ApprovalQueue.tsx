@@ -49,9 +49,9 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
 
   if (!pending.length) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5">
-        <h3 className="text-sm font-semibold text-[#E5E7EB]">{t("queueTitle")}</h3>
-        <p className="mt-2 text-sm text-[#6B7280]">{t("queueEmpty")}</p>
+      <div className="rounded-2xl border border-white/10 bg-surface p-5">
+        <h3 className="text-sm font-semibold text-ink">{t("queueTitle")}</h3>
+        <p className="mt-2 text-sm text-ink-subtle">{t("queueEmpty")}</p>
       </div>
     );
   }
@@ -60,13 +60,13 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
   const hours = `${Math.floor(totalMinutes / 60)}h${totalMinutes % 60 ? String(totalMinutes % 60).padStart(2, "0") : ""}`;
 
   return (
-    <section aria-labelledby="approval-queue-heading" className="rounded-2xl border border-amber-400/25 bg-[#161A34] p-5">
+    <section aria-labelledby="approval-queue-heading" className="rounded-2xl border border-amber-400/25 bg-surface p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h3 id="approval-queue-heading" className="text-sm font-semibold text-[#E5E7EB]">
+        <h3 id="approval-queue-heading" className="text-sm font-semibold text-ink">
           {t("queueTitle")}
         </h3>
         {/* The number that explains a short report: hours worked, not yet counted. */}
-        <p className="text-xs text-[#9CA3AF]">{t("queueWaiting", { count: pending.length, hours })}</p>
+        <p className="text-xs text-ink-muted">{t("queueWaiting", { count: pending.length, hours })}</p>
       </div>
 
       {canReview ? (
@@ -75,7 +75,7 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
             type="button"
             onClick={toggleAll}
             disabled={!selectable.length}
-            className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-40"
+            className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-40"
           >
             {allSelected ? t("queueSelectNone") : t("queueSelectAll")}
           </button>
@@ -83,7 +83,7 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
             type="button"
             onClick={() => review("approved")}
             disabled={busy || !selected.size}
-            className="min-h-11 rounded-lg bg-[#22C55E] px-4 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] disabled:opacity-40"
+            className="min-h-11 rounded-lg bg-brand px-4 text-sm font-semibold text-on-brand hover:bg-brand-hover disabled:opacity-40"
           >
             {t("queueApproveSelected", { count: selected.size })}
           </button>
@@ -97,7 +97,7 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
           </button>
         </div>
       ) : (
-        <p className="mt-3 text-xs text-[#9CA3AF]">{t("queueReadOnly")}</p>
+        <p className="mt-3 text-xs text-ink-muted">{t("queueReadOnly")}</p>
       )}
 
       <ul className="mt-4 grid gap-2">
@@ -109,16 +109,16 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
               <label className="flex flex-wrap items-center gap-3">
                 <input
                   type="checkbox"
-                  className="size-4 accent-[#22C55E]"
+                  className="size-4 accent-brand"
                   checked={selected.has(sheet.timesheetId)}
                   onChange={() => toggle(sheet.timesheetId)}
                   disabled={!canReview || sheet.isMine || busy}
                 />
-                <span className="min-w-40 text-sm font-medium text-[#E5E7EB]">{sheet.employee}</span>
-                <span className="text-xs text-[#9CA3AF]">{sheet.label}</span>
+                <span className="min-w-40 text-sm font-medium text-ink">{sheet.employee}</span>
+                <span className="text-xs text-ink-muted">{sheet.label}</span>
                 <span className="font-mono text-sm text-amber-300">{sheetHours}</span>
-                <span className="text-xs text-[#6B7280]">{t("queueEntries", { count: sheet.entryCount })}</span>
-                {sheet.isMine ? <span className="text-xs text-[#6B7280]">{t("queueYourOwn")}</span> : null}
+                <span className="text-xs text-ink-subtle">{t("queueEntries", { count: sheet.entryCount })}</span>
+                {sheet.isMine ? <span className="text-xs text-ink-subtle">{t("queueYourOwn")}</span> : null}
               </label>
               {failure ? (
                 <p role="alert" className="mt-2 text-xs text-red-300">

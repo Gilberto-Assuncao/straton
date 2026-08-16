@@ -20,7 +20,7 @@ export default function RetentionCheckLink({
 
   if (!url) {
     return (
-      <p className="text-xs leading-5 text-[#6B7280]">{t("needsEnterpriseNumber")}</p>
+      <p className="text-xs leading-5 text-ink-subtle">{t("needsEnterpriseNumber")}</p>
     );
   }
 
@@ -35,7 +35,7 @@ export default function RetentionCheckLink({
         {t("checkAction")}
         <span aria-hidden="true">↗</span>
       </a>
-      <p className="text-xs leading-5 text-[#9CA3AF]">{t("checkHelp")}</p>
+      <p className="text-xs leading-5 text-ink-muted">{t("checkHelp")}</p>
     </div>
   );
 }

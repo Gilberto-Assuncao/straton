@@ -23,7 +23,7 @@ export function CompanyOverview({ company }: { company: CompanyDetail }) {
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex min-w-0 items-center gap-4">
           <div
-            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-[#22C55E]/10 font-bold text-[#22C55E]"
+            className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-brand/10 font-bold text-brand"
             aria-hidden="true"
           >
             {initials}
@@ -31,9 +31,9 @@ export function CompanyOverview({ company }: { company: CompanyDetail }) {
           <div className="min-w-0">
             {/* Was "Company Management · Sprint 3.8" — an internal sprint number
                 on a customer's screen. */}
-            <p className="text-sm text-[#22C55E]">{t("overviewEyebrow")}</p>
+            <p className="text-sm text-brand">{t("overviewEyebrow")}</p>
             <h1 className="truncate text-2xl font-bold sm:text-3xl">{company.displayName}</h1>
-            <p className="mt-1 text-sm text-[#9CA3AF]">{company.legalName}</p>
+            <p className="mt-1 text-sm text-ink-muted">{company.legalName}</p>
           </div>
         </div>
         <CompanyStatusBadge status={company.status} />
@@ -55,19 +55,19 @@ export function CompanyOverview({ company }: { company: CompanyDetail }) {
           <DashboardCard title={t("companyInformation")}>
             <dl className="grid gap-3 text-sm">
               <div>
-                <dt className="text-[#9CA3AF]">{t("country")}</dt>
+                <dt className="text-ink-muted">{t("country")}</dt>
                 <dd>{company.countryCode ?? "—"}</dd>
               </div>
               <div>
-                <dt className="text-[#9CA3AF]">{t("timezone")}</dt>
+                <dt className="text-ink-muted">{t("timezone")}</dt>
                 <dd>{company.timezone}</dd>
               </div>
               <div>
-                <dt className="text-[#9CA3AF]">{t("currency")}</dt>
+                <dt className="text-ink-muted">{t("currency")}</dt>
                 <dd>{company.currencyCode}</dd>
               </div>
               <div>
-                <dt className="text-[#9CA3AF]">{t("created")}</dt>
+                <dt className="text-ink-muted">{t("created")}</dt>
                 <dd>{format.dateTime(new Date(company.createdAt), { dateStyle: "medium" })}</dd>
               </div>
             </dl>
@@ -90,7 +90,7 @@ export function CompanyOverview({ company }: { company: CompanyDetail }) {
             </ul>
             {/* Points at /dashboard/employees now: Workforce left the sidebar in
                 #36 and People is where you manage anyone. */}
-            <Link href="/dashboard/employees" className="mt-4 inline-flex min-h-11 items-center font-semibold text-[#22C55E]">
+            <Link href="/dashboard/employees" className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand">
               {t("openWorkforce")}
             </Link>
           </DashboardCard>
@@ -110,7 +110,7 @@ export function CompanyOverview({ company }: { company: CompanyDetail }) {
                 <strong>{company.teamCounts.members}</strong>
               </li>
             </ul>
-            <Link href="/dashboard/teams" className="mt-4 inline-flex min-h-11 items-center font-semibold text-[#22C55E]">
+            <Link href="/dashboard/teams" className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand">
               {t("openTeams")}
             </Link>
           </DashboardCard>

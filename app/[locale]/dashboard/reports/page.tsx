@@ -48,8 +48,8 @@ export default async function ReportsPage({
       </div>
 
       <div className="mt-10">
-        <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("divergenceTitle")}</h2>
-        <p className="mt-1 text-sm text-[#9CA3AF]">{t("divergenceSubtitle")}</p>
+        <h2 className="text-lg font-semibold text-ink">{t("divergenceTitle")}</h2>
+        <p className="mt-1 text-sm text-ink-muted">{t("divergenceSubtitle")}</p>
         <div className="mt-5">
           <HoursDivergenceReport teams={divergence.teams} divergence={divergence.divergence} siteHours={divergence.siteHours} />
         </div>

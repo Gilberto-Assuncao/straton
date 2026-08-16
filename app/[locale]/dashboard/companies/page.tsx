@@ -23,15 +23,15 @@ export default async function CompaniesPage() {
     <div className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold text-[#22C55E]">{t("eyebrow")}</p>
+          <p className="text-sm font-semibold text-brand">{t("eyebrow")}</p>
           <h1 className="mt-1 text-2xl font-bold sm:text-3xl">{t("title")}</h1>
-          <p className="mt-2 text-sm text-[#9CA3AF]">{t("description")}</p>
+          <p className="mt-2 text-sm text-ink-muted">{t("description")}</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link href="/dashboard/companies/network" className={`${button} border border-white/15 text-[#E5E7EB] hover:bg-white/5`}>
+          <Link href="/dashboard/companies/network" className={`${button} border border-white/15 text-ink hover:bg-white/5`}>
             {t("network")}
           </Link>
-          <Link href="/dashboard/companies/new" className={`${button} bg-[#22C55E] text-[#07110B]`}>
+          <Link href="/dashboard/companies/new" className={`${button} bg-brand text-on-brand`}>
             {t("createCompany")}
           </Link>
         </div>

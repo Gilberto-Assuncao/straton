@@ -7,11 +7,11 @@ import type { AgendaDay, AssignmentRecord, AssignmentStatus } from "@/src/featur
 import RescheduleForm from "./RescheduleForm";
 
 const statusTone: Record<AssignmentStatus, string> = {
-  planned: "bg-white/10 text-[#9CA3AF]",
+  planned: "bg-white/10 text-ink-muted",
   sent: "bg-amber-400/10 text-amber-300",
   accepted: "bg-sky-400/10 text-sky-300",
-  in_progress: "bg-[#22C55E]/10 text-[#4ADE80]",
-  done: "bg-[#22C55E]/20 text-[#4ADE80]",
+  in_progress: "bg-brand/10 text-brand-bright",
+  done: "bg-brand/20 text-brand-bright",
   cancelled: "bg-red-400/10 text-red-300",
 };
 
@@ -64,10 +64,10 @@ export default function AgendaWeek({
             key={day.date}
             aria-label={day.date}
             className={`rounded-2xl border p-4 ${
-              day.date === today ? "border-[#22C55E]/40 bg-[#161A34]" : "border-white/10 bg-[#161A34]/60"
+              day.date === today ? "border-brand/40 bg-surface" : "border-white/10 bg-surface/60"
             }`}
           >
-            <h3 className="text-xs font-semibold uppercase tracking-wide text-[#6B7280]">
+            <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">
               {new Date(`${day.date}T00:00:00`).toLocaleDateString(undefined, { weekday: "short", day: "numeric" })}
             </h3>
 
@@ -76,16 +76,16 @@ export default function AgendaWeek({
             ) : (
               <ul className="mt-4 grid gap-3">
                 {day.assignments.map((assignment) => (
-                  <li key={assignment.id} className="rounded-xl bg-[#111C33] p-3">
-                    <p className="text-sm font-medium text-[#E5E7EB]">{assignment.title}</p>
-                    <p className="mt-1 font-mono text-xs text-[#6B7280]">
+                  <li key={assignment.id} className="rounded-xl bg-surface-inset p-3">
+                    <p className="text-sm font-medium text-ink">{assignment.title}</p>
+                    <p className="mt-1 font-mono text-xs text-ink-subtle">
                       {time(assignment.startsAt)}–{time(assignment.endsAt)}
                     </p>
                     {assignment.siteName ? (
-                      <p className="mt-1 truncate text-xs text-[#9CA3AF]">{assignment.siteName}</p>
+                      <p className="mt-1 truncate text-xs text-ink-muted">{assignment.siteName}</p>
                     ) : null}
 
-                    <p className="mt-2 text-xs text-[#9CA3AF]">
+                    <p className="mt-2 text-xs text-ink-muted">
                       {/* The team name instead of five, without losing the five:
                           the people are stored either way. */}
                       {assignment.teamName
@@ -105,7 +105,7 @@ export default function AgendaWeek({
                           type="button"
                           onClick={() => move(assignment.id, next)}
                           disabled={pending}
-                          className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+                          className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
                         >
                           {t(`action_${next}` as "action_accepted")}
                         </button>
@@ -116,7 +116,7 @@ export default function AgendaWeek({
                             type="button"
                             onClick={() => setEditing(editing === assignment.id ? null : assignment.id)}
                             disabled={pending}
-                            className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+                            className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
                           >
                             {t("reschedule")}
                           </button>
@@ -124,7 +124,7 @@ export default function AgendaWeek({
                             type="button"
                             onClick={() => remove(assignment.id)}
                             disabled={pending}
-                            className="min-h-11 rounded-lg px-2 text-xs font-semibold text-[#6B7280] hover:text-red-300 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+                            className="min-h-11 rounded-lg px-2 text-xs font-semibold text-ink-subtle hover:text-red-300 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
                           >
                             {t("remove")}
                           </button>

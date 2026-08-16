@@ -23,7 +23,7 @@ export default async function AgendaPage({ searchParams }: { searchParams: Promi
   const options = agenda.isManager ? await getAssignmentOptions() : null;
 
   const navLink =
-    "flex min-h-11 items-center rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]";
+    "flex min-h-11 items-center rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand";
 
   return (
     <section aria-labelledby="agenda-heading">

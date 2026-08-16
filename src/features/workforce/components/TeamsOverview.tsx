@@ -11,10 +11,10 @@ export function TeamsOverview({ teams }: { teams: WorkforceTeamView[] }) {
   return (
     <section aria-labelledby="teams-heading">
       <div className="mb-4">
-        <h2 id="teams-heading" className="text-xl font-semibold text-[#E5E7EB]">
+        <h2 id="teams-heading" className="text-xl font-semibold text-ink">
           {t("teamsHeading")}
         </h2>
-        <p className="mt-1 text-sm text-[#9CA3AF]">{t("teamsSubtitle")}</p>
+        <p className="mt-1 text-sm text-ink-muted">{t("teamsSubtitle")}</p>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {teams.map((team) => (
@@ -26,11 +26,11 @@ export function TeamsOverview({ teams }: { teams: WorkforceTeamView[] }) {
             metadata={
               <dl className="grid gap-2">
                 <div>
-                  <dt className="text-xs text-[#9CA3AF]">{t("teamLeader")}</dt>
+                  <dt className="text-xs text-ink-muted">{t("teamLeader")}</dt>
                   <dd>{team.leader}</dd>
                 </div>
                 <div>
-                  <dt className="text-xs text-[#9CA3AF]">{t("teamMembers")}</dt>
+                  <dt className="text-xs text-ink-muted">{t("teamMembers")}</dt>
                   <dd>{team.memberCount}</dd>
                 </div>
               </dl>

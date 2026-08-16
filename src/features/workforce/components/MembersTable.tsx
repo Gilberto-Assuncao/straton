@@ -42,8 +42,8 @@ export function MembersTable({ members, teams }: { members: WorkforceMemberView[
         <div className="flex items-center gap-3">
           <Avatar name={member.name} />
           <div>
-            <p className="font-semibold text-[#E5E7EB]">{member.name}</p>
-            <p className="text-xs text-[#9CA3AF]">{member.email}</p>
+            <p className="font-semibold text-ink">{member.name}</p>
+            <p className="text-xs text-ink-muted">{member.email}</p>
           </div>
         </div>
       ),
@@ -82,7 +82,7 @@ export function MembersTable({ members, teams }: { members: WorkforceMemberView[
       cell: (member) => (
         <Link
           href={`/dashboard/employees/${member.id}`}
-          className="flex min-h-11 items-center font-semibold text-[#22C55E] hover:text-[#4ADE80] focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+          className="flex min-h-11 items-center font-semibold text-brand hover:text-brand-bright focus-visible:outline-2 focus-visible:outline-brand"
           aria-label={t("openProfileFor", { name: member.name })}
         >
           {t("openProfile")}
@@ -116,10 +116,10 @@ export function MembersTable({ members, teams }: { members: WorkforceMemberView[
   return (
     <section aria-labelledby="members-heading">
       <div className="mb-4">
-        <h2 id="members-heading" className="text-xl font-semibold text-[#E5E7EB]">
+        <h2 id="members-heading" className="text-xl font-semibold text-ink">
           {t("membersHeading")}
         </h2>
-        <p className="mt-1 text-sm text-[#9CA3AF]" aria-live="polite">
+        <p className="mt-1 text-sm text-ink-muted" aria-live="polite">
           {t("membersShowing", { shown: filtered.length, total: members.length })}
         </p>
       </div>

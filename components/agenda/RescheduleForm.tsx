@@ -6,7 +6,7 @@ import { rescheduleAssignmentAction, type ConflictWarning } from "@/src/features
 import type { AssignmentRecord } from "@/src/features/assignments/types";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-[#0B1220] px-2 text-xs text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]";
+  "min-h-11 w-full rounded-lg border border-white/15 bg-canvas px-2 text-xs text-ink focus-visible:outline-2 focus-visible:outline-brand";
 
 /**
  * Moving a job, from the card it is on (#49).
@@ -51,20 +51,20 @@ export default function RescheduleForm({
   }
 
   return (
-    <form action={submit} className="mt-3 grid gap-2 rounded-lg border border-white/10 bg-[#0B1220] p-3">
+    <form action={submit} className="mt-3 grid gap-2 rounded-lg border border-white/10 bg-canvas p-3">
       <input type="hidden" name="assignmentId" value={assignment.id} />
-      <p className="text-xs font-semibold text-[#E5E7EB]">{t("rescheduleTitle")}</p>
+      <p className="text-xs font-semibold text-ink">{t("rescheduleTitle")}</p>
 
       <label className="grid gap-1">
-        <span className="text-[10px] uppercase tracking-wide text-[#6B7280]">{t("startsAtLabel")}</span>
+        <span className="text-[10px] uppercase tracking-wide text-ink-subtle">{t("startsAtLabel")}</span>
         <input type="datetime-local" name="startsAt" defaultValue={toLocalInput(assignment.startsAt)} required className={field} />
       </label>
       <label className="grid gap-1">
-        <span className="text-[10px] uppercase tracking-wide text-[#6B7280]">{t("endsAtLabel")}</span>
+        <span className="text-[10px] uppercase tracking-wide text-ink-subtle">{t("endsAtLabel")}</span>
         <input type="datetime-local" name="endsAt" defaultValue={toLocalInput(assignment.endsAt)} required className={field} />
       </label>
       <label className="grid gap-1">
-        <span className="text-[10px] uppercase tracking-wide text-[#6B7280]">{t("siteLabel")}</span>
+        <span className="text-[10px] uppercase tracking-wide text-ink-subtle">{t("siteLabel")}</span>
         <select name="siteId" defaultValue={assignment.siteId ?? ""} className={field}>
           <option value="">{t("noSite")}</option>
           {sites.map((site) => (
@@ -76,7 +76,7 @@ export default function RescheduleForm({
       </label>
 
       {message ? (
-        <p role="status" className={`text-xs ${message.ok ? "text-[#4ADE80]" : "text-red-300"}`}>
+        <p role="status" className={`text-xs ${message.ok ? "text-brand-bright" : "text-red-300"}`}>
           {t(`message_${message.key}` as "message_failed")}
         </p>
       ) : null}
@@ -101,14 +101,14 @@ export default function RescheduleForm({
         <button
           type="submit"
           disabled={pending}
-          className="min-h-11 rounded-lg bg-[#22C55E] px-3 text-xs font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+          className="min-h-11 rounded-lg bg-brand px-3 text-xs font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
         >
           {pending ? t("saving") : t("rescheduleSave")}
         </button>
         <button
           type="button"
           onClick={onDone}
-          className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-[#E5E7EB] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+          className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
         >
           {t("rescheduleCancel")}
         </button>

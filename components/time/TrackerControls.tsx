@@ -17,9 +17,9 @@ import { useTranslations } from "next-intl";
 type Props = { running: boolean; busy: boolean; onStart: () => void; onStop: () => void };
 
 const primary =
-  "min-h-11 flex-1 rounded-xl bg-[#22C55E] px-5 text-sm font-semibold text-[#07110B] transition hover:bg-[#16A34A] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E] disabled:opacity-50";
+  "min-h-11 flex-1 rounded-xl bg-brand px-5 text-sm font-semibold text-on-brand transition hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-50";
 const secondary =
-  "min-h-11 flex-1 rounded-xl border border-white/15 bg-white/5 px-5 text-sm font-semibold text-[#E5E7EB] transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E] disabled:opacity-50";
+  "min-h-11 flex-1 rounded-xl border border-white/15 bg-white/5 px-5 text-sm font-semibold text-ink transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-50";
 
 export default function TrackerControls({ running, busy, onStart, onStop }: Props) {
   const t = useTranslations("time");

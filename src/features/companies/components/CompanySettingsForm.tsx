@@ -85,8 +85,8 @@ export function CompanySettingsForm({
 
       <fieldset disabled={!canEdit} className="grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-2 disabled:opacity-75">
         <div className="sm:col-span-2">
-          <h3 className="text-sm font-semibold text-[#E5E7EB]">{t("punctualityReminders")}</h3>
-          <p className="mt-1 text-xs text-[#9CA3AF]">{t("punctualityHint")}</p>
+          <h3 className="text-sm font-semibold text-ink">{t("punctualityReminders")}</h3>
+          <p className="mt-1 text-xs text-ink-muted">{t("punctualityHint")}</p>
         </div>
         <Input name="expectedStartTime" type="time" label={t("fieldExpectedStart")} defaultValue={values.expectedStartTime} error={error("expectedStartTime")} />
         <Input name="expectedEndTime" type="time" label={t("fieldExpectedEnd")} defaultValue={values.expectedEndTime} error={error("expectedEndTime")} />
@@ -103,7 +103,7 @@ export function CompanySettingsForm({
           <CompanySubmitButton label={t("saveSettings")} pendingLabel={t("savingSettings")} />
         </div>
       ) : (
-        <p className="text-sm text-[#9CA3AF]">{t("readOnlySettings")}</p>
+        <p className="text-sm text-ink-muted">{t("readOnlySettings")}</p>
       )}
     </form>
   );

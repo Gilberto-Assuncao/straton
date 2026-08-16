@@ -90,7 +90,7 @@ export function TeamForm({
           <Button type="submit">{teamId ? t("saveTeam") : t("createTeam")}</Button>
         </div>
       ) : (
-        <p className="text-sm text-[#9CA3AF]">{t("readOnly")}</p>
+        <p className="text-sm text-ink-muted">{t("readOnly")}</p>
       )}
     </form>
   );

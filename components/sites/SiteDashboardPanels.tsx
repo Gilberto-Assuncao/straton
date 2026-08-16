@@ -4,8 +4,8 @@ import { share } from "@/src/features/sites/planning";
 import type { SiteRecord } from "@/src/features/sites/types";
 import type { SiteWeather } from "@/src/features/weather/data";
 
-const card = "rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6";
-const empty = "rounded-xl border border-dashed border-white/15 px-4 py-10 text-center text-sm text-[#6B7280]";
+const card = "rounded-2xl border border-white/10 bg-surface p-5 sm:p-6";
+const empty = "rounded-xl border border-dashed border-white/15 px-4 py-10 text-center text-sm text-ink-subtle";
 
 function hours(minutes: number): string {
   const h = Math.floor(minutes / 60);
@@ -18,10 +18,10 @@ function time(iso: string): string {
 }
 
 const statusTone: Record<string, string> = {
-  draft: "bg-white/10 text-[#9CA3AF]",
+  draft: "bg-white/10 text-ink-muted",
   submitted: "bg-amber-400/10 text-amber-300",
   under_review: "bg-amber-400/10 text-amber-300",
-  approved: "bg-[#22C55E]/10 text-[#4ADE80]",
+  approved: "bg-brand/10 text-brand-bright",
   rejected: "bg-red-400/10 text-red-300",
   changes_requested: "bg-red-400/10 text-red-300",
 };
@@ -64,30 +64,30 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => (
           <div key={stat.label} className={card}>
-            <p className="text-xs text-[#9CA3AF]">{stat.label}</p>
-            <p className={`mt-3 font-mono text-[28px] font-bold ${stat.warn ? "text-[#F59E0B]" : "text-[#E5E7EB]"}`}>{stat.value}</p>
+            <p className="text-xs text-ink-muted">{stat.label}</p>
+            <p className={`mt-3 font-mono text-[28px] font-bold ${stat.warn ? "text-warning" : "text-ink"}`}>{stat.value}</p>
           </div>
         ))}
       </div>
 
       <div className={card}>
-        <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("detailsTitle")}</h2>
+        <h2 className="text-lg font-semibold text-ink">{t("detailsTitle")}</h2>
         <dl className="mt-5 grid gap-4 sm:grid-cols-2">
-          <div><dt className="text-xs text-[#6B7280]">{t("nameLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.name}</dd></div>
-          <div><dt className="text-xs text-[#6B7280]">{t("priorityLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{t(`priority_${site.priority}` as "priority_medium")}</dd></div>
-          <div className="sm:col-span-2"><dt className="text-xs text-[#6B7280]">{t("streetLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{address || t("noAddress")}</dd></div>
-          {site.reference ? <div><dt className="text-xs text-[#6B7280]">{t("referenceLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.reference}</dd></div> : null}
-          {site.poNumber ? <div><dt className="text-xs text-[#6B7280]">{t("poLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.poNumber}</dd></div> : null}
-          {site.startsAt ? <div><dt className="text-xs text-[#6B7280]">{t("startsAtLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.startsAt}</dd></div> : null}
-          {site.endsAt ? <div><dt className="text-xs text-[#6B7280]">{t("endsAtLabel")}</dt><dd className="mt-1 text-sm text-[#D1D5DB]">{site.endsAt}</dd></div> : null}
+          <div><dt className="text-xs text-ink-subtle">{t("nameLabel")}</dt><dd className="mt-1 text-sm text-ink-soft">{site.name}</dd></div>
+          <div><dt className="text-xs text-ink-subtle">{t("priorityLabel")}</dt><dd className="mt-1 text-sm text-ink-soft">{t(`priority_${site.priority}` as "priority_medium")}</dd></div>
+          <div className="sm:col-span-2"><dt className="text-xs text-ink-subtle">{t("streetLabel")}</dt><dd className="mt-1 text-sm text-ink-soft">{address || t("noAddress")}</dd></div>
+          {site.reference ? <div><dt className="text-xs text-ink-subtle">{t("referenceLabel")}</dt><dd className="mt-1 text-sm text-ink-soft">{site.reference}</dd></div> : null}
+          {site.poNumber ? <div><dt className="text-xs text-ink-subtle">{t("poLabel")}</dt><dd className="mt-1 text-sm text-ink-soft">{site.poNumber}</dd></div> : null}
+          {site.startsAt ? <div><dt className="text-xs text-ink-subtle">{t("startsAtLabel")}</dt><dd className="mt-1 text-sm text-ink-soft">{site.startsAt}</dd></div> : null}
+          {site.endsAt ? <div><dt className="text-xs text-ink-subtle">{t("endsAtLabel")}</dt><dd className="mt-1 text-sm text-ink-soft">{site.endsAt}</dd></div> : null}
           <div>
             {/* A confirmed/missing state, not the numbers. The pair told a site
                 manager nothing they could act on; whether the weather and the
                 map will work is the thing they can. */}
-            <dt className="text-xs text-[#6B7280]">{t("locationTitle")}</dt>
+            <dt className="text-xs text-ink-subtle">{t("locationTitle")}</dt>
             <dd className="mt-1 text-sm">
               {site.latitude != null && site.longitude != null ? (
-                <span className="text-[#4ADE80]">{t("locationConfirmed")}</span>
+                <span className="text-brand-bright">{t("locationConfirmed")}</span>
               ) : (
                 <span className="text-amber-300">{t("locationMissing")}</span>
               )}
@@ -104,38 +104,38 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
       */}
       {hasPlanning ? (
         <div className={card}>
-          <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("planningTitle")}</h2>
+          <h2 className="text-lg font-semibold text-ink">{t("planningTitle")}</h2>
           <dl className="mt-5 grid gap-4 sm:grid-cols-2">
             {site.estimatedHours !== null ? (
               <div>
-                <dt className="text-xs text-[#6B7280]">{t("estimatedHoursLabel")}</dt>
-                <dd className="mt-1 text-sm text-[#D1D5DB]">
+                <dt className="text-xs text-ink-subtle">{t("estimatedHoursLabel")}</dt>
+                <dd className="mt-1 text-sm text-ink-soft">
                   {t("hoursWorkedOfEstimated", {
                     worked: hours(data.hours.totalMinutes),
                     estimated: `${site.estimatedHours}h`,
                   })}
-                  {hoursShare !== null ? <span className="ml-2 text-xs text-[#9CA3AF]">{hoursShare}%</span> : null}
+                  {hoursShare !== null ? <span className="ml-2 text-xs text-ink-muted">{hoursShare}%</span> : null}
                 </dd>
               </div>
             ) : null}
             {site.budgetAmount !== null ? (
               <div>
-                <dt className="text-xs text-[#6B7280]">{t("budgetLabel")}</dt>
-                <dd className="mt-1 text-sm text-[#D1D5DB]">
+                <dt className="text-xs text-ink-subtle">{t("budgetLabel")}</dt>
+                <dd className="mt-1 text-sm text-ink-soft">
                   {t("budgetSpentOf", {
                     spent: money(site.budgetSpent, site.budgetCurrency),
                     total: money(site.budgetAmount, site.budgetCurrency),
                   })}
                   {budgetShare !== null ? (
-                    <span className={`ml-2 text-xs ${budgetShare > 100 ? "text-red-300" : "text-[#9CA3AF]"}`}>{budgetShare}%</span>
+                    <span className={`ml-2 text-xs ${budgetShare > 100 ? "text-red-300" : "text-ink-muted"}`}>{budgetShare}%</span>
                   ) : null}
                 </dd>
               </div>
             ) : null}
             {site.description ? (
               <div className="sm:col-span-2">
-                <dt className="text-xs text-[#6B7280]">{t("descriptionLabel")}</dt>
-                <dd className="mt-1 whitespace-pre-line text-sm text-[#D1D5DB]">{site.description}</dd>
+                <dt className="text-xs text-ink-subtle">{t("descriptionLabel")}</dt>
+                <dd className="mt-1 whitespace-pre-line text-sm text-ink-soft">{site.description}</dd>
               </div>
             ) : null}
           </dl>
@@ -151,16 +151,16 @@ export async function PresencePanel({ data }: { data: SiteDashboard }) {
 
   return (
     <div className={card}>
-      <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("tab_presence")}</h2>
-      <p className="mt-1 text-sm text-[#9CA3AF]">{t("presenceSubtitle")}</p>
+      <h2 className="text-lg font-semibold text-ink">{t("tab_presence")}</h2>
+      <p className="mt-1 text-sm text-ink-muted">{t("presenceSubtitle")}</p>
       <ul className="mt-5 divide-y divide-white/10">
         {data.presentToday.map((person) => (
           <li key={person.userId} className="flex flex-wrap items-center justify-between gap-3 py-4">
-            <span className="flex items-center gap-2.5 text-sm font-medium text-[#E5E7EB]">
-              <span className="h-2 w-2 shrink-0 rounded-full bg-[#4ADE80]" aria-hidden="true" />
+            <span className="flex items-center gap-2.5 text-sm font-medium text-ink">
+              <span className="h-2 w-2 shrink-0 rounded-full bg-brand-bright" aria-hidden="true" />
               {person.name}
             </span>
-            <span className="text-xs text-[#9CA3AF]">
+            <span className="text-xs text-ink-muted">
               {/* Presence is now the clock running against this chantier, not a
                   GPS fix taken from the person's phone (#61). */}
               {t("presenceSince", { time: time(person.startedAt) })}
@@ -182,13 +182,13 @@ export async function WeatherPanel({ weather }: { weather: SiteWeather | null })
 
   return (
     <div className={card}>
-      <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("weatherTitle")}</h2>
-      <p className="mt-1 text-sm text-[#9CA3AF]">{t("weatherPanelSubtitle")}</p>
+      <h2 className="text-lg font-semibold text-ink">{t("weatherTitle")}</h2>
+      <p className="mt-1 text-sm text-ink-muted">{t("weatherPanelSubtitle")}</p>
       <ul className="mt-5 grid gap-3">
         {weather.forecast.map((day) => (
-          <li key={day.date} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#111C33] px-4 py-3.5">
-            <span className="text-sm font-medium text-[#E5E7EB]">{day.date}</span>
-            <span className="flex flex-wrap items-center gap-4 text-xs text-[#9CA3AF]">
+          <li key={day.date} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-inset px-4 py-3.5">
+            <span className="text-sm font-medium text-ink">{day.date}</span>
+            <span className="flex flex-wrap items-center gap-4 text-xs text-ink-muted">
               <span>{day.temperatureMinC}° / {day.temperatureMaxC}°</span>
               <span>{day.precipitationMm} mm</span>
               <span>{day.windSpeedMaxKmh} km/h</span>
@@ -212,13 +212,13 @@ export async function HoursPanel({ data }: { data: SiteDashboard }) {
   return (
     <div className={card}>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
-        <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("tab_hours")}</h2>
+        <h2 className="text-lg font-semibold text-ink">{t("tab_hours")}</h2>
         {/* The total is the location's, summed in SQL. The list below is the
             50 most recent — it used to be both, so the total was silently the
             tail of the history and still called itself the total. */}
-        <p className="text-sm text-[#9CA3AF]">{t("hoursTotal", { total: hours(data.hours.totalMinutes) })}</p>
+        <p className="text-sm text-ink-muted">{t("hoursTotal", { total: hours(data.hours.totalMinutes) })}</p>
       </div>
-      <p className="mt-1 text-xs text-[#6B7280]">{t("hoursRecentOnly", { count: data.hours.entries.length })}</p>
+      <p className="mt-1 text-xs text-ink-subtle">{t("hoursRecentOnly", { count: data.hours.entries.length })}</p>
 
       {/*
         The breakdown the subdivisions exist for (#77), and the reason it is
@@ -234,17 +234,17 @@ export async function HoursPanel({ data }: { data: SiteDashboard }) {
       {data.hours.byArea.length > 1 ? (
         <ul className="mt-5 grid gap-2 border-b border-white/10 pb-5">
           {data.hours.byArea.map((area) => (
-            <li key={area.areaId ?? "unattributed"} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-[#111C33] px-4 py-3">
-              <span className="text-sm text-[#E5E7EB]">
+            <li key={area.areaId ?? "unattributed"} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-inset px-4 py-3">
+              <span className="text-sm text-ink">
                 {area.areaId === null
                   ? t("areaUnattributed")
                   : area.isDefault
                     ? t("areaWholeLocation")
                     : area.name}
               </span>
-              <span className="flex items-center gap-4 text-xs text-[#9CA3AF]">
+              <span className="flex items-center gap-4 text-xs text-ink-muted">
                 <span>{t("areaPeopleCount", { count: area.peopleCount })}</span>
-                <span className="font-mono text-sm text-[#D1D5DB]">{hours(area.minutes)}</span>
+                <span className="font-mono text-sm text-ink-soft">{hours(area.minutes)}</span>
               </span>
             </li>
           ))}
@@ -254,11 +254,11 @@ export async function HoursPanel({ data }: { data: SiteDashboard }) {
         {data.hours.entries.map((entry) => (
           <li key={entry.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">
-              <p className="text-sm font-medium text-[#E5E7EB]">{entry.person}</p>
-              <p className="mt-1 text-xs text-[#6B7280]">{entry.date}{entry.task ? ` · ${entry.task}` : ""}</p>
+              <p className="text-sm font-medium text-ink">{entry.person}</p>
+              <p className="mt-1 text-xs text-ink-subtle">{entry.date}{entry.task ? ` · ${entry.task}` : ""}</p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="font-mono text-sm text-[#D1D5DB]">{hours(entry.minutes)}</span>
+              <span className="font-mono text-sm text-ink-soft">{hours(entry.minutes)}</span>
               <Badge status={entry.status} label={t(`entryStatus_${entry.status}` as "entryStatus_draft")} />
             </div>
           </li>
@@ -274,13 +274,13 @@ export async function ReportsPanel({ data }: { data: SiteDashboard }) {
 
   return (
     <div className={card}>
-      <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("tab_reports")}</h2>
+      <h2 className="text-lg font-semibold text-ink">{t("tab_reports")}</h2>
       <ul className="mt-5 divide-y divide-white/10">
         {data.reports.map((report) => (
           <li key={report.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">
-              <p className="truncate text-sm font-medium text-[#E5E7EB]">{report.activity ?? t("reportNoActivity")}</p>
-              <p className="mt-1 text-xs text-[#6B7280]">{report.date} · {report.worker}</p>
+              <p className="truncate text-sm font-medium text-ink">{report.activity ?? t("reportNoActivity")}</p>
+              <p className="mt-1 text-xs text-ink-subtle">{report.date} · {report.worker}</p>
             </div>
             <Badge status={report.status} label={t(`reportStatus_${report.status}` as "reportStatus_draft")} />
           </li>
@@ -298,17 +298,17 @@ export async function TeamPanel({ data }: { data: SiteDashboard }) {
 
   return (
     <div className={card}>
-      <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("tab_team")}</h2>
-      <p className="mt-1 text-sm text-[#9CA3AF]">{t("teamSubtitle")}</p>
+      <h2 className="text-lg font-semibold text-ink">{t("tab_team")}</h2>
+      <p className="mt-1 text-sm text-ink-muted">{t("teamSubtitle")}</p>
       <ul className="mt-5 divide-y divide-white/10">
         {data.team.map((member) => (
           <li key={member.membershipId} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">
-              <p className="text-sm font-medium text-[#E5E7EB]">{member.name}</p>
-              <p className="mt-1 text-xs text-[#6B7280]">{[member.jobTitle, member.companyName].filter(Boolean).join(" · ")}</p>
+              <p className="text-sm font-medium text-ink">{member.name}</p>
+              <p className="mt-1 text-xs text-ink-subtle">{[member.jobTitle, member.companyName].filter(Boolean).join(" · ")}</p>
             </div>
             {present.has(member.name) ? (
-              <span className="inline-flex min-h-7 items-center rounded-full bg-[#22C55E]/10 px-3 text-xs font-semibold text-[#4ADE80]">{t("onSiteToday")}</span>
+              <span className="inline-flex min-h-7 items-center rounded-full bg-brand/10 px-3 text-xs font-semibold text-brand-bright">{t("onSiteToday")}</span>
             ) : null}
           </li>
         ))}

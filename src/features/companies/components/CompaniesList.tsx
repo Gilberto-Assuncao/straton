@@ -10,12 +10,12 @@ export function CompaniesList({ companies }: { companies: CompanySummary[] }) {
 
   if (!companies.length) {
     return (
-      <section className="rounded-2xl border border-dashed border-white/15 bg-[#161A34] p-8 text-center">
+      <section className="rounded-2xl border border-dashed border-white/15 bg-surface p-8 text-center">
         <h2 className="text-xl font-semibold">{t("emptyTitle")}</h2>
-        <p className="mt-2 text-sm text-[#9CA3AF]">{t("emptyBody")}</p>
+        <p className="mt-2 text-sm text-ink-muted">{t("emptyBody")}</p>
         <Link
           href="/dashboard/companies/new"
-          className="mt-5 inline-flex min-h-11 items-center rounded-lg bg-[#22C55E] px-4 font-semibold text-[#07110B]"
+          className="mt-5 inline-flex min-h-11 items-center rounded-lg bg-brand px-4 font-semibold text-on-brand"
         >
           {t("createCompany")}
         </Link>
@@ -41,7 +41,7 @@ export function CompaniesList({ companies }: { companies: CompanySummary[] }) {
             </div>
           }
           action={
-            <Link href={`/dashboard/companies/${company.id}`} className="inline-flex min-h-11 items-center font-semibold text-[#22C55E]">
+            <Link href={`/dashboard/companies/${company.id}`} className="inline-flex min-h-11 items-center font-semibold text-brand">
               {t("viewCompany")}
             </Link>
           }

@@ -120,11 +120,11 @@ export default function TimeTracker({
     <div className="grid min-w-0 gap-4">
       {openSession?.isStale ? <StaleSessionPrompt startedAt={openSession.startedAt} busy={busy} onStop={stop} /> : null}
 
-      <section aria-labelledby="timer-title" className="overflow-hidden rounded-2xl border border-white/10 bg-[#161A34] p-5 shadow-xl shadow-black/10 sm:p-8">
+      <section aria-labelledby="timer-title" className="overflow-hidden rounded-2xl border border-white/10 bg-surface p-5 shadow-xl shadow-black/10 sm:p-8">
         <div className="mx-auto max-w-3xl">
           <div className="text-center">
-            <p className="text-sm font-semibold text-[#22C55E]">{t("focusTimer")}</p>
-            <h3 id="timer-title" className="mt-1 text-xl font-semibold text-[#E5E7EB]">
+            <p className="text-sm font-semibold text-brand">{t("focusTimer")}</p>
+            <h3 id="timer-title" className="mt-1 text-xl font-semibold text-ink">
               {running ? t("runningSince", { time: new Intl.DateTimeFormat("en", { hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(openSession.startedAt)) }) : t("timerQuestion")}
             </h3>
           </div>
@@ -141,7 +141,7 @@ export default function TimeTracker({
           </div>
 
           <div className="mt-4">
-            <label htmlFor="tracker-site" className="mb-2 block text-sm font-medium text-[#D1D5DB]">
+            <label htmlFor="tracker-site" className="mb-2 block text-sm font-medium text-ink-soft">
               {t("siteLabel")}
             </label>
             <select
@@ -156,7 +156,7 @@ export default function TimeTracker({
               */
               onChange={(event) => { setSiteId(event.target.value); setSiteAreaId(""); }}
               disabled={locked}
-              className="min-h-11 w-full rounded-xl border border-white/10 bg-[#111827] px-3 text-sm text-[#E5E7EB] outline-none transition focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 w-full rounded-xl border border-white/10 bg-surface-alt px-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <option value="">{t("noSite")}</option>
               {sites.map((site) => (
@@ -166,7 +166,7 @@ export default function TimeTracker({
               ))}
             </select>
             {currentAssignment?.siteId && !running ? (
-              <p className="mt-1 text-xs text-[#4ADE80]">{t("fromAgenda", { title: currentAssignment.title })}</p>
+              <p className="mt-1 text-xs text-brand-bright">{t("fromAgenda", { title: currentAssignment.title })}</p>
             ) : null}
           </div>
 
@@ -180,8 +180,8 @@ export default function TimeTracker({
           </div>
 
           <div className="mt-4">
-            <label htmlFor="tracker-notes" className="mb-2 block text-sm font-medium text-[#D1D5DB]">
-              {t("notesLabel")} <span className="text-[#6B7280]">{t("optional")}</span>
+            <label htmlFor="tracker-notes" className="mb-2 block text-sm font-medium text-ink-soft">
+              {t("notesLabel")} <span className="text-ink-subtle">{t("optional")}</span>
             </label>
             <textarea
               id="tracker-notes"
@@ -191,9 +191,9 @@ export default function TimeTracker({
               maxLength={300}
               rows={3}
               placeholder={t("notesPlaceholder")}
-              className="w-full rounded-xl border border-white/10 bg-[#111827] px-3 py-3 text-sm text-[#E5E7EB] outline-none transition placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-xl border border-white/10 bg-surface-alt px-3 py-3 text-sm text-ink outline-none transition placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60"
             />
-            <p className="mt-1 text-right text-xs text-[#6B7280]">{notes.length}/300</p>
+            <p className="mt-1 text-right text-xs text-ink-subtle">{notes.length}/300</p>
           </div>
 
           <div className="mt-6">
@@ -201,7 +201,7 @@ export default function TimeTracker({
           </div>
 
           {feedback ? (
-            <p aria-live="polite" className="mt-3 text-center text-sm text-[#4ADE80]">
+            <p aria-live="polite" className="mt-3 text-center text-sm text-brand-bright">
               {feedback}
             </p>
           ) : null}
@@ -211,7 +211,7 @@ export default function TimeTracker({
             burned by a lost day needs to be told, in words, that this one is
             not living in their browser.
           */}
-          {running ? <p className="mt-2 text-center text-xs text-[#6B7280]">{t("savedOnServer")}</p> : null}
+          {running ? <p className="mt-2 text-center text-xs text-ink-subtle">{t("savedOnServer")}</p> : null}
         </div>
       </section>
 

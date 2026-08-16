@@ -74,19 +74,19 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
       <Input name="legalName" label={t("fieldLegalName")} value={legalName} onChange={(event) => setLegalName(event.target.value)} error={error("legalName")} required maxLength={160}/>
       <Input name="registrationNumber" label={t("fieldRegistrationNumber")} value={registrationNumber} onChange={(event) => setRegistrationNumber(event.target.value)} error={error("registrationNumber")} maxLength={64}/>
       <div className="sm:col-span-2 rounded-xl border border-amber-400/20 bg-amber-400/[0.04] p-4">
-        <p className="text-sm font-semibold text-[#E5E7EB]">{tRetention("title")}</p>
-        <p className="mt-1 text-xs leading-5 text-[#9CA3AF]">{tRetention("intro")}</p>
+        <p className="text-sm font-semibold text-ink">{tRetention("title")}</p>
+        <p className="mt-1 text-xs leading-5 text-ink-muted">{tRetention("intro")}</p>
         <div className="mt-3"><RetentionCheckLink enterpriseNumber={registrationNumber || vatNumber} /></div>
       </div>
       <div>
         <div className="flex items-end gap-2">
           <div className="flex-1"><Input name="vatNumber" label={t("fieldVatNumber")} value={vatNumber} onChange={(event) => setVatNumber(event.target.value)} error={error("vatNumber")} hint="e.g. BE0123456789" maxLength={64}/></div>
-          <button type="button" onClick={handleVatLookup} disabled={vatStatus.kind === "loading"} className="mb-[1px] min-h-11 whitespace-nowrap rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-[#22C55E]">
+          <button type="button" onClick={handleVatLookup} disabled={vatStatus.kind === "loading"} className="mb-[1px] min-h-11 whitespace-nowrap rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-brand">
             {vatStatus.kind === "loading" ? t("lookingUp") : countryCode.toUpperCase() === "BE" ? t("lookupCbe") : t("lookupVies")}
           </button>
         </div>
         {vatStatus.kind === "error" ? <p role="alert" className="mt-1 text-xs text-red-300">{vatStatus.message}</p> : null}
-        {vatStatus.kind === "success" ? <p className="mt-1 text-xs text-[#4ADE80]">{vatStatus.message}</p> : null}
+        {vatStatus.kind === "success" ? <p className="mt-1 text-xs text-brand-bright">{vatStatus.message}</p> : null}
       </div>
       <Select name="countryCode" label={t("fieldCountry")} value={countryCode} onChange={(event) => setCountryCode(event.target.value)} options={countries} error={error("countryCode")}/>
       <Select name="defaultLanguage" label={t("fieldDefaultLanguage")} defaultValue={values.defaultLanguage} options={languages} error={error("defaultLanguage")}/>
@@ -103,6 +103,6 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
       <Input name="region" label={t("fieldRegion")} defaultValue={values.region}/>
     </fieldset>
     <CompanyFormStatus state={state}/>
-    {canEdit ? <div className="flex justify-end"><CompanySubmitButton label={companyId ? t("saveCompany") : t("createCompanyButton")} pendingLabel={companyId ? t("saving") : t("creating")}/></div> : <p className="text-sm text-[#9CA3AF]">{t("readOnlyProfile")}</p>}
+    {canEdit ? <div className="flex justify-end"><CompanySubmitButton label={companyId ? t("saveCompany") : t("createCompanyButton")} pendingLabel={companyId ? t("saving") : t("creating")}/></div> : <p className="text-sm text-ink-muted">{t("readOnlyProfile")}</p>}
   </form>;
 }

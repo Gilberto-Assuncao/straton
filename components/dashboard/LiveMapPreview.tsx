@@ -36,27 +36,27 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
   const total = sites.reduce((sum, site) => sum + site.people.length, 0);
 
   return (
-    <section aria-labelledby="live-map-preview-title" className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6">
+    <section aria-labelledby="live-map-preview-title" className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <h3 id="live-map-preview-title" className="text-lg font-semibold text-[#E5E7EB]">
+          <h3 id="live-map-preview-title" className="text-lg font-semibold text-ink">
             {t("liveMapTitle")}
           </h3>
-          <p className="mt-1 text-xs text-[#9CA3AF]">{t("liveMapSubtitle")}</p>
+          <p className="mt-1 text-xs text-ink-muted">{t("liveMapSubtitle")}</p>
         </div>
-        <Link href="/dashboard/map" className="text-xs font-semibold text-[#4ADE80] hover:text-[#22C55E]">
+        <Link href="/dashboard/map" className="text-xs font-semibold text-brand-bright hover:text-brand">
           {t("liveMapViewFull")} →
         </Link>
       </div>
 
       {total === 0 ? (
-        <div className="mt-6 flex h-40 items-center justify-center rounded-xl border border-dashed border-white/10 text-center text-sm text-[#6B7280]">
+        <div className="mt-6 flex h-40 items-center justify-center rounded-xl border border-dashed border-white/10 text-center text-sm text-ink-subtle">
           {t("liveMapEmpty")}
         </div>
       ) : (
         <>
           {placed.length ? (
-            <div className="relative mt-5 h-40 overflow-visible rounded-xl border border-white/10 bg-[#0F172A]">
+            <div className="relative mt-5 h-40 overflow-visible rounded-xl border border-white/10 bg-surface-deep">
               <div
                 className="absolute inset-0 overflow-hidden rounded-xl opacity-20"
                 style={{
@@ -75,11 +75,11 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
                     style={{ left: `${left}%`, top: `${top}%`, zIndex: isSelected ? 10 : 1 }}
                   >
                     <span className="relative flex h-3 w-3">
-                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#22C55E] opacity-60" />
-                      <span className="relative inline-flex h-3 w-3 rounded-full bg-[#4ADE80]" />
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand opacity-60" />
+                      <span className="relative inline-flex h-3 w-3 rounded-full bg-brand-bright" />
                     </span>
                     {isSelected ? (
-                      <span className="whitespace-nowrap rounded-lg border border-white/15 bg-[#0B1220] px-2.5 py-1.5 text-xs font-semibold text-[#F1F5F9] shadow-lg shadow-black/40">
+                      <span className="whitespace-nowrap rounded-lg border border-white/15 bg-canvas px-2.5 py-1.5 text-xs font-semibold text-ink-bright shadow-lg shadow-black/40">
                         {site.siteName} · {t("liveMapPeople", { count: site.people.length })}
                       </span>
                     ) : null}
@@ -97,11 +97,11 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
                 onClick={() => setSelected(selected === site.siteId ? null : site.siteId)}
                 className="flex items-center justify-between rounded-lg px-1.5 py-1 text-left hover:bg-white/5"
               >
-                <span className="flex items-center gap-2 text-xs font-medium text-[#E5E7EB]">
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#4ADE80]" />
+                <span className="flex items-center gap-2 text-xs font-medium text-ink">
+                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-bright" />
                   {site.siteName ?? t("liveMapNoSite")}
                 </span>
-                <span className="text-xs text-[#4ADE80]">{t("liveMapPeople", { count: site.people.length })}</span>
+                <span className="text-xs text-brand-bright">{t("liveMapPeople", { count: site.people.length })}</span>
               </button>
             ))}
           </div>

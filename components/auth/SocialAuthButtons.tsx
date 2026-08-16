@@ -74,9 +74,9 @@ export default function SocialAuthButtons() {
           type="button"
           onClick={() => continueWith(provider, name)}
           disabled={!configured || pending !== null}
-          className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-white/15 bg-[#111827] px-4 py-3 text-sm font-semibold text-[#E5E7EB] transition hover:border-white/30 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#22C55E] disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-white/15 bg-surface-alt px-4 py-3 text-sm font-semibold text-ink transition hover:border-white/30 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-60"
         >
-          <span aria-hidden="true" className="flex h-5 w-5 items-center justify-center font-bold text-[#E5E7EB]">
+          <span aria-hidden="true" className="flex h-5 w-5 items-center justify-center font-bold text-ink">
             {mark}
           </span>
           {pending === provider ? t("connecting") : t("continueWith", { provider: name })}
@@ -90,7 +90,7 @@ export default function SocialAuthButtons() {
       ) : null}
 
       {!configured ? (
-        <p role="status" className="text-center text-xs text-[#9CA3AF]">
+        <p role="status" className="text-center text-xs text-ink-muted">
           {t("socialUnavailable")}
         </p>
       ) : null}

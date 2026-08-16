@@ -11,11 +11,11 @@ import {
 } from "@/src/features/sites/actions";
 import type { SiteAreaRecord } from "@/src/features/sites/types";
 
-const card = "rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-6";
+const card = "rounded-2xl border border-white/10 bg-surface p-5 sm:p-6";
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-[#111C33] px-3 text-sm text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]";
+  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 const secondaryButton =
-  "min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]";
+  "min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand";
 
 export default function SiteAreas({ siteId, areas }: { siteId: string; areas: SiteAreaRecord[] }) {
   const t = useTranslations("sites");
@@ -51,12 +51,12 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
   return (
     <div className="grid gap-5">
       <div className={card}>
-        <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("areasTitle")}</h2>
-        <p className="mt-1 text-sm text-[#9CA3AF]">{t("areasSubtitle")}</p>
+        <h2 className="text-lg font-semibold text-ink">{t("areasTitle")}</h2>
+        <p className="mt-1 text-sm text-ink-muted">{t("areasSubtitle")}</p>
 
         <div className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end">
           <label className="grid gap-1.5 text-sm">
-            <span className="text-xs text-[#9CA3AF]">{t("areaNameLabel")}</span>
+            <span className="text-xs text-ink-muted">{t("areaNameLabel")}</span>
             <input
               // Named so a test can find it. Every label here is translated, so
               // a locator written against the wording breaks the day the suite
@@ -71,7 +71,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
             />
           </label>
           <label className="grid gap-1.5 text-sm">
-            <span className="text-xs text-[#9CA3AF]">{t("areaDescriptionLabel")}</span>
+            <span className="text-xs text-ink-muted">{t("areaDescriptionLabel")}</span>
             <input
               className={field}
               value={description}
@@ -88,21 +88,21 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
               })
             }
             disabled={pending || name.trim().length < 2}
-            className="min-h-11 rounded-lg bg-[#22C55E] px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+            className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
           >
             {pending ? t("areaAdding") : t("areaAdd")}
           </button>
         </div>
 
         {feedback ? (
-          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-[#4ADE80]" : "text-red-300"}`}>
+          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-red-300"}`}>
             {t(feedback.messageKey)}
           </p>
         ) : null}
       </div>
 
       <div className={card}>
-        <h3 className="text-sm font-semibold text-[#E5E7EB]">{t("areasListTitle")}</h3>
+        <h3 className="text-sm font-semibold text-ink">{t("areasListTitle")}</h3>
         <ul className="mt-4 divide-y divide-white/10">
           {areas.map((area) => (
             // Carries its id so a test can act on one row rather than on
@@ -142,14 +142,14 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
               ) : (
                 <>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-[#E5E7EB]">{displayName(area)}</p>
-                    <p className="mt-1 text-xs text-[#6B7280]">
+                    <p className="text-sm font-medium text-ink">{displayName(area)}</p>
+                    <p className="mt-1 text-xs text-ink-subtle">
                       {[area.description, area.isDefault ? t("areaDefaultHint") : null].filter(Boolean).join(" · ")}
                     </p>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     {!area.isActive ? (
-                      <span className="inline-flex min-h-7 items-center rounded-full bg-white/10 px-3 text-xs font-semibold text-[#9CA3AF]">
+                      <span className="inline-flex min-h-7 items-center rounded-full bg-white/10 px-3 text-xs font-semibold text-ink-muted">
                         {t("areaClosed")}
                       </span>
                     ) : null}
@@ -202,7 +202,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
           ))}
         </ul>
 
-        {onlyOne ? <p className="mt-4 text-xs leading-5 text-[#6B7280]">{t("areasKeepOne")}</p> : null}
+        {onlyOne ? <p className="mt-4 text-xs leading-5 text-ink-subtle">{t("areasKeepOne")}</p> : null}
       </div>
     </div>
   );

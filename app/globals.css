@@ -1,25 +1,90 @@
 @import "tailwindcss";
 
+/*
+ * The palette, named once (#104 follow-up).
+ *
+ * There was already a token block here. It was used *zero* times: 1826 colours
+ * were written as `bg-[#161A34]` and `text-[#9CA3AF]` straight into 159
+ * component files, and the tokens sat beside them describing a different,
+ * greener palette that nothing rendered. Two consequences worth stating.
+ *
+ * A theme change was impossible. Turning the background white meant editing 159
+ * files, and half-doing it would leave pale grey text on white — the tokens
+ * offered no lever at all.
+ *
+ * And the palette had quietly forked. `#9CA3AF`, `#94A3B8` and `#64748B` are
+ * three different greys doing one job — Tailwind's `gray` and `slate` scales
+ * mixed, in the same screens. Naming them is what makes that visible; they are
+ * deliberately *not* collapsed here, because collapsing them changes pixels and
+ * this step must not.
+ *
+ * Every value below is exactly the value it replaces. This step renames, and
+ * renames only: the rendered colour is identical, which is the whole reason it
+ * can be reviewed at a glance and reverted without archaeology. Choosing new
+ * values — the light theme — is the next step, and it edits this file alone.
+ */
 :root {
+  /* Brand. */
+  --brand: #22c55e;
+  --brand-hover: #16a34a;
+  --brand-bright: #4ade80;
+  --on-brand: #07110b;
+
+  /* Foreground, brightest to faintest. `ink` rather than `text`, so the
+     utility reads `text-ink-muted` instead of `text-text-muted`. */
+  --ink-bright: #f1f5f9;
+  --ink: #e5e7eb;
+  --ink-soft: #d1d5db;
+  --ink-muted: #9ca3af;
+  --ink-dim: #94a3b8;
+  --ink-subtle: #6b7280;
+  --ink-faint: #64748b;
+
+  /* Surfaces, from the page up. */
+  --canvas: #0b1220;
+  --surface: #161a34;
+  --surface-inset: #111c33;
+  --surface-alt: #111827;
+  --surface-deep: #0f172a;
+
+  /* Status. */
+  --warning: #f59e0b;
+  --danger: #f87171;
+
+  /* Superseded by the tokens above, kept because `body` and `::selection`
+     still read them. `--background` is a near-black that matches nothing else
+     on screen — it only shows where no surface covers it, which is why nobody
+     noticed it drifting from `--canvas`. Reconciling the two is a visible
+     change, so it belongs to the light-theme step, not this one. */
   --background: #0b0f0e;
   --background-deep: #070a09;
-  --surface: #131917;
-  --border: #28332f;
   --foreground: #f4f7f6;
-  --muted: #9aa8a3;
   --primary: #22c55e;
-  --primary-hover: #16a34a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-background-deep: var(--background-deep);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-bright: var(--brand-bright);
+  --color-on-brand: var(--on-brand);
+
+  --color-ink-bright: var(--ink-bright);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-dim: var(--ink-dim);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-canvas: var(--canvas);
   --color-surface: var(--surface);
-  --color-border: var(--border);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-primary: var(--primary);
-  --color-primary-hover: var(--primary-hover);
+  --color-surface-inset: var(--surface-inset);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-deep: var(--surface-deep);
+
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+
   --font-sans: var(--font-poppins);
 }
 

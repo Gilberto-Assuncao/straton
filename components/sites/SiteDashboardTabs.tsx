@@ -44,13 +44,13 @@ export default async function SiteDashboardTabs({
                 aria-current={isActive ? "page" : undefined}
                 className={`flex min-h-11 items-center gap-2 border-b-2 px-4 text-sm font-semibold transition ${
                   isActive
-                    ? "border-[#22C55E] text-[#E5E7EB]"
-                    : "border-transparent text-[#9CA3AF] hover:border-white/20 hover:text-[#E5E7EB]"
+                    ? "border-brand text-ink"
+                    : "border-transparent text-ink-muted hover:border-white/20 hover:text-ink"
                 }`}
               >
                 {t(`tab_${tab}` as "tab_overview")}
                 {count ? (
-                  <span className="rounded-full bg-white/10 px-2 text-xs font-bold text-[#D1D5DB]">{count}</span>
+                  <span className="rounded-full bg-white/10 px-2 text-xs font-bold text-ink-soft">{count}</span>
                 ) : null}
               </Link>
             </li>

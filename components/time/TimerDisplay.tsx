@@ -12,8 +12,8 @@ export default function TimerDisplay({ seconds }: { seconds: number }) {
   const value = formatTimer(seconds);
   return (
     <div className="text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#9CA3AF]">{t("elapsedTime")}</p>
-      <output aria-live="off" aria-label={`${t("elapsedTime")} ${value}`} className="mt-3 block font-mono text-4xl font-bold tabular-nums tracking-tight text-[#E5E7EB] min-[360px]:text-5xl sm:text-6xl">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-ink-muted">{t("elapsedTime")}</p>
+      <output aria-live="off" aria-label={`${t("elapsedTime")} ${value}`} className="mt-3 block font-mono text-4xl font-bold tabular-nums tracking-tight text-ink min-[360px]:text-5xl sm:text-6xl">
         {value}
       </output>
     </div>

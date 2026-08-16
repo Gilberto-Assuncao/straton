@@ -10,8 +10,8 @@ import {
 } from "@/src/features/sites/actions";
 import type { ClientOption } from "@/src/features/sites/types";
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#111827] px-4 text-base text-[#E5E7EB] outline-none placeholder:text-[#6B7280] focus:border-[#22C55E] focus:ring-2 focus:ring-[#22C55E]/20";
-const label = "text-sm font-medium text-[#E5E7EB]";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20";
+const label = "text-sm font-medium text-ink";
 
 /**
  * Picks the client for a site, and lets one be created without leaving the
@@ -72,16 +72,16 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
         <button
           type="button"
           onClick={() => setCreating((current) => !current)}
-          className="mt-2 min-h-12 shrink-0 rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] transition hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[#22C55E]"
+          className="mt-2 min-h-12 shrink-0 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink transition hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
         >
           {creating ? t("cancel") : t("newClient")}
         </button>
       </div>
 
       {creating ? (
-        <div className="mt-4 rounded-xl border border-white/10 bg-[#111C33] p-4">
-          <p className="text-sm font-semibold text-[#E5E7EB]">{t("newClientTitle")}</p>
-          <p className="mt-1 text-xs leading-5 text-[#9CA3AF]">{t("newClientHelp")}</p>
+        <div className="mt-4 rounded-xl border border-white/10 bg-surface-inset p-4">
+          <p className="text-sm font-semibold text-ink">{t("newClientTitle")}</p>
+          <p className="mt-1 text-xs leading-5 text-ink-muted">{t("newClientHelp")}</p>
 
           <div className="mt-4 flex flex-wrap items-end gap-2">
             <div className="min-w-0 flex-1">
@@ -95,7 +95,7 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
                 className={field}
               />
             </div>
-            <button type="button" onClick={search} disabled={pending || query.trim().length < 3} className="mt-2 min-h-12 shrink-0 rounded-lg border border-[#22C55E]/40 bg-[#22C55E]/10 px-4 text-sm font-semibold text-[#4ADE80] transition hover:bg-[#22C55E]/20 disabled:cursor-not-allowed disabled:opacity-50">
+            <button type="button" onClick={search} disabled={pending || query.trim().length < 3} className="mt-2 min-h-12 shrink-0 rounded-lg border border-brand/40 bg-brand/10 px-4 text-sm font-semibold text-brand-bright transition hover:bg-brand/20 disabled:cursor-not-allowed disabled:opacity-50">
               {pending ? t("clientSearching") : t("clientSearch")}
             </button>
           </div>
@@ -108,13 +108,13 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
                     type="button"
                     onClick={() => add({ displayName: hit.name, registrationNumber: hit.enterpriseNumber, city: hit.city, postalCode: hit.postalCode })}
                     disabled={pending}
-                    className="flex w-full min-h-12 items-center justify-between gap-3 rounded-lg bg-[#0B1220] px-4 py-3 text-left transition hover:bg-white/5 disabled:opacity-50"
+                    className="flex w-full min-h-12 items-center justify-between gap-3 rounded-lg bg-canvas px-4 py-3 text-left transition hover:bg-white/5 disabled:opacity-50"
                   >
                     <span className="min-w-0">
-                      <span className="block truncate text-sm font-medium text-[#E5E7EB]">{hit.name}</span>
-                      <span className="mt-0.5 block font-mono text-xs text-[#6B7280]">{hit.enterpriseNumber}{hit.city ? ` · ${hit.city}` : ""}</span>
+                      <span className="block truncate text-sm font-medium text-ink">{hit.name}</span>
+                      <span className="mt-0.5 block font-mono text-xs text-ink-subtle">{hit.enterpriseNumber}{hit.city ? ` · ${hit.city}` : ""}</span>
                     </span>
-                    <span aria-hidden="true" className="shrink-0 text-sm font-semibold text-[#4ADE80]">+</span>
+                    <span aria-hidden="true" className="shrink-0 text-sm font-semibold text-brand-bright">+</span>
                   </button>
                 </li>
               ))}
@@ -122,9 +122,9 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
           ) : null}
 
           {suggestions?.length === 0 ? (
-            <div className="mt-4 rounded-lg bg-[#0B1220] p-4">
-              <p className="text-xs leading-5 text-[#9CA3AF]">{t("clientNoResults")}</p>
-              <button type="button" onClick={() => add({ displayName: query })} disabled={pending} className="mt-3 min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-50">
+            <div className="mt-4 rounded-lg bg-canvas p-4">
+              <p className="text-xs leading-5 text-ink-muted">{t("clientNoResults")}</p>
+              <button type="button" onClick={() => add({ displayName: query })} disabled={pending} className="mt-3 min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink hover:bg-white/5 disabled:opacity-50">
                 {t("clientAddManually", { name: query })}
               </button>
             </div>

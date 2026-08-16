@@ -52,31 +52,31 @@ export default function StaleSessionPrompt({
       <h3 id="stale-session-title" className="text-sm font-semibold text-amber-200">
         {t("staleTitle")}
       </h3>
-      <p className="mt-2 text-sm text-[#D1D5DB]">{t("staleBody", { started: startedLabel })}</p>
+      <p className="mt-2 text-sm text-ink-soft">{t("staleBody", { started: startedLabel })}</p>
 
       {correcting ? (
         <div className="mt-4 flex flex-wrap items-end gap-3">
           <label className="grid gap-1.5">
-            <span className="text-xs text-[#9CA3AF]">{t("staleFinishedAt")}</span>
+            <span className="text-xs text-ink-muted">{t("staleFinishedAt")}</span>
             <input
               type="time"
               value={endTime}
               onChange={(event) => setEndTime(event.target.value)}
-              className="min-h-11 rounded-lg border border-white/15 bg-[#111827] px-3 text-sm text-[#E5E7EB]"
+              className="min-h-11 rounded-lg border border-white/15 bg-surface-alt px-3 text-sm text-ink"
             />
           </label>
           <button
             type="button"
             onClick={stopAtCorrectedTime}
             disabled={busy}
-            className="min-h-11 rounded-lg bg-[#22C55E] px-4 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A] disabled:opacity-50"
+            className="min-h-11 rounded-lg bg-brand px-4 text-sm font-semibold text-on-brand hover:bg-brand-hover disabled:opacity-50"
           >
             {t("staleSaveCorrection")}
           </button>
           <button
             type="button"
             onClick={() => setCorrecting(false)}
-            className="min-h-11 rounded-lg px-3 text-sm text-[#9CA3AF] hover:text-[#E5E7EB]"
+            className="min-h-11 rounded-lg px-3 text-sm text-ink-muted hover:text-ink"
           >
             {t("cancel")}
           </button>
@@ -87,14 +87,14 @@ export default function StaleSessionPrompt({
             type="button"
             onClick={() => startTransition(async () => void (await confirmSessionAction()))}
             disabled={confirming || busy}
-            className="min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5 disabled:opacity-50"
+            className="min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink hover:bg-white/5 disabled:opacity-50"
           >
             {t("staleStillWorking")}
           </button>
           <button
             type="button"
             onClick={() => setCorrecting(true)}
-            className="min-h-11 rounded-lg bg-[#22C55E] px-4 text-sm font-semibold text-[#07110B] hover:bg-[#16A34A]"
+            className="min-h-11 rounded-lg bg-brand px-4 text-sm font-semibold text-on-brand hover:bg-brand-hover"
           >
             {t("staleIFinishedEarlier")}
           </button>
