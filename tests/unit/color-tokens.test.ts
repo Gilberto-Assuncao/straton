@@ -22,25 +22,32 @@ import { describe, expect, it } from "vitest";
  * budget that can only shrink, because each of those needs a decision rather
  * than a rename.
  */
-const TOKENS: Record<string, string> = {
-  "22c55e": "brand",
-  "16a34a": "brand-hover",
-  "4ade80": "brand-bright",
-  "07110b": "on-brand",
-  f1f5f9: "ink-bright",
-  e5e7eb: "ink",
-  d1d5db: "ink-soft",
-  "9ca3af": "ink-muted",
-  "94a3b8": "ink-dim",
-  "6b7280": "ink-subtle",
-  "64748b": "ink-faint",
-  "0b1220": "canvas",
-  "161a34": "surface",
-  "111c33": "surface-inset",
-  "111827": "surface-alt",
-  "0f172a": "surface-deep",
-  f59e0b: "warning",
-  f87171: "danger",
+const TOKEN_NAMES = [
+  "brand", "brand-hover", "brand-bright", "on-brand",
+  "ink-bright", "ink", "ink-soft", "ink-muted", "ink-dim", "ink-subtle", "ink-faint",
+  "canvas", "surface", "surface-inset", "surface-alt", "surface-deep",
+  "warning", "danger",
+];
+
+/**
+ * Hexadecimals that must not be written into a component again.
+ *
+ * Both sides of the fork. The identity's values because writing `bg-[#0F172A]`
+ * puts the palette back where it was, one file at a time; the gray-scale ones
+ * that had drifted in beside them because those are what is in every old branch
+ * and every memory of this codebase, and pasting one back re-opens the fork
+ * without anybody noticing — they are a hair different, which is the whole
+ * problem.
+ */
+const FORBIDDEN: Record<string, string> = {
+  // The identity handoff.
+  "22c55e": "brand", "16a34a": "brand-hover", "4ade80": "brand-bright", "07110b": "on-brand",
+  f1f5f9: "ink", "94a3b8": "ink-muted", "64748b": "ink-subtle",
+  "0b1220": "canvas", "0f172a": "surface", "111c33": "surface-inset",
+  f59e0b: "warning", f87171: "danger",
+  // Drift, replaced by the slate values above.
+  e5e7eb: "ink", d1d5db: "ink-soft", "9ca3af": "ink-muted", "6b7280": "ink-subtle",
+  "161a34": "surface", "111827": "surface-alt",
 };
 
 /**
@@ -109,12 +116,15 @@ describe("colour tokens", () => {
     expect(files.length).toBeGreaterThan(150);
   });
 
-  it("defines every token in globals.css", () => {
+  it("declares every token, and exposes it to Tailwind", () => {
+    // By name, not by value. The values belong to the identity handoff and are
+    // held to account by `tests/unit/contrast.test.ts`; what must not change is
+    // that each token exists and reaches a utility.
     const css = readFileSync("app/globals.css", "utf8").toLowerCase();
-    const missing = Object.entries(TOKENS).filter(
-      ([hex, name]) => !css.includes(`--${name}: #${hex}`) || !css.includes(`--color-${name}: var(--${name})`),
+    const missing = TOKEN_NAMES.filter(
+      (name) => !new RegExp(`--${name}:\\s*\\S`).test(css) || !css.includes(`--color-${name}: var(--${name})`),
     );
-    expect(missing.map(([, name]) => name), "tokens not declared, or not exposed to Tailwind").toEqual([]);
+    expect(missing, "tokens not declared, or not exposed to Tailwind").toEqual([]);
   });
 
   it("never writes a hexadecimal that already has a token", () => {
@@ -123,7 +133,7 @@ describe("colour tokens", () => {
       if (EXEMPT.has(file)) continue;
       const source = readFileSync(file, "utf8");
       for (const match of source.matchAll(/-\[#([0-9A-Fa-f]{6})\]/g)) {
-        const token = TOKENS[match[1].toLowerCase()];
+        const token = FORBIDDEN[match[1].toLowerCase()];
         if (token) offenders.push(`${file}: #${match[1]} is \`${token}\``);
       }
     }

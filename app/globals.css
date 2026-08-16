@@ -1,27 +1,29 @@
 @import "tailwindcss";
 
 /*
- * The palette, named once (#104 follow-up).
+ * The palette, from the identity handoff (v1.0, July 2026).
  *
- * There was already a token block here. It was used *zero* times: 1826 colours
- * were written as `bg-[#161A34]` and `text-[#9CA3AF]` straight into 159
- * component files, and the tokens sat beside them describing a different,
- * greener palette that nothing rendered. Two consequences worth stating.
+ * There were three definitions of this product's colours and only one of them
+ * rendered: a `:root` block used zero times, a `colors` object nothing
+ * imported, and 1826 hexadecimals written into 159 component files. #108 named
+ * them, at the values that were actually on screen.
  *
- * A theme change was impossible. Turning the background white meant editing 159
- * files, and half-doing it would leave pale grey text on white — the tokens
- * offered no lever at all.
+ * Several of those values were drift. The handoff specifies a slate scale —
+ * `#94A3B8` for secondary text, `#64748B` for captions — and the components had
+ * accumulated Tailwind's *gray* scale beside it: `#9CA3AF` and `#6B7280`, a hair
+ * different, doing the same job on the same screens. Naming them is what made
+ * the fork visible; this is where it is closed, onto the documented side.
  *
- * And the palette had quietly forked. `#9CA3AF`, `#94A3B8` and `#64748B` are
- * three different greys doing one job — Tailwind's `gray` and `slate` scales
- * mixed, in the same screens. Naming them is what makes that visible; they are
- * deliberately *not* collapsed here, because collapsing them changes pixels and
- * this step must not.
+ * The surfaces moved too. Cards were `#161A34`, which appears nowhere in the
+ * handoff; `--bg-surface` is `#0F172A`.
  *
- * Every value below is exactly the value it replaces. This step renames, and
- * renames only: the rendered colour is identical, which is the whole reason it
- * can be reviewed at a glance and reverted without archaeology. Choosing new
- * values — the light theme — is the next step, and it edits this file alone.
+ * One value is knowingly out of compliance and is left as the identity has it.
+ * `--ink-subtle` / `--ink-faint` is the handoff's `--text-muted #64748B`, which
+ * against its own three surfaces is 3.57–3.93:1 — below the 4.5:1 WCAG asks of
+ * normal text, for the captions and metadata it is meant to carry. It clears
+ * the 3:1 asked of large text and interface components, and that is what
+ * `tests/unit/contrast.test.ts` holds it to. Raising it is a change to the
+ * identity, not to the code, so it is not made here.
  */
 :root {
   /* Brand. */
@@ -30,22 +32,24 @@
   --brand-bright: #4ade80;
   --on-brand: #07110b;
 
-  /* Foreground, brightest to faintest. `ink` rather than `text`, so the
-     utility reads `text-ink-muted` instead of `text-text-muted`. */
+  /* Foreground. `ink` rather than `text`, so the utility reads `text-ink-muted`
+     instead of `text-text-muted`. The handoff names three levels; the seven here
+     map onto them, and the names stay because 1826 call sites use them. */
   --ink-bright: #f1f5f9;
-  --ink: #e5e7eb;
-  --ink-soft: #d1d5db;
-  --ink-muted: #9ca3af;
+  --ink: #f1f5f9;
+  --ink-soft: #94a3b8;
+  --ink-muted: #94a3b8;
   --ink-dim: #94a3b8;
-  --ink-subtle: #6b7280;
+  --ink-subtle: #64748b;
   --ink-faint: #64748b;
 
-  /* Surfaces, from the page up. */
+  /* Surfaces, from the page up. `--bg-base`, `--bg-surface` and
+     `--bg-surface-alt` in the handoff. */
   --canvas: #0b1220;
-  --surface: #161a34;
+  --surface: #0f172a;
   --surface-inset: #111c33;
-  --surface-alt: #111827;
-  --surface-deep: #0f172a;
+  --surface-alt: #111c33;
+  --surface-deep: #111c33;
 
   /* Status. */
   --warning: #f59e0b;
