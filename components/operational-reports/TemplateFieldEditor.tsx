@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useState, useTransition } from "react";
+import { useSubmittedValues } from "@/components/auth/useSubmittedValues";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -25,6 +26,15 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [fieldType, setFieldType] = useState<ReportFieldType>(editing?.fieldType ?? "text");
+
+  // Only the uncontrolled fields need this. `fieldType` lives in state above
+  // and therefore already survives a refusal — React resets the form's DOM
+  // values after an action, not the component's state (#74).
+  const submitted = state.values;
+  const { touched, onInput, formKey } = useSubmittedValues(
+    `${JSON.stringify(state.values ?? null)}|${state.message}`,
+  );
+  const kept = (name: string, stored: string) => submitted?.[name] ?? stored;
 
   function run(fn: () => Promise<{ ok: boolean; message: string }>) {
     setError(null);
@@ -80,12 +90,12 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
           <div>
             <label htmlFor="field-label" className={labelClass}>{t("fieldLabelLabel")}</label>
-            <input id="field-label" name="label" required defaultValue={editing?.label} placeholder={t("fieldLabelPlaceholder")} className={input} />
+            <input key={`label-${formKey}`} id="field-label" name="label" required defaultValue={kept("label", editing?.label ?? "")} onInput={onInput} placeholder={t("fieldLabelPlaceholder")} className={input} />
           </div>
 
           <div>
             <label htmlFor="field-key" className={labelClass}>{t("fieldKeyLabel")}</label>
-            <input id="field-key" name="key" required defaultValue={editing?.key} placeholder="panels_installed" pattern="[a-zA-Z0-9_ ]+" className={`${input} font-mono`} />
+            <input key={`key-${formKey}`} id="field-key" name="key" required defaultValue={kept("key", editing?.key ?? "")} onInput={onInput} placeholder="panels_installed" pattern="[a-zA-Z0-9_ ]+" className={`${input} font-mono`} />
             <p className="mt-2 text-xs text-[#6B7280]">{t("fieldKeyHelp")}</p>
           </div>
 
@@ -98,7 +108,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
 
           <div className="flex items-end">
             <label className="flex min-h-12 cursor-pointer items-center gap-3 text-sm text-[#D1D5DB]">
-              <input type="checkbox" name="required" defaultChecked={editing?.required} className="h-5 w-5 rounded border-white/20 accent-[#22C55E]" />
+              <input key={`required-${formKey}`} type="checkbox" name="required" defaultChecked={submitted ? submitted.required === "on" : editing?.required} onInput={onInput} className="h-5 w-5 rounded border-white/20 accent-[#22C55E]" />
               {t("requiredLabel")}
             </label>
           </div>
@@ -107,10 +117,15 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
             <div className="sm:col-span-2">
               <label htmlFor="field-options" className={labelClass}>{t("optionsLabel")}</label>
               <textarea
+                key={`options-${formKey}`}
                 id="field-options"
                 name="options"
                 rows={5}
-                defaultValue={editing?.options.map((option) => (option.value === option.label ? option.value : `${option.value}|${option.label}`)).join("\n")}
+                defaultValue={kept(
+                  "options",
+                  editing?.options.map((option) => (option.value === option.label ? option.value : `${option.value}|${option.label}`)).join("\n") ?? "",
+                )}
+                onInput={onInput}
                 placeholder={t("optionsPlaceholder")}
                 className={`${input} py-3 font-mono text-sm`}
               />
@@ -119,7 +134,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
           ) : null}
         </div>
 
-        {state.status === "error" ? (
+        {state.status === "error" && !touched ? (
           <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
         ) : null}
 
