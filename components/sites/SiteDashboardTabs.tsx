@@ -4,7 +4,11 @@ import { getTranslations } from "next-intl/server";
 // `areas` sits right after the overview because it is the structure of the
 // location — the subdivisions everything else is reported against — rather
 // than one more thing that happened at it (#77).
-export const SITE_TABS = ["overview", "areas", "presence", "weather", "hours", "reports", "team", "partners"] as const;
+// `notifications` closes the row, after team and partners: who hears about the
+// chantier only means something once you know who is on it (#83).
+export const SITE_TABS = [
+  "overview", "areas", "presence", "weather", "hours", "reports", "team", "partners", "notifications",
+] as const;
 export type SiteTab = (typeof SITE_TABS)[number];
 
 export function isSiteTab(value: string | undefined): value is SiteTab {

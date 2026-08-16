@@ -13,9 +13,11 @@ import {
   WeatherPanel,
 } from "@/components/sites/SiteDashboardPanels";
 import SiteAreas from "@/components/sites/SiteAreas";
+import SiteNotificationAudience from "@/components/sites/SiteNotificationAudience";
 import SitePartners from "@/components/sites/SitePartners";
 import { getSiteById, getSiteDashboard } from "@/src/features/sites/data";
 import { getSiteAreas } from "@/src/features/sites/areas";
+import { getSiteAudience } from "@/src/features/sites/notifications";
 import { getInvitableCompanies, getSitePartners } from "@/src/features/sites/partners";
 import { getSiteWeather } from "@/src/features/weather/data";
 
@@ -55,6 +57,9 @@ export default async function SiteDashboardPage({
   const partners = active === "partners" ? await getSitePartners(siteId) : [];
   const invitable = active === "partners" ? await getInvitableCompanies(siteId) : [];
 
+  // Four reads, and only this tab needs them (#83).
+  const audience = active === "notifications" ? await getSiteAudience(siteId) : null;
+
   return (
     <section aria-labelledby="site-heading">
       <Link href="/dashboard/sites" className="inline-flex min-h-11 items-center text-sm font-semibold text-[#9CA3AF] hover:text-[#E5E7EB] focus-visible:outline-2 focus-visible:outline-[#22C55E]">← {t("backToSites")}</Link>
@@ -80,6 +85,9 @@ export default async function SiteDashboardPage({
           reports: data.reports.length,
           team: data.team.length,
           partners: partners.filter((partner) => partner.status === "accepted").length,
+          // No badge: the count would only appear once the tab was open, since
+          // the audience is not fetched otherwise — and a number that shows up
+          // after you arrive is worse than none.
         }}
       />
 
@@ -91,6 +99,9 @@ export default async function SiteDashboardPage({
         {active === "hours" ? <HoursPanel data={data} /> : null}
         {active === "reports" ? <ReportsPanel data={data} /> : null}
         {active === "team" ? <TeamPanel data={data} /> : null}
+        {active === "notifications" && audience ? (
+          <SiteNotificationAudience siteId={site.id} audience={audience} />
+        ) : null}
         {active === "partners" ? (
           <SitePartners siteId={site.id} partners={partners} invitable={invitable} />
         ) : null}

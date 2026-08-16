@@ -740,7 +740,21 @@
     "hoursRecentOnly": "Cele mai recente {count} înregistrări.",
     "areaUnattributed": "Neprecizat",
     "areaPeopleCount": "{count} persoane",
-    "partnersOnSite": "În această locație"
+    "partnersOnSite": "În această locație",
+    "audienceTitle": "Cine este anunțat despre această locație",
+    "audienceSubtitle": "Ales, niciodată dedus. Cine este adăugat aici este anunțat când această locație se schimbă.",
+    "audiencePersonLabel": "Coleg",
+    "audiencePersonPlaceholder": "Alege pe cineva",
+    "audienceScopeLabel": "Despre",
+    "audienceScopeWholeSite": "Întreaga locație",
+    "audienceAdd": "Adaugă",
+    "audienceMineTitle": "Din această companie",
+    "audienceMineEmpty": "Încă nu este anunțat nimeni de aici.",
+    "audienceRemove": "Elimină",
+    "audienceCompaniesTitle": "Companii partenere",
+    "audienceCompaniesSubtitle": "Fiecare partener își alege oamenii. Vedeți câți, nu care — lista lor de personal le aparține.",
+    "audienceCompanyCount": "{count} ascultă",
+    "tab_notifications": "Notificări"
   },
   "operationalReports": {
     "metadataTitle": "Rapoarte de teren",

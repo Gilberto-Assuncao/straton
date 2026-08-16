@@ -740,7 +740,21 @@
     "hoursRecentOnly": "Die {count} neuesten Einträge.",
     "areaUnattributed": "Nicht angegeben",
     "areaPeopleCount": "{count} Personen",
-    "partnersOnSite": "An diesem Standort"
+    "partnersOnSite": "An diesem Standort",
+    "audienceTitle": "Wer über diesen Standort informiert wird",
+    "audienceSubtitle": "Ausgewählt, nie abgeleitet. Wer hier hinzugefügt wird, erfährt es, wenn sich dieser Standort ändert.",
+    "audiencePersonLabel": "Kollege",
+    "audiencePersonPlaceholder": "Jemanden auswählen",
+    "audienceScopeLabel": "Über",
+    "audienceScopeWholeSite": "Der gesamte Standort",
+    "audienceAdd": "Hinzufügen",
+    "audienceMineTitle": "Aus diesem Unternehmen",
+    "audienceMineEmpty": "Hier wird noch niemand informiert.",
+    "audienceRemove": "Entfernen",
+    "audienceCompaniesTitle": "Partnerunternehmen",
+    "audienceCompaniesSubtitle": "Jeder Partner wählt seine eigenen Leute. Sie sehen wie viele, nicht wer — die Personalliste gehört ihnen.",
+    "audienceCompanyCount": "{count} hören mit",
+    "tab_notifications": "Benachrichtigungen"
   },
   "operationalReports": {
     "metadataTitle": "Baustellenberichte",

@@ -740,7 +740,21 @@
     "hoursRecentOnly": "{count} najnowszych wpisów.",
     "areaUnattributed": "Nie podano",
     "areaPeopleCount": "{count} osób",
-    "partnersOnSite": "W tej lokalizacji"
+    "partnersOnSite": "W tej lokalizacji",
+    "audienceTitle": "Kto jest powiadamiany o tej lokalizacji",
+    "audienceSubtitle": "Wybrani, nigdy nie wywnioskowani. Osoba dodana tutaj dowie się o zmianie tej lokalizacji.",
+    "audiencePersonLabel": "Współpracownik",
+    "audiencePersonPlaceholder": "Wybierz osobę",
+    "audienceScopeLabel": "Dotyczy",
+    "audienceScopeWholeSite": "Cała lokalizacja",
+    "audienceAdd": "Dodaj",
+    "audienceMineTitle": "Z tej firmy",
+    "audienceMineEmpty": "Nikt stąd nie jest jeszcze powiadamiany.",
+    "audienceRemove": "Usuń",
+    "audienceCompaniesTitle": "Firmy partnerskie",
+    "audienceCompaniesSubtitle": "Każdy partner wybiera własnych ludzi. Widzisz ile osób, nie kto — ich lista pracowników należy do nich.",
+    "audienceCompanyCount": "{count} słucha",
+    "tab_notifications": "Powiadomienia"
   },
   "operationalReports": {
     "metadataTitle": "Raporty terenowe",
