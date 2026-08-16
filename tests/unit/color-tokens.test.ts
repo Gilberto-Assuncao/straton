@@ -30,22 +30,42 @@ const TOKEN_NAMES = [
 ];
 
 /**
- * Hexadecimals that must not be written into a component again.
+ * Hexadecimals that were the palette once and must not come back by hand.
  *
- * The values in use, and the ones a theme attempt would have put in their
- * place. Writing any of them back into a component re-opens the fork this
- * suite exists to keep closed — one file at a time, invisibly, because the
- * greys involved are a hair apart.
+ * Historical only. The values *currently* in use are read out of `globals.css`
+ * instead — see `forbidden()` — because a fixed list of both goes stale the
+ * moment a theme changes a token, which the name-only declaration check above
+ * deliberately allows. A component could then hardcode the new value and this
+ * suite would say nothing, which is the fork it exists to prevent.
+ *
+ * These are the ones already retired: Tailwind's *gray* scale that had drifted
+ * in beside the slate one, and the card surface that appears nowhere in the
+ * identity handoff.
  */
-const FORBIDDEN: Record<string, string> = {
-  // In use.
-  "22c55e": "brand", "16a34a": "brand-hover", "4ade80": "brand-bright", "07110b": "on-brand",
-  f1f5f9: "ink-bright", e5e7eb: "ink", d1d5db: "ink-soft", "9ca3af": "ink-muted",
-  "94a3b8": "ink-dim", "6b7280": "ink-subtle", "64748b": "ink-faint",
-  "0b1220": "canvas", "161a34": "surface", "111c33": "surface-inset",
-  "111827": "surface-alt", "0f172a": "surface-deep",
-  f59e0b: "warning", f87171: "danger",
+const RETIRED: Record<string, string> = {
+  // Empty, and correctly so: no token has changed value yet. The light theme
+  // (#109) was built and rejected without ever being merged, so its values were
+  // never the palette — and listing them here would be wrong twice over, since
+  // `#4B5563` and `#475569` are in legitimate use as one-off shades that no
+  // token covers. An entry belongs here only once a value has actually been
+  // replaced in `globals.css`.
 };
+
+/** Every token's current value, read from the stylesheet that renders. */
+function currentPalette(): Record<string, string> {
+  const css = readFileSync("app/globals.css", "utf8");
+  const found: Record<string, string> = {};
+  for (const name of TOKEN_NAMES) {
+    const match = css.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`));
+    if (match) found[match[1].slice(1).toLowerCase()] = name;
+  }
+  return found;
+}
+
+/** What is in use today, plus everything that ever was. */
+function forbidden(): Record<string, string> {
+  return { ...RETIRED, ...currentPalette() };
+}
 
 /**
  * What is not a rename, per file.
@@ -124,13 +144,23 @@ describe("colour tokens", () => {
     expect(missing, "tokens not declared, or not exposed to Tailwind").toEqual([]);
   });
 
+  it("derives the forbidden values from the stylesheet", () => {
+    // The point of the rewrite: a fixed list would stop covering a token the
+    // moment its value changed, and nothing would say so. If this regex ever
+    // matches nothing, every check below silently passes.
+    const palette = currentPalette();
+    const uncovered = TOKEN_NAMES.filter((name) => !Object.values(palette).includes(name));
+    expect(uncovered, "tokens whose value could not be read from globals.css").toEqual([]);
+  });
+
   it("never writes a hexadecimal that already has a token", () => {
+    const table = forbidden();
     const offenders: string[] = [];
     for (const file of files) {
       if (EXEMPT.has(file)) continue;
       const source = readFileSync(file, "utf8");
       for (const match of source.matchAll(/-\[#([0-9A-Fa-f]{6})\]/g)) {
-        const token = FORBIDDEN[match[1].toLowerCase()];
+        const token = table[match[1].toLowerCase()];
         if (token) offenders.push(`${file}: #${match[1]} is \`${token}\``);
       }
     }
