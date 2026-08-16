@@ -60,11 +60,11 @@ if ([string]::IsNullOrWhiteSpace($publishableKey)) {
 }
 
 $users = @(
-    @{ Label = "Admin"; Email = "admin@nextime.local" },
-    @{ Label = "Supervisor"; Email = "supervisor@nextime.local" },
-    @{ Label = "Employee"; Email = "employee@nextime.local" }
+    @{ Label = "Admin"; Email = "admin@straton.local" },
+    @{ Label = "Supervisor"; Email = "supervisor@straton.local" },
+    @{ Label = "Employee"; Email = "employee@straton.local" }
 )
-$password = "nextime-local-only"
+$password = "straton-local-only"
 $tokenEndpoint = "{0}/auth/v1/token?grant_type=password" -f $apiUrl.TrimEnd("/")
 $hasFailure = $false
 $successMark = [char]0x2713

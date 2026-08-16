@@ -1,4 +1,4 @@
-# NEXTIME
+# STRATON
 
 Plataforma SaaS multi-tenant para controle de horas, equipes, projetos e sites — Bélgica-first, multi-idioma, pronta para qualquer segmento (não só construção civil).
 
@@ -36,7 +36,7 @@ npx supabase db reset # aplica migrations + seed
 npm run dev
 ```
 
-Contas de demonstração (após o seed): `admin@nextime.local`, `supervisor@nextime.local`, `employee@nextime.local` — senha `nextime-local-only`.
+Contas de demonstração (após o seed): `admin@straton.local`, `supervisor@straton.local`, `employee@straton.local` — senha `straton-local-only`.
 
 ## Testes e qualidade
 
