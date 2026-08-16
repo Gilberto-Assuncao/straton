@@ -55,7 +55,8 @@ const BUDGET: Record<string, number> = {
   "app/[locale]/dashboard-preview/page.tsx": 44,
   "src/features/dashboard/data.ts": 22,
   "src/design-system/tokens.ts": 12,
-  "app/[locale]/page.tsx": 9,
+  // Restored to its pre-token form; see EXEMPT.
+  "app/[locale]/page.tsx": 174,
   "src/components/ui/StratonMark.tsx": 6,
   "components/settings/SettingsHub.tsx": 6,
   "src/components/ui/Button.tsx": 3,
@@ -76,6 +77,16 @@ const BUDGET: Record<string, number> = {
   "components/agenda/AssignmentForm.tsx": 1,
   "components/agenda/AgendaWeek.tsx": 1,
 };
+
+/**
+ * Files kept out of the token rules on purpose.
+ *
+ * The landing page was restored to its pre-token form at the owner's request,
+ * so its 174 colours are written by hand again and that is the intended state
+ * — not drift for a later sweep to find. It is listed here rather than
+ * silently passing, so the next person sees a decision instead of a gap.
+ */
+const EXEMPT = new Set(["app/[locale]/page.tsx"]);
 
 const ROOTS = ["components", "src", "app"];
 
@@ -109,6 +120,7 @@ describe("colour tokens", () => {
   it("never writes a hexadecimal that already has a token", () => {
     const offenders: string[] = [];
     for (const file of files) {
+      if (EXEMPT.has(file)) continue;
       const source = readFileSync(file, "utf8");
       for (const match of source.matchAll(/-\[#([0-9A-Fa-f]{6})\]/g)) {
         const token = TOKENS[match[1].toLowerCase()];
