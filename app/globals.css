@@ -1,27 +1,38 @@
 @import "tailwindcss";
 
 /*
- * The palette, named once (#104 follow-up).
+ * The palette, named once.
  *
- * There was already a token block here. It was used *zero* times: 1826 colours
- * were written as `bg-[#161A34]` and `text-[#9CA3AF]` straight into 159
- * component files, and the tokens sat beside them describing a different,
- * greener palette that nothing rendered. Two consequences worth stating.
+ * There were three definitions of this product's colours and only one of them
+ * rendered: a `:root` block used zero times, a `colors` object in
+ * `src/design-system/tokens.ts` that nothing imports, and 1826 hexadecimals
+ * written into 159 component files. The two written down disagreed with the one
+ * in use *and* with each other. #108 named the one that renders, at its own
+ * values, so that changing a colour became possible at all.
  *
- * A theme change was impossible. Turning the background white meant editing 159
- * files, and half-doing it would leave pale grey text on white — the tokens
- * offered no lever at all.
+ * The values here are deliberately unchanged. Two alternatives were built and
+ * rejected on purpose, and both are worth knowing about before touching this
+ * list again:
  *
- * And the palette had quietly forked. `#9CA3AF`, `#94A3B8` and `#64748B` are
- * three different greys doing one job — Tailwind's `gray` and `slate` scales
- * mixed, in the same screens. Naming them is what makes that visible; they are
- * deliberately *not* collapsed here, because collapsing them changes pixels and
- * this step must not.
+ * A light theme was tried. It needs more than new values — 412 borders are
+ * `border-white/10`, which is how an edge is drawn on a dark surface and is
+ * nothing at all on a light one, and the landing hero keeps its own gradient in
+ * `page.module.css` where no token reaches. Both are fixable; neither is free.
  *
- * Every value below is exactly the value it replaces. This step renames, and
- * renames only: the rendered colour is identical, which is the whole reason it
- * can be reviewed at a glance and reverted without archaeology. Choosing new
- * values — the light theme — is the next step, and it edits this file alone.
+ * Aligning to the identity handoff (v1.0, July 2026) was tried too. It
+ * specifies `--bg-surface #0F172A` where cards are `#161A34`, and a slate scale
+ * — `#94A3B8`, `#64748B` — where `#9CA3AF` and `#6B7280` from Tailwind's *gray*
+ * scale had drifted in beside it. Those two greys doing one job are real, and
+ * still here; closing that fork is a visible change and was not wanted now.
+ *
+ * What is enforced is contrast. `tests/unit/contrast.test.ts` computes every
+ * foreground against every surface it can land on, because a palette is a table
+ * of hexadecimals and nothing in it proves the pairs work. Two do not:
+ * `--ink-subtle` and `--ink-faint` sit at 3.5–3.9:1, below the 4.5:1 WCAG asks
+ * of normal text, for captions and metadata. The identity's own `--text-muted`
+ * has the same problem with the same value, so this is not drift — it is a
+ * decision nobody has taken. The test holds them to the 3:1 floor and leaves
+ * the rest recorded here rather than silently passing.
  */
 :root {
   /* Brand. */
@@ -30,8 +41,9 @@
   --brand-bright: #4ade80;
   --on-brand: #07110b;
 
-  /* Foreground, brightest to faintest. `ink` rather than `text`, so the
-     utility reads `text-ink-muted` instead of `text-text-muted`. */
+  /* Foreground. `ink` rather than `text`, so the utility reads `text-ink-muted`
+     instead of `text-text-muted`. The handoff names three levels; the seven here
+     map onto them, and the names stay because 1826 call sites use them. */
   --ink-bright: #f1f5f9;
   --ink: #e5e7eb;
   --ink-soft: #d1d5db;
@@ -40,7 +52,8 @@
   --ink-subtle: #6b7280;
   --ink-faint: #64748b;
 
-  /* Surfaces, from the page up. */
+  /* Surfaces, from the page up. `--bg-base`, `--bg-surface` and
+     `--bg-surface-alt` in the handoff. */
   --canvas: #0b1220;
   --surface: #161a34;
   --surface-inset: #111c33;
