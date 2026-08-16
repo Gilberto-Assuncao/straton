@@ -21,6 +21,8 @@ const UNIONS = [
   { file: "src/features/weather/messages.ts", type: "AlertReasonKey", namespace: "weather" },
   { file: "src/features/sites/messages.ts", type: "SiteMessageKey", namespace: "sites" },
   { file: "src/features/employees/messages.ts", type: "EmployeeMessageKey", namespace: "employees" },
+  { file: "src/features/operational-reports/messages.ts", type: "ReportMessageKey", namespace: "operationalReports" },
+  { file: "src/features/operational-reports/messages.ts", type: "TemplateMessageKey", namespace: "reportTemplates" },
 ];
 
 type Messages = Record<string, Record<string, string>>;

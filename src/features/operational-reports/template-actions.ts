@@ -5,10 +5,13 @@ import { redirect } from "next/navigation";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import type { ReportFieldType, ReportSegment } from "@/lib/types/operational-reports";
+import type { TemplateMessageKey } from "./messages";
+import { log } from "@/src/infrastructure/observability/logger";
 
 export type TemplateActionState = {
   status: "idle" | "error";
-  message: string;
+  /** null while idle. A key into `reportTemplates`, never a sentence (#104). */
+  messageKey: TemplateMessageKey | null;
   /** What was typed, echoed back with the refusal (#74). */
   values?: Record<string, string>;
 };
@@ -58,22 +61,25 @@ async function guard() {
 export async function saveTemplateAction(_: TemplateActionState, formData: FormData): Promise<TemplateActionState> {
   const values = submittedTemplate(formData);
   const { allowed, companyId } = await guard();
-  if (!allowed) return { status: "error", message: "You do not have permission to manage report templates.", values };
+  if (!allowed) return { status: "error", messageKey: "errNoPermission", values };
 
   const templateId = text(formData, "templateId");
   const name = text(formData, "name");
   const segment = text(formData, "segment") as ReportSegment;
   const description = text(formData, "description");
 
-  if (name.length < 2) return { status: "error", message: "Enter a template name.", values };
-  if (!SEGMENTS.includes(segment)) return { status: "error", message: "Select a valid segment.", values };
+  if (name.length < 2) return { status: "error", messageKey: "errTemplateNameRequired", values };
+  if (!SEGMENTS.includes(segment)) return { status: "error", messageKey: "errInvalidSegment", values };
 
   const supabase = await createClient();
   const payload = { name, segment, description: description || null };
 
   if (templateId) {
     const { error } = await supabase.from("report_templates").update(payload).eq("id", templateId).eq("company_id", companyId);
-    if (error) return { status: "error", message: error.message, values };
+    if (error) {
+      log.error({ event: "template_update_failed", source: "saveTemplateAction", companyId, code: error.code }, error);
+      return { status: "error", messageKey: "errTemplateSaveFailed", values };
+    }
     revalidatePath("/dashboard/field-reports/templates");
     redirect(`/dashboard/field-reports/templates/${templateId}`);
   }
@@ -83,7 +89,10 @@ export async function saveTemplateAction(_: TemplateActionState, formData: FormD
     .insert({ ...payload, company_id: companyId, active: true })
     .select("id")
     .single();
-  if (error || !data) return { status: "error", message: error?.message ?? "Unable to create the template.", values };
+  if (error || !data) {
+    log.error({ event: "template_insert_failed", source: "saveTemplateAction", companyId, code: error?.code }, error);
+    return { status: "error", messageKey: "errTemplateSaveFailed", values };
+  }
 
   revalidatePath("/dashboard/field-reports/templates");
   redirect(`/dashboard/field-reports/templates/${data.id}`);
@@ -92,16 +101,19 @@ export async function saveTemplateAction(_: TemplateActionState, formData: FormD
 // Templates are deactivated rather than deleted once reports reference them:
 // removing the row would leave submitted reports pointing at nothing, and the
 // field definitions are what make their stored values readable.
-export async function setTemplateActiveAction(templateId: string, active: boolean): Promise<{ ok: boolean; message: string }> {
+export async function setTemplateActiveAction(templateId: string, active: boolean): Promise<{ ok: boolean; messageKey: TemplateMessageKey }> {
   const { allowed, companyId } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to manage report templates." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermission" };
 
   const supabase = await createClient();
   const { error } = await supabase.from("report_templates").update({ active }).eq("id", templateId).eq("company_id", companyId);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "template_status_failed", source: "setTemplateActiveAction", companyId, code: error.code }, error);
+    return { ok: false, messageKey: "errTemplateStatusFailed" };
+  }
 
   revalidatePath("/dashboard/field-reports/templates");
-  return { ok: true, message: active ? "Template reactivated." : "Template deactivated; existing reports keep working." };
+  return { ok: true, messageKey: active ? "okTemplateReactivated" : "okTemplateDeactivated" };
 }
 
 // ------------------------------------------------------------------- fields
@@ -123,7 +135,7 @@ function parseOptions(raw: string, fieldType: ReportFieldType) {
 export async function saveFieldAction(_: TemplateActionState, formData: FormData): Promise<TemplateActionState> {
   const values = submittedField(formData);
   const { allowed, companyId } = await guard();
-  if (!allowed) return { status: "error", message: "You do not have permission to manage report templates.", values };
+  if (!allowed) return { status: "error", messageKey: "errNoPermission", values };
 
   const templateId = text(formData, "templateId");
   const fieldId = text(formData, "fieldId");
@@ -133,14 +145,14 @@ export async function saveFieldAction(_: TemplateActionState, formData: FormData
   const required = formData.get("required") === "on";
   const optionsRaw = text(formData, "options");
 
-  if (!templateId) return { status: "error", message: "Template not found.", values };
-  if (!key) return { status: "error", message: "Enter a field key.", values };
-  if (label.length < 1) return { status: "error", message: "Enter a field label.", values };
-  if (!FIELD_TYPES.includes(fieldType)) return { status: "error", message: "Select a valid field type.", values };
+  if (!templateId) return { status: "error", messageKey: "errTemplateNotFound", values };
+  if (!key) return { status: "error", messageKey: "errFieldKeyRequired", values };
+  if (label.length < 1) return { status: "error", messageKey: "errFieldLabelRequired", values };
+  if (!FIELD_TYPES.includes(fieldType)) return { status: "error", messageKey: "errInvalidFieldType", values };
 
   const options = parseOptions(optionsRaw, fieldType);
   if (CHOICE_TYPES.includes(fieldType) && options.length === 0) {
-    return { status: "error", message: "A choice field needs at least one option.", values };
+    return { status: "error", messageKey: "errChoiceNeedsOption", values };
   }
 
   const supabase = await createClient();
@@ -155,7 +167,7 @@ export async function saveFieldAction(_: TemplateActionState, formData: FormData
     .eq("company_id", companyId)
     .eq("key", key)
     .maybeSingle();
-  if (clash && clash.id !== fieldId) return { status: "error", message: "Another field already uses that key.", values };
+  if (clash && clash.id !== fieldId) return { status: "error", messageKey: "errKeyInUse", values };
 
   if (fieldId) {
     const { error } = await supabase
@@ -163,7 +175,10 @@ export async function saveFieldAction(_: TemplateActionState, formData: FormData
       .update({ key, label, field_type: fieldType, required, options })
       .eq("id", fieldId)
       .eq("company_id", companyId);
-    if (error) return { status: "error", message: error.message, values };
+    if (error) {
+      log.error({ event: "template_field_update_failed", source: "saveFieldAction", companyId, code: error.code }, error);
+      return { status: "error", messageKey: "errFieldSaveFailed", values };
+    }
   } else {
     const { data: last } = await supabase
       .from("report_template_fields")
@@ -177,16 +192,19 @@ export async function saveFieldAction(_: TemplateActionState, formData: FormData
       field_type: fieldType, required, options,
       display_order: (last?.display_order ?? 0) + 1, active: true,
     });
-    if (error) return { status: "error", message: error.message, values };
+    if (error) {
+      log.error({ event: "template_field_insert_failed", source: "saveFieldAction", companyId, code: error.code }, error);
+      return { status: "error", messageKey: "errFieldSaveFailed", values };
+    }
   }
 
   revalidatePath(`/dashboard/field-reports/templates/${templateId}`);
   redirect(`/dashboard/field-reports/templates/${templateId}`);
 }
 
-export async function removeFieldAction(templateId: string, fieldId: string): Promise<{ ok: boolean; message: string }> {
+export async function removeFieldAction(templateId: string, fieldId: string): Promise<{ ok: boolean; messageKey: TemplateMessageKey }> {
   const { allowed, companyId } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to manage report templates." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermission" };
 
   const supabase = await createClient();
 
@@ -204,15 +222,18 @@ export async function removeFieldAction(templateId: string, fieldId: string): Pr
     : supabase.from("report_template_fields").delete().eq("id", fieldId).eq("company_id", companyId);
 
   const { error } = await query;
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "template_field_remove_failed", source: "removeFieldAction", companyId, code: error.code }, error);
+    return { ok: false, messageKey: "errFieldRemoveFailed" };
+  }
 
   revalidatePath(`/dashboard/field-reports/templates/${templateId}`);
-  return { ok: true, message: (count ?? 0) > 0 ? "Field retired; submitted answers were kept." : "Field removed." };
+  return { ok: true, messageKey: (count ?? 0) > 0 ? "okFieldRetired" : "okFieldRemoved" };
 }
 
-export async function moveFieldAction(templateId: string, fieldId: string, direction: "up" | "down"): Promise<{ ok: boolean; message: string }> {
+export async function moveFieldAction(templateId: string, fieldId: string, direction: "up" | "down"): Promise<{ ok: boolean; messageKey: TemplateMessageKey }> {
   const { allowed, companyId } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to manage report templates." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermission" };
 
   const supabase = await createClient();
   const { data: fields } = await supabase
@@ -226,7 +247,7 @@ export async function moveFieldAction(templateId: string, fieldId: string, direc
   const list = (fields ?? []) as { id: string; display_order: number }[];
   const index = list.findIndex((field) => field.id === fieldId);
   const swapWith = direction === "up" ? index - 1 : index + 1;
-  if (index === -1 || swapWith < 0 || swapWith >= list.length) return { ok: false, message: "Cannot move further." };
+  if (index === -1 || swapWith < 0 || swapWith >= list.length) return { ok: false, messageKey: "errCannotMoveFurther" };
 
   const a = list[index];
   const b = list[swapWith];
@@ -234,5 +255,5 @@ export async function moveFieldAction(templateId: string, fieldId: string, direc
   await supabase.from("report_template_fields").update({ display_order: a.display_order }).eq("id", b.id);
 
   revalidatePath(`/dashboard/field-reports/templates/${templateId}`);
-  return { ok: true, message: "Order updated." };
+  return { ok: true, messageKey: "okOrderUpdated" };
 }

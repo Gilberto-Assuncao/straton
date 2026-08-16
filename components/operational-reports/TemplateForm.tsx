@@ -14,14 +14,14 @@ const labelClass = "text-sm font-medium text-[#E5E7EB]";
 
 export default function TemplateForm({ template }: { template?: { id: string; name: string; segment: ReportSegment; description: string | null } }) {
   const t = useTranslations("reportTemplates");
-  const [state, formAction] = useActionState(saveTemplateAction, { status: "idle", message: "" } as TemplateActionState);
+  const [state, formAction] = useActionState(saveTemplateAction, { status: "idle", messageKey: null } as TemplateActionState);
 
   // Serves both creating and editing. When editing, a refusal falls back to
   // the stored template rather than to blank — the same rule as the employee
   // edit form: what was typed wins while it exists (#74).
   const submitted = state.values;
   const { touched, onInput, formKey } = useSubmittedValues(
-    `${JSON.stringify(state.values ?? null)}|${state.message}`,
+    `${JSON.stringify(state.values ?? null)}|${state.messageKey ?? ""}`,
   );
   const kept = (name: string, stored: string) => submitted?.[name] ?? stored;
 
@@ -49,8 +49,10 @@ export default function TemplateForm({ template }: { template?: { id: string; na
         </div>
       </div>
 
-      {state.status === "error" && !touched ? (
-        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
+      {/* Keyed off the message, not the status: `messageKey` is null while
+          idle, and testing it is what tells the compiler there is a key here. */}
+      {state.messageKey && !touched ? (
+        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

@@ -5,8 +5,10 @@ import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { reviewerRoles } from "@/src/features/operational-reports/data";
 import type { FieldValue, ReportFieldType } from "@/lib/types/operational-reports";
+import type { ReportMessageKey } from "./messages";
+import { log } from "@/src/infrastructure/observability/logger";
 
-export type ReportActionResult = { ok: boolean; message: string; reportId?: string };
+export type ReportActionResult = { ok: boolean; messageKey: ReportMessageKey; reportId?: string };
 
 export type FieldValueInput = { fieldId: string; fieldType: ReportFieldType; value: FieldValue };
 
@@ -67,14 +69,20 @@ export async function createOperationalReportAction(input: OperationalReportInpu
     })
     .select("id")
     .single();
-  if (error || !report) return { ok: false, message: error?.message ?? "Unable to create the report." };
+  if (error || !report) {
+    log.error({ event: "report_insert_failed", source: "createOperationalReportAction", companyId, code: error?.code }, error);
+    return { ok: false, messageKey: "errReportSaveFailed" };
+  }
 
   const valuesError = await replaceValues(report.id, companyId, input.values);
-  if (valuesError) return { ok: false, message: valuesError.message };
+  if (valuesError) {
+    log.error({ event: "report_values_insert_failed", source: "createOperationalReportAction", companyId, code: valuesError.code }, valuesError);
+    return { ok: false, messageKey: "errReportSaveFailed" };
+  }
 
   await logHistory(report.id, companyId, session.user.id, "created");
   revalidatePath("/dashboard/field-reports");
-  return { ok: true, message: "Report saved as draft.", reportId: report.id };
+  return { ok: true, messageKey: "okDraftSaved", reportId: report.id };
 }
 
 export async function updateOperationalReportAction(reportId: string, input: OperationalReportInput): Promise<ReportActionResult> {
@@ -82,9 +90,9 @@ export async function updateOperationalReportAction(reportId: string, input: Ope
   const supabase = await createClient();
 
   const { data: existing } = await supabase.from("operational_reports").select("worker_id,status").eq("id", reportId).eq("company_id", companyId).maybeSingle();
-  if (!existing) return { ok: false, message: "Report not found." };
-  if (existing.worker_id !== session.user.id) return { ok: false, message: "Only the worker who created this report can edit it." };
-  if (!editableStatuses.includes(existing.status)) return { ok: false, message: "This report can no longer be edited." };
+  if (!existing) return { ok: false, messageKey: "errReportNotFound" };
+  if (existing.worker_id !== session.user.id) return { ok: false, messageKey: "errOnlyAuthorEdits" };
+  if (!editableStatuses.includes(existing.status)) return { ok: false, messageKey: "errNoLongerEditable" };
 
   const { error } = await supabase
     .from("operational_reports")
@@ -100,14 +108,20 @@ export async function updateOperationalReportAction(reportId: string, input: Ope
       updated_at: new Date().toISOString(),
     })
     .eq("id", reportId);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "report_update_failed", source: "updateOperationalReportAction", companyId, code: error.code }, error);
+    return { ok: false, messageKey: "errReportSaveFailed" };
+  }
 
   const valuesError = await replaceValues(reportId, companyId, input.values);
-  if (valuesError) return { ok: false, message: valuesError.message };
+  if (valuesError) {
+    log.error({ event: "report_values_update_failed", source: "updateOperationalReportAction", companyId, code: valuesError.code }, valuesError);
+    return { ok: false, messageKey: "errReportSaveFailed" };
+  }
 
   await logHistory(reportId, companyId, session.user.id, "edited");
   revalidatePath(`/dashboard/field-reports/${reportId}`);
-  return { ok: true, message: "Report updated.", reportId };
+  return { ok: true, messageKey: "okReportUpdated", reportId };
 }
 
 export async function submitOperationalReportAction(reportId: string): Promise<ReportActionResult> {
@@ -115,40 +129,48 @@ export async function submitOperationalReportAction(reportId: string): Promise<R
   const supabase = await createClient();
 
   const { data: existing } = await supabase.from("operational_reports").select("worker_id,status").eq("id", reportId).eq("company_id", companyId).maybeSingle();
-  if (!existing) return { ok: false, message: "Report not found." };
-  if (existing.worker_id !== session.user.id) return { ok: false, message: "Only the worker who created this report can submit it." };
-  if (!editableStatuses.includes(existing.status)) return { ok: false, message: "This report was already submitted." };
+  if (!existing) return { ok: false, messageKey: "errReportNotFound" };
+  if (existing.worker_id !== session.user.id) return { ok: false, messageKey: "errOnlyAuthorSubmits" };
+  if (!editableStatuses.includes(existing.status)) return { ok: false, messageKey: "errAlreadySubmitted" };
 
   const { error } = await supabase.from("operational_reports").update({ status: "submitted", submitted_at: new Date().toISOString() }).eq("id", reportId);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "report_submit_failed", source: "submitOperationalReportAction", companyId, code: error.code }, error);
+    return { ok: false, messageKey: "errReportSaveFailed" };
+  }
 
   await logHistory(reportId, companyId, session.user.id, "submitted");
   revalidatePath(`/dashboard/field-reports/${reportId}`);
   revalidatePath("/dashboard/field-reports");
-  return { ok: true, message: "Report submitted for approval.", reportId };
+  return { ok: true, messageKey: "okReportSubmitted", reportId };
 }
 
 async function review(reportId: string, decision: "approved" | "rejected" | "changes_requested", reason?: string): Promise<ReportActionResult> {
   const { session, companyId } = await requireActiveCompany();
   const isReviewer = session.activeCompany!.roles.some((role) => reviewerRoles.includes(role));
-  if (!isReviewer) return { ok: false, message: "You do not have permission to review reports." };
+  if (!isReviewer) return { ok: false, messageKey: "errNoPermissionReview" };
 
   const supabase = await createClient();
   const { data: existing } = await supabase.from("operational_reports").select("status").eq("id", reportId).eq("company_id", companyId).maybeSingle();
-  if (!existing) return { ok: false, message: "Report not found." };
-  if (existing.status !== "submitted" && existing.status !== "under_review") return { ok: false, message: "Only submitted reports can be reviewed." };
+  if (!existing) return { ok: false, messageKey: "errReportNotFound" };
+  if (existing.status !== "submitted" && existing.status !== "under_review") return { ok: false, messageKey: "errOnlySubmittedReviewed" };
 
   const { error } = await supabase
     .from("operational_reports")
     .update({ status: decision, reviewed_by: session.user.id, reviewed_at: new Date().toISOString(), rejection_reason: decision === "approved" ? null : (reason ?? null) })
     .eq("id", reportId);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "report_review_failed", source: "review", companyId, code: error.code }, error);
+    return { ok: false, messageKey: "errReviewSaveFailed" };
+  }
 
   await logHistory(reportId, companyId, session.user.id, decision, reason);
   revalidatePath(`/dashboard/field-reports/${reportId}`);
   revalidatePath("/dashboard/field-reports");
-  const messages = { approved: "Report approved.", rejected: "Report rejected.", changes_requested: "Changes requested." };
-  return { ok: true, message: messages[decision], reportId };
+  const decided: Record<typeof decision, ReportMessageKey> = {
+    approved: "okReportApproved", rejected: "okReportRejected", changes_requested: "okChangesRequested",
+  };
+  return { ok: true, messageKey: decided[decision], reportId };
 }
 
 export async function approveOperationalReportAction(reportId: string) {
