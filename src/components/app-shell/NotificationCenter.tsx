@@ -21,6 +21,7 @@ function NotificationItem({ item }: { item: AppNotification }) {
         title: item.params?.title ?? "",
         site: item.params?.siteName ?? "",
         person: item.params?.personName ?? "",
+        area: item.params?.areaName ?? "",
         when: item.params?.startsAt ? format.dateTime(new Date(item.params.startsAt), { dateStyle: "medium", timeStyle: "short" }) : "",
         previously: item.params?.previousStartsAt
           ? format.dateTime(new Date(item.params.previousStartsAt), { dateStyle: "medium", timeStyle: "short" })

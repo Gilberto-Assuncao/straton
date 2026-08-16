@@ -1469,7 +1469,11 @@
     "swapApproved_title": "Shift swap approved",
     "swapApproved_body": "{title} on {when} has been reassigned.",
     "swapRejected_title": "Shift swap not approved",
-    "swapRejected_body": "{title} on {when} stays with you."
+    "swapRejected_body": "{title} on {when} stays with you.",
+    "siteChanged_title": "A work location changed",
+    "siteChanged_body": "{site} was updated.",
+    "siteAreaChanged_title": "A subdivision changed",
+    "siteAreaChanged_body": "{area} was updated."
   },
   "reports": {
     "workedHoursTitle": "Worked hours",

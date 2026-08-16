@@ -27,7 +27,9 @@ export type NotificationKey =
   | "swapProposed"
   | "swapAcceptedByPeer"
   | "swapApproved"
-  | "swapRejected";
+  | "swapRejected"
+  | "siteChanged"
+  | "siteAreaChanged";
 
 export interface NotificationParams {
   /** The job's title. Safe to show: it is what the person was told to do. */
@@ -37,6 +39,8 @@ export interface NotificationParams {
   previousStartsAt?: string;
   siteName?: string;
   personName?: string;
+  /** The subdivision an event happened in, when it happened in one (#83). */
+  areaName?: string;
 }
 
 type Tone = "INFO" | "SUCCESS" | "WARNING" | "ACTION_REQUIRED";
@@ -57,6 +61,12 @@ const TONE: Record<NotificationKey, Tone> = {
   swapAcceptedByPeer: "INFO",
   swapApproved: "SUCCESS",
   swapRejected: "INFO",
+  // Information, not an interruption. A chantier whose address or dates were
+  // corrected is worth knowing about; it is not the class of change that sends
+  // somebody to the wrong place at the wrong hour, which is what
+  // ACTION_REQUIRED is reserved for here.
+  siteChanged: "INFO",
+  siteAreaChanged: "INFO",
 };
 
 /**
@@ -76,6 +86,8 @@ const FALLBACK: Record<NotificationKey, string> = {
   swapAcceptedByPeer: "Your colleague accepted the shift swap",
   swapApproved: "Your shift swap was approved",
   swapRejected: "Your shift swap was not approved",
+  siteChanged: "A work location you follow changed",
+  siteAreaChanged: "A subdivision you follow changed",
 };
 
 export interface NotificationTarget {

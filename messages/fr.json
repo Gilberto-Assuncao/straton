@@ -1469,7 +1469,11 @@
     "swapApproved_title": "Échange de service approuvé",
     "swapApproved_body": "{title} le {when} a été réattribué.",
     "swapRejected_title": "Échange de service refusé",
-    "swapRejected_body": "{title} le {when} reste à votre charge."
+    "swapRejected_body": "{title} le {when} reste à votre charge.",
+    "siteChanged_title": "Un chantier a changé",
+    "siteChanged_body": "{site} a été mis à jour.",
+    "siteAreaChanged_title": "Une subdivision a changé",
+    "siteAreaChanged_body": "{area} a été mise à jour."
   },
   "reports": {
     "workedHoursTitle": "Heures travaillées",

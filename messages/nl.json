@@ -1469,7 +1469,11 @@
     "swapApproved_title": "Dienstruil goedgekeurd",
     "swapApproved_body": "{title} op {when} is opnieuw toegewezen.",
     "swapRejected_title": "Dienstruil niet goedgekeurd",
-    "swapRejected_body": "{title} op {when} blijft bij u."
+    "swapRejected_body": "{title} op {when} blijft bij u.",
+    "siteChanged_title": "Een werklocatie is gewijzigd",
+    "siteChanged_body": "{site} is bijgewerkt.",
+    "siteAreaChanged_title": "Een onderverdeling is gewijzigd",
+    "siteAreaChanged_body": "{area} is bijgewerkt."
   },
   "reports": {
     "workedHoursTitle": "Gewerkte uren",
