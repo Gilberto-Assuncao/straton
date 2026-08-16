@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useSubmittedValues } from "@/components/auth/useSubmittedValues";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { updateEmployeeAction, type UpdateEmployeeState } from "@/src/features/employees/actions";
@@ -11,6 +12,15 @@ const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-[#11182
 export default function EmployeeEditForm({ employee, teams }: { employee: Employee; teams: string[] }) {
   const t = useTranslations("employees");
   const [state, formAction] = useActionState(updateEmployeeAction, { status: "idle", message: "" } as UpdateEmployeeState);
+
+  // Unlike the invite form, this one opens with the person's stored details —
+  // so a refusal has to fall back to those, not to blank. What was typed wins
+  // while it exists; the record is what it started from (#74).
+  const submitted = state.values;
+  const { touched, onInput, formKey } = useSubmittedValues(
+    `${JSON.stringify(state.values ?? null)}|${state.message}`,
+  );
+  const kept = (name: string, stored: string) => submitted?.[name] ?? stored;
 
   // The list of teams comes from the people already assigned, so a team the
   // company has but nobody is on yet would be missing — and so would
@@ -32,9 +42,9 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
       <input type="hidden" name="employeeId" value={employee.id} />
       <div className="grid gap-5 sm:grid-cols-2">
         {fields.map((item) => (
-          <div key={item.id}>
+          <div key={`${item.id}-${formKey}`}>
             <label htmlFor={item.id} className="text-sm font-medium text-[#E5E7EB]">{item.label}</label>
-            <input id={item.id} name={item.name} type={item.type} autoComplete={item.autoComplete} required={!item.optional} defaultValue={item.defaultValue} className={field} />
+            <input id={item.id} name={item.name} type={item.type} autoComplete={item.autoComplete} required={!item.optional} defaultValue={kept(item.name, item.defaultValue)} onInput={onInput} className={field} />
           </div>
         ))}
 
@@ -46,7 +56,7 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
 
         <div>
           <label htmlFor="edit-team" className="text-sm font-medium text-[#E5E7EB]">{t("teamLabel")}</label>
-          <select id="edit-team" name="team" defaultValue={employee.team ?? ""} className={field}>
+          <select key={`team-${formKey}`} id="edit-team" name="team" defaultValue={kept("team", employee.team ?? "")} onInput={onInput} className={field}>
             <option value="">{t("noTeam")}</option>
             {teamOptions.map((team) => <option key={team} value={team}>{team}</option>)}
           </select>
@@ -54,7 +64,7 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
 
         <div>
           <label htmlFor="edit-employment-type" className="text-sm font-medium text-[#E5E7EB]">{t("employmentType")}</label>
-          <select id="edit-employment-type" name="employmentType" required defaultValue={employee.employmentType} className={field}>
+          <select key={`type-${formKey}`} id="edit-employment-type" name="employmentType" required defaultValue={kept("employmentType", employee.employmentType)} onInput={onInput} className={field}>
             <option value="employee">{t("employmentTypeEmployee")}</option>
             <option value="contractor">{t("employmentTypeContractor")}</option>
             <option value="temporary">{t("employmentTypeTemporary")}</option>
@@ -63,11 +73,11 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
 
         <div>
           <label htmlFor="edit-start-date" className="text-sm font-medium text-[#E5E7EB]">{t("startDate")}</label>
-          <input id="edit-start-date" name="startDate" type="date" required defaultValue={employee.startDate} className={field} />
+          <input key={`start-${formKey}`} id="edit-start-date" name="startDate" type="date" required defaultValue={kept("startDate", employee.startDate)} onInput={onInput} className={field} />
         </div>
       </div>
 
-      {state.status === "error" ? (
+      {state.status === "error" && !touched ? (
         <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
       ) : null}
 

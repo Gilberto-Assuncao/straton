@@ -7,15 +7,45 @@ import { createClient } from "@/src/infrastructure/supabase/server";
 import { createAdminClient } from "@/src/infrastructure/supabase/admin";
 import { log } from "@/src/infrastructure/observability/logger";
 
-export type InviteEmployeeState = { status: "idle" | "error"; message: string };
+/**
+ * `values` is what was typed, echoed back with the refusal (#74).
+ *
+ * Nine fields, all of them lost on every refusal until now — including the
+ * start date and the hourly rate, which are the two nobody has memorised.
+ */
+export type InviteEmployeeState = {
+  status: "idle" | "error";
+  message: string;
+  values?: Record<string, string>;
+};
+
+/**
+ * Every field this form posts, listed rather than derived.
+ *
+ * The list is the point. An earlier attempt at this put `values` on every
+ * error return in the file with one substitution, and it also reached
+ * `acceptInviteAction` — which sets a password from an invite link, and must
+ * never echo anything back. A named list per action cannot do that.
+ */
+const INVITE_FIELDS = [
+  "firstName", "lastName", "email", "phone", "jobTitle",
+  "team", "employmentType", "hourlyRate", "startDate",
+] as const;
+
+function submittedInvite(formData: FormData): Record<string, string> {
+  const values: Record<string, string> = {};
+  for (const key of INVITE_FIELDS) values[key] = String(formData.get(key) ?? "");
+  return values;
+}
 
 const managerRoles = ["owner", "admin", "administrator", "manager"];
 const roleKeyByEmploymentType: Record<string, string> = { employee: "employee", contractor: "contractor", temporary: "employee" };
 
 export async function inviteEmployeeAction(_: InviteEmployeeState, formData: FormData): Promise<InviteEmployeeState> {
+  const values = submittedInvite(formData);
   const { session, companyId } = await requireActiveCompany();
   const isManager = session.activeCompany!.roles.some((role) => managerRoles.includes(role));
-  if (!isManager) return { status: "error", message: "You do not have permission to invite employees." };
+  if (!isManager) return { status: "error", message: "You do not have permission to invite employees.", values };
 
   const firstName = String(formData.get("firstName") ?? "").trim();
   const lastName = String(formData.get("lastName") ?? "").trim();
@@ -36,7 +66,7 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   // nullable, and the workforce screen already renders "Unassigned" — only the
   // form insisted.
   if (!firstName || !lastName || !email || !jobTitle || !startDate) {
-    return { status: "error", message: "Fill in all required fields." };
+    return { status: "error", message: "Fill in all required fields.", values };
   }
 
   const supabase = await createClient();
@@ -51,13 +81,13 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
   ]);
   // A team that was named but does not exist is still an error — that is a
   // typo or a stale form, not a choice. Naming none is the choice.
-  if (team && !teamRow) return { status: "error", message: "Select a valid team." };
-  if (!roleRow) return { status: "error", message: "Unable to resolve the employee role." };
+  if (team && !teamRow) return { status: "error", message: "Select a valid team.", values };
+  if (!roleRow) return { status: "error", message: "Unable to resolve the employee role.", values };
 
   let userId = existingUser?.id as string | undefined;
   if (userId) {
     const { data: existingMembership } = await admin.from("company_memberships").select("id").eq("company_id", companyId).eq("user_id", userId).maybeSingle();
-    if (existingMembership) return { status: "error", message: "This person is already part of your company." };
+    if (existingMembership) return { status: "error", message: "This person is already part of your company.", values };
     await admin.from("users").update({ first_name: firstName, last_name: lastName, phone: phone || null }).eq("id", userId);
   } else {
     const appUrl = process.env.APP_URL ?? "http://localhost:3000";
@@ -81,7 +111,7 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
         { event: "invite_email_failed", source: "inviteEmployeeAction", companyId, userId: session.user.id },
         inviteError,
       );
-      return { status: "error", message: "Could not send the invitation email. It has been logged; try again shortly." };
+      return { status: "error", message: "Could not send the invitation email. It has been logged; try again shortly.", values };
     }
     userId = invited.user.id;
     await admin.from("users").update({ first_name: firstName, last_name: lastName, phone: phone || null }).eq("id", userId);
@@ -92,16 +122,16 @@ export async function inviteEmployeeAction(_: InviteEmployeeState, formData: For
     .insert({ company_id: companyId, user_id: userId, job_title: jobTitle, status: "invited", pending_team_id: teamRow?.id ?? null })
     .select("id")
     .single();
-  if (membershipError || !membership) return { status: "error", message: membershipError?.message ?? "Unable to create the membership." };
+  if (membershipError || !membership) return { status: "error", message: membershipError?.message ?? "Unable to create the membership.", values };
 
   const { error: roleError } = await admin.from("membership_roles").insert({ membership_id: membership.id, role_id: roleRow.id });
-  if (roleError) return { status: "error", message: roleError.message };
+  if (roleError) return { status: "error", message: roleError.message, values };
 
   const { error: recordError } = await admin.from("employee_records").insert({
     company_id: companyId, company_membership_id: membership.id, job_title: jobTitle,
     employment_type: employmentType, employment_status: "pending", start_date: startDate,
   });
-  if (recordError) return { status: "error", message: recordError.message };
+  if (recordError) return { status: "error", message: recordError.message, values };
 
   // Team assignment happens once the invite is accepted (acceptInviteAction
   // below) — validate_team_operational_membership requires the membership to
@@ -160,7 +190,24 @@ export async function acceptInviteAction(_: AcceptInviteState, formData: FormDat
   return { status: "success", message: "Account activated." };
 }
 
-export type UpdateEmployeeState = { status: "idle" | "error"; message: string };
+export type UpdateEmployeeState = {
+  status: "idle" | "error";
+  message: string;
+  /** What was typed, echoed back with the refusal (#74). */
+  values?: Record<string, string>;
+};
+
+/** Named per action, never derived — see the note on `INVITE_FIELDS`. */
+const UPDATE_FIELDS = [
+  "firstName", "lastName", "phone", "jobTitle",
+  "team", "employmentType", "startDate",
+] as const;
+
+function submittedUpdate(formData: FormData): Record<string, string> {
+  const values: Record<string, string> = {};
+  for (const key of UPDATE_FIELDS) values[key] = String(formData.get(key) ?? "");
+  return values;
+}
 
 // The employee id used across the UI is `employee_records.id`. Editing one
 // person touches three tables — the person (`users`), their place in the
@@ -181,9 +228,10 @@ async function loadEditableEmployee(employeeId: string, companyId: string) {
 }
 
 export async function updateEmployeeAction(_: UpdateEmployeeState, formData: FormData): Promise<UpdateEmployeeState> {
+  const values = submittedUpdate(formData);
   const { session, companyId } = await requireActiveCompany();
   if (!session.activeCompany!.roles.some((role) => managerRoles.includes(role))) {
-    return { status: "error", message: "You do not have permission to edit employees." };
+    return { status: "error", message: "You do not have permission to edit employees.", values };
   }
 
   const employeeId = String(formData.get("employeeId") ?? "");
@@ -196,11 +244,11 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
   const startDate = String(formData.get("startDate") ?? "");
 
   if (!firstName || !lastName || !jobTitle || !startDate) {
-    return { status: "error", message: "Fill in all required fields." };
+    return { status: "error", message: "Fill in all required fields.", values };
   }
 
   const target = await loadEditableEmployee(employeeId, companyId);
-  if (!target) return { status: "error", message: "Employee not found." };
+  if (!target) return { status: "error", message: "Employee not found.", values };
 
   const admin = createAdminClient();
   const supabase = await createClient();
@@ -209,19 +257,19 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
     .from("users")
     .update({ first_name: firstName, last_name: lastName, phone: phone || null })
     .eq("id", target.userId);
-  if (userError) return { status: "error", message: userError.message };
+  if (userError) return { status: "error", message: userError.message, values };
 
   const { error: membershipError } = await admin
     .from("company_memberships")
     .update({ job_title: jobTitle })
     .eq("id", target.membershipId);
-  if (membershipError) return { status: "error", message: membershipError.message };
+  if (membershipError) return { status: "error", message: membershipError.message, values };
 
   const { error: recordError } = await admin
     .from("employee_records")
     .update({ job_title: jobTitle, employment_type: employmentType, start_date: startDate })
     .eq("id", target.recordId);
-  if (recordError) return { status: "error", message: recordError.message };
+  if (recordError) return { status: "error", message: recordError.message, values };
 
   /*
    * Team moves close the current link instead of deleting it, so the history of
@@ -237,7 +285,7 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
     ? await supabase.from("teams").select("id").eq("company_id", companyId).eq("name", team).maybeSingle()
     : { data: null };
   // Named but non-existent is still an error: that is a typo or a stale form.
-  if (team && !teamRow) return { status: "error", message: "Select a valid team." };
+  if (team && !teamRow) return { status: "error", message: "Select a valid team.", values };
 
   const { data: currentLink } = await supabase
     .from("team_memberships")
@@ -248,12 +296,12 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
 
   if ((currentLink?.team_id ?? null) !== (teamRow?.id ?? null)) {
     if (currentLink?.team_role === "leader") {
-      return { status: "error", message: "This person leads their current team. Assign another leader before moving them." };
+      return { status: "error", message: "This person leads their current team. Assign another leader before moving them.", values };
     }
     if (currentLink) {
       const now = new Date().toISOString();
       const { error } = await admin.from("team_memberships").update({ left_at: now, removed_at: now }).eq("id", currentLink.id);
-      if (error) return { status: "error", message: error.message };
+      if (error) return { status: "error", message: error.message, values };
     }
     // Only active memberships may join a team (enforced by
     // validate_team_operational_membership); invited people keep the team on
@@ -263,10 +311,10 @@ export async function updateEmployeeAction(_: UpdateEmployeeState, formData: For
         company_id: companyId, team_id: teamRow.id,
         company_membership_id: target.membershipId, team_role: "member",
       });
-      if (error) return { status: "error", message: error.message };
+      if (error) return { status: "error", message: error.message, values };
     } else {
       const { error } = await admin.from("company_memberships").update({ pending_team_id: teamRow?.id ?? null }).eq("id", target.membershipId);
-      if (error) return { status: "error", message: error.message };
+      if (error) return { status: "error", message: error.message, values };
     }
   }
 
