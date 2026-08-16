@@ -1469,7 +1469,11 @@
     "swapApproved_title": "Scambio di turno approvato",
     "swapApproved_body": "{title} il {when} è stato riassegnato.",
     "swapRejected_title": "Scambio di turno non approvato",
-    "swapRejected_body": "{title} il {when} resta a te."
+    "swapRejected_body": "{title} il {when} resta a te.",
+    "siteChanged_title": "Un cantiere è cambiato",
+    "siteChanged_body": "{site} è stato aggiornato.",
+    "siteAreaChanged_title": "Una suddivisione è cambiata",
+    "siteAreaChanged_body": "{area} è stata aggiornata."
   },
   "reports": {
     "workedHoursTitle": "Ore lavorate",

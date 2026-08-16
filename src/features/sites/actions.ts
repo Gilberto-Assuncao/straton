@@ -9,6 +9,7 @@ import { parseOptionalNumber } from "./planning";
 import { geocodeAddress } from "@/src/infrastructure/geocoding/client";
 import { log } from "@/src/infrastructure/observability/logger";
 import { searchBelgianCompanies } from "@/src/infrastructure/cbe/client";
+import { notifySiteAudience } from "./notify-audience";
 
 /**
  * `values` is what was typed, echoed back with the refusal.
@@ -147,7 +148,7 @@ export async function createSiteAction(_: SiteFormState, formData: FormData): Pr
 
 export async function updateSiteAction(_: SiteFormState, formData: FormData): Promise<SiteFormState> {
   const values = submitted(formData);
-  const { allowed, companyId } = await guard();
+  const { allowed, companyId, session } = await guard();
   if (!allowed) return { status: "error", message: "You do not have permission to edit sites.", values };
 
   const siteId = text(formData, "siteId");
@@ -159,6 +160,16 @@ export async function updateSiteAction(_: SiteFormState, formData: FormData): Pr
   const supabase = await createClient();
   const { error } = await supabase.from("sites").update(parsed).eq("id", siteId).eq("company_id", companyId);
   if (error) return { status: "error", message: error.message, values };
+
+  // After the update, never before: an announcement about a change that did
+  // not happen is worse than a change nobody was told about. Awaited rather
+  // than fired and forgotten, because `redirect` throws and would abandon it.
+  await notifySiteAudience({
+    siteId,
+    actorId: session.user.id,
+    key: "siteChanged",
+    params: { siteName: parsed.name },
+  });
 
   revalidatePath("/dashboard/sites");
   redirect("/dashboard/sites");
@@ -418,6 +429,15 @@ export async function createSiteAreaAction(
   });
   if (error) return { ok: false, message: areaError(error, { source: "createSiteAreaAction", companyId, userId: session.user.id }) };
 
+  // No `siteAreaId`: the subdivision did not exist a moment ago, so nobody can
+  // have been following it. This is news about the location.
+  await notifySiteAudience({
+    siteId,
+    actorId: session.user.id,
+    key: "siteAreaChanged",
+    params: { areaName: trimmed },
+  });
+
   revalidatePath(`/dashboard/sites/${siteId}`);
   return { ok: true, message: "Subdivision added." };
 }
@@ -455,6 +475,19 @@ export async function renameSiteAreaAction(
   // without this the screen reports a rename that never happened. That exact
   // silence has been found on four tables in this project already.
   if ((data ?? []).length === 0) return { ok: false, message: "That subdivision was not found." };
+
+  // Addressed to the subdivision, unlike the two above: this one exists and
+  // people may be following it specifically. Whoever asked to hear only about
+  // Elétrica da Sala is told when Elétrica da Sala is renamed, and the rest of
+  // the chantier's followers are told too — they subscribed to the location,
+  // and the location includes it.
+  await notifySiteAudience({
+    siteId,
+    siteAreaId: areaId,
+    actorId: session.user.id,
+    key: "siteAreaChanged",
+    params: { areaName: trimmed },
+  });
 
   revalidatePath(`/dashboard/sites/${siteId}`);
   return { ok: true, message: "Subdivision renamed." };
@@ -505,6 +538,16 @@ export async function deleteSiteAreaAction(siteId: string, areaId: string): Prom
     .select("id");
   if (error) return { ok: false, message: areaError(error, { source: "deleteSiteAreaAction", companyId, userId: session.user.id }) };
   if ((data ?? []).length === 0) return { ok: false, message: "That subdivision was not found." };
+
+  // Also without `siteAreaId`, and for the opposite reason: the subdivision is
+  // gone, and with it — by `on delete cascade` — every subscription that only
+  // ever spoke about it. Addressing them would reach nobody.
+  await notifySiteAudience({
+    siteId,
+    actorId: session.user.id,
+    key: "siteAreaChanged",
+    params: {},
+  });
 
   revalidatePath(`/dashboard/sites/${siteId}`);
   return { ok: true, message: "Subdivision removed." };

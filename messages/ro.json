@@ -1469,7 +1469,11 @@
     "swapApproved_title": "Schimb aprobat",
     "swapApproved_body": "{title} pe {when} a fost reatribuită.",
     "swapRejected_title": "Schimb neaprobat",
-    "swapRejected_body": "{title} pe {when} rămâne la dumneavoastră."
+    "swapRejected_body": "{title} pe {when} rămâne la dumneavoastră.",
+    "siteChanged_title": "O locație de lucru s-a schimbat",
+    "siteChanged_body": "{site} a fost actualizat.",
+    "siteAreaChanged_title": "O subdiviziune s-a schimbat",
+    "siteAreaChanged_body": "{area} a fost actualizată."
   },
   "reports": {
     "workedHoursTitle": "Ore lucrate",

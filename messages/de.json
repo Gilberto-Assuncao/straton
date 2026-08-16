@@ -1469,7 +1469,11 @@
     "swapApproved_title": "Schichttausch genehmigt",
     "swapApproved_body": "{title} am {when} wurde neu zugewiesen.",
     "swapRejected_title": "Schichttausch nicht genehmigt",
-    "swapRejected_body": "{title} am {when} bleibt bei Ihnen."
+    "swapRejected_body": "{title} am {when} bleibt bei Ihnen.",
+    "siteChanged_title": "Ein Standort hat sich geändert",
+    "siteChanged_body": "{site} wurde aktualisiert.",
+    "siteAreaChanged_title": "Ein Teilbereich hat sich geändert",
+    "siteAreaChanged_body": "{area} wurde aktualisiert."
   },
   "reports": {
     "workedHoursTitle": "Geleistete Stunden",

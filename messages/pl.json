@@ -1469,7 +1469,11 @@
     "swapApproved_title": "Zamiana zmiany zatwierdzona",
     "swapApproved_body": "{title} w {when} zostało przypisane komu innemu.",
     "swapRejected_title": "Zamiana zmiany niezatwierdzona",
-    "swapRejected_body": "{title} w {when} zostaje przy Tobie."
+    "swapRejected_body": "{title} w {when} zostaje przy Tobie.",
+    "siteChanged_title": "Lokalizacja pracy uległa zmianie",
+    "siteChanged_body": "{site} został zaktualizowany.",
+    "siteAreaChanged_title": "Podobszar uległ zmianie",
+    "siteAreaChanged_body": "{area} został zaktualizowany."
   },
   "reports": {
     "workedHoursTitle": "Przepracowane godziny",

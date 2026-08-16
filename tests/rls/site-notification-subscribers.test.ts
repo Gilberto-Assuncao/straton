@@ -467,3 +467,39 @@ describeIfDb("who the publisher will tell", () => {
     });
   });
 });
+
+describeIfDb("the publisher's way in", () => {
+  /**
+   * `public.site_notification_audience` exists only because PostgREST does not
+   * expose `private`, and it returns the audience across every company on the
+   * location. The grants are the whole point of the wrapper: without the
+   * revoke, any signed-in session could ask who from a partner company is
+   * listening — the exact thing the two-level delegation exists to prevent.
+   */
+  it("a signed-in user cannot call it", async () => {
+    await withRollback(async (db) => {
+      await actAs(db, DEMO.belnex.adminUserId);
+      await assertRlsIsEnforced(db);
+
+      const called = await attemptWrite(db, "select * from public.site_notification_audience($1, null)", [SITE]);
+      expect(called, "the cross-company audience, asked for by an ordinary session").toBe(false);
+    });
+  });
+
+  it("and it answers the same as the private one", async () => {
+    // A wrapper that drifted from what it wraps would be a second place for
+    // the audience rule to be wrong, which is what writing it in SQL avoided.
+    await withRollback(async (db) => {
+      await db.query(
+        `insert into public.site_notification_subscribers (site_id, company_id, user_id)
+         values ($1, $2, $3)`,
+        [SITE, DEMO.belnex.companyId, DEMO.belnex.fieldUserId],
+      );
+
+      const wrapped = await db.query("select user_id from public.site_notification_audience($1, null)", [SITE]);
+      const direct = await db.query("select user_id from private.site_notification_audience($1, null)", [SITE]);
+      expect(wrapped.rows, "the wrapper against the function it wraps").toEqual(direct.rows);
+      expect(wrapped.rows.length, "the subscriber just added").toBeGreaterThan(0);
+    });
+  });
+});
