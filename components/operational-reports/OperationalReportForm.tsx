@@ -4,6 +4,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import type { ReportMessageKey } from "@/src/features/operational-reports/messages";
 import { createOperationalReportAction, updateOperationalReportAction, type FieldValueInput } from "@/src/features/operational-reports/actions";
 import type { FieldValue, OperationalReportDetail, ReportTemplate } from "@/lib/types/operational-reports";
 
@@ -20,7 +21,7 @@ export default function OperationalReportForm({ templates, sites, existingReport
   const t = useTranslations("operationalReports");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState<ReportMessageKey | null>(null);
   const [templateId, setTemplateId] = useState(existingReport?.templateId ?? "");
   const [reportDate, setReportDate] = useState(existingReport?.reportDate ?? new Date().toISOString().slice(0, 10));
   const [startsAt, setStartsAt] = useState(existingReport?.startsAt?.slice(0, 16) ?? "");
@@ -41,7 +42,7 @@ export default function OperationalReportForm({ templates, sites, existingReport
   }
 
   function submit() {
-    if (!reportDate) { setFeedback(t("reportDateRequired")); return; }
+    if (!reportDate) { setFeedback("reportDateRequired"); return; }
     const fieldValues: FieldValueInput[] = (activeTemplate?.fields ?? []).map((templateField) => ({
       fieldId: templateField.id,
       fieldType: templateField.fieldType,
@@ -62,7 +63,7 @@ export default function OperationalReportForm({ templates, sites, existingReport
       const result = existingReport
         ? await updateOperationalReportAction(existingReport.id, input)
         : await createOperationalReportAction(input);
-      setFeedback(result.message);
+      setFeedback(result.messageKey);
       if (result.ok && result.reportId) router.push(`/dashboard/field-reports/${result.reportId}`);
     });
   }
@@ -183,7 +184,7 @@ export default function OperationalReportForm({ templates, sites, existingReport
         </div>
       ) : null}
 
-      {feedback ? <p role="status" className="mt-6 rounded-lg bg-[#22C55E]/8 p-4 text-sm leading-6 text-[#9CA3AF]">{feedback}</p> : null}
+      {feedback ? <p role="status" className="mt-6 rounded-lg bg-[#22C55E]/8 p-4 text-sm leading-6 text-[#9CA3AF]">{t(feedback)}</p> : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <Link href="/dashboard/field-reports" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-[#E5E7EB] hover:bg-white/5">{t("cancel")}</Link>

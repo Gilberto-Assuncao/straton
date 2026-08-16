@@ -5,6 +5,7 @@ import { useSubmittedValues } from "@/components/auth/useSubmittedValues";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import type { TemplateMessageKey } from "@/src/features/operational-reports/messages";
 import {
   moveFieldAction,
   removeFieldAction,
@@ -22,9 +23,9 @@ const labelClass = "text-sm font-medium text-[#E5E7EB]";
 export default function TemplateFieldEditor({ templateId, fields, editing }: { templateId: string; fields: ReportTemplateField[]; editing?: ReportTemplateField }) {
   const t = useTranslations("reportTemplates");
   const router = useRouter();
-  const [state, formAction] = useActionState(saveFieldAction, { status: "idle", message: "" } as TemplateActionState);
+  const [state, formAction] = useActionState(saveFieldAction, { status: "idle", messageKey: null } as TemplateActionState);
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<TemplateMessageKey | null>(null);
   const [fieldType, setFieldType] = useState<ReportFieldType>(editing?.fieldType ?? "text");
 
   // Only the uncontrolled fields need this. `fieldType` lives in state above
@@ -32,22 +33,22 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
   // values after an action, not the component's state (#74).
   const submitted = state.values;
   const { touched, onInput, formKey } = useSubmittedValues(
-    `${JSON.stringify(state.values ?? null)}|${state.message}`,
+    `${JSON.stringify(state.values ?? null)}|${state.messageKey ?? ""}`,
   );
   const kept = (name: string, stored: string) => submitted?.[name] ?? stored;
 
-  function run(fn: () => Promise<{ ok: boolean; message: string }>) {
+  function run(fn: () => Promise<{ ok: boolean; messageKey: TemplateMessageKey }>) {
     setError(null);
     startTransition(async () => {
       const result = await fn();
-      if (!result.ok) setError(result.message);
+      if (!result.ok) setError(result.messageKey);
       else router.refresh();
     });
   }
 
   return (
     <div className="grid gap-6">
-      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{error}</p> : null}
+      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
 
       <section className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
         <h2 className="text-lg font-semibold text-[#E5E7EB]">{t("fieldsTitle")}</h2>
@@ -134,8 +135,10 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
           ) : null}
         </div>
 
-        {state.status === "error" && !touched ? (
-          <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
+        {/* Keyed off the message, not the status: `messageKey` is null while
+            idle, and testing it is what tells the compiler there is a key here. */}
+        {state.messageKey && !touched ? (
+          <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
         ) : null}
 
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

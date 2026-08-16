@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import type { TemplateMessageKey } from "@/src/features/operational-reports/messages";
 import { setTemplateActiveAction } from "@/src/features/operational-reports/template-actions";
 import type { ManagedTemplate } from "@/src/features/operational-reports/data";
 
@@ -11,14 +12,14 @@ export default function TemplateList({ templates }: { templates: ManagedTemplate
   const t = useTranslations("reportTemplates");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<TemplateMessageKey | null>(null);
 
   function toggle(template: ManagedTemplate) {
     if (template.active && !window.confirm(t("deactivateConfirm"))) return;
     setError(null);
     startTransition(async () => {
       const result = await setTemplateActiveAction(template.id, !template.active);
-      if (!result.ok) setError(result.message);
+      if (!result.ok) setError(result.messageKey);
       else router.refresh();
     });
   }
@@ -35,7 +36,7 @@ export default function TemplateList({ templates }: { templates: ManagedTemplate
 
   return (
     <div className="grid gap-4">
-      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{error}</p> : null}
+      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
       {templates.map((template) => (
         <article key={template.id} className={`rounded-2xl border border-white/10 bg-[#161A34] p-5 ${template.active ? "" : "opacity-60"}`}>
           <div className="flex flex-wrap items-start justify-between gap-3">

@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import type { ReportMessageKey } from "@/src/features/operational-reports/messages";
 import {
   approveOperationalReportAction,
   rejectOperationalReportAction,
@@ -22,19 +23,19 @@ export default function ReportActions({ reportId, status, isOwner, isReviewer }:
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [reason, setReason] = useState("");
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState<ReportMessageKey | null>(null);
 
-  function run(action: () => Promise<{ ok: boolean; message: string }>) {
+  function run(action: () => Promise<{ ok: boolean; messageKey: ReportMessageKey }>) {
     startTransition(async () => {
       const result = await action();
-      setFeedback(result.message);
+      setFeedback(result.messageKey);
       if (result.ok) router.refresh();
     });
   }
 
   return (
     <div className="rounded-2xl border border-white/10 bg-[#161A34] p-5">
-      {feedback ? <p role="status" className="mb-4 text-sm text-[#9CA3AF]">{feedback}</p> : null}
+      {feedback ? <p role="status" className="mb-4 text-sm text-[#9CA3AF]">{t(feedback)}</p> : null}
       <div className="flex flex-wrap gap-3">
         {isOwner && editable.includes(status) ? (
           <>

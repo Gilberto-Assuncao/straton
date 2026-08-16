@@ -10,10 +10,10 @@ import { describe, expect, it } from "vitest";
  * a customer, with nothing written down anywhere. The detail belongs in a log;
  * the user gets something they can act on.
  *
- * There are 21 of these left across 7 files. teams/actions.ts,
- * companies/actions.ts, sites/actions.ts and now employees/actions.ts all went
- * to zero when their actions were converted to typed message keys, and dropped
- * off the list entirely — a raw Postgres string cannot be a key, so converting a file is
+ * There are 9 of these left across 5 files. teams/actions.ts,
+ * companies/actions.ts, sites/actions.ts, employees/actions.ts and both
+ * operational-reports files all went to zero when their actions were converted
+ * to typed message keys, and dropped off the list entirely — a raw Postgres string cannot be a key, so converting a file is
  * what forces its leaks to be given a sentence of their own. Fixing the rest
  * would be a large mechanical edit across features nobody is otherwise
  * touching.
@@ -22,8 +22,6 @@ import { describe, expect, it } from "vitest";
  * every fix tightens the budget automatically. The list can only ever shrink.
  */
 const BUDGET: Record<string, number> = {
-  "operational-reports/actions.ts": 6,
-  "operational-reports/template-actions.ts": 6,
   "time-tracking/actions.ts": 3,
   "timesheets/actions.ts": 3,
   "projects/actions.ts": 1,
