@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useSubmittedValues } from "@/components/auth/useSubmittedValues";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { saveTemplateAction, type TemplateActionState } from "@/src/features/operational-reports/template-actions";
@@ -15,6 +16,15 @@ export default function TemplateForm({ template }: { template?: { id: string; na
   const t = useTranslations("reportTemplates");
   const [state, formAction] = useActionState(saveTemplateAction, { status: "idle", message: "" } as TemplateActionState);
 
+  // Serves both creating and editing. When editing, a refusal falls back to
+  // the stored template rather than to blank — the same rule as the employee
+  // edit form: what was typed wins while it exists (#74).
+  const submitted = state.values;
+  const { touched, onInput, formKey } = useSubmittedValues(
+    `${JSON.stringify(state.values ?? null)}|${state.message}`,
+  );
+  const kept = (name: string, stored: string) => submitted?.[name] ?? stored;
+
   return (
     <form action={formAction} className="rounded-2xl border border-white/10 bg-[#161A34] p-5 sm:p-7">
       {template ? <input type="hidden" name="templateId" value={template.id} /> : null}
@@ -22,12 +32,12 @@ export default function TemplateForm({ template }: { template?: { id: string; na
       <div className="grid gap-5">
         <div>
           <label htmlFor="template-name" className={labelClass}>{t("nameLabel")}</label>
-          <input id="template-name" name="name" required minLength={2} defaultValue={template?.name} placeholder={t("namePlaceholder")} className={field} />
+          <input key={`name-${formKey}`} id="template-name" name="name" required minLength={2} defaultValue={kept("name", template?.name ?? "")} onInput={onInput} placeholder={t("namePlaceholder")} className={field} />
         </div>
 
         <div>
           <label htmlFor="template-segment" className={labelClass}>{t("segmentLabel")}</label>
-          <select id="template-segment" name="segment" required defaultValue={template?.segment ?? "construction"} className={field}>
+          <select key={`segment-${formKey}`} id="template-segment" name="segment" required defaultValue={kept("segment", template?.segment ?? "construction")} onInput={onInput} className={field}>
             {SEGMENTS.map((segment) => <option key={segment} value={segment}>{t(`segment_${segment}` as "segment_construction")}</option>)}
           </select>
           <p className="mt-2 text-xs text-[#6B7280]">{t("segmentHelp")}</p>
@@ -35,11 +45,11 @@ export default function TemplateForm({ template }: { template?: { id: string; na
 
         <div>
           <label htmlFor="template-description" className={labelClass}>{t("descriptionLabel")}</label>
-          <textarea id="template-description" name="description" rows={3} defaultValue={template?.description ?? ""} className={`${field} py-3`} />
+          <textarea key={`description-${formKey}`} id="template-description" name="description" rows={3} defaultValue={kept("description", template?.description ?? "")} onInput={onInput} className={`${field} py-3`} />
         </div>
       </div>
 
-      {state.status === "error" ? (
+      {state.status === "error" && !touched ? (
         <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
       ) : null}
 
