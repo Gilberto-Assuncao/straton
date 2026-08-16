@@ -137,7 +137,11 @@
     "noTask": "Aucune tâche",
     "subdivisionLabel": "Partie du lieu",
     "noSubdivision": "Non précisé",
-    "subdivisionWholeLocation": "Tout le lieu"
+    "subdivisionWholeLocation": "Tout le lieu",
+    "manualMissingFields": "Renseignez la date et les heures.",
+    "manualEndBeforeStart": "L'heure de fin doit être postérieure à l'heure de début.",
+    "manualSaved": "Saisie enregistrée.",
+    "manualSaveFailed": "La saisie n'a pas pu être enregistrée. Réessayez."
   },
   "timesheets": {
     "eyebrow": "Effectifs",
@@ -1572,7 +1576,12 @@
     "reject": "Refuser",
     "rel_pending": "En attente",
     "rel_active": "Active",
-    "rel_rejected": "Refusée"
+    "rel_rejected": "Refusée",
+    "vatEnterCountryAndNumber": "Indiquez d'abord un pays et un numéro de TVA.",
+    "vatServiceUnreachable": "VIES est injoignable pour le moment. Saisissez les données de l'entreprise manuellement.",
+    "vatNotFound": "Ce numéro de TVA est introuvable.",
+    "vatNotValidated": "Ce numéro de TVA n'a pas pu être validé.",
+    "vatNoCompanyName": "VIES a confirmé le numéro de TVA mais n'a pas renvoyé de nom d'entreprise."
   },
   "notifications": {
     "assignmentAssigned_title": "Nouveau travail attribué",

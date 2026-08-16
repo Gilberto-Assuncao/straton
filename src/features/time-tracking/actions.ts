@@ -1,11 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { log } from "@/src/infrastructure/observability/logger";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { createClient } from "@/src/infrastructure/supabase/server";
 import { checkClockInLocation } from "./location-check";
 
-export type LogTimeEntryState = { status: "idle" | "success" | "error"; message: string };
+export type LogTimeEntryState = {
+  status: "idle" | "success" | "error";
+  /** null while idle. A key into `time`, never a sentence. */
+  messageKey: ManualEntryMessageKey | null;
+};
 
 /**
  * Typed keys, never sentences. A server action cannot know the caller's locale,
@@ -23,6 +28,16 @@ export type TimerMessageKey =
   | "failed";
 
 export type TimerResult = { ok: boolean; message: TimerMessageKey };
+
+/**
+ * The manual entry form, which the timer keys do not cover: it is the other
+ * half of this screen and fails for its own reasons.
+ */
+export type ManualEntryMessageKey =
+  | "manualMissingFields"
+  | "manualEndBeforeStart"
+  | "manualSaved"
+  | "manualSaveFailed";
 
 function mondayOf(date: Date): Date {
   const d = new Date(date);
@@ -89,13 +104,13 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
   const notes = String(formData.get("notes") ?? "").trim();
 
   if (!date || !startTime || !endTime) {
-    return { status: "error", message: "Fill in the date and the times." };
+    return { status: "error", messageKey: "manualMissingFields" };
   }
 
   const startsAt = new Date(`${date}T${startTime}:00`);
   const endsAt = new Date(`${date}T${endTime}:00`);
   if (Number.isNaN(startsAt.getTime()) || Number.isNaN(endsAt.getTime()) || endsAt <= startsAt) {
-    return { status: "error", message: "End time must be after start time." };
+    return { status: "error", messageKey: "manualEndBeforeStart" };
   }
 
   const supabase = await createClient();
@@ -112,10 +127,14 @@ export async function logTimeEntryAction(_: LogTimeEntryState, formData: FormDat
     break_minutes: 0,
     notes: notes || null,
   });
-  if (error) return { status: "error", message: error.message };
+  if (error) {
+    // #27: the code goes to the log, the Postgres text never to the screen.
+    log.error({ event: "manual_entry_insert_failed", source: "logTimeEntryAction", code: error.code }, error);
+    return { status: "error", messageKey: "manualSaveFailed" };
+  }
 
   revalidatePath("/dashboard/time");
-  return { status: "success", message: "Entry saved." };
+  return { status: "success", messageKey: "manualSaved" };
 }
 
 /**

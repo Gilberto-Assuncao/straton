@@ -137,7 +137,11 @@
     "noTask": "Sin tarea",
     "subdivisionLabel": "Parte de la ubicación",
     "noSubdivision": "Sin indicar",
-    "subdivisionWholeLocation": "Toda la ubicación"
+    "subdivisionWholeLocation": "Toda la ubicación",
+    "manualMissingFields": "Indique la fecha y las horas.",
+    "manualEndBeforeStart": "La hora de fin debe ser posterior a la de inicio.",
+    "manualSaved": "Registro guardado.",
+    "manualSaveFailed": "No se pudo guardar el registro. Inténtelo de nuevo."
   },
   "timesheets": {
     "eyebrow": "Plantilla",
@@ -1572,7 +1576,12 @@
     "reject": "Rechazar",
     "rel_pending": "Pendiente",
     "rel_active": "Activa",
-    "rel_rejected": "Rechazada"
+    "rel_rejected": "Rechazada",
+    "vatEnterCountryAndNumber": "Indique primero un país y un número de IVA.",
+    "vatServiceUnreachable": "VIES no está disponible en este momento. Introduzca los datos de la empresa manualmente.",
+    "vatNotFound": "No se encontró este número de IVA.",
+    "vatNotValidated": "No se pudo validar este número de IVA.",
+    "vatNoCompanyName": "VIES confirmó el número de IVA pero no devolvió el nombre de la empresa."
   },
   "notifications": {
     "assignmentAssigned_title": "Nuevo trabajo asignado",

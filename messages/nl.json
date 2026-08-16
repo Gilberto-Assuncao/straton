@@ -137,7 +137,11 @@
     "noTask": "Geen taak",
     "subdivisionLabel": "Deel van de locatie",
     "noSubdivision": "Niet opgegeven",
-    "subdivisionWholeLocation": "Hele locatie"
+    "subdivisionWholeLocation": "Hele locatie",
+    "manualMissingFields": "Vul de datum en de tijden in.",
+    "manualEndBeforeStart": "De eindtijd moet na de begintijd liggen.",
+    "manualSaved": "Registratie opgeslagen.",
+    "manualSaveFailed": "De registratie kon niet worden opgeslagen. Probeer het opnieuw."
   },
   "timesheets": {
     "eyebrow": "Personeel",
@@ -1572,7 +1576,12 @@
     "reject": "Weigeren",
     "rel_pending": "Wacht op antwoord",
     "rel_active": "Actief",
-    "rel_rejected": "Geweigerd"
+    "rel_rejected": "Geweigerd",
+    "vatEnterCountryAndNumber": "Geef eerst een land en btw-nummer op.",
+    "vatServiceUnreachable": "VIES is momenteel onbereikbaar. Vul de bedrijfsgegevens handmatig in.",
+    "vatNotFound": "Dit btw-nummer is niet gevonden.",
+    "vatNotValidated": "Dit btw-nummer kon niet worden gevalideerd.",
+    "vatNoCompanyName": "VIES bevestigde het btw-nummer maar gaf geen bedrijfsnaam terug."
   },
   "notifications": {
     "assignmentAssigned_title": "Nieuwe opdracht toegewezen",

@@ -74,6 +74,21 @@ export type CompanyMessageKey =
   | "reviewFields"
   | "failed";
 
+/**
+ * Why a VAT lookup came back empty.
+ *
+ * Produced in `src/infrastructure/vies/client.ts`, which is `server-only` and
+ * three layers away from a screen. It is declared here rather than there
+ * because the sentence is drawn by `CompanyDetailsForm`, in this namespace —
+ * a key is only useful where somebody can resolve it.
+ */
+export type VatLookupMessageKey =
+  | "vatEnterCountryAndNumber"
+  | "vatServiceUnreachable"
+  | "vatNotFound"
+  | "vatNotValidated"
+  | "vatNoCompanyName";
+
 /** One key per field that can fail validation. */
 export type CompanyFieldErrorKey =
   | "legalName" | "displayName" | "registrationNumber" | "vatNumber" | "countryCode"

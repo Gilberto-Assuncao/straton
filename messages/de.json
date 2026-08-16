@@ -137,7 +137,11 @@
     "noTask": "Keine Aufgabe",
     "subdivisionLabel": "Teil des Standorts",
     "noSubdivision": "Nicht angegeben",
-    "subdivisionWholeLocation": "Ganzer Standort"
+    "subdivisionWholeLocation": "Ganzer Standort",
+    "manualMissingFields": "Geben Sie das Datum und die Uhrzeiten ein.",
+    "manualEndBeforeStart": "Die Endzeit muss nach der Startzeit liegen.",
+    "manualSaved": "Eintrag gespeichert.",
+    "manualSaveFailed": "Der Eintrag konnte nicht gespeichert werden. Bitte erneut versuchen."
   },
   "timesheets": {
     "eyebrow": "Belegschaft",
@@ -1572,7 +1576,12 @@
     "reject": "Ablehnen",
     "rel_pending": "Wartet auf Antwort",
     "rel_active": "Aktiv",
-    "rel_rejected": "Abgelehnt"
+    "rel_rejected": "Abgelehnt",
+    "vatEnterCountryAndNumber": "Geben Sie zuerst ein Land und eine USt-IdNr. ein.",
+    "vatServiceUnreachable": "VIES ist derzeit nicht erreichbar. Geben Sie die Firmendaten manuell ein.",
+    "vatNotFound": "Diese USt-IdNr. wurde nicht gefunden.",
+    "vatNotValidated": "Diese USt-IdNr. konnte nicht validiert werden.",
+    "vatNoCompanyName": "VIES hat die USt-IdNr. bestätigt, aber keinen Firmennamen zurückgegeben."
   },
   "notifications": {
     "assignmentAssigned_title": "Neue Arbeit zugewiesen",

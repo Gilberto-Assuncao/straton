@@ -137,7 +137,11 @@
     "noTask": "Fără sarcină",
     "subdivisionLabel": "Parte a locației",
     "noSubdivision": "Neprecizat",
-    "subdivisionWholeLocation": "Toată locația"
+    "subdivisionWholeLocation": "Toată locația",
+    "manualMissingFields": "Completați data și orele.",
+    "manualEndBeforeStart": "Ora de sfârșit trebuie să fie ulterioară celei de început.",
+    "manualSaved": "Înregistrare salvată.",
+    "manualSaveFailed": "Înregistrarea nu a putut fi salvată. Încercați din nou."
   },
   "timesheets": {
     "eyebrow": "Forța de muncă",
@@ -1572,7 +1576,12 @@
     "reject": "Refuzați",
     "rel_pending": "Așteaptă răspuns",
     "rel_active": "Activă",
-    "rel_rejected": "Refuzată"
+    "rel_rejected": "Refuzată",
+    "vatEnterCountryAndNumber": "Introduceți mai întâi o țară și un număr de TVA.",
+    "vatServiceUnreachable": "VIES este momentan inaccesibil. Introduceți manual datele companiei.",
+    "vatNotFound": "Acest număr de TVA nu a fost găsit.",
+    "vatNotValidated": "Acest număr de TVA nu a putut fi validat.",
+    "vatNoCompanyName": "VIES a confirmat numărul de TVA, dar nu a returnat numele companiei."
   },
   "notifications": {
     "assignmentAssigned_title": "Lucrare nouă repartizată",

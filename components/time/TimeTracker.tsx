@@ -67,7 +67,7 @@ export default function TimeTracker({
   const [notes, setNotes] = useState(openSession?.notes ?? "");
   const [feedback, setFeedback] = useState("");
   const [busy, startTransition] = useTransition();
-  const [manualState, submitManual] = useActionState(logTimeEntryAction, { status: "idle", message: "" } as LogTimeEntryState);
+  const [manualState, submitManual] = useActionState(logTimeEntryAction, { status: "idle", messageKey: null } as LogTimeEntryState);
 
   /**
    * Re-seed when the server sends a different session, adjusting during render
@@ -220,7 +220,7 @@ export default function TimeTracker({
         <WeeklySummary summary={weeklySummary} />
       </div>
 
-      <ManualEntryForm tasks={tasks} sites={sites} feedback={manualState.message} action={submitManual} />
+      <ManualEntryForm tasks={tasks} sites={sites} feedback={manualState.messageKey ? t(manualState.messageKey) : ""} action={submitManual} />
       <RecentEntries entries={entries} />
     </div>
   );

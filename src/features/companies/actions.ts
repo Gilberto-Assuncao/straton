@@ -10,12 +10,12 @@ import { lookupVat } from "@/src/infrastructure/vies/client";
 import { isCbeConfigured, lookupBelgianCompany } from "@/src/infrastructure/cbe/client";
 import { validateCompanyForm, validateSettingsForm } from "./validation";
 import { log } from "@/src/infrastructure/observability/logger";
-import type { CompanyActionState, CompanyMessageKey, CompanyMutationResult } from "./types";
+import type { CompanyActionState, CompanyMessageKey, CompanyMutationResult, VatLookupMessageKey } from "./types";
 
 export type VatLookupOutcome =
   | { valid: true; source: "cbe" | "vies"; legalName: string; displayName?: string; addressLine1: string; postalCode: string; city: string;
       registrationNumber?: string; activityStartDate?: string; juridicalForm?: string; phone?: string; email?: string; website?: string }
-  | { valid: false; message: string };
+  | { valid: false; messageKey: VatLookupMessageKey };
 
 // Belgian numbers go to the CBE register, everything else to VIES. The CBE
 // returns structured fields — enterprise number, start date, legal form,

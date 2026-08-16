@@ -137,7 +137,11 @@
     "noTask": "Bez zadania",
     "subdivisionLabel": "Część lokalizacji",
     "noSubdivision": "Nie podano",
-    "subdivisionWholeLocation": "Cała lokalizacja"
+    "subdivisionWholeLocation": "Cała lokalizacja",
+    "manualMissingFields": "Podaj datę i godziny.",
+    "manualEndBeforeStart": "Godzina zakończenia musi być późniejsza niż rozpoczęcia.",
+    "manualSaved": "Wpis zapisany.",
+    "manualSaveFailed": "Nie udało się zapisać wpisu. Spróbuj ponownie."
   },
   "timesheets": {
     "eyebrow": "Pracownicy",
@@ -1572,7 +1576,12 @@
     "reject": "Odrzuć",
     "rel_pending": "Oczekuje",
     "rel_active": "Aktywna",
-    "rel_rejected": "Odrzucona"
+    "rel_rejected": "Odrzucona",
+    "vatEnterCountryAndNumber": "Najpierw podaj kraj i numer VAT.",
+    "vatServiceUnreachable": "VIES jest teraz niedostępny. Wprowadź dane firmy ręcznie.",
+    "vatNotFound": "Nie znaleziono tego numeru VAT.",
+    "vatNotValidated": "Nie udało się zweryfikować tego numeru VAT.",
+    "vatNoCompanyName": "VIES potwierdził numer VAT, ale nie zwrócił nazwy firmy."
   },
   "notifications": {
     "assignmentAssigned_title": "Przydzielono nową pracę",
