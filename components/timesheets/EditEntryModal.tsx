@@ -105,7 +105,7 @@ export default function EditEntryModal({
             type="button"
             onClick={onClose}
             aria-label={t("editEntryClose")}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-xl text-ink-muted hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-xl text-ink-muted hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright"
           >
             ×
           </button>
@@ -211,14 +211,14 @@ export default function EditEntryModal({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-11 rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
+              className="min-h-11 rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright"
             >
               {t("cancel")}
             </button>
             <button
               type="submit"
               disabled={pending}
-              className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:opacity-50"
+              className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-bright disabled:opacity-50"
             >
               {t("save")}
             </button>

@@ -28,7 +28,7 @@ export default function SettingsHub({ cards }: { cards: SettingsHubCard[] }) {
           <div className="mb-2 text-base font-semibold text-ink">{card.title}</div>
           <p className="mb-3.5 text-[13px] text-ink-dim">{card.description}</p>
           {card.href ? (
-            <Link href={card.href} className="text-sm font-semibold text-brand-bright hover:text-brand">{card.linkLabel} →</Link>
+            <Link href={card.href} className="text-sm font-semibold text-brand-bright hover:text-brand-bright">{card.linkLabel} →</Link>
           ) : (
             <span className="text-sm font-semibold text-ink-faint">{card.linkLabel}</span>
           )}

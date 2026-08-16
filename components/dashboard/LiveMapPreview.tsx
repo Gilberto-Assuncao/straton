@@ -44,7 +44,7 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
           </h3>
           <p className="mt-1 text-xs text-ink-muted">{t("liveMapSubtitle")}</p>
         </div>
-        <Link href="/dashboard/map" className="text-xs font-semibold text-brand-bright hover:text-brand">
+        <Link href="/dashboard/map" className="text-xs font-semibold text-brand-bright hover:text-brand-bright">
           {t("liveMapViewFull")} →
         </Link>
       </div>

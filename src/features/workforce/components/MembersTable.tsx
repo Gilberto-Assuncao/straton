@@ -82,7 +82,7 @@ export function MembersTable({ members, teams }: { members: WorkforceMemberView[
       cell: (member) => (
         <Link
           href={`/dashboard/employees/${member.id}`}
-          className="flex min-h-11 items-center font-semibold text-brand hover:text-brand-bright focus-visible:outline-2 focus-visible:outline-brand"
+          className="flex min-h-11 items-center font-semibold text-brand-bright hover:text-brand-bright focus-visible:outline-2 focus-visible:outline-brand-bright"
           aria-label={t("openProfileFor", { name: member.name })}
         >
           {t("openProfile")}

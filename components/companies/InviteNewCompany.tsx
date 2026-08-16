@@ -7,7 +7,7 @@ import { searchClientSuggestionsAction, type CompanySuggestion } from "@/src/fea
 import type { CompanyInvite } from "@/src/features/partners/invites";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand-bright";
 const labelText = "text-xs text-ink-muted";
 
 export default function InviteNewCompany({ invites }: { invites: CompanyInvite[] }) {
@@ -158,7 +158,7 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
         <button
           type="submit"
           disabled={pending}
-          className="min-h-11 justify-self-start rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+          className="min-h-11 justify-self-start rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
         >
           {pending ? t("sending") : t("send")}
         </button>

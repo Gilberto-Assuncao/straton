@@ -14,7 +14,7 @@ export default function ResetPasswordForm() {
   const t = useTranslations("auth");
   const [state, action] = useActionState(updatePasswordAction, initialAuthState);
   return (
-    <AuthCard action={action} title={t("resetTitle")} description={t("resetDescription")} footer={state.status === "success" ? <Link href="/login" className="inline-flex min-h-11 items-center font-semibold text-brand">{t("continueToSignIn")}</Link> : undefined}>
+    <AuthCard action={action} title={t("resetTitle")} description={t("resetDescription")} footer={state.status === "success" ? <Link href="/login" className="inline-flex min-h-11 items-center font-semibold text-brand-bright">{t("continueToSignIn")}</Link> : undefined}>
       <PasswordInput id="new-password" name="password" label={t("newPassword")} autoComplete="new-password" placeholder={t("atLeast8")} />
       <PasswordInput id="confirm-new-password" name="confirmPassword" label={t("confirmPassword")} autoComplete="new-password" placeholder={t("repeatPassword")} />
       <AuthStatus state={state} />

@@ -32,7 +32,7 @@ export default function EmployeeStatusButton({ employeeId, status, className }: 
         type="button"
         onClick={run}
         disabled={pending}
-        className={className ?? `min-h-11 px-2 font-semibold disabled:opacity-50 focus-visible:outline-2 ${isActive ? "text-red-300 focus-visible:outline-red-300" : "text-brand focus-visible:outline-brand"}`}
+        className={className ?? `min-h-11 px-2 font-semibold disabled:opacity-50 focus-visible:outline-2 ${isActive ? "text-red-300 focus-visible:outline-red-300" : "text-brand-bright focus-visible:outline-brand-bright"}`}
       >
         {pending ? t("saving") : isActive ? t("deactivate") : t("reactivate")}
       </button>

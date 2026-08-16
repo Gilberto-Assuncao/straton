@@ -1,33 +1,43 @@
 @import "tailwindcss";
 
 /*
- * The palette, named once (#104 follow-up).
+ * The palette, in one place, in light.
  *
- * There was already a token block here. It was used *zero* times: 1826 colours
- * were written as `bg-[#161A34]` and `text-[#9CA3AF]` straight into 159
- * component files, and the tokens sat beside them describing a different,
- * greener palette that nothing rendered. Two consequences worth stating.
+ * It arrived here in three steps and the middle one is worth keeping in view.
  *
- * A theme change was impossible. Turning the background white meant editing 159
- * files, and half-doing it would leave pale grey text on white — the tokens
- * offered no lever at all.
+ * There were three definitions of this product's colours and only one of them
+ * rendered: a `:root` block used zero times, a `colors` object nothing
+ * imported, and 1826 hexadecimals written into 159 component files. That is why
+ * the background could not simply be made white — there was no lever, and
+ * half-doing it would have left pale grey text on white.
  *
- * And the palette had quietly forked. `#9CA3AF`, `#94A3B8` and `#64748B` are
- * three different greys doing one job — Tailwind's `gray` and `slate` scales
- * mixed, in the same screens. Naming them is what makes that visible; they are
- * deliberately *not* collapsed here, because collapsing them changes pixels and
- * this step must not.
+ * So the hexadecimals were named first, at identical values, and the borders
+ * after: 412 of them were `border-white/10`, which is how an edge is drawn on a
+ * dark surface and is nothing at all on a light one. Only then could this file
+ * decide anything. Both of those steps were provably invisible; this one is the
+ * change.
  *
- * Every value below is exactly the value it replaces. This step renames, and
- * renames only: the rendered colour is identical, which is the whole reason it
- * can be reviewed at a glance and reverted without archaeology.
+ * Two things were settled here that the renaming deliberately left open.
  *
- * That first step claimed the light theme would edit this file alone. It was
- * wrong, and the `edge` scale below is the correction. 412 borders and fills
- * were written as `border-white/10` and `bg-white/5` — translucent white, which
- * is how an edge is drawn on a dark surface and is *invisible* on a light one.
- * Flipping the values without them would have left every card, divider and
- * input with no outline at all.
+ * The greys. `#9ca3af` and `#94a3b8` are a hair apart on a dark surface and
+ * both fine; their inverses on white are 4.8:1 and 4.76:1 — passing, with
+ * nothing to spare, for text whose job is to recede. `muted`/`subtle` and
+ * `dim`/`faint` land on one value each. The names stay, because the distinction
+ * is real on dark and inventing a fifth barely-different grey would help
+ * nobody.
+ *
+ * The green. It stays vivid on fills, so a button still looks like this
+ * product — near-black on `#22c55e` is 8.42:1. As *text* on white it is 2.28:1,
+ * so the 55 `text-brand` became `text-brand-bright`, the token that already
+ * meant "brand, as text". The 112 focus rings moved with them: an outline is a
+ * user-interface component, WCAG asks 3:1 of it, and the vivid green gave 2.28.
+ * That one was invisible in every screenshot and only a keyboard finds it.
+ *
+ * Every foreground was checked against every surface it can sit on rather than
+ * eyeballed. `tests/unit/contrast.test.ts` is what keeps it that way.
+ *
+ * A dark theme is a `@media (prefers-color-scheme: dark)` block redefining this
+ * same list. Nothing outside this file would move.
  */
 :root {
   /*
@@ -44,50 +54,69 @@
    *
    * The percentages are the ones actually in use, no more.
    */
-  --edge-5: rgb(255 255 255 / 0.05);
-  --edge-8: rgb(255 255 255 / 0.08);
-  --edge-10: rgb(255 255 255 / 0.1);
-  --edge-15: rgb(255 255 255 / 0.15);
-  --edge-20: rgb(255 255 255 / 0.2);
-  --edge-25: rgb(255 255 255 / 0.25);
-  --edge-30: rgb(255 255 255 / 0.3);
+  --edge-5: rgb(15 23 42 / 0.05);
+  --edge-8: rgb(15 23 42 / 0.08);
+  --edge-10: rgb(15 23 42 / 0.1);
+  --edge-15: rgb(15 23 42 / 0.15);
+  --edge-20: rgb(15 23 42 / 0.2);
+  --edge-25: rgb(15 23 42 / 0.25);
+  --edge-30: rgb(15 23 42 / 0.3);
 
-  /* Brand. */
+  /*
+   * Brand.
+   *
+   * The vivid green stays on fills, so a button still looks like this product:
+   * near-black on `#22c55e` is 8.42:1, better than most of the page. As *text*
+   * on white it is 2.28:1 and unreadable, which is why the 55 `text-brand`
+   * became `text-brand-bright` — the token that already meant "brand, as text".
+   * That one goes dark, because green text on white has nowhere else to go.
+   */
   --brand: #22c55e;
   --brand-hover: #16a34a;
-  --brand-bright: #4ade80;
+  --brand-bright: #166534;
   --on-brand: #07110b;
 
-  /* Foreground, brightest to faintest. `ink` rather than `text`, so the
-     utility reads `text-ink-muted` instead of `text-text-muted`. */
-  --ink-bright: #f1f5f9;
-  --ink: #e5e7eb;
-  --ink-soft: #d1d5db;
-  --ink-muted: #9ca3af;
-  --ink-dim: #94a3b8;
-  --ink-subtle: #6b7280;
-  --ink-faint: #64748b;
+  /*
+   * Foreground, brightest to faintest — now darkest to lightest.
+   *
+   * The previous step named three greys doing one job and deliberately left
+   * them apart, because collapsing them changes pixels. This is where that is
+   * decided, and legibility wins: on a dark surface `#9ca3af` and `#94a3b8` are
+   * a hair apart and both fine, but their inverses on white are 4.8:1 and
+   * 4.76:1 — passing, with nothing to spare, for text that is *meant* to
+   * recede. `muted`/`subtle` and `dim`/`faint` therefore land on one value
+   * each. The names stay: the distinction is real on dark, and inventing a
+   * fifth barely-different grey to preserve it on light would help nobody.
+   */
+  --ink-bright: #0f172a;
+  --ink: #1e293b;
+  --ink-soft: #334155;
+  --ink-muted: #4b5563;
+  --ink-dim: #475569;
+  --ink-subtle: #4b5563;
+  --ink-faint: #475569;
 
-  /* Surfaces, from the page up. */
-  --canvas: #0b1220;
-  --surface: #161a34;
-  --surface-inset: #111c33;
-  --surface-alt: #111827;
-  --surface-deep: #0f172a;
+  /* Surfaces, from the page up. The cards are white; the page is a shade off
+     it, because a white card on a white page is only its border. */
+  --canvas: #f8fafc;
+  --surface: #ffffff;
+  --surface-inset: #f1f5f9;
+  --surface-alt: #f1f5f9;
+  --surface-deep: #e2e8f0;
 
-  /* Status. */
-  --warning: #f59e0b;
-  --danger: #f87171;
+  /* Status. Both were chosen to read on a dark surface: on white they are
+     2.15:1 and 2.77:1. */
+  --warning: #92400e;
+  --danger: #b91c1c;
 
-  /* Superseded by the tokens above, kept because `body` and `::selection`
-     still read them. `--background` is a near-black that matches nothing else
-     on screen — it only shows where no surface covers it, which is why nobody
-     noticed it drifting from `--canvas`. Reconciling the two is a visible
-     change, so it belongs to the light-theme step, not this one. */
-  --background: #0b0f0e;
-  --background-deep: #070a09;
-  --foreground: #f4f7f6;
-  --primary: #22c55e;
+  /* Read by `body` and `::selection`. `--background` used to be a near-black
+     matching nothing else on screen; it only shows where no surface covers it,
+     which is why nobody noticed it drifting from `--canvas`. Reconciled here,
+     which is the step where a visible change was the point. */
+  --background: var(--canvas);
+  --background-deep: var(--surface);
+  --foreground: var(--ink);
+  --primary: var(--brand);
 }
 
 @theme inline {

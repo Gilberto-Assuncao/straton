@@ -56,7 +56,7 @@ function NotificationItem({ item }: { item: AppNotification }) {
       {item.href ? (
         <Link
           href={item.href}
-          className="block rounded-lg py-4 transition hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
+          className="block rounded-lg py-4 transition hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright"
         >
           {content}
         </Link>
@@ -93,7 +93,7 @@ export function NotificationCenter({
           type="button"
           onClick={onClose}
           aria-label={tShell("closeNotifications")}
-          className="min-h-11 min-w-11 rounded-lg text-ink focus-visible:outline-2 focus-visible:outline-brand"
+          className="min-h-11 min-w-11 rounded-lg text-ink focus-visible:outline-2 focus-visible:outline-brand-bright"
         >
           ×
         </button>

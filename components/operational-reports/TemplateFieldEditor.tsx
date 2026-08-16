@@ -73,7 +73,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
                 <div className="flex shrink-0 items-center gap-1">
                   <button type="button" aria-label={t("moveUp")} disabled={pending || index === 0} onClick={() => run(() => moveFieldAction(templateId, item.id, "up"))} className="min-h-11 min-w-11 rounded-lg text-ink-muted hover:bg-edge-5 hover:text-ink disabled:opacity-30">↑</button>
                   <button type="button" aria-label={t("moveDown")} disabled={pending || index === fields.length - 1} onClick={() => run(() => moveFieldAction(templateId, item.id, "down"))} className="min-h-11 min-w-11 rounded-lg text-ink-muted hover:bg-edge-5 hover:text-ink disabled:opacity-30">↓</button>
-                  <Link href={`/dashboard/field-reports/templates/${templateId}?field=${item.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand hover:text-brand-hover">{t("edit")}</Link>
+                  <Link href={`/dashboard/field-reports/templates/${templateId}?field=${item.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand-bright hover:text-brand-hover">{t("edit")}</Link>
                   <button type="button" disabled={pending} onClick={() => { if (window.confirm(t("removeFieldConfirm"))) run(() => removeFieldAction(templateId, item.id)); }} className="min-h-11 px-3 text-sm font-semibold text-red-300 hover:text-red-200 disabled:opacity-50">{t("remove")}</button>
                 </div>
               </li>
@@ -145,7 +145,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
           {editing ? (
             <Link href={`/dashboard/field-reports/templates/${templateId}`} className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5">{t("cancel")}</Link>
           ) : null}
-          <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
+          <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-bright">
             {editing ? t("saveField") : t("addField")}
           </button>
         </div>

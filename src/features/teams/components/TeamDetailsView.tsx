@@ -17,7 +17,7 @@ export function TeamDetailsView({ team }: { team: TeamDetails }) {
     <div className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <p className="text-sm font-semibold text-brand">{t("detailsEyebrow", { company: team.companyName })}</p>
+          <p className="text-sm font-semibold text-brand-bright">{t("detailsEyebrow", { company: team.companyName })}</p>
           <h1 className="mt-1 text-2xl font-bold sm:text-3xl">{team.name}</h1>
           <p className="mt-2 max-w-2xl text-sm text-ink-muted">{team.description || t("noDescriptionProvided")}</p>
         </div>

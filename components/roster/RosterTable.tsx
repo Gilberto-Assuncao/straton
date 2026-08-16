@@ -58,7 +58,7 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
               <tr key={member.membershipId} className="hover:bg-white/[0.03]">
                 <th scope="row" className="px-5 py-4">
                   <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/10 text-xs font-bold text-brand">{member.avatarInitials}</span>
+                    <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/10 text-xs font-bold text-brand-bright">{member.avatarInitials}</span>
                     <div>
                       <p className="font-semibold text-ink">{member.name}</p>
                       <p className="text-xs font-normal text-ink-muted">{member.email}</p>

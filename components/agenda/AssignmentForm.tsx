@@ -6,7 +6,7 @@ import { createAssignmentAction, type ConflictWarning } from "@/src/features/ass
 import type { AssignmentOptions } from "@/src/features/assignments/data";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand-bright";
 const labelText = "text-xs text-ink-muted";
 
 export default function AssignmentForm({ options }: { options: AssignmentOptions }) {
@@ -142,7 +142,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
       <button
         type="submit"
         disabled={pending}
-        className="mt-5 min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+        className="mt-5 min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
       >
         {pending ? t("saving") : t("save")}
       </button>

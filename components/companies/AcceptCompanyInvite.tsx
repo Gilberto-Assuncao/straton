@@ -10,7 +10,7 @@ import {
 } from "@/src/features/partners/invite-actions";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand-bright";
 const labelText = "text-xs text-ink-muted";
 
 /**
@@ -135,7 +135,7 @@ export default function AcceptCompanyInvite({ token }: { token: string | null })
       <button
         type="submit"
         disabled={pending}
-        className="mt-6 min-h-11 w-full rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+        className="mt-6 min-h-11 w-full rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
       >
         {pending ? t("accepting") : t("accept")}
       </button>

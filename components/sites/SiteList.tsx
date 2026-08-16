@@ -51,15 +51,15 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2.5">
-                  <h3 className="font-semibold"><Link href={`/dashboard/sites/${site.id}`} className="text-ink hover:text-brand-bright focus-visible:outline-2 focus-visible:outline-brand">{site.name}</Link></h3>
+                  <h3 className="font-semibold"><Link href={`/dashboard/sites/${site.id}`} className="text-ink hover:text-brand-bright focus-visible:outline-2 focus-visible:outline-brand-bright">{site.name}</Link></h3>
                   <span className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs font-semibold ${tone[site.status] ?? tone.active}`}>{t(`status_${site.status}` as "status_active")}</span>
                   {site.reference ? <span className="text-xs text-ink-subtle">{site.reference}</span> : null}
                 </div>
                 <p className="mt-1.5 text-sm text-ink-muted">{parts.length ? parts.join(", ") : t("noAddress")}</p>
               </div>
               <div className="flex shrink-0 gap-1">
-                <Link href={`/dashboard/sites/${site.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand">{t("open")}</Link><Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand">{t("edit")}</Link>
-                <button type="button" onClick={() => toggleArchive(site)} disabled={pending} className="min-h-11 px-3 text-sm font-semibold text-ink-muted hover:text-ink disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand">
+                <Link href={`/dashboard/sites/${site.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand-bright hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand-bright">{t("open")}</Link><Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand-bright">{t("edit")}</Link>
+                <button type="button" onClick={() => toggleArchive(site)} disabled={pending} className="min-h-11 px-3 text-sm font-semibold text-ink-muted hover:text-ink disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright">
                   {site.status === "archived" ? t("reactivate") : t("archive")}
                 </button>
               </div>

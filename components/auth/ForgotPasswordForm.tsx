@@ -14,7 +14,7 @@ export default function ForgotPasswordForm() {
   const t = useTranslations("auth");
   const [state, action] = useActionState(requestPasswordResetAction, initialAuthState);
   return (
-    <AuthCard action={action} title={t("forgotTitle")} description={t("forgotDescription")} footer={<Link href="/login" className="inline-flex min-h-11 items-center font-semibold text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand">← {t("backToSignIn")}</Link>}>
+    <AuthCard action={action} title={t("forgotTitle")} description={t("forgotDescription")} footer={<Link href="/login" className="inline-flex min-h-11 items-center font-semibold text-brand-bright hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand-bright">← {t("backToSignIn")}</Link>}>
       <AuthInput id="reset-email" name="email" type="email" label={t("emailLabel")} autoComplete="email" placeholder={t("emailPlaceholder")} required />
       <AuthStatus state={state} />
       <AuthSubmitButton pendingLabel={t("forgotSending")}>{t("forgotSubmit")}</AuthSubmitButton>

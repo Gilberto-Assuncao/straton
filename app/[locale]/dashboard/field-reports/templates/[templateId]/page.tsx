@@ -28,7 +28,7 @@ export default async function TemplateDetailPage({
 
   return (
     <section aria-labelledby="template-heading">
-      <Link href="/dashboard/field-reports/templates" className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand">← {t("backToTemplates")}</Link>
+      <Link href="/dashboard/field-reports/templates" className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand-bright">← {t("backToTemplates")}</Link>
       <div className="mb-6 mt-3">
         <PageHeader headingId="template-heading" eyebrow={t("eyebrow")} title={template.name} description={t("editTemplateDescription")} />
       </div>

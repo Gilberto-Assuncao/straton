@@ -24,13 +24,13 @@ export async function WorkforceOverview({ members, teams }: { members: Workforce
     <div className="grid gap-8">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">{t("eyebrow")}</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-bright">{t("eyebrow")}</p>
           <h1 className="mt-2 text-2xl font-bold text-ink sm:text-3xl">{t("title")}</h1>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-ink-muted">{t("description")}</p>
         </div>
         <Link
           href="/dashboard/employees/new"
-          className="flex min-h-11 items-center justify-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand transition hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className="flex min-h-11 items-center justify-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand transition hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-bright"
         >
           {t("addMember")}
         </Link>

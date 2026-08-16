@@ -7,7 +7,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     <main className="relative flex min-h-screen overflow-x-hidden bg-surface-alt px-4 py-8 text-ink sm:px-6 sm:py-12">
       <div aria-hidden="true" className="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/15 blur-3xl" />
       <div className="relative mx-auto flex w-full max-w-md flex-col justify-center">
-        <Link href="/" className="mx-auto mb-8 flex min-h-11 w-fit flex-col items-center justify-center leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand">
+        <Link href="/" className="mx-auto mb-8 flex min-h-11 w-fit flex-col items-center justify-center leading-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-bright">
           <StratonMark className="mb-3 h-10 w-10" id="auth" />
           <span className="text-xl font-bold tracking-[0.16em]">STRATON</span>
           <span className="mt-2 text-[0.6rem] font-medium tracking-[0.2em] text-ink-muted">TIME WELL MANAGED.</span>

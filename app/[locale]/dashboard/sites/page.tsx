@@ -25,7 +25,7 @@ export default async function SitesPage() {
         eyebrow={t("eyebrow")}
         title={t("title")}
         description={t("description")}
-        actions={<Link href="/dashboard/sites/new" className="flex min-h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{t("newSite")}</Link>}
+        actions={<Link href="/dashboard/sites/new" className="flex min-h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-bright">{t("newSite")}</Link>}
       />
       <div className="mt-8">
         <IncomingInvitations invitations={invitations} />

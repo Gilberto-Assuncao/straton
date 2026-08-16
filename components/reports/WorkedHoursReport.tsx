@@ -103,7 +103,7 @@ export default async function WorkedHoursReport({
             </label>
             <a
               href={csvHref}
-              className="flex min-h-11 items-center rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
+              className="flex min-h-11 items-center rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright"
             >
               {t("exportCsv")}
             </a>

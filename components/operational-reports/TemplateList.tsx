@@ -57,8 +57,8 @@ export default function TemplateList({ templates }: { templates: ManagedTemplate
               </p>
             </div>
             <div className="flex shrink-0 gap-1">
-              <Link href={`/dashboard/field-reports/templates/${template.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand">{t("edit")}</Link>
-              <button type="button" onClick={() => toggle(template)} disabled={pending} className="min-h-11 px-3 text-sm font-semibold text-ink-muted hover:text-ink disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand">
+              <Link href={`/dashboard/field-reports/templates/${template.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand-bright hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand-bright">{t("edit")}</Link>
+              <button type="button" onClick={() => toggle(template)} disabled={pending} className="min-h-11 px-3 text-sm font-semibold text-ink-muted hover:text-ink disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright">
                 {template.active ? t("deactivate") : t("reactivate")}
               </button>
             </div>

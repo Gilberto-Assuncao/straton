@@ -41,7 +41,7 @@ export function CompaniesList({ companies }: { companies: CompanySummary[] }) {
             </div>
           }
           action={
-            <Link href={`/dashboard/companies/${company.id}`} className="inline-flex min-h-11 items-center font-semibold text-brand">
+            <Link href={`/dashboard/companies/${company.id}`} className="inline-flex min-h-11 items-center font-semibold text-brand-bright">
               {t("viewCompany")}
             </Link>
           }

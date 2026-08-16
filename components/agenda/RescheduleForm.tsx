@@ -6,7 +6,7 @@ import { rescheduleAssignmentAction, type ConflictWarning } from "@/src/features
 import type { AssignmentRecord } from "@/src/features/assignments/types";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-edge-15 bg-canvas px-2 text-xs text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-canvas px-2 text-xs text-ink focus-visible:outline-2 focus-visible:outline-brand-bright";
 
 /**
  * Moving a job, from the card it is on (#49).
@@ -101,14 +101,14 @@ export default function RescheduleForm({
         <button
           type="submit"
           disabled={pending}
-          className="min-h-11 rounded-lg bg-brand px-3 text-xs font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+          className="min-h-11 rounded-lg bg-brand px-3 text-xs font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
         >
           {pending ? t("saving") : t("rescheduleSave")}
         </button>
         <button
           type="button"
           onClick={onDone}
-          className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
+          className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright"
         >
           {t("rescheduleCancel")}
         </button>

@@ -74,7 +74,7 @@ export default function SocialAuthButtons() {
           type="button"
           onClick={() => continueWith(provider, name)}
           disabled={!configured || pending !== null}
-          className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-edge-15 bg-surface-alt px-4 py-3 text-sm font-semibold text-ink transition hover:border-edge-30 hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-edge-15 bg-surface-alt px-4 py-3 text-sm font-semibold text-ink transition hover:border-edge-30 hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-bright disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span aria-hidden="true" className="flex h-5 w-5 items-center justify-center font-bold text-ink">
             {mark}

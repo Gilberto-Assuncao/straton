@@ -67,7 +67,7 @@ export default function AvailabilityList({ records }: { records: AvailabilityRec
                 type="button"
                 onClick={() => remove(record.id)}
                 disabled={pending}
-                className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
               >
                 {t("remove")}
               </button>

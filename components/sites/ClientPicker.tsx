@@ -72,7 +72,7 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
         <button
           type="button"
           onClick={() => setCreating((current) => !current)}
-          className="mt-2 min-h-12 shrink-0 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink transition hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
+          className="mt-2 min-h-12 shrink-0 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink transition hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright"
         >
           {creating ? t("cancel") : t("newClient")}
         </button>

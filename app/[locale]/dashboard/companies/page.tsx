@@ -23,7 +23,7 @@ export default async function CompaniesPage() {
     <div className="space-y-6">
       <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold text-brand">{t("eyebrow")}</p>
+          <p className="text-sm font-semibold text-brand-bright">{t("eyebrow")}</p>
           <h1 className="mt-1 text-2xl font-bold sm:text-3xl">{t("title")}</h1>
           <p className="mt-2 text-sm text-ink-muted">{t("description")}</p>
         </div>

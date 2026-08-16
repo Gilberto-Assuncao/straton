@@ -72,7 +72,7 @@ export default function AgendaWeek({
             </h3>
 
             {day.assignments.length === 0 ? (
-              <p className="mt-4 text-xs text-[#4B5563]">{t("dayEmpty")}</p>
+              <p className="mt-4 text-xs text-ink-muted">{t("dayEmpty")}</p>
             ) : (
               <ul className="mt-4 grid gap-3">
                 {day.assignments.map((assignment) => (
@@ -105,7 +105,7 @@ export default function AgendaWeek({
                           type="button"
                           onClick={() => move(assignment.id, next)}
                           disabled={pending}
-                          className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                          className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
                         >
                           {t(`action_${next}` as "action_accepted")}
                         </button>
@@ -116,7 +116,7 @@ export default function AgendaWeek({
                             type="button"
                             onClick={() => setEditing(editing === assignment.id ? null : assignment.id)}
                             disabled={pending}
-                            className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                            className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
                           >
                             {t("reschedule")}
                           </button>
@@ -124,7 +124,7 @@ export default function AgendaWeek({
                             type="button"
                             onClick={() => remove(assignment.id)}
                             disabled={pending}
-                            className="min-h-11 rounded-lg px-2 text-xs font-semibold text-ink-subtle hover:text-red-300 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                            className="min-h-11 rounded-lg px-2 text-xs font-semibold text-ink-subtle hover:text-red-300 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
                           >
                             {t("remove")}
                           </button>

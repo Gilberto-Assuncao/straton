@@ -13,9 +13,9 @@ import type { SiteAreaRecord } from "@/src/features/sites/types";
 
 const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
 const field =
-  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand-bright";
 const secondaryButton =
-  "min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright";
 
 export default function SiteAreas({ siteId, areas }: { siteId: string; areas: SiteAreaRecord[] }) {
   const t = useTranslations("sites");
@@ -88,7 +88,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
               })
             }
             disabled={pending || name.trim().length < 2}
-            className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+            className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
           >
             {pending ? t("areaAdding") : t("areaAdd")}
           </button>

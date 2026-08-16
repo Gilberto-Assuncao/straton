@@ -18,7 +18,7 @@ export default async function EditSitePage({ params }: { params: Promise<{ siteI
   if (!site) notFound();
   return (
     <section aria-labelledby="edit-site-heading">
-      <Link href="/dashboard/sites" className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand">← {t("backToSites")}</Link>
+      <Link href="/dashboard/sites" className="inline-flex min-h-11 items-center text-sm font-semibold text-ink-muted hover:text-ink focus-visible:outline-2 focus-visible:outline-brand-bright">← {t("backToSites")}</Link>
       <div className="mb-6 mt-3"><PageHeader headingId="edit-site-heading" eyebrow={t("eyebrow")} title={t("editSite")} description={site.name} /></div>
       <SiteForm site={site} clients={clients} />
     </section>

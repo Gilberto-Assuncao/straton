@@ -99,7 +99,7 @@ export default function QuickClock({
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-md flex-col justify-center gap-6 px-5 py-10">
       <div className="text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand">{t("eyebrow")}</p>
+        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-bright">{t("eyebrow")}</p>
         <h1 className="mt-1 text-2xl font-bold text-ink">{running ? t("runningTitle") : t("idleTitle")}</h1>
       </div>
 

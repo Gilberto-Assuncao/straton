@@ -153,7 +153,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
             type="button"
             onClick={findCoordinates}
             disabled={geocoding || !canGeocode}
-            className="mt-4 inline-flex min-h-11 items-center rounded-lg border border-brand/40 bg-brand/10 px-4 text-sm font-semibold text-brand-bright transition hover:bg-brand/20 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+            className="mt-4 inline-flex min-h-11 items-center rounded-lg border border-brand/40 bg-brand/10 px-4 text-sm font-semibold text-brand-bright transition hover:bg-brand/20 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
           >
             {geocoding ? t("geocodeSearching") : t("geocodeFromAddress")}
           </button>
@@ -261,8 +261,8 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href="/dashboard/sites" className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
-        <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{site ? t("saveChanges") : t("createSite")}</button>
+        <Link href="/dashboard/sites" className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright">{t("cancel")}</Link>
+        <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-bright">{site ? t("saveChanges") : t("createSite")}</button>
       </div>
     </form>
   );

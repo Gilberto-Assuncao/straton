@@ -123,7 +123,7 @@ export default function TimeTracker({
       <section aria-labelledby="timer-title" className="overflow-hidden rounded-2xl border border-edge-10 bg-surface p-5 shadow-xl shadow-black/10 sm:p-8">
         <div className="mx-auto max-w-3xl">
           <div className="text-center">
-            <p className="text-sm font-semibold text-brand">{t("focusTimer")}</p>
+            <p className="text-sm font-semibold text-brand-bright">{t("focusTimer")}</p>
             <h3 id="timer-title" className="mt-1 text-xl font-semibold text-ink">
               {running ? t("runningSince", { time: new Intl.DateTimeFormat("en", { hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(openSession.startedAt)) }) : t("timerQuestion")}
             </h3>

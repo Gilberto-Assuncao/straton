@@ -21,8 +21,8 @@ export default async function EmployeesPage() {
     <PageHeader headingId="employees-heading" eyebrow={t("eyebrow")} title={t("title")} description={t("employeeCountDescription", { count: employees.length })} actions={<div className="flex flex-wrap gap-3">
       {/* The roles-and-skills overview left the sidebar in #36. This is the way
           in now — a page nobody can navigate to is a page that stops existing. */}
-      <Link href="/dashboard/workforce" className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand">{t("workforceOverviewLink")}</Link>
-      <Link href="/dashboard/employees/new" className="flex min-h-11 items-center justify-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{t("addEmployee")}</Link>
+      <Link href="/dashboard/workforce" className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand-bright">{t("workforceOverviewLink")}</Link>
+      <Link href="/dashboard/employees/new" className="flex min-h-11 items-center justify-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-bright">{t("addEmployee")}</Link>
     </div>} />
     <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
       {statCards.map((card) => (

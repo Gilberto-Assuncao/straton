@@ -50,7 +50,7 @@ export default function AcceptInviteForm() {
   if (!accessToken) {
     return (
       <AuthCard title={t("inviteExpiredTitle")} description={t("inviteExpiredDescription")}>
-        <Link href="/login" className="inline-flex min-h-11 items-center justify-center font-semibold text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand">{t("goToSignIn")}</Link>
+        <Link href="/login" className="inline-flex min-h-11 items-center justify-center font-semibold text-brand-bright hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand-bright">{t("goToSignIn")}</Link>
       </AuthCard>
     );
   }

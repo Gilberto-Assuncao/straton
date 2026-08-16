@@ -79,7 +79,7 @@ export function TeamMembersManager({
         <ul className="mt-5 divide-y divide-edge-10">
           {members.map((member) => (
             <li key={member.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/10 font-semibold text-brand">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/10 font-semibold text-brand-bright">
                 {member.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("")}
               </span>
               <div className="min-w-0 flex-1">

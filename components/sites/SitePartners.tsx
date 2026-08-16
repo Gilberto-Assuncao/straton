@@ -8,7 +8,7 @@ import type { SitePartner } from "@/src/features/sites/partners";
 
 const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
 const field =
-  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand-bright";
 
 const statusTone: Record<SitePartner["status"], string> = {
   invited: "bg-amber-400/10 text-amber-300",
@@ -82,7 +82,7 @@ export default function SitePartners({
             type="button"
             onClick={invite}
             disabled={pending || !selected}
-            className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+            className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
           >
             {pending ? t("partnerInviting") : t("partnerInvite")}
           </button>
@@ -123,7 +123,7 @@ export default function SitePartners({
                     type="button"
                     onClick={() => revoke(partner.id)}
                     disabled={pending}
-                    className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                    className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
                   >
                     {t("partnerRemove")}
                   </button>

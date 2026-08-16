@@ -33,7 +33,7 @@ export function TeamsOverview({ teams, permissions }: { teams: TeamSummary[]; pe
         <div>
           {/* Was "Sprint 3.9 · Teams" — an internal sprint number on a customer's
               screen, which no translation would have improved. */}
-          <p className="text-sm font-semibold text-brand">{t("eyebrow")}</p>
+          <p className="text-sm font-semibold text-brand-bright">{t("eyebrow")}</p>
           <h1 className="mt-1 text-2xl font-bold sm:text-3xl">{t("title")}</h1>
           <p className="mt-2 text-sm text-ink-muted">{t("subtitle")}</p>
         </div>
@@ -95,7 +95,7 @@ export function TeamsOverview({ teams, permissions }: { teams: TeamSummary[]; pe
               <p className="mt-4 text-xs text-ink-muted">
                 {t("updated", { date: format.dateTime(new Date(team.updatedAt), { dateStyle: "medium" }) })}
               </p>
-              <Link href={`/dashboard/teams/${team.id}`} className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand">
+              <Link href={`/dashboard/teams/${team.id}`} className="mt-4 inline-flex min-h-11 items-center font-semibold text-brand-bright">
                 {t("openDetails")}
               </Link>
             </article>

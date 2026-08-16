@@ -81,7 +81,7 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
       <div>
         <div className="flex items-end gap-2">
           <div className="flex-1"><Input name="vatNumber" label={t("fieldVatNumber")} value={vatNumber} onChange={(event) => setVatNumber(event.target.value)} error={error("vatNumber")} hint="e.g. BE0123456789" maxLength={64}/></div>
-          <button type="button" onClick={handleVatLookup} disabled={vatStatus.kind === "loading"} className="mb-[1px] min-h-11 whitespace-nowrap rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink transition hover:bg-edge-5 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-brand">
+          <button type="button" onClick={handleVatLookup} disabled={vatStatus.kind === "loading"} className="mb-[1px] min-h-11 whitespace-nowrap rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink transition hover:bg-edge-5 disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-2 focus-visible:outline-brand-bright">
             {vatStatus.kind === "loading" ? t("lookingUp") : countryCode.toUpperCase() === "BE" ? t("lookupCbe") : t("lookupVies")}
           </button>
         </div>

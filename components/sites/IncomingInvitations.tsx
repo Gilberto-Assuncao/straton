@@ -44,7 +44,7 @@ export default function IncomingInvitations({ invitations }: { invitations: Inco
                 type="button"
                 onClick={() => respond(invitation.id, true)}
                 disabled={pending}
-                className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-[#06121F] disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
               >
                 {t("invitationAccept")}
               </button>
@@ -52,7 +52,7 @@ export default function IncomingInvitations({ invitations }: { invitations: Inco
                 type="button"
                 onClick={() => respond(invitation.id, false)}
                 disabled={pending}
-                className="min-h-11 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                className="min-h-11 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand-bright"
               >
                 {t("invitationDecline")}
               </button>

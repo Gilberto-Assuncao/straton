@@ -18,7 +18,7 @@ export default function RoleOverview({ overview }: { overview: RoleDashboardOver
             <p className="text-xs text-ink-dim">{kpi.label}</p>
             <p className="mt-3 font-mono text-[28px] font-bold" style={{ color: kpi.color }}>{kpi.value}</p>
             <div className="mt-2.5 flex items-center justify-between">
-              <Link href={kpi.ctaHref} className="text-[13px] font-semibold text-brand-bright hover:text-brand">{kpi.cta} →</Link>
+              <Link href={kpi.ctaHref} className="text-[13px] font-semibold text-brand-bright hover:text-brand-bright">{kpi.cta} →</Link>
               <span className="text-[11px] font-semibold" style={{ color: kpi.trendColor }}>{kpi.trend}</span>
             </div>
           </div>
@@ -32,7 +32,7 @@ export default function RoleOverview({ overview }: { overview: RoleDashboardOver
             {attention.map((item) => (
               <div key={item.id} className="flex items-center justify-between rounded-lg bg-surface-inset py-3.5 pl-4 pr-4" style={{ borderLeft: `3px solid ${item.accent}` }}>
                 <span className="flex items-center gap-2.5 text-sm text-ink"><span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: item.accent }} />{item.text}</span>
-                <Link href={item.ctaHref} className="whitespace-nowrap text-[13px] font-semibold text-brand-bright hover:text-brand">{item.cta} →</Link>
+                <Link href={item.ctaHref} className="whitespace-nowrap text-[13px] font-semibold text-brand-bright hover:text-brand-bright">{item.cta} →</Link>
               </div>
             ))}
           </div>
