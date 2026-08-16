@@ -18,9 +18,26 @@ export type AuthMessageKey =
   | "errNoCompanyAccess"
   | "errCallbackFailed";
 
+/**
+ * What was typed, echoed back with a refusal (#74).
+ *
+ * The password is deliberately absent, and it is not an oversight to be
+ * corrected later. Sending it back down means it travels the wire twice per
+ * failed attempt and sits in the server action's response — for a value whose
+ * whole point is that it goes one way. A mistyped e-mail should not cost you
+ * the password you got right; a mistyped password should cost you the password,
+ * which is the browser's job to refill and not ours.
+ */
+export interface AuthFormValues {
+  email?: string;
+  fullName?: string;
+  accountType?: string;
+}
+
 export interface AuthActionState {
   status: "idle" | "error" | "success";
   messageKey?: AuthMessageKey;
+  values?: AuthFormValues;
 }
 
 export const initialAuthState: AuthActionState = { status: "idle" };

@@ -28,11 +28,13 @@ export async function signInAction(_: AuthActionState, formData: FormData): Prom
   const email = text(formData, "email");
   const password = text(formData, "password");
   const next = safeNext(text(formData, "next") || "/dashboard");
-  if (!email || !password) return { status: "error", messageKey: "errMissingCredentials" };
+  // The e-mail travels back with every refusal; the password never does (#74).
+  const values = { email };
+  if (!email || !password) return { status: "error", messageKey: "errMissingCredentials", values };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return { status: "error", messageKey: "errBadCredentials" };
+  if (error) return { status: "error", messageKey: "errBadCredentials", values };
   redirect(next);
 }
 
@@ -44,11 +46,16 @@ export async function registerAction(_: AuthActionState, formData: FormData): Pr
   const confirmation = text(formData, "confirmPassword");
   const accountType = text(formData, "accountType");
 
+  // Everything except the two password fields. Getting the confirmation wrong
+  // is the most common way to fail this form, and retyping a name, an e-mail
+  // and an account type because of it is the whole complaint in #74.
+  const values = { fullName, email, accountType };
+
   if (fullName.length < 2 || !email || password.length < 8) {
-    return { status: "error", messageKey: "errInvalidRegistration" };
+    return { status: "error", messageKey: "errInvalidRegistration", values };
   }
-  if (password !== confirmation) return { status: "error", messageKey: "errPasswordMismatch" };
-  if (formData.get("terms") !== "on") return { status: "error", messageKey: "errTermsRequired" };
+  if (password !== confirmation) return { status: "error", messageKey: "errPasswordMismatch", values };
+  if (formData.get("terms") !== "on") return { status: "error", messageKey: "errTermsRequired", values };
 
   const supabase = await createClient();
   const { data, error } = await supabase.auth.signUp({
@@ -60,7 +67,7 @@ export async function registerAction(_: AuthActionState, formData: FormData): Pr
     },
   });
 
-  if (error) return { status: "error", messageKey: "errNotConfigured" };
+  if (error) return { status: "error", messageKey: "errNotConfigured", values };
   if (data.session) redirect("/dashboard");
   return { status: "success", messageKey: "okConfirmInbox" };
 }

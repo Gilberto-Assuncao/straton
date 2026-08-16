@@ -63,14 +63,25 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
 
   function set(key: string, value: string) {
     setFields((current) => ({ ...current, [key]: value }));
+    // The message belongs to the attempt that produced it. #77 brought back
+    // what was typed and stopped there, which left the other half of #74 in
+    // place here: a refusal about a value the person has since corrected,
+    // still on screen, describing nothing.
+    setTouched(true);
   }
 
   // Re-seeded only when a *new* answer comes back, so typing between two
   // submissions is never overwritten by the values of the first.
-  const seed = JSON.stringify(state.values ?? null);
+  const [touched, setTouched] = useState(false);
+
+  // Keyed on the message too, so submitting the same values twice counts as two
+  // attempts and the refusal reappears — otherwise pressing the button again
+  // would look like nothing happened at all.
+  const seed = `${JSON.stringify(state.values ?? null)}|${state.message}`;
   const [seenSeed, setSeenSeed] = useState(seed);
   if (seenSeed !== seed) {
     setSeenSeed(seed);
+    setTouched(false);
     if (state.values) setFields({ ...storedFields(site), ...state.values });
   }
 
@@ -242,7 +253,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
         </div>
       </div>
 
-      {state.status === "error" ? (
+      {state.status === "error" && !touched ? (
         <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
       ) : null}
 
