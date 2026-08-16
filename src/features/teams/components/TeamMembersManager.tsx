@@ -56,7 +56,7 @@ export function TeamMembersManager({
   }
 
   return (
-    <section className="rounded-2xl border border-white/10 bg-surface p-5">
+    <section className="rounded-2xl border border-edge-10 bg-surface p-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 className="text-lg font-semibold">{t("membersTitle")}</h2>
@@ -76,7 +76,7 @@ export function TeamMembersManager({
       ) : null}
 
       {members.length ? (
-        <ul className="mt-5 divide-y divide-white/10">
+        <ul className="mt-5 divide-y divide-edge-10">
           {members.map((member) => (
             <li key={member.id} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand/10 font-semibold text-brand">
@@ -100,7 +100,7 @@ export function TeamMembersManager({
           ))}
         </ul>
       ) : (
-        <p className="mt-5 rounded-xl border border-dashed border-white/15 p-6 text-center text-sm text-ink-muted">
+        <p className="mt-5 rounded-xl border border-dashed border-edge-15 p-6 text-center text-sm text-ink-muted">
           {t("noMembers")}
         </p>
       )}

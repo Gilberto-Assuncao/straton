@@ -32,7 +32,7 @@ export default async function SiteDashboardTabs({
   const t = await getTranslations("sites");
 
   return (
-    <nav aria-label={t("tabsLabel")} className="mt-6 overflow-x-auto border-b border-white/10">
+    <nav aria-label={t("tabsLabel")} className="mt-6 overflow-x-auto border-b border-edge-10">
       <ul className="flex min-w-max gap-1">
         {SITE_TABS.map((tab) => {
           const isActive = tab === active;
@@ -45,12 +45,12 @@ export default async function SiteDashboardTabs({
                 className={`flex min-h-11 items-center gap-2 border-b-2 px-4 text-sm font-semibold transition ${
                   isActive
                     ? "border-brand text-ink"
-                    : "border-transparent text-ink-muted hover:border-white/20 hover:text-ink"
+                    : "border-transparent text-ink-muted hover:border-edge-20 hover:text-ink"
                 }`}
               >
                 {t(`tab_${tab}` as "tab_overview")}
                 {count ? (
-                  <span className="rounded-full bg-white/10 px-2 text-xs font-bold text-ink-soft">{count}</span>
+                  <span className="rounded-full bg-edge-10 px-2 text-xs font-bold text-ink-soft">{count}</span>
                 ) : null}
               </Link>
             </li>

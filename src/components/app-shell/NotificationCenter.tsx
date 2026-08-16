@@ -43,7 +43,7 @@ function NotificationItem({ item }: { item: AppNotification }) {
   );
 
   return (
-    <li className="border-b border-white/10">
+    <li className="border-b border-edge-10">
       {/*
         A link when there is somewhere to go, plain text otherwise (#83).
         Rendering every notification as a link and letting the dead ones do
@@ -56,7 +56,7 @@ function NotificationItem({ item }: { item: AppNotification }) {
       {item.href ? (
         <Link
           href={item.href}
-          className="block rounded-lg py-4 transition hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
+          className="block rounded-lg py-4 transition hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
         >
           {content}
         </Link>
@@ -83,9 +83,9 @@ export function NotificationCenter({
     <section
       id="notification-center"
       aria-labelledby="notifications-title"
-      className="fixed right-3 top-16 z-40 max-h-[min(30rem,calc(100dvh-5rem))] w-[min(24rem,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-white/10 bg-surface shadow-2xl"
+      className="fixed right-3 top-16 z-40 max-h-[min(30rem,calc(100dvh-5rem))] w-[min(24rem,calc(100vw-1.5rem))] overflow-hidden rounded-2xl border border-edge-10 bg-surface shadow-2xl"
     >
-      <header className="flex min-h-14 items-center justify-between border-b border-white/10 px-4">
+      <header className="flex min-h-14 items-center justify-between border-b border-edge-10 px-4">
         <h2 id="notifications-title" className="font-semibold text-ink">
           {tShell("notifications")}
         </h2>

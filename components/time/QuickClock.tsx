@@ -114,7 +114,7 @@ export default function QuickClock({
         which the report shows as the honest gap it is. Somebody who needs to
         say which floor has the full tracker to say it on.
       */}
-      <div className="rounded-2xl border border-white/10 bg-surface p-5 text-center">
+      <div className="rounded-2xl border border-edge-10 bg-surface p-5 text-center">
         <p className="text-xs text-ink-muted">{t("whereLabel")}</p>
         <p className="mt-1 text-lg font-semibold text-ink">{siteName ?? t("noSite")}</p>
 
@@ -126,7 +126,7 @@ export default function QuickClock({
               setSiteId(event.target.value);
               setChangingSite(false);
             }}
-            className="mt-3 min-h-12 w-full rounded-xl border border-white/15 bg-surface-alt px-3 text-base text-ink"
+            className="mt-3 min-h-12 w-full rounded-xl border border-edge-15 bg-surface-alt px-3 text-base text-ink"
           >
             <option value="">{t("noSite")}</option>
             {sites.map((site) => (

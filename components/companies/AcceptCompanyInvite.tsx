@@ -10,7 +10,7 @@ import {
 } from "@/src/features/partners/invite-actions";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 const labelText = "text-xs text-ink-muted";
 
 /**
@@ -62,7 +62,7 @@ export default function AcceptCompanyInvite({ token }: { token: string | null })
   // apart would let someone probe which tokens once existed.
   if (!token || !preview) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-surface p-6">
+      <div className="rounded-2xl border border-edge-10 bg-surface p-6">
         <h1 className="text-lg font-semibold text-ink">{t("invalidTitle")}</h1>
         <p className="mt-2 text-sm text-ink-muted">{t("invalidBody")}</p>
       </div>
@@ -70,7 +70,7 @@ export default function AcceptCompanyInvite({ token }: { token: string | null })
   }
 
   return (
-    <form action={submit} className="rounded-2xl border border-white/10 bg-surface p-6">
+    <form action={submit} className="rounded-2xl border border-edge-10 bg-surface p-6">
       <input type="hidden" name="token" value={token} />
 
       <h1 className="text-lg font-semibold text-ink">

@@ -12,16 +12,16 @@ export default async function EmployeesPage() {
   const active = employees.filter((employee) => employee.status === "active").length;
   const invited = employees.filter((employee) => employee.status === "invited").length;
   const statCards = [
-    { label: t("statActiveTeams"), value: teamNames.length, color: "text-brand-bright", border: "border-white/10" },
-    { label: t("statTotalEmployees"), value: employees.length, color: "text-ink", border: "border-white/10" },
-    { label: t("statActive"), value: active, color: "text-brand-bright", border: "border-white/10" },
-    { label: t("statPendingInvites"), value: invited, color: "text-warning", border: invited > 0 ? "border-amber-400/30" : "border-white/10" },
+    { label: t("statActiveTeams"), value: teamNames.length, color: "text-brand-bright", border: "border-edge-10" },
+    { label: t("statTotalEmployees"), value: employees.length, color: "text-ink", border: "border-edge-10" },
+    { label: t("statActive"), value: active, color: "text-brand-bright", border: "border-edge-10" },
+    { label: t("statPendingInvites"), value: invited, color: "text-warning", border: invited > 0 ? "border-amber-400/30" : "border-edge-10" },
   ];
   return <section aria-labelledby="employees-heading">
     <PageHeader headingId="employees-heading" eyebrow={t("eyebrow")} title={t("title")} description={t("employeeCountDescription", { count: employees.length })} actions={<div className="flex flex-wrap gap-3">
       {/* The roles-and-skills overview left the sidebar in #36. This is the way
           in now — a page nobody can navigate to is a page that stops existing. */}
-      <Link href="/dashboard/workforce" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("workforceOverviewLink")}</Link>
+      <Link href="/dashboard/workforce" className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand">{t("workforceOverviewLink")}</Link>
       <Link href="/dashboard/employees/new" className="flex min-h-11 items-center justify-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{t("addEmployee")}</Link>
     </div>} />
     <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">

@@ -9,7 +9,7 @@ import type { ReportSegment } from "@/lib/types/operational-reports";
 
 const SEGMENTS: ReportSegment[] = ["construction", "cleaning", "maintenance", "security", "landscaping", "technical_assistance", "facilities", "general_services", "custom"];
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-edge-10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
 const labelClass = "text-sm font-medium text-ink";
 
 export default function TemplateForm({ template }: { template?: { id: string; name: string; segment: ReportSegment; description: string | null } }) {
@@ -26,7 +26,7 @@ export default function TemplateForm({ template }: { template?: { id: string; na
   const kept = (name: string, stored: string) => submitted?.[name] ?? stored;
 
   return (
-    <form action={formAction} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
+    <form action={formAction} className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-7">
       {template ? <input type="hidden" name="templateId" value={template.id} /> : null}
 
       <div className="grid gap-5">
@@ -56,7 +56,7 @@ export default function TemplateForm({ template }: { template?: { id: string; na
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href="/dashboard/field-reports/templates" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
+        <Link href="/dashboard/field-reports/templates" className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
         <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">
           {template ? t("saveChanges") : t("createTemplate")}
         </button>

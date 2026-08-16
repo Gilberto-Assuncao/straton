@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import type { TrackerSite } from "@/src/features/time-tracking/data";
 
 const control =
-  "min-h-11 w-full rounded-xl border border-white/10 bg-surface-alt px-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60";
+  "min-h-11 w-full rounded-xl border border-edge-10 bg-surface-alt px-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60";
 
 /**
  * Which part of the work location these hours belong to (#77).

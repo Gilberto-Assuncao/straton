@@ -28,7 +28,7 @@ export function CompanySwitcher({ companies, value }: { companies: AppCompanyOpt
   return (
     <div className="relative">
       <label htmlFor="company-switcher" className="sr-only">{tShell("currentCompany")}</label>
-      <select id="company-switcher" value={value ?? ""} disabled={pending || companies.length === 0} onChange={(event) => changeCompany(event.target.value)} aria-describedby={error ? "company-switcher-error" : undefined} className="min-h-11 w-full max-w-32 rounded-lg border border-white/10 bg-surface-alt px-2 text-xs text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:opacity-60 sm:max-w-44 sm:px-3 sm:text-sm">
+      <select id="company-switcher" value={value ?? ""} disabled={pending || companies.length === 0} onChange={(event) => changeCompany(event.target.value)} aria-describedby={error ? "company-switcher-error" : undefined} className="min-h-11 w-full max-w-32 rounded-lg border border-edge-10 bg-surface-alt px-2 text-xs text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:opacity-60 sm:max-w-44 sm:px-3 sm:text-sm">
         {companies.length === 0 ? <option value="">{tShell("noCompany")}</option> : null}
         {companies.map((company) => <option key={company.id} value={company.id}>{company.name}</option>)}
       </select>

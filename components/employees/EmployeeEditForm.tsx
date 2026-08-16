@@ -7,7 +7,7 @@ import Link from "next/link";
 import { updateEmployeeAction, type UpdateEmployeeState } from "@/src/features/employees/actions";
 import type { Employee } from "@/lib/types/employee";
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-edge-10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
 
 export default function EmployeeEditForm({ employee, teams }: { employee: Employee; teams: string[] }) {
   const t = useTranslations("employees");
@@ -38,7 +38,7 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
   ];
 
   return (
-    <form action={formAction} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
+    <form action={formAction} className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-7">
       <input type="hidden" name="employeeId" value={employee.id} />
       <div className="grid gap-5 sm:grid-cols-2">
         {fields.map((item) => (
@@ -84,7 +84,7 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href={`/dashboard/employees/${employee.id}`} className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
+        <Link href={`/dashboard/employees/${employee.id}`} className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
         <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{t("saveChanges")}</button>
       </div>
     </form>

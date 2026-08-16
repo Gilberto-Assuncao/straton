@@ -106,6 +106,20 @@ describe("colour tokens", () => {
     expect(missing.map(([, name]) => name), "tokens not declared, or not exposed to Tailwind").toEqual([]);
   });
 
+  it("never draws an edge with translucent white", () => {
+    // `border-white/10` is how you outline a card on a dark surface, and it is
+    // nothing at all on a light one. 412 of them were the reason the theme
+    // could not simply be flipped; the `edge` scale carries the same ratios
+    // through both themes, so writing `white/N` again re-breaks it.
+    const offenders: string[] = [];
+    for (const file of files) {
+      for (const match of readFileSync(file, "utf8").matchAll(/-white\/(\d+)/g)) {
+        offenders.push(`${file}: white/${match[1]} is \`edge-${match[1]}\``);
+      }
+    }
+    expect(offenders, "translucent white where an edge token belongs").toEqual([]);
+  });
+
   it("never writes a hexadecimal that already has a token", () => {
     const offenders: string[] = [];
     for (const file of files) {

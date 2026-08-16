@@ -28,7 +28,7 @@ export default async function CompaniesPage() {
           <p className="mt-2 text-sm text-ink-muted">{t("description")}</p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link href="/dashboard/companies/network" className={`${button} border border-white/15 text-ink hover:bg-white/5`}>
+          <Link href="/dashboard/companies/network" className={`${button} border border-edge-15 text-ink hover:bg-edge-5`}>
             {t("network")}
           </Link>
           <Link href="/dashboard/companies/new" className={`${button} bg-brand text-on-brand`}>

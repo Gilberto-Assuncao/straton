@@ -38,14 +38,14 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
   }
 
   if (members.length === 0) {
-    return <div className="rounded-2xl border border-dashed border-white/15 bg-surface p-8 text-center text-sm text-ink-muted">{t("noMembers")}</div>;
+    return <div className="rounded-2xl border border-dashed border-edge-15 bg-surface p-8 text-center text-sm text-ink-muted">{t("noMembers")}</div>;
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface">
+    <div className="overflow-hidden rounded-2xl border border-edge-10 bg-surface">
       <div className="overflow-x-auto">
         <table className="w-full min-w-[560px] border-collapse text-left text-sm">
-          <thead className="border-b border-white/10 bg-surface-alt/60 text-xs uppercase tracking-wide text-ink-muted">
+          <thead className="border-b border-edge-10 bg-surface-alt/60 text-xs uppercase tracking-wide text-ink-muted">
             <tr>
               <th scope="col" className="px-5 py-4 font-medium">{t("columnMember")}</th>
               {roleKeys.map((roleKey) => (
@@ -53,7 +53,7 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/10">
+          <tbody className="divide-y divide-edge-10">
             {members.map((member) => (
               <tr key={member.membershipId} className="hover:bg-white/[0.03]">
                 <th scope="row" className="px-5 py-4">
@@ -73,7 +73,7 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
                       disabled={pending}
                       onChange={(event) => toggle(member.membershipId, roleKey, event.target.checked)}
                       aria-label={`${t(roleLabelKeys[roleKey])} — ${member.name}`}
-                      className="h-5 w-5 rounded border-white/20 bg-surface-alt accent-brand"
+                      className="h-5 w-5 rounded border-edge-20 bg-surface-alt accent-brand"
                     />
                   </td>
                 ))}
@@ -82,7 +82,7 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
           </tbody>
         </table>
       </div>
-      {feedback ? <p aria-live="polite" className="border-t border-white/10 px-5 py-3 text-sm text-brand-bright">{feedback}</p> : null}
+      {feedback ? <p aria-live="polite" className="border-t border-edge-10 px-5 py-3 text-sm text-brand-bright">{feedback}</p> : null}
     </div>
   );
 }

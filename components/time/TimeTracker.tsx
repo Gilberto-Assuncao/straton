@@ -120,7 +120,7 @@ export default function TimeTracker({
     <div className="grid min-w-0 gap-4">
       {openSession?.isStale ? <StaleSessionPrompt startedAt={openSession.startedAt} busy={busy} onStop={stop} /> : null}
 
-      <section aria-labelledby="timer-title" className="overflow-hidden rounded-2xl border border-white/10 bg-surface p-5 shadow-xl shadow-black/10 sm:p-8">
+      <section aria-labelledby="timer-title" className="overflow-hidden rounded-2xl border border-edge-10 bg-surface p-5 shadow-xl shadow-black/10 sm:p-8">
         <div className="mx-auto max-w-3xl">
           <div className="text-center">
             <p className="text-sm font-semibold text-brand">{t("focusTimer")}</p>
@@ -156,7 +156,7 @@ export default function TimeTracker({
               */
               onChange={(event) => { setSiteId(event.target.value); setSiteAreaId(""); }}
               disabled={locked}
-              className="min-h-11 w-full rounded-xl border border-white/10 bg-surface-alt px-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60"
+              className="min-h-11 w-full rounded-xl border border-edge-10 bg-surface-alt px-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60"
             >
               <option value="">{t("noSite")}</option>
               {sites.map((site) => (
@@ -191,7 +191,7 @@ export default function TimeTracker({
               maxLength={300}
               rows={3}
               placeholder={t("notesPlaceholder")}
-              className="w-full rounded-xl border border-white/10 bg-surface-alt px-3 py-3 text-sm text-ink outline-none transition placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-xl border border-edge-10 bg-surface-alt px-3 py-3 text-sm text-ink outline-none transition placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:cursor-not-allowed disabled:opacity-60"
             />
             <p className="mt-1 text-right text-xs text-ink-subtle">{notes.length}/300</p>
           </div>

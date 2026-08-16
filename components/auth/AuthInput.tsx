@@ -11,7 +11,7 @@ export default function AuthInput({ label, id, className = "", ...props }: AuthI
       <input
         id={id}
         {...props}
-        className={`min-h-12 w-full rounded-lg border border-white/15 bg-surface-alt px-4 py-3 text-base text-ink outline-none transition placeholder:text-ink-subtle hover:border-white/25 focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400 user-invalid:ring-2 user-invalid:ring-red-400/15 ${className}`}
+        className={`min-h-12 w-full rounded-lg border border-edge-15 bg-surface-alt px-4 py-3 text-base text-ink outline-none transition placeholder:text-ink-subtle hover:border-edge-25 focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400 user-invalid:ring-2 user-invalid:ring-red-400/15 ${className}`}
       />
     </div>
   );

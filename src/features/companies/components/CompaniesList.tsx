@@ -10,7 +10,7 @@ export function CompaniesList({ companies }: { companies: CompanySummary[] }) {
 
   if (!companies.length) {
     return (
-      <section className="rounded-2xl border border-dashed border-white/15 bg-surface p-8 text-center">
+      <section className="rounded-2xl border border-dashed border-edge-15 bg-surface p-8 text-center">
         <h2 className="text-xl font-semibold">{t("emptyTitle")}</h2>
         <p className="mt-2 text-sm text-ink-muted">{t("emptyBody")}</p>
         <Link

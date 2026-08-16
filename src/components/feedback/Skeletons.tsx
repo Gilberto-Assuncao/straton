@@ -1,4 +1,4 @@
-function Block({ className = "" }: { className?: string }) { return <div aria-hidden="true" className={`animate-pulse rounded-lg bg-white/10 ${className}`}/>; }
+function Block({ className = "" }: { className?: string }) { return <div aria-hidden="true" className={`animate-pulse rounded-lg bg-edge-10 ${className}`}/>; }
 export function Skeleton({ label = "Loading content", className }: { label?: string; className?: string }) { return <div role="status" aria-label={label}><Block className={className}/></div>; }
 export function PageSkeleton() { return <div className="grid gap-5"><Block className="h-9 w-56"/><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{Array.from({length:4},(_,index)=><Block key={index} className="h-28"/>)}</div><Block className="h-80"/></div>; }
 export function TableSkeleton() { return <div className="grid gap-3">{Array.from({length:6},(_,index)=><Block key={index} className="h-14"/>)}</div>; }
