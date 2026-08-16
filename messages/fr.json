@@ -756,6 +756,21 @@
     "audienceCompanyCount": "{count} à l'écoute",
     "tab_notifications": "Notifications"
   },
+  "weather": {
+    "errNoCoordinates": "Aucune coordonnée enregistrée pour ce chantier.",
+    "errForecastUnavailable": "Prévisions temporairement indisponibles.",
+    "emptyTitle": "Aucun chantier pour l'instant",
+    "emptyDescription": "Les chantiers avec coordonnées afficheront ici des prévisions à 7 jours et le risque de retard.",
+    "levelNone": "Dégagé",
+    "levelWatch": "À surveiller",
+    "levelDelayRisk": "Risque de retard",
+    "rainAndWind": "Pluie {rain} % · Vent {wind} km/h",
+    "reasonStrongWind": "Vent fort susceptible d'empêcher le travail en extérieur",
+    "reasonHeavyRain": "Forte probabilité de pluie abondante",
+    "reasonModerateWind": "Vent modéré attendu",
+    "reasonRainLikely": "Pluie probable sur une partie de la journée",
+    "reasonNoRisk": "Aucun risque météo attendu"
+  },
   "operationalReports": {
     "metadataTitle": "Rapports de terrain",
     "eyebrow": "Opérations",

@@ -4,6 +4,7 @@ import { createClient } from "@/src/infrastructure/supabase/server";
 import { requireActiveCompany } from "@/src/application/session/server";
 import { openMeteoProvider } from "@/src/infrastructure/weather/open-meteo";
 import { evaluateAlert, type WeatherAlert } from "./alerts";
+import type { WeatherMessageKey } from "./messages";
 import type { ForecastDay } from "@/src/infrastructure/weather/types";
 
 export type SiteWeather = {
@@ -11,7 +12,11 @@ export type SiteWeather = {
   name: string;
   city: string | null;
   forecast: (ForecastDay & { alert: WeatherAlert })[] | null;
-  error: string | null;
+  /**
+   * A key into the `weather` namespace, not a sentence (#14). This function
+   * answers the same thing for every viewer; only the render knows the locale.
+   */
+  error: WeatherMessageKey | null;
 };
 
 interface SiteRow { id: string; name: string; latitude: number | null; longitude: number | null; address: { city?: string } | null }
@@ -34,13 +39,13 @@ export async function getSiteWeatherOverview(): Promise<SiteWeather[]> {
   return Promise.all(sites.map(async (site): Promise<SiteWeather> => {
     const city = site.address?.city ?? null;
     if (site.latitude == null || site.longitude == null) {
-      return { id: site.id, name: site.name, city, forecast: null, error: "No coordinates set for this site yet." };
+      return { id: site.id, name: site.name, city, forecast: null, error: "errNoCoordinates" };
     }
     try {
       const days = await openMeteoProvider.fetchForecast(site.latitude, site.longitude, FORECAST_DAYS);
       return { id: site.id, name: site.name, city, forecast: days.map((day) => ({ ...day, alert: evaluateAlert(day) })), error: null };
     } catch {
-      return { id: site.id, name: site.name, city, forecast: null, error: "Forecast temporarily unavailable." };
+      return { id: site.id, name: site.name, city, forecast: null, error: "errForecastUnavailable" };
     }
   }));
 }
@@ -63,12 +68,12 @@ export async function getSiteWeather(siteId: string): Promise<SiteWeather | null
   const site = data as SiteRow;
   const city = site.address?.city ?? null;
   if (site.latitude == null || site.longitude == null) {
-    return { id: site.id, name: site.name, city, forecast: null, error: "No coordinates set for this site yet." };
+    return { id: site.id, name: site.name, city, forecast: null, error: "errNoCoordinates" };
   }
   try {
     const days = await openMeteoProvider.fetchForecast(site.latitude, site.longitude, FORECAST_DAYS);
     return { id: site.id, name: site.name, city, forecast: days.map((day) => ({ ...day, alert: evaluateAlert(day) })), error: null };
   } catch {
-    return { id: site.id, name: site.name, city, forecast: null, error: "Forecast temporarily unavailable." };
+    return { id: site.id, name: site.name, city, forecast: null, error: "errForecastUnavailable" };
   }
 }

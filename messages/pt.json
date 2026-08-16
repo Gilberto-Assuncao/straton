@@ -756,6 +756,21 @@
     "audienceCompanyCount": "{count} a ouvir",
     "tab_notifications": "Notificações"
   },
+  "weather": {
+    "errNoCoordinates": "Ainda não há coordenadas para esta obra.",
+    "errForecastUnavailable": "Previsão temporariamente indisponível.",
+    "emptyTitle": "Ainda não há obras",
+    "emptyDescription": "As obras com coordenadas mostram aqui a previsão a 7 dias e o risco de atraso.",
+    "levelNone": "Sem risco",
+    "levelWatch": "A vigiar",
+    "levelDelayRisk": "Risco de atraso",
+    "rainAndWind": "Chuva {rain} % · Vento {wind} km/h",
+    "reasonStrongWind": "Vento forte pode impedir o trabalho no exterior",
+    "reasonHeavyRain": "Grande probabilidade de chuva forte",
+    "reasonModerateWind": "Prevê-se vento moderado",
+    "reasonRainLikely": "Chuva provável durante parte do dia",
+    "reasonNoRisk": "Não se prevê risco meteorológico"
+  },
   "operationalReports": {
     "metadataTitle": "Relatórios de Campo",
     "eyebrow": "Operações",

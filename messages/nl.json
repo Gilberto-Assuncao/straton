@@ -756,6 +756,21 @@
     "audienceCompanyCount": "{count} luisteren",
     "tab_notifications": "Meldingen"
   },
+  "weather": {
+    "errNoCoordinates": "Nog geen coördinaten ingesteld voor deze werf.",
+    "errForecastUnavailable": "Voorspelling tijdelijk niet beschikbaar.",
+    "emptyTitle": "Nog geen werven",
+    "emptyDescription": "Werven met coördinaten tonen hier een weersverwachting van 7 dagen en het risico op vertraging.",
+    "levelNone": "Helder",
+    "levelWatch": "Opletten",
+    "levelDelayRisk": "Risico op vertraging",
+    "rainAndWind": "Regen {rain}% · Wind {wind} km/u",
+    "reasonStrongWind": "Harde wind kan buitenwerk verhinderen",
+    "reasonHeavyRain": "Grote kans op zware regen",
+    "reasonModerateWind": "Matige wind verwacht",
+    "reasonRainLikely": "Regen waarschijnlijk voor een deel van de dag",
+    "reasonNoRisk": "Geen weerrisico verwacht"
+  },
   "operationalReports": {
     "metadataTitle": "Veldrapporten",
     "eyebrow": "Operaties",

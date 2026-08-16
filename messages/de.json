@@ -756,6 +756,21 @@
     "audienceCompanyCount": "{count} hören mit",
     "tab_notifications": "Benachrichtigungen"
   },
+  "weather": {
+    "errNoCoordinates": "Für diese Baustelle sind noch keine Koordinaten hinterlegt.",
+    "errForecastUnavailable": "Vorhersage vorübergehend nicht verfügbar.",
+    "emptyTitle": "Noch keine Baustellen",
+    "emptyDescription": "Baustellen mit Koordinaten zeigen hier eine 7-Tage-Vorhersage und das Verzögerungsrisiko.",
+    "levelNone": "Klar",
+    "levelWatch": "Beobachten",
+    "levelDelayRisk": "Verzögerungsrisiko",
+    "rainAndWind": "Regen {rain} % · Wind {wind} km/h",
+    "reasonStrongWind": "Starker Wind kann Arbeiten im Freien verhindern",
+    "reasonHeavyRain": "Hohe Wahrscheinlichkeit für starken Regen",
+    "reasonModerateWind": "Mäßiger Wind erwartet",
+    "reasonRainLikely": "Zeitweise Regen wahrscheinlich",
+    "reasonNoRisk": "Kein Wetterrisiko erwartet"
+  },
   "operationalReports": {
     "metadataTitle": "Baustellenberichte",
     "eyebrow": "Betrieb",

@@ -173,9 +173,11 @@ export async function PresencePanel({ data }: { data: SiteDashboard }) {
 }
 
 export async function WeatherPanel({ weather }: { weather: SiteWeather | null }) {
-  const t = await getTranslations("sites");
+  // Two namespaces: the panel's own chrome lives under `sites`, while the
+  // reasons the data layer hands back are keys into `weather` (#14).
+  const [t, tWeather] = await Promise.all([getTranslations("sites"), getTranslations("weather")]);
   if (!weather || weather.error || !weather.forecast) {
-    return <p className={empty}>{weather?.error ?? t("weatherUnavailable")}</p>;
+    return <p className={empty}>{weather?.error ? tWeather(weather.error) : t("weatherUnavailable")}</p>;
   }
 
   return (
@@ -192,7 +194,7 @@ export async function WeatherPanel({ weather }: { weather: SiteWeather | null })
               <span>{day.windSpeedMaxKmh} km/h</span>
               {day.alert.level !== "none" ? (
                 <span className={`inline-flex min-h-7 items-center rounded-full px-3 font-semibold ${day.alert.level === "delay-risk" ? "bg-red-400/10 text-red-300" : "bg-amber-400/10 text-amber-300"}`}>
-                  {day.alert.reason}
+                  {tWeather(day.alert.reasonKey)}
                 </span>
               ) : null}
             </span>

@@ -756,6 +756,21 @@
     "audienceCompanyCount": "{count} słucha",
     "tab_notifications": "Powiadomienia"
   },
+  "weather": {
+    "errNoCoordinates": "Dla tej budowy nie ustawiono jeszcze współrzędnych.",
+    "errForecastUnavailable": "Prognoza chwilowo niedostępna.",
+    "emptyTitle": "Brak budów",
+    "emptyDescription": "Budowy ze współrzędnymi pokażą tutaj prognozę na 7 dni i ryzyko opóźnienia.",
+    "levelNone": "Bezpiecznie",
+    "levelWatch": "Uwaga",
+    "levelDelayRisk": "Ryzyko opóźnienia",
+    "rainAndWind": "Deszcz {rain}% · Wiatr {wind} km/h",
+    "reasonStrongWind": "Silny wiatr może uniemożliwić pracę na zewnątrz",
+    "reasonHeavyRain": "Duże prawdopodobieństwo ulewnego deszczu",
+    "reasonModerateWind": "Spodziewany umiarkowany wiatr",
+    "reasonRainLikely": "Deszcz prawdopodobny przez część dnia",
+    "reasonNoRisk": "Nie przewiduje się zagrożeń pogodowych"
+  },
   "operationalReports": {
     "metadataTitle": "Raporty terenowe",
     "eyebrow": "Operacje",

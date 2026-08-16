@@ -756,6 +756,21 @@
     "audienceCompanyCount": "{count} listening",
     "tab_notifications": "Notifications"
   },
+  "weather": {
+    "errNoCoordinates": "No coordinates set for this site yet.",
+    "errForecastUnavailable": "Forecast temporarily unavailable.",
+    "emptyTitle": "No sites yet",
+    "emptyDescription": "Sites with coordinates will show a 7-day forecast and delay risk here.",
+    "levelNone": "Clear",
+    "levelWatch": "Watch",
+    "levelDelayRisk": "Delay risk",
+    "rainAndWind": "Rain {rain}% · Wind {wind} km/h",
+    "reasonStrongWind": "Strong wind may block outdoor work",
+    "reasonHeavyRain": "High chance of heavy rain",
+    "reasonModerateWind": "Moderate wind expected",
+    "reasonRainLikely": "Rain likely for part of the day",
+    "reasonNoRisk": "No weather risk expected"
+  },
   "operationalReports": {
     "metadataTitle": "Field Reports",
     "eyebrow": "Operations",
