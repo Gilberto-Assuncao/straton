@@ -16,13 +16,13 @@ insert into auth.users (
     email_change_token_current,phone_change,phone_change_token,
     reauthentication_token,raw_app_meta_data,raw_user_meta_data,created_at,updated_at
 ) values
-('00000000-0000-0000-0000-000000000000','00000000-0000-4000-8000-000000001001','authenticated','authenticated','admin@nextime.local',crypt('nextime-local-only',gen_salt('bf')),now(),'','','','','','','','','{"provider":"email","providers":["email"]}','{"name":"Demo Administrator"}',now(),now()),
-('00000000-0000-0000-0000-000000000000','00000000-0000-4000-8000-000000001002','authenticated','authenticated','supervisor@nextime.local',crypt('nextime-local-only',gen_salt('bf')),now(),'','','','','','','','','{"provider":"email","providers":["email"]}','{"name":"Demo Supervisor"}',now(),now()),
-('00000000-0000-0000-0000-000000000000','00000000-0000-4000-8000-000000001003','authenticated','authenticated','employee@nextime.local',crypt('nextime-local-only',gen_salt('bf')),now(),'','','','','','','','','{"provider":"email","providers":["email"]}','{"name":"Demo Employee"}',now(),now()) on conflict(id) do nothing;
+('00000000-0000-0000-0000-000000000000','00000000-0000-4000-8000-000000001001','authenticated','authenticated','admin@straton.local',crypt('straton-local-only',gen_salt('bf')),now(),'','','','','','','','','{"provider":"email","providers":["email"]}','{"name":"Demo Administrator"}',now(),now()),
+('00000000-0000-0000-0000-000000000000','00000000-0000-4000-8000-000000001002','authenticated','authenticated','supervisor@straton.local',crypt('straton-local-only',gen_salt('bf')),now(),'','','','','','','','','{"provider":"email","providers":["email"]}','{"name":"Demo Supervisor"}',now(),now()),
+('00000000-0000-0000-0000-000000000000','00000000-0000-4000-8000-000000001003','authenticated','authenticated','employee@straton.local',crypt('straton-local-only',gen_salt('bf')),now(),'','','','','','','','','{"provider":"email","providers":["email"]}','{"name":"Demo Employee"}',now(),now()) on conflict(id) do nothing;
 insert into public.users (id,name,email,country) values
-('00000000-0000-4000-8000-000000001001','Demo Administrator','admin@nextime.local','Belgium'),
-('00000000-0000-4000-8000-000000001002','Demo Supervisor','supervisor@nextime.local','Belgium'),
-('00000000-0000-4000-8000-000000001003','Demo Employee','employee@nextime.local','Belgium') on conflict(id) do nothing;
+('00000000-0000-4000-8000-000000001001','Demo Administrator','admin@straton.local','Belgium'),
+('00000000-0000-4000-8000-000000001002','Demo Supervisor','supervisor@straton.local','Belgium'),
+('00000000-0000-4000-8000-000000001003','Demo Employee','employee@straton.local','Belgium') on conflict(id) do nothing;
 insert into public.company_memberships (
     id,
     company_id,
