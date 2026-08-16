@@ -1,29 +1,38 @@
 @import "tailwindcss";
 
 /*
- * The palette, from the identity handoff (v1.0, July 2026).
+ * The palette, named once.
  *
  * There were three definitions of this product's colours and only one of them
- * rendered: a `:root` block used zero times, a `colors` object nothing
- * imported, and 1826 hexadecimals written into 159 component files. #108 named
- * them, at the values that were actually on screen.
+ * rendered: a `:root` block used zero times, a `colors` object in
+ * `src/design-system/tokens.ts` that nothing imports, and 1826 hexadecimals
+ * written into 159 component files. The two written down disagreed with the one
+ * in use *and* with each other. #108 named the one that renders, at its own
+ * values, so that changing a colour became possible at all.
  *
- * Several of those values were drift. The handoff specifies a slate scale —
- * `#94A3B8` for secondary text, `#64748B` for captions — and the components had
- * accumulated Tailwind's *gray* scale beside it: `#9CA3AF` and `#6B7280`, a hair
- * different, doing the same job on the same screens. Naming them is what made
- * the fork visible; this is where it is closed, onto the documented side.
+ * The values here are deliberately unchanged. Two alternatives were built and
+ * rejected on purpose, and both are worth knowing about before touching this
+ * list again:
  *
- * The surfaces moved too. Cards were `#161A34`, which appears nowhere in the
- * handoff; `--bg-surface` is `#0F172A`.
+ * A light theme was tried. It needs more than new values — 412 borders are
+ * `border-white/10`, which is how an edge is drawn on a dark surface and is
+ * nothing at all on a light one, and the landing hero keeps its own gradient in
+ * `page.module.css` where no token reaches. Both are fixable; neither is free.
  *
- * One value is knowingly out of compliance and is left as the identity has it.
- * `--ink-subtle` / `--ink-faint` is the handoff's `--text-muted #64748B`, which
- * against its own three surfaces is 3.57–3.93:1 — below the 4.5:1 WCAG asks of
- * normal text, for the captions and metadata it is meant to carry. It clears
- * the 3:1 asked of large text and interface components, and that is what
- * `tests/unit/contrast.test.ts` holds it to. Raising it is a change to the
- * identity, not to the code, so it is not made here.
+ * Aligning to the identity handoff (v1.0, July 2026) was tried too. It
+ * specifies `--bg-surface #0F172A` where cards are `#161A34`, and a slate scale
+ * — `#94A3B8`, `#64748B` — where `#9CA3AF` and `#6B7280` from Tailwind's *gray*
+ * scale had drifted in beside it. Those two greys doing one job are real, and
+ * still here; closing that fork is a visible change and was not wanted now.
+ *
+ * What is enforced is contrast. `tests/unit/contrast.test.ts` computes every
+ * foreground against every surface it can land on, because a palette is a table
+ * of hexadecimals and nothing in it proves the pairs work. Two do not:
+ * `--ink-subtle` and `--ink-faint` sit at 3.5–3.9:1, below the 4.5:1 WCAG asks
+ * of normal text, for captions and metadata. The identity's own `--text-muted`
+ * has the same problem with the same value, so this is not drift — it is a
+ * decision nobody has taken. The test holds them to the 3:1 floor and leaves
+ * the rest recorded here rather than silently passing.
  */
 :root {
   /* Brand. */
@@ -36,20 +45,20 @@
      instead of `text-text-muted`. The handoff names three levels; the seven here
      map onto them, and the names stay because 1826 call sites use them. */
   --ink-bright: #f1f5f9;
-  --ink: #f1f5f9;
-  --ink-soft: #94a3b8;
-  --ink-muted: #94a3b8;
+  --ink: #e5e7eb;
+  --ink-soft: #d1d5db;
+  --ink-muted: #9ca3af;
   --ink-dim: #94a3b8;
-  --ink-subtle: #64748b;
+  --ink-subtle: #6b7280;
   --ink-faint: #64748b;
 
   /* Surfaces, from the page up. `--bg-base`, `--bg-surface` and
      `--bg-surface-alt` in the handoff. */
   --canvas: #0b1220;
-  --surface: #0f172a;
+  --surface: #161a34;
   --surface-inset: #111c33;
-  --surface-alt: #111c33;
-  --surface-deep: #111c33;
+  --surface-alt: #111827;
+  --surface-deep: #0f172a;
 
   /* Status. */
   --warning: #f59e0b;

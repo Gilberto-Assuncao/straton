@@ -32,22 +32,19 @@ const TOKEN_NAMES = [
 /**
  * Hexadecimals that must not be written into a component again.
  *
- * Both sides of the fork. The identity's values because writing `bg-[#0F172A]`
- * puts the palette back where it was, one file at a time; the gray-scale ones
- * that had drifted in beside them because those are what is in every old branch
- * and every memory of this codebase, and pasting one back re-opens the fork
- * without anybody noticing — they are a hair different, which is the whole
- * problem.
+ * The values in use, and the ones a theme attempt would have put in their
+ * place. Writing any of them back into a component re-opens the fork this
+ * suite exists to keep closed — one file at a time, invisibly, because the
+ * greys involved are a hair apart.
  */
 const FORBIDDEN: Record<string, string> = {
-  // The identity handoff.
+  // In use.
   "22c55e": "brand", "16a34a": "brand-hover", "4ade80": "brand-bright", "07110b": "on-brand",
-  f1f5f9: "ink", "94a3b8": "ink-muted", "64748b": "ink-subtle",
-  "0b1220": "canvas", "0f172a": "surface", "111c33": "surface-inset",
+  f1f5f9: "ink-bright", e5e7eb: "ink", d1d5db: "ink-soft", "9ca3af": "ink-muted",
+  "94a3b8": "ink-dim", "6b7280": "ink-subtle", "64748b": "ink-faint",
+  "0b1220": "canvas", "161a34": "surface", "111c33": "surface-inset",
+  "111827": "surface-alt", "0f172a": "surface-deep",
   f59e0b: "warning", f87171: "danger",
-  // Drift, replaced by the slate values above.
-  e5e7eb: "ink", d1d5db: "ink-soft", "9ca3af": "ink-muted", "6b7280": "ink-subtle",
-  "161a34": "surface", "111827": "surface-alt",
 };
 
 /**
