@@ -45,7 +45,7 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
   async function handleVatLookup() {
     setVatStatus({ kind: "loading" });
     const result = await lookupVatAction(countryCode, vatNumber);
-    if (!result.valid) { setVatStatus({ kind: "error", message: result.message }); return; }
+    if (!result.valid) { setVatStatus({ kind: "error", message: t(result.messageKey) }); return; }
     setLegalName(result.legalName);
     setAddressLine1(result.addressLine1);
     setPostalCode(result.postalCode);

@@ -22,7 +22,7 @@ import { describe, expect, it } from "vitest";
  * every fix tightens the budget automatically. The list can only ever shrink.
  */
 const BUDGET: Record<string, number> = {
-  "time-tracking/actions.ts": 3,
+  "time-tracking/actions.ts": 1,
   "timesheets/actions.ts": 3,
   "projects/actions.ts": 1,
   "roster/actions.ts": 1,

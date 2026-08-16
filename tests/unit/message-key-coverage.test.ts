@@ -23,6 +23,8 @@ const UNIONS = [
   { file: "src/features/employees/messages.ts", type: "EmployeeMessageKey", namespace: "employees" },
   { file: "src/features/operational-reports/messages.ts", type: "ReportMessageKey", namespace: "operationalReports" },
   { file: "src/features/operational-reports/messages.ts", type: "TemplateMessageKey", namespace: "reportTemplates" },
+  { file: "src/features/time-tracking/actions.ts", type: "ManualEntryMessageKey", namespace: "time" },
+  { file: "src/features/companies/types.ts", type: "VatLookupMessageKey", namespace: "companies" },
 ];
 
 type Messages = Record<string, Record<string, string>>;

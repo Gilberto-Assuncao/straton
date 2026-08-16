@@ -137,7 +137,11 @@
     "noTask": "No task",
     "subdivisionLabel": "Part of the location",
     "noSubdivision": "Not specified",
-    "subdivisionWholeLocation": "Whole location"
+    "subdivisionWholeLocation": "Whole location",
+    "manualMissingFields": "Fill in the date and the times.",
+    "manualEndBeforeStart": "End time must be after start time.",
+    "manualSaved": "Entry saved.",
+    "manualSaveFailed": "The entry could not be saved. Please try again."
   },
   "timesheets": {
     "eyebrow": "Workforce",
@@ -1572,7 +1576,12 @@
     "reject": "Reject",
     "rel_pending": "Awaiting answer",
     "rel_active": "Active",
-    "rel_rejected": "Rejected"
+    "rel_rejected": "Rejected",
+    "vatEnterCountryAndNumber": "Enter a country and VAT number first.",
+    "vatServiceUnreachable": "VIES is unreachable right now. Enter the company details manually.",
+    "vatNotFound": "This VAT number was not found.",
+    "vatNotValidated": "This VAT number could not be validated.",
+    "vatNoCompanyName": "VIES confirmed the VAT number but did not return a company name."
   },
   "notifications": {
     "assignmentAssigned_title": "New job assigned",

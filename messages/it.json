@@ -137,7 +137,11 @@
     "noTask": "Nessuna attività",
     "subdivisionLabel": "Parte della sede",
     "noSubdivision": "Non indicato",
-    "subdivisionWholeLocation": "Tutta la sede"
+    "subdivisionWholeLocation": "Tutta la sede",
+    "manualMissingFields": "Inserisci la data e gli orari.",
+    "manualEndBeforeStart": "L'orario di fine deve essere successivo a quello di inizio.",
+    "manualSaved": "Registrazione salvata.",
+    "manualSaveFailed": "Non è stato possibile salvare la registrazione. Riprova."
   },
   "timesheets": {
     "eyebrow": "Personale",
@@ -1572,7 +1576,12 @@
     "reject": "Rifiuta",
     "rel_pending": "In attesa",
     "rel_active": "Attiva",
-    "rel_rejected": "Rifiutata"
+    "rel_rejected": "Rifiutata",
+    "vatEnterCountryAndNumber": "Inserisci prima un paese e una partita IVA.",
+    "vatServiceUnreachable": "VIES non è raggiungibile in questo momento. Inserisci manualmente i dati dell'azienda.",
+    "vatNotFound": "Questa partita IVA non è stata trovata.",
+    "vatNotValidated": "Non è stato possibile validare questa partita IVA.",
+    "vatNoCompanyName": "VIES ha confermato la partita IVA ma non ha restituito il nome dell'azienda."
   },
   "notifications": {
     "assignmentAssigned_title": "Nuovo lavoro assegnato",

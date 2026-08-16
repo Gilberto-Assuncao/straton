@@ -137,7 +137,11 @@
     "noTask": "Sem tarefa",
     "subdivisionLabel": "Parte do local",
     "noSubdivision": "Não indicado",
-    "subdivisionWholeLocation": "Todo o local"
+    "subdivisionWholeLocation": "Todo o local",
+    "manualMissingFields": "Preencha a data e as horas.",
+    "manualEndBeforeStart": "A hora de fim tem de ser posterior à de início.",
+    "manualSaved": "Registo guardado.",
+    "manualSaveFailed": "Não foi possível guardar o registo. Tente novamente."
   },
   "timesheets": {
     "eyebrow": "Força de Trabalho",
@@ -1572,7 +1576,12 @@
     "reject": "Recusar",
     "rel_pending": "Aguarda resposta",
     "rel_active": "Ativa",
-    "rel_rejected": "Recusada"
+    "rel_rejected": "Recusada",
+    "vatEnterCountryAndNumber": "Indique primeiro um país e um número de IVA.",
+    "vatServiceUnreachable": "O VIES está inacessível neste momento. Introduza os dados da empresa manualmente.",
+    "vatNotFound": "Este número de IVA não foi encontrado.",
+    "vatNotValidated": "Não foi possível validar este número de IVA.",
+    "vatNoCompanyName": "O VIES confirmou o número de IVA mas não devolveu o nome da empresa."
   },
   "notifications": {
     "assignmentAssigned_title": "Novo trabalho atribuído",
