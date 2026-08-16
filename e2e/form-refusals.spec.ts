@@ -23,7 +23,7 @@ test.describe("a refused sign-in", () => {
 
     // The refusal has to arrive before anything can be asserted about what
     // survived it.
-    await expect(page.getByRole("alert")).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator("#auth-status")).toBeVisible({ timeout: 20_000 });
 
     await expect(page.locator("#login-email"), "the address, typed correctly").toHaveValue(ADMIN_EMAIL);
     // The asymmetry is deliberate and is the security half: a password put back
@@ -38,7 +38,9 @@ test.describe("a refused sign-in", () => {
     await page.locator("#login-password").fill("not-the-password");
     await page.getByRole("button", { name: /sign in|log in/i }).click();
 
-    const refusal = page.getByRole("alert");
+    // By id, not by role: Next's route announcer is also `role="alert"`, and a
+    // locator matching both would stay "visible" after the message goes.
+    const refusal = page.locator("#auth-status");
     await expect(refusal).toBeVisible({ timeout: 20_000 });
 
     // The ghost. Before this fix the sentence stayed while the person retyped,
