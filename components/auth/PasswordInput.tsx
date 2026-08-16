@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "next-intl";
 
-import { useState } from "react";
+import { useState, type FormEventHandler } from "react";
 
 type PasswordInputProps = {
   id: string;
@@ -9,6 +9,14 @@ type PasswordInputProps = {
   name: string;
   autoComplete: string;
   placeholder?: string;
+  /**
+   * Editing the password also retires the message above the form (#74).
+   *
+   * The value itself is never echoed back — see `AuthFormValues` — but a
+   * refusal about the password stops describing anything the moment the
+   * password changes, exactly like the other fields.
+   */
+  onInput?: FormEventHandler<HTMLInputElement>;
 };
 
 export default function PasswordInput({ id, label, ...props }: PasswordInputProps) {
