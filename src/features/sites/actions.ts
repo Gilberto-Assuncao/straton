@@ -10,6 +10,7 @@ import { geocodeAddress } from "@/src/infrastructure/geocoding/client";
 import { log } from "@/src/infrastructure/observability/logger";
 import { searchBelgianCompanies } from "@/src/infrastructure/cbe/client";
 import { notifySiteAudience } from "./notify-audience";
+import type { SiteMessageKey } from "./messages";
 
 /**
  * `values` is what was typed, echoed back with the refusal.
@@ -22,7 +23,8 @@ import { notifySiteAudience } from "./notify-audience";
  */
 export type SiteFormState = {
   status: "idle" | "error";
-  message: string;
+  /** null while idle. A key into `sites`, never a sentence (#104). */
+  messageKey: SiteMessageKey | null;
   values?: Record<string, string>;
 };
 
@@ -59,7 +61,7 @@ function text(formData: FormData, key: string): string {
 // Coordinates are optional, but a half-filled pair is worse than none: the
 // weather forecast and the live map both key off having both values, so one
 // without the other is rejected rather than silently stored.
-function parseSite(formData: FormData): ParsedSite | { error: string } {
+function parseSite(formData: FormData): ParsedSite | { error: SiteMessageKey } {
   const name = text(formData, "name");
   const status = text(formData, "status") || "active";
   const latRaw = text(formData, "latitude");
@@ -67,22 +69,22 @@ function parseSite(formData: FormData): ParsedSite | { error: string } {
   const startsAt = text(formData, "startsAt");
   const endsAt = text(formData, "endsAt");
 
-  if (name.length < 2) return { error: "Enter a site name." };
-  if (!SITE_STATUSES.includes(status as (typeof SITE_STATUSES)[number])) return { error: "Invalid status." };
+  if (name.length < 2) return { error: "errNameRequired" };
+  if (!SITE_STATUSES.includes(status as (typeof SITE_STATUSES)[number])) return { error: "errInvalidStatus" };
 
   if (Boolean(latRaw) !== Boolean(lonRaw)) {
-    return { error: "Enter both latitude and longitude, or leave both empty." };
+    return { error: "errCoordinatePair" };
   }
   const latitude = latRaw ? Number(latRaw) : null;
   const longitude = lonRaw ? Number(lonRaw) : null;
   if (latitude !== null && (!Number.isFinite(latitude) || latitude < -90 || latitude > 90)) {
-    return { error: "Latitude must be between -90 and 90." };
+    return { error: "errLatitudeRange" };
   }
   if (longitude !== null && (!Number.isFinite(longitude) || longitude < -180 || longitude > 180)) {
-    return { error: "Longitude must be between -180 and 180." };
+    return { error: "errLongitudeRange" };
   }
   if (startsAt && endsAt && new Date(endsAt) < new Date(startsAt)) {
-    return { error: "End date must be after the start date." };
+    return { error: "errEndBeforeStart" };
   }
 
   // Planning, moved here from the project (#77). All optional, deliberately:
@@ -91,17 +93,17 @@ function parseSite(formData: FormData): ParsedSite | { error: string } {
   // company that has not costed a job yet still has people working on it.
   const priority = text(formData, "priority") || "medium";
   if (!SITE_PRIORITIES.includes(priority as (typeof SITE_PRIORITIES)[number])) {
-    return { error: "Invalid priority." };
+    return { error: "errInvalidPriority" };
   }
   const estimatedHours = parseOptionalNumber(text(formData, "estimatedHours"));
-  if (!estimatedHours.ok) return { error: "Estimated hours must be a positive number, or empty." };
+  if (!estimatedHours.ok) return { error: "errEstimatedHours" };
   const budgetAmount = parseOptionalNumber(text(formData, "budgetAmount"));
-  if (!budgetAmount.ok) return { error: "The budget must be a positive number, or empty." };
+  if (!budgetAmount.ok) return { error: "errBudgetAmount" };
 
   // `not null default 'EUR'` in the database, so blank has to become the
   // default here rather than travelling as an empty string and being refused.
   const budgetCurrency = (text(formData, "budgetCurrency") || "EUR").toUpperCase();
-  if (!/^[A-Z]{3}$/.test(budgetCurrency)) return { error: "Currency must be a three-letter code, such as EUR." };
+  if (!/^[A-Z]{3}$/.test(budgetCurrency)) return { error: "errCurrencyCode" };
 
   const address: Record<string, string> = {};
   for (const key of ["street", "city", "postal_code", "country"]) {
@@ -133,14 +135,17 @@ async function guard() {
 export async function createSiteAction(_: SiteFormState, formData: FormData): Promise<SiteFormState> {
   const values = submitted(formData);
   const { allowed, companyId } = await guard();
-  if (!allowed) return { status: "error", message: "You do not have permission to create sites.", values };
+  if (!allowed) return { status: "error", messageKey: "errNoPermissionCreate", values };
 
   const parsed = parseSite(formData);
-  if ("error" in parsed) return { status: "error", message: parsed.error, values };
+  if ("error" in parsed) return { status: "error", messageKey: parsed.error, values };
 
   const supabase = await createClient();
   const { error } = await supabase.from("sites").insert({ ...parsed, company_id: companyId });
-  if (error) return { status: "error", message: error.message, values };
+  if (error) {
+    log.error({ event: "site_insert_failed", source: "createSiteAction", companyId, code: error.code }, error);
+    return { status: "error", messageKey: "errSiteSaveFailed", values };
+  }
 
   revalidatePath("/dashboard/sites");
   redirect("/dashboard/sites");
@@ -149,17 +154,20 @@ export async function createSiteAction(_: SiteFormState, formData: FormData): Pr
 export async function updateSiteAction(_: SiteFormState, formData: FormData): Promise<SiteFormState> {
   const values = submitted(formData);
   const { allowed, companyId, session } = await guard();
-  if (!allowed) return { status: "error", message: "You do not have permission to edit sites.", values };
+  if (!allowed) return { status: "error", messageKey: "errNoPermissionEdit", values };
 
   const siteId = text(formData, "siteId");
-  if (!siteId) return { status: "error", message: "Site not found.", values };
+  if (!siteId) return { status: "error", messageKey: "errSiteNotFound", values };
 
   const parsed = parseSite(formData);
-  if ("error" in parsed) return { status: "error", message: parsed.error, values };
+  if ("error" in parsed) return { status: "error", messageKey: parsed.error, values };
 
   const supabase = await createClient();
   const { error } = await supabase.from("sites").update(parsed).eq("id", siteId).eq("company_id", companyId);
-  if (error) return { status: "error", message: error.message, values };
+  if (error) {
+    log.error({ event: "site_update_failed", source: "updateSiteAction", companyId, code: error.code }, error);
+    return { status: "error", messageKey: "errSiteSaveFailed", values };
+  }
 
   // After the update, never before: an announcement about a change that did
   // not happen is worse than a change nobody was told about. Awaited rather
@@ -178,9 +186,9 @@ export async function updateSiteAction(_: SiteFormState, formData: FormData): Pr
 // Sites are archived rather than deleted: timesheet entries and operational
 // reports reference them, and removing the row would strip the location from
 // work that already happened.
-export async function archiveSiteAction(siteId: string, archived: boolean): Promise<{ ok: boolean; message: string }> {
+export async function archiveSiteAction(siteId: string, archived: boolean): Promise<{ ok: boolean; messageKey: SiteMessageKey | null }> {
   const { allowed, companyId } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to archive sites." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionArchive" };
 
   const supabase = await createClient();
   const { error } = await supabase
@@ -188,10 +196,13 @@ export async function archiveSiteAction(siteId: string, archived: boolean): Prom
     .update({ status: archived ? "archived" : "active" })
     .eq("id", siteId)
     .eq("company_id", companyId);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "site_archive_failed", source: "archiveSiteAction", companyId, code: error.code }, error);
+    return { ok: false, messageKey: "errArchiveFailed" };
+  }
 
   revalidatePath("/dashboard/sites");
-  return { ok: true, message: archived ? "Site archived; history was preserved." : "Site reactivated." };
+  return { ok: true, messageKey: archived ? "okSiteArchived" : "okSiteReactivated" };
 }
 
 export type GeocodeActionResult =
@@ -233,7 +244,7 @@ export async function geocodeSiteAddressAction(address: {
 
 export type CreateClientResult =
   | { ok: true; id: string; name: string }
-  | { ok: false; message: string };
+  | { ok: false; messageKey: SiteMessageKey };
 
 /**
  * Creates the client and the relationship that makes it readable, in one
@@ -251,10 +262,10 @@ export async function createClientCompanyAction(input: {
   city?: string;
 }): Promise<CreateClientResult> {
   const { allowed, companyId } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to add a client." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAddClient" };
 
   const displayName = input.displayName.trim();
-  if (displayName.length < 2) return { ok: false, message: "Enter the client name." };
+  if (displayName.length < 2) return { ok: false, messageKey: "errClientNameRequired" };
 
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("create_client_company", {
@@ -272,7 +283,11 @@ export async function createClientCompanyAction(input: {
     phone_input: null,
   });
 
-  if (error || !data) return { ok: false, message: error?.message ?? "Unable to add the client." };
+  if (error || !data) {
+    // #27: the code goes to the log, the constraint text never to the screen.
+    if (error) log.error({ event: "client_company_create_failed", source: "createClientCompanyAction", companyId, code: error.code }, error);
+    return { ok: false, messageKey: "errClientAddFailed" };
+  }
 
   revalidatePath("/dashboard/sites");
   return { ok: true, id: data as string, name: displayName };
@@ -280,7 +295,7 @@ export async function createClientCompanyAction(input: {
 
 // --- Partner companies on a project (#33) --------------------------------
 
-export type PartnerActionResult = { ok: boolean; message: string };
+export type PartnerActionResult = { ok: boolean; messageKey: SiteMessageKey };
 
 /**
  * Invites a partner company onto this work location (#77).
@@ -301,8 +316,8 @@ export async function invitePartnerAction(
   note: string,
 ): Promise<PartnerActionResult> {
   const { allowed, companyId, session } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to invite partners." };
-  if (!partnerCompanyId) return { ok: false, message: "Choose a company to invite." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionInvitePartners" };
+  if (!partnerCompanyId) return { ok: false, messageKey: "errChooseCompany" };
 
   const supabase = await createClient();
 
@@ -318,17 +333,14 @@ export async function invitePartnerAction(
   });
 
   if (error) {
-    return {
-      ok: false,
-      message:
-        error.code === "23505"
-          ? "That company has already been invited to this work location."
-          : error.message,
-    };
+    if (error.code !== "23505") {
+      log.error({ event: "site_partner_invite_failed", source: "invitePartnerAction", companyId, code: error.code }, error);
+    }
+    return { ok: false, messageKey: error.code === "23505" ? "errPartnerAlreadyInvited" : "errInviteFailed" };
   }
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Invitation sent." };
+  return { ok: true, messageKey: "okInvitationSent" };
 }
 
 export async function respondToInvitationAction(
@@ -336,7 +348,7 @@ export async function respondToInvitationAction(
   accept: boolean,
 ): Promise<PartnerActionResult> {
   const { allowed } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to answer invitations." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAnswerInvitations" };
 
   const supabase = await createClient();
   const { error } = await supabase
@@ -344,10 +356,13 @@ export async function respondToInvitationAction(
     .update({ status: accept ? "accepted" : "declined" })
     .eq("id", invitationId);
 
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "site_partner_answer_failed", source: "respondToInvitationAction", code: error.code }, error);
+    return { ok: false, messageKey: "errInvitationAnswerFailed" };
+  }
 
   revalidatePath("/dashboard/sites");
-  return { ok: true, message: accept ? "Invitation accepted." : "Invitation declined." };
+  return { ok: true, messageKey: accept ? "okInvitationAccepted" : "okInvitationDeclined" };
 }
 
 /**
@@ -357,19 +372,22 @@ export async function respondToInvitationAction(
  */
 export async function revokePartnerAction(siteId: string, invitationId: string): Promise<PartnerActionResult> {
   const { allowed } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to remove partners." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionRemovePartners" };
 
   const supabase = await createClient();
   const { error } = await supabase.from("site_partners").update({ status: "revoked" }).eq("id", invitationId);
-  if (error) return { ok: false, message: error.message };
+  if (error) {
+    log.error({ event: "site_partner_revoke_failed", source: "revokePartnerAction", code: error.code }, error);
+    return { ok: false, messageKey: "errPartnerRemoveFailed" };
+  }
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Partner removed from this work location." };
+  return { ok: true, messageKey: "okPartnerRemoved" };
 }
 
 // --- Subdivisions inside a work location (#77) ---------------------------
 
-export type SiteAreaActionResult = { ok: boolean; message: string };
+export type SiteAreaActionResult = { ok: boolean; messageKey: SiteMessageKey };
 
 /**
  * Turns what the database refused into something the manager can act on.
@@ -388,13 +406,13 @@ export type SiteAreaActionResult = { ok: boolean; message: string };
 function areaError(
   error: { code?: string; message: string },
   context: { source: string; companyId: string; userId: string },
-): string {
-  if (error.code === "23505") return "There is already a subdivision with that name in this location.";
-  if (error.code === "23001") return "A work location has to keep at least one subdivision.";
+): SiteMessageKey {
+  if (error.code === "23505") return "errAreaDuplicateName";
+  if (error.code === "23001") return "errAreaLastOne";
   // Hours point at it (#77), and the foreign key is `on delete restrict` on
   // purpose: detaching paid work from the place it happened is not something
   // a delete button should be able to do quietly. Closing is the way out.
-  if (error.code === "23503") return "That subdivision already has hours recorded against it. Close it instead of deleting it.";
+  if (error.code === "23503") return "errAreaHasHours";
 
   log.error({
     event: "site_area_write_failed",
@@ -403,7 +421,7 @@ function areaError(
     userId: context.userId,
     code: error.code,
   });
-  return "The subdivision could not be saved. Please try again.";
+  return "errAreaSaveFailed";
 }
 
 export async function createSiteAreaAction(
@@ -412,10 +430,10 @@ export async function createSiteAreaAction(
   description: string,
 ): Promise<SiteAreaActionResult> {
   const { allowed, companyId, session } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to change subdivisions." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAreas" };
 
   const trimmed = name.trim();
-  if (trimmed.length < 2) return { ok: false, message: "Enter a name for the subdivision." };
+  if (trimmed.length < 2) return { ok: false, messageKey: "errAreaNameRequired" };
 
   const supabase = await createClient();
   const { error } = await supabase.from("site_areas").insert({
@@ -427,7 +445,7 @@ export async function createSiteAreaAction(
     name: trimmed,
     description: description.trim() || null,
   });
-  if (error) return { ok: false, message: areaError(error, { source: "createSiteAreaAction", companyId, userId: session.user.id }) };
+  if (error) return { ok: false, messageKey: areaError(error, { source: "createSiteAreaAction", companyId, userId: session.user.id }) };
 
   // No `siteAreaId`: the subdivision did not exist a moment ago, so nobody can
   // have been following it. This is news about the location.
@@ -439,7 +457,7 @@ export async function createSiteAreaAction(
   });
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Subdivision added." };
+  return { ok: true, messageKey: "okAreaAdded" };
 }
 
 /**
@@ -457,10 +475,10 @@ export async function renameSiteAreaAction(
   name: string,
 ): Promise<SiteAreaActionResult> {
   const { allowed, companyId, session } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to change subdivisions." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAreas" };
 
   const trimmed = name.trim();
-  if (trimmed.length < 2) return { ok: false, message: "Enter a name for the subdivision." };
+  if (trimmed.length < 2) return { ok: false, messageKey: "errAreaNameRequired" };
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -470,11 +488,11 @@ export async function renameSiteAreaAction(
     .eq("site_id", siteId)
     .eq("company_id", companyId)
     .select("id");
-  if (error) return { ok: false, message: areaError(error, { source: "renameSiteAreaAction", companyId, userId: session.user.id }) };
+  if (error) return { ok: false, messageKey: areaError(error, { source: "renameSiteAreaAction", companyId, userId: session.user.id }) };
   // RLS refuses a forbidden update by matching no rows, not by raising — so
   // without this the screen reports a rename that never happened. That exact
   // silence has been found on four tables in this project already.
-  if ((data ?? []).length === 0) return { ok: false, message: "That subdivision was not found." };
+  if ((data ?? []).length === 0) return { ok: false, messageKey: "errAreaNotFound" };
 
   // Addressed to the subdivision, unlike the two above: this one exists and
   // people may be following it specifically. Whoever asked to hear only about
@@ -490,7 +508,7 @@ export async function renameSiteAreaAction(
   });
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Subdivision renamed." };
+  return { ok: true, messageKey: "okAreaRenamed" };
 }
 
 /**
@@ -506,7 +524,7 @@ export async function setSiteAreaActiveAction(
   active: boolean,
 ): Promise<SiteAreaActionResult> {
   const { allowed, companyId, session } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to change subdivisions." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAreas" };
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -516,17 +534,17 @@ export async function setSiteAreaActiveAction(
     .eq("site_id", siteId)
     .eq("company_id", companyId)
     .select("id");
-  if (error) return { ok: false, message: areaError(error, { source: "setSiteAreaActiveAction", companyId, userId: session.user.id }) };
-  if ((data ?? []).length === 0) return { ok: false, message: "That subdivision was not found." };
+  if (error) return { ok: false, messageKey: areaError(error, { source: "setSiteAreaActiveAction", companyId, userId: session.user.id }) };
+  if ((data ?? []).length === 0) return { ok: false, messageKey: "errAreaNotFound" };
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: active ? "Subdivision reopened." : "Subdivision closed." };
+  return { ok: true, messageKey: active ? "okAreaReopened" : "okAreaClosed" };
 }
 
 /** For the one typed by mistake. Closing is what a finished subdivision gets. */
 export async function deleteSiteAreaAction(siteId: string, areaId: string): Promise<SiteAreaActionResult> {
   const { allowed, companyId, session } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to change subdivisions." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAreas" };
 
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -536,8 +554,8 @@ export async function deleteSiteAreaAction(siteId: string, areaId: string): Prom
     .eq("site_id", siteId)
     .eq("company_id", companyId)
     .select("id");
-  if (error) return { ok: false, message: areaError(error, { source: "deleteSiteAreaAction", companyId, userId: session.user.id }) };
-  if ((data ?? []).length === 0) return { ok: false, message: "That subdivision was not found." };
+  if (error) return { ok: false, messageKey: areaError(error, { source: "deleteSiteAreaAction", companyId, userId: session.user.id }) };
+  if ((data ?? []).length === 0) return { ok: false, messageKey: "errAreaNotFound" };
 
   // Also without `siteAreaId`, and for the opposite reason: the subdivision is
   // gone, and with it — by `on delete cascade` — every subscription that only
@@ -550,7 +568,7 @@ export async function deleteSiteAreaAction(siteId: string, areaId: string): Prom
   });
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Subdivision removed." };
+  return { ok: true, messageKey: "okAreaRemoved" };
 }
 
 export type CompanySuggestion = { enterpriseNumber: string; name: string; city: string; postalCode: string };
@@ -565,7 +583,7 @@ export async function searchClientSuggestionsAction(name: string): Promise<Compa
   return searchBelgianCompanies(name);
 }
 
-export type AudienceActionResult = { ok: boolean; message: string };
+export type AudienceActionResult = { ok: boolean; messageKey: SiteMessageKey };
 
 /**
  * Põe um colega na lista de quem é avisado sobre este local (#83).
@@ -585,8 +603,8 @@ export async function subscribeToSiteAction(
   siteAreaId: string,
 ): Promise<AudienceActionResult> {
   const { allowed, companyId } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to change this list." };
-  if (!userId) return { ok: false, message: "Choose somebody to add." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAudience" };
+  if (!userId) return { ok: false, messageKey: "errChooseSomebody" };
 
   const supabase = await createClient();
   const { error } = await supabase.from("site_notification_subscribers").insert({
@@ -601,13 +619,13 @@ export async function subscribeToSiteAction(
     // and can undo. Everything else is a refusal by a policy or a trigger, and
     // repeating "new row violates row-level security policy" to a site manager
     // tells them nothing they can act on — that belongs in the log (#27).
-    if (error.code === "23505") return { ok: false, message: "That person is already on this list." };
+    if (error.code === "23505") return { ok: false, messageKey: "errAlreadyOnList" };
     log.error({ event: "site_subscriber_insert_failed", source: "subscribeToSiteAction", code: error.code }, error);
-    return { ok: false, message: "That person could not be added to the list." };
+    return { ok: false, messageKey: "errAddToListFailed" };
   }
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Added to the list." };
+  return { ok: true, messageKey: "okAddedToList" };
 }
 
 /**
@@ -623,15 +641,15 @@ export async function unsubscribeFromSiteAction(
   subscriberId: string,
 ): Promise<AudienceActionResult> {
   const { allowed } = await guard();
-  if (!allowed) return { ok: false, message: "You do not have permission to change this list." };
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAudience" };
 
   const supabase = await createClient();
   const { error } = await supabase.from("site_notification_subscribers").delete().eq("id", subscriberId);
   if (error) {
     log.error({ event: "site_subscriber_delete_failed", source: "unsubscribeFromSiteAction", code: error.code }, error);
-    return { ok: false, message: "That person could not be removed from the list." };
+    return { ok: false, messageKey: "errRemoveFromListFailed" };
   }
 
   revalidatePath(`/dashboard/sites/${siteId}`);
-  return { ok: true, message: "Removed from the list." };
+  return { ok: true, messageKey: "okRemovedFromList" };
 }

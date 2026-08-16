@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import type { SiteMessageKey } from "@/src/features/sites/messages";
 import { subscribeToSiteAction, unsubscribeFromSiteAction } from "@/src/features/sites/actions";
 import type { SiteAudience } from "@/src/features/sites/notifications";
 
@@ -34,10 +35,10 @@ export default function SiteNotificationAudience({
   const t = useTranslations("sites");
   const [userId, setUserId] = useState("");
   const [areaId, setAreaId] = useState("");
-  const [feedback, setFeedback] = useState<{ ok: boolean; message: string } | null>(null);
+  const [feedback, setFeedback] = useState<{ ok: boolean; messageKey: SiteMessageKey } | null>(null);
   const [pending, startTransition] = useTransition();
 
-  function run(action: () => Promise<{ ok: boolean; message: string }>, onOk?: () => void) {
+  function run(action: () => Promise<{ ok: boolean; messageKey: SiteMessageKey }>, onOk?: () => void) {
     startTransition(async () => {
       const result = await action();
       setFeedback(result);
@@ -107,7 +108,7 @@ export default function SiteNotificationAudience({
 
         {feedback ? (
           <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-[#4ADE80]" : "text-red-300"}`}>
-            {feedback.message}
+            {t(feedback.messageKey)}
           </p>
         ) : null}
       </div>

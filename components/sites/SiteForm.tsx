@@ -39,7 +39,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
   const t = useTranslations("sites");
   const [state, formAction] = useActionState(
     site ? updateSiteAction : createSiteAction,
-    { status: "idle", message: "" } as SiteFormState,
+    { status: "idle", messageKey: null } as SiteFormState,
   );
 
   /**
@@ -77,7 +77,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
   // Keyed on the message too, so submitting the same values twice counts as two
   // attempts and the refusal reappears — otherwise pressing the button again
   // would look like nothing happened at all.
-  const seed = `${JSON.stringify(state.values ?? null)}|${state.message}`;
+  const seed = `${JSON.stringify(state.values ?? null)}|${state.messageKey ?? ""}`;
   const [seenSeed, setSeenSeed] = useState(seed);
   if (seenSeed !== seed) {
     setSeenSeed(seed);
@@ -253,8 +253,11 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
         </div>
       </div>
 
-      {state.status === "error" && !touched ? (
-        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{state.message}</p>
+      {/* Keyed off the message rather than the status: `messageKey` is null
+          while idle, and testing it is what tells the compiler there is a key
+          to translate here (#104). */}
+      {state.messageKey && !touched ? (
+        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

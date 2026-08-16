@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import type { SiteMessageKey } from "@/src/features/sites/messages";
 import { archiveSiteAction } from "@/src/features/sites/actions";
 import type { SiteRecord } from "@/src/features/sites/types";
 
@@ -18,7 +19,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
   const t = useTranslations("sites");
   const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<SiteMessageKey | null>(null);
 
   function toggleArchive(site: SiteRecord) {
     const archiving = site.status !== "archived";
@@ -26,7 +27,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
     setError(null);
     startTransition(async () => {
       const result = await archiveSiteAction(site.id, archiving);
-      if (!result.ok) setError(result.message);
+      if (!result.ok) setError(result.messageKey);
       else router.refresh();
     });
   }
@@ -42,7 +43,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
 
   return (
     <div className="grid gap-4">
-      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{error}</p> : null}
+      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
       {sites.map((site) => {
         const parts = [site.address.street, site.address.postal_code, site.address.city].filter(Boolean);
         return (

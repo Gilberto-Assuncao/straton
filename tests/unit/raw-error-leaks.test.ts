@@ -10,19 +10,19 @@ import { describe, expect, it } from "vitest";
  * a customer, with nothing written down anywhere. The detail belongs in a log;
  * the user gets something they can act on.
  *
- * There are 42 of these left across 9 files. teams/actions.ts and
- * companies/actions.ts both went to zero when their actions were converted to
- * typed message keys, and dropped off the list entirely. Fixing the rest would
- * be a large mechanical edit across features nobody is otherwise touching, and
- * each needs a sensible replacement sentence — several of which are English
- * strings that #28 has to translate anyway.
+ * There are 35 of these left across 8 files. teams/actions.ts,
+ * companies/actions.ts and now sites/actions.ts all went to zero when their
+ * actions were converted to typed message keys, and dropped off the list
+ * entirely — a raw Postgres string cannot be a key, so converting a file is
+ * what forces its leaks to be given a sentence of their own. Fixing the rest
+ * would be a large mechanical edit across features nobody is otherwise
+ * touching.
  *
  * So this does not demand zero. It demands *no more than today*, per file, and
  * every fix tightens the budget automatically. The list can only ever shrink.
  */
 const BUDGET: Record<string, number> = {
   "employees/actions.ts": 14,
-  "sites/actions.ts": 7,
   "operational-reports/actions.ts": 6,
   "operational-reports/template-actions.ts": 6,
   "time-tracking/actions.ts": 3,
@@ -50,9 +50,18 @@ function sourceFiles(dir: string): string[] {
  * and `roleError.message` — 15 of them, including the SMTP one this whole
  * issue is named after. A ratchet that cannot see the defect it was built for
  * is worse than none, because it looks like cover.
+ *
+ * Comments are removed first. A doc comment explaining *why* a file no longer
+ * returns `error.message` was itself counted as a leak, which put a file with
+ * zero of them on the offenders list — the scan cannot tell prose from code, so
+ * it is given no prose to read. Nothing is lost: a leak inside a comment is not
+ * a leak.
  */
 function countLeaks(file: string): number {
-  return (readFileSync(file, "utf8").match(/\b\w*[Ee]rror\??\.message\b/g) ?? []).length;
+  const code = readFileSync(file, "utf8")
+    .replace(/\/\*[\s\S]*?\*\//g, "")
+    .replace(/\/\/.*$/gm, "");
+  return (code.match(/\b\w*[Ee]rror\??\.message\b/g) ?? []).length;
 }
 
 describe("raw provider errors reaching the user", () => {
