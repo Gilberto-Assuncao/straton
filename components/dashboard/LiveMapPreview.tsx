@@ -60,7 +60,7 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
               <div
                 className="absolute inset-0 overflow-hidden rounded-xl opacity-20"
                 style={{
-                  backgroundImage: "linear-gradient(#22C55E 1px,transparent 1px),linear-gradient(90deg,#22C55E 1px,transparent 1px)",
+                  backgroundImage: "linear-gradient(var(--brand) 1px,transparent 1px),linear-gradient(90deg,var(--brand) 1px,transparent 1px)",
                   backgroundSize: "1.5rem 1.5rem",
                 }}
               />

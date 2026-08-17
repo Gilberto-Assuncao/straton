@@ -100,6 +100,69 @@
   --primary: #22c55e;
 }
 
+/*
+ * The light theme, for browsers asking for one (#82).
+ *
+ * Dark stays the default in `:root` above, because the identity handoff
+ * specifies navy as the main background — this is additive, and anybody who
+ * has expressed no preference sees exactly what they saw before.
+ *
+ * The green is the one value that cannot simply carry over. `#22c55e` as text
+ * on white is 2.28:1, and as a focus ring it is 2.28 against the 3:1 WCAG asks
+ * of interface components — invisible in every screenshot, and only a keyboard
+ * finds it. So on light the brand darkens for *both* fills and text, and
+ * `--on-brand` becomes white: 7.13:1 either way. Nothing outside this file
+ * moves, which is the whole point of the two steps that came before.
+ *
+ * The greys collapse. `--ink-muted` and `--ink-subtle` are a hair apart on a
+ * dark surface and both fine; their inverses on white would be 4.8:1 and
+ * 4.76:1 — passing with nothing to spare, for text whose job is to recede.
+ * Legibility wins and they land on one value each. The names stay, because the
+ * distinction is real on dark.
+ *
+ * Every pair is computed against every surface by
+ * `tests/unit/contrast.test.ts`, in both themes.
+ */
+@media (prefers-color-scheme: light) {
+  :root {
+    --edge-5: rgb(15 23 42 / 0.05);
+    --edge-8: rgb(15 23 42 / 0.08);
+    --edge-10: rgb(15 23 42 / 0.1);
+    --edge-15: rgb(15 23 42 / 0.15);
+    --edge-20: rgb(15 23 42 / 0.2);
+    --edge-25: rgb(15 23 42 / 0.25);
+    --edge-30: rgb(15 23 42 / 0.3);
+
+    --brand: #166534;
+    --brand-hover: #14532d;
+    --brand-bright: #166534;
+    --on-brand: #ffffff;
+
+    --ink-bright: #0f172a;
+    --ink: #1e293b;
+    --ink-soft: #334155;
+    --ink-muted: #4b5563;
+    --ink-dim: #475569;
+    --ink-subtle: #4b5563;
+    --ink-faint: #475569;
+
+    --canvas: #f8fafc;
+    --surface: #ffffff;
+    --surface-inset: #f1f5f9;
+    --surface-alt: #f1f5f9;
+    --surface-deep: #e2e8f0;
+
+    --warning: #92400e;
+    --danger: #b91c1c;
+
+    /* Read by `body` and `::selection`. */
+    --background: var(--canvas);
+    --background-deep: var(--surface);
+    --foreground: var(--ink);
+    --primary: var(--brand);
+  }
+}
+
 @theme inline {
   --color-edge-5: var(--edge-5);
   --color-edge-8: var(--edge-8);
