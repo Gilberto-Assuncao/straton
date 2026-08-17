@@ -904,7 +904,17 @@
     "okReportSubmitted": "Raport przesłany do zatwierdzenia.",
     "okReportApproved": "Raport zatwierdzony.",
     "okReportRejected": "Raport odrzucony.",
-    "okChangesRequested": "Poproszono o zmiany."
+    "okChangesRequested": "Poproszono o zmiany.",
+    "backToList": "Powrót do raportów",
+    "backToReport": "Powrót do raportu",
+    "genericReport": "Raport ogólny",
+    "history": "Historia",
+    "newReportTitle": "Nowy raport z budowy",
+    "newReportHelp": "Zapisz wykonaną pracę, gdzie i przez kogo.",
+    "editReportTitle": "Edytuj raport z budowy",
+    "editReportHelp": "Zaktualizuj raport przed przesłaniem go do zatwierdzenia.",
+    "yes": "Tak",
+    "no": "Nie"
   },
   "liveMap": {
     "metadataTitle": "Mapa na żywo",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Kierownik",
     "teamRole_supervisor": "Brygadzista",
     "teamRole_member": "Członek",
-    "updatedLabel": "Zaktualizowano"
+    "updatedLabel": "Zaktualizowano",
+    "teamWillBelongTo": "Zespół będzie należał do {company}.",
+    "teamInformation": "Informacje o zespole",
+    "teamInformationHelp": "Lider i pierwsi członkowie muszą należeć do aktywnej firmy.",
+    "teamSettings": "Ustawienia zespołu",
+    "editNamed": "Edytuj {name}"
   },
   "companies": {
     "eyebrow": "Zarządzanie firmami",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "Nie udało się zapisać odpowiedzi. Spróbuj ponownie.",
     "okRequestSent": "Prośba o współpracę wysłana.",
     "okPartnershipAccepted": "Współpraca przyjęta.",
-    "okPartnershipRejected": "Współpraca odrzucona."
+    "okPartnershipRejected": "Współpraca odrzucona.",
+    "companyManagement": "Zarządzanie firmami",
+    "createCompanyHelp": "Tworzenie jest transakcyjne: przestrzeń robocza i Twoje członkostwo właściciela powstają razem.",
+    "companyProfileHelp": "Pola obowiązkowe określają domyślne ustawienia regionalne."
   },
   "notifications": {
     "assignmentAssigned_title": "Przydzielono nową pracę",

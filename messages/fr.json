@@ -904,7 +904,17 @@
     "okReportSubmitted": "Rapport soumis pour approbation.",
     "okReportApproved": "Rapport approuvé.",
     "okReportRejected": "Rapport refusé.",
-    "okChangesRequested": "Modifications demandées."
+    "okChangesRequested": "Modifications demandées.",
+    "backToList": "Retour aux rapports",
+    "backToReport": "Retour au rapport",
+    "genericReport": "Rapport générique",
+    "history": "Historique",
+    "newReportTitle": "Nouveau rapport de chantier",
+    "newReportHelp": "Consignez le travail effectué, où et par qui.",
+    "editReportTitle": "Modifier le rapport de chantier",
+    "editReportHelp": "Mettez à jour le rapport avant de le soumettre pour approbation.",
+    "yes": "Oui",
+    "no": "Non"
   },
   "liveMap": {
     "metadataTitle": "Carte en direct",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Responsable",
     "teamRole_supervisor": "Superviseur",
     "teamRole_member": "Membre",
-    "updatedLabel": "Mise à jour"
+    "updatedLabel": "Mise à jour",
+    "teamWillBelongTo": "L'équipe appartiendra à {company}.",
+    "teamInformation": "Informations sur l'équipe",
+    "teamInformationHelp": "Le responsable et les membres initiaux doivent appartenir à l'entreprise active.",
+    "teamSettings": "Paramètres de l'équipe",
+    "editNamed": "Modifier {name}"
   },
   "companies": {
     "eyebrow": "Gestion des entreprises",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "La réponse n'a pas pu être enregistrée. Réessayez.",
     "okRequestSent": "Demande de partenariat envoyée.",
     "okPartnershipAccepted": "Partenariat accepté.",
-    "okPartnershipRejected": "Partenariat refusé."
+    "okPartnershipRejected": "Partenariat refusé.",
+    "companyManagement": "Gestion des entreprises",
+    "createCompanyHelp": "La création est transactionnelle : l'espace de travail et votre adhésion en tant que propriétaire sont créés ensemble.",
+    "companyProfileHelp": "Les champs obligatoires définissent les paramètres régionaux par défaut."
   },
   "notifications": {
     "assignmentAssigned_title": "Nouveau travail attribué",

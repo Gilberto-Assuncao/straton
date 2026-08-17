@@ -904,7 +904,17 @@
     "okReportSubmitted": "Relatório submetido para aprovação.",
     "okReportApproved": "Relatório aprovado.",
     "okReportRejected": "Relatório recusado.",
-    "okChangesRequested": "Alterações pedidas."
+    "okChangesRequested": "Alterações pedidas.",
+    "backToList": "Voltar aos relatórios",
+    "backToReport": "Voltar ao relatório",
+    "genericReport": "Relatório genérico",
+    "history": "Histórico",
+    "newReportTitle": "Novo relatório de obra",
+    "newReportHelp": "Registe o trabalho feito, onde e por quem.",
+    "editReportTitle": "Editar relatório de obra",
+    "editReportHelp": "Atualize o relatório antes de o submeter para aprovação.",
+    "yes": "Sim",
+    "no": "Não"
   },
   "liveMap": {
     "metadataTitle": "Mapa em tempo real",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Responsável",
     "teamRole_supervisor": "Supervisor",
     "teamRole_member": "Membro",
-    "updatedLabel": "Atualizada"
+    "updatedLabel": "Atualizada",
+    "teamWillBelongTo": "A equipa vai pertencer a {company}.",
+    "teamInformation": "Informação da equipa",
+    "teamInformationHelp": "O líder e os membros iniciais têm de pertencer à empresa ativa.",
+    "teamSettings": "Definições da equipa",
+    "editNamed": "Editar {name}"
   },
   "companies": {
     "eyebrow": "Gestão de empresas",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "Não foi possível guardar a resposta. Tente novamente.",
     "okRequestSent": "Pedido de parceria enviado.",
     "okPartnershipAccepted": "Parceria aceite.",
-    "okPartnershipRejected": "Parceria recusada."
+    "okPartnershipRejected": "Parceria recusada.",
+    "companyManagement": "Gestão de empresas",
+    "createCompanyHelp": "A criação é transacional: o espaço de trabalho e a sua adesão como proprietário são criados em conjunto.",
+    "companyProfileHelp": "Os campos obrigatórios definem as predefinições de localização."
   },
   "notifications": {
     "assignmentAssigned_title": "Novo trabalho atribuído",

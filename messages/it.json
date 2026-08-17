@@ -904,7 +904,17 @@
     "okReportSubmitted": "Rapporto inviato per approvazione.",
     "okReportApproved": "Rapporto approvato.",
     "okReportRejected": "Rapporto respinto.",
-    "okChangesRequested": "Modifiche richieste."
+    "okChangesRequested": "Modifiche richieste.",
+    "backToList": "Torna ai rapporti",
+    "backToReport": "Torna al rapporto",
+    "genericReport": "Rapporto generico",
+    "history": "Cronologia",
+    "newReportTitle": "Nuovo rapporto di cantiere",
+    "newReportHelp": "Registra il lavoro svolto, dove e da chi.",
+    "editReportTitle": "Modifica rapporto di cantiere",
+    "editReportHelp": "Aggiorna il rapporto prima di inviarlo per approvazione.",
+    "yes": "Sì",
+    "no": "No"
   },
   "liveMap": {
     "metadataTitle": "Mappa live",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Responsabile",
     "teamRole_supervisor": "Caposquadra",
     "teamRole_member": "Membro",
-    "updatedLabel": "Aggiornata"
+    "updatedLabel": "Aggiornata",
+    "teamWillBelongTo": "Il team apparterrà a {company}.",
+    "teamInformation": "Informazioni sul team",
+    "teamInformationHelp": "Il responsabile e i membri iniziali devono appartenere all'azienda attiva.",
+    "teamSettings": "Impostazioni del team",
+    "editNamed": "Modifica {name}"
   },
   "companies": {
     "eyebrow": "Gestione aziende",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "Non è stato possibile salvare la risposta. Riprova.",
     "okRequestSent": "Richiesta di partnership inviata.",
     "okPartnershipAccepted": "Partnership accettata.",
-    "okPartnershipRejected": "Partnership rifiutata."
+    "okPartnershipRejected": "Partnership rifiutata.",
+    "companyManagement": "Gestione aziende",
+    "createCompanyHelp": "La creazione è transazionale: lo spazio di lavoro e la tua adesione come proprietario sono creati insieme.",
+    "companyProfileHelp": "I campi obbligatori definiscono le impostazioni locali predefinite."
   },
   "notifications": {
     "assignmentAssigned_title": "Nuovo lavoro assegnato",

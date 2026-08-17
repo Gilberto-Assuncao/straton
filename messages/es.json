@@ -904,7 +904,17 @@
     "okReportSubmitted": "Informe enviado para aprobación.",
     "okReportApproved": "Informe aprobado.",
     "okReportRejected": "Informe rechazado.",
-    "okChangesRequested": "Cambios solicitados."
+    "okChangesRequested": "Cambios solicitados.",
+    "backToList": "Volver a los informes",
+    "backToReport": "Volver al informe",
+    "genericReport": "Informe genérico",
+    "history": "Historial",
+    "newReportTitle": "Nuevo informe de obra",
+    "newReportHelp": "Registre el trabajo realizado, dónde y por quién.",
+    "editReportTitle": "Editar informe de obra",
+    "editReportHelp": "Actualice el informe antes de enviarlo para aprobación.",
+    "yes": "Sí",
+    "no": "No"
   },
   "liveMap": {
     "metadataTitle": "Mapa en vivo",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Responsable",
     "teamRole_supervisor": "Supervisor",
     "teamRole_member": "Integrante",
-    "updatedLabel": "Actualizado"
+    "updatedLabel": "Actualizado",
+    "teamWillBelongTo": "El equipo pertenecerá a {company}.",
+    "teamInformation": "Información del equipo",
+    "teamInformationHelp": "El responsable y los miembros iniciales deben pertenecer a la empresa activa.",
+    "teamSettings": "Ajustes del equipo",
+    "editNamed": "Editar {name}"
   },
   "companies": {
     "eyebrow": "Gestión de empresas",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "No se pudo guardar la respuesta. Inténtelo de nuevo.",
     "okRequestSent": "Solicitud de asociación enviada.",
     "okPartnershipAccepted": "Asociación aceptada.",
-    "okPartnershipRejected": "Asociación rechazada."
+    "okPartnershipRejected": "Asociación rechazada.",
+    "companyManagement": "Gestión de empresas",
+    "createCompanyHelp": "La creación es transaccional: el espacio de trabajo y su pertenencia como propietario se crean juntos.",
+    "companyProfileHelp": "Los campos obligatorios establecen la configuración regional predeterminada."
   },
   "notifications": {
     "assignmentAssigned_title": "Nuevo trabajo asignado",

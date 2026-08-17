@@ -904,7 +904,17 @@
     "okReportSubmitted": "Raport trimis spre aprobare.",
     "okReportApproved": "Raport aprobat.",
     "okReportRejected": "Raport respins.",
-    "okChangesRequested": "Modificări solicitate."
+    "okChangesRequested": "Modificări solicitate.",
+    "backToList": "Înapoi la rapoarte",
+    "backToReport": "Înapoi la raport",
+    "genericReport": "Raport generic",
+    "history": "Istoric",
+    "newReportTitle": "Raport nou de șantier",
+    "newReportHelp": "Înregistrați lucrarea efectuată, unde și de către cine.",
+    "editReportTitle": "Editați raportul de șantier",
+    "editReportHelp": "Actualizați raportul înainte de a-l trimite spre aprobare.",
+    "yes": "Da",
+    "no": "Nu"
   },
   "liveMap": {
     "metadataTitle": "Hartă live",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Responsabil",
     "teamRole_supervisor": "Supervizor",
     "teamRole_member": "Membru",
-    "updatedLabel": "Actualizată"
+    "updatedLabel": "Actualizată",
+    "teamWillBelongTo": "Echipa va aparține de {company}.",
+    "teamInformation": "Informații despre echipă",
+    "teamInformationHelp": "Liderul și membrii inițiali trebuie să aparțină companiei active.",
+    "teamSettings": "Setările echipei",
+    "editNamed": "Editați {name}"
   },
   "companies": {
     "eyebrow": "Gestionarea companiilor",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "Răspunsul nu a putut fi salvat. Încercați din nou.",
     "okRequestSent": "Cerere de parteneriat trimisă.",
     "okPartnershipAccepted": "Parteneriat acceptat.",
-    "okPartnershipRejected": "Parteneriat refuzat."
+    "okPartnershipRejected": "Parteneriat refuzat.",
+    "companyManagement": "Gestionarea companiilor",
+    "createCompanyHelp": "Crearea este tranzacțională: spațiul de lucru și calitatea dumneavoastră de proprietar sunt create împreună.",
+    "companyProfileHelp": "Câmpurile obligatorii stabilesc setările regionale implicite."
   },
   "notifications": {
     "assignmentAssigned_title": "Lucrare nouă repartizată",
