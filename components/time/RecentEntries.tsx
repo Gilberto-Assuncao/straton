@@ -4,7 +4,7 @@ import { useTranslations } from "next-intl";
 import EmptyTimeState from "@/components/time/EmptyTimeState";
 import type { EntryStatus, TimeEntry } from "@/lib/types/time";
 
-const statusStyles: Record<EntryStatus, string> = { Approved: "bg-brand/10 text-brand-bright", Pending: "bg-amber-400/10 text-amber-300", Rejected: "bg-red-400/10 text-red-300" };
+const statusStyles: Record<EntryStatus, string> = { Approved: "bg-brand/10 text-brand-bright", Pending: "bg-amber-400/10 text-warning-soft", Rejected: "bg-red-400/10 text-danger-soft" };
 function formatDuration(minutes: number) { return `${Math.floor(minutes / 60)}h ${minutes % 60}m`; }
 export default function RecentEntries({ entries }: { entries: TimeEntry[] }) {
   const t = useTranslations("time");

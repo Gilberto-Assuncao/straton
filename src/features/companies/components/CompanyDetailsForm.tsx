@@ -85,7 +85,7 @@ export function CompanyDetailsForm({ companyId, values = empty, canEdit = true }
             {vatStatus.kind === "loading" ? t("lookingUp") : countryCode.toUpperCase() === "BE" ? t("lookupCbe") : t("lookupVies")}
           </button>
         </div>
-        {vatStatus.kind === "error" ? <p role="alert" className="mt-1 text-xs text-red-300">{vatStatus.message}</p> : null}
+        {vatStatus.kind === "error" ? <p role="alert" className="mt-1 text-xs text-danger-soft">{vatStatus.message}</p> : null}
         {vatStatus.kind === "success" ? <p className="mt-1 text-xs text-brand-bright">{vatStatus.message}</p> : null}
       </div>
       <Select name="countryCode" label={t("fieldCountry")} value={countryCode} onChange={(event) => setCountryCode(event.target.value)} options={countries} error={error("countryCode")}/>

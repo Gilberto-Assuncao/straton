@@ -154,7 +154,7 @@ export default function EditEntryModal({
                 value={startTime}
                 onChange={(event) => setStartTime(event.target.value)}
                 required
-                className={`${field} [color-scheme:dark]`}
+                className={`${field}`}
               />
             </div>
             <div>
@@ -167,7 +167,7 @@ export default function EditEntryModal({
                 value={endTime}
                 onChange={(event) => setEndTime(event.target.value)}
                 required
-                className={`${field} [color-scheme:dark]`}
+                className={`${field}`}
               />
             </div>
             <div>
@@ -202,7 +202,7 @@ export default function EditEntryModal({
           </div>
 
           {error ? (
-            <p role="alert" className="text-sm text-red-300">
+            <p role="alert" className="text-sm text-danger-soft">
               {error}
             </p>
           ) : null}

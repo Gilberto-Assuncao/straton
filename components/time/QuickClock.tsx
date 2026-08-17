@@ -164,7 +164,7 @@ export default function QuickClock({
         disabled={busy}
         className={`min-h-20 w-full rounded-2xl text-xl font-bold transition disabled:opacity-60 ${
           running
-            ? "border-2 border-red-400/40 bg-red-400/10 text-red-200"
+            ? "border-2 border-red-400/40 bg-red-400/10 text-danger-soft"
             : "bg-brand text-on-brand hover:bg-brand-hover"
         }`}
       >
@@ -172,7 +172,7 @@ export default function QuickClock({
       </button>
 
       {feedback ? (
-        <p role="status" className={`text-center text-sm ${feedback.ok ? "text-brand-bright" : "text-amber-300"}`}>
+        <p role="status" className={`text-center text-sm ${feedback.ok ? "text-brand-bright" : "text-warning-soft"}`}>
           {feedback.text}
         </p>
       ) : null}

@@ -36,6 +36,16 @@
  */
 :root {
   /*
+   * Native widgets follow the same preference the palette does.
+   *
+   * Nothing declared this, so scrollbars, date pickers and select arrows were
+   * painted for a light page on top of a dark one — which is why three time
+   * inputs carried `[color-scheme:dark]` by hand. Declaring the pair here makes
+   * the browser pick per preference and removes the need to force it anywhere.
+   */
+  color-scheme: light dark;
+
+  /*
    * Edges and raised fills, as whole colours rather than a colour plus an
    * opacity modifier.
    *
@@ -88,6 +98,49 @@
   /* Status. */
   --warning: #f59e0b;
   --danger: #f87171;
+
+  /*
+   * Status *foregrounds*, which are not the two above.
+   *
+   * 104 places wrote `text-red-300`, `text-amber-300`, `text-sky-300` and
+   * `text-green-300` directly — validation errors, timesheet warnings, every
+   * badge. Those are Tailwind's own pale shades, chosen to read on navy, and
+   * they are 1.90:1, 1.44:1 and 1.67:1 on white. The whole point of a light
+   * theme is lost if the error message is the one thing nobody can read.
+   *
+   * The dark values are the sRGB Chromium renders for Tailwind v4's own
+   * `oklch()` entries, read off a canvas rather than assumed: v4's palette is
+   * *not* v3's hexadecimals, and `#fca5a5` — the value everyone remembers for
+   * red-300 — is three channels off. The 86 spots that were a `-300` shade are
+   * therefore pixel-identical on dark.
+   *
+   * The other 18 are not, and were a decision: the `-200` shades collapsed into
+   * the `-300` ones, because they were used interchangeably in the same badges
+   * and a distinction nobody designed is not worth four more tokens. Measured,
+   * that is up to 56/255 on one channel of amber. It is the only thing on this
+   * screen that moves in dark mode.
+   *
+   * `--success` is green-800 rather than green-700 on light, and `--info`
+   * sky-800 rather than sky-700, because both fell short against
+   * `--surface-deep` — 4.07:1 and 4.81:1. Every pair is computed in
+   * `tests/unit/contrast.test.ts`.
+   */
+  --danger-soft: #ffa2a2;
+  --warning-soft: #ffd230;
+  --info: #74d4ff;
+  --success: #7bf1a8;
+
+  /*
+   * The neutral control fill: the secondary button and the switch track.
+   *
+   * Written as `bg-[#374151]` with `text-ink` on top, which is a dark grey
+   * behind a light label — and on light, `--ink` inverts to `#1e293b` while the
+   * grey does not, leaving dark text on a dark button at 1.5:1. It is a
+   * surface, not a foreground, which is why the value collides with
+   * `--ink-muted` on light and means nothing of the sort.
+   */
+  --control: #374151;
+  --control-hover: #4b5563;
 
   /* Superseded by the tokens above, kept because `body` and `::selection`
      still read them. `--background` is a near-black that matches nothing else
@@ -155,6 +208,16 @@
     --warning: #92400e;
     --danger: #b91c1c;
 
+    /* The soft pair meets the strong one here: the two only differ on dark,
+       where one is a pale shade on navy and the other is not. */
+    --danger-soft: #b91c1c;
+    --warning-soft: #92400e;
+    --info: #075985;
+    --success: #166534;
+
+    --control: #e2e8f0;
+    --control-hover: #cbd5e1;
+
     /* Read by `body` and `::selection`. */
     --background: var(--canvas);
     --background-deep: var(--surface);
@@ -193,6 +256,12 @@
 
   --color-warning: var(--warning);
   --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-control: var(--control);
+  --color-control-hover: var(--control-hover);
 
   --font-sans: var(--font-poppins);
 }

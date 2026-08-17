@@ -5,9 +5,9 @@ import type { ChainSide, CompanyNetwork as Network, NetworkCompany } from "@/src
 const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
 
 const statusTone: Record<string, string> = {
-  pending: "bg-amber-400/10 text-amber-300",
+  pending: "bg-amber-400/10 text-warning-soft",
   active: "bg-brand/10 text-brand-bright",
-  rejected: "bg-red-400/10 text-red-300",
+  rejected: "bg-red-400/10 text-danger-soft",
 };
 
 async function CompanyCard({ company }: { company: NetworkCompany }) {

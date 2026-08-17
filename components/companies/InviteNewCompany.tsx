@@ -166,7 +166,7 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
 
       {result ? (
         <div className="mt-4">
-          <p role="status" className={`text-sm ${result.ok ? "text-brand-bright" : "text-red-300"}`}>
+          <p role="status" className={`text-sm ${result.ok ? "text-brand-bright" : "text-danger-soft"}`}>
             {t(`message_${result.key}` as "message_sent")}
           </p>
           {result.link ? (
@@ -188,7 +188,7 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
                 </button>
               </div>
               {/* Said once, plainly: this link is the credential. */}
-              <p className="mt-2 text-xs text-amber-300/80">{t("linkWarning")}</p>
+              <p className="mt-2 text-xs text-warning-soft">{t("linkWarning")}</p>
             </div>
           ) : null}
         </div>

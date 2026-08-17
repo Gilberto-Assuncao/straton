@@ -36,7 +36,7 @@ export default function TemplateList({ templates }: { templates: ManagedTemplate
 
   return (
     <div className="grid gap-4">
-      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
+      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-danger-soft">{t(error)}</p> : null}
       {templates.map((template) => (
         <article key={template.id} className={`rounded-2xl border border-edge-10 bg-surface p-5 ${template.active ? "" : "opacity-60"}`}>
           <div className="flex flex-wrap items-start justify-between gap-3">

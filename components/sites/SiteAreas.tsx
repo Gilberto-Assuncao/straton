@@ -95,7 +95,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
         </div>
 
         {feedback ? (
-          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-red-300"}`}>
+          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-danger-soft"}`}>
             {t(feedback.messageKey)}
           </p>
         ) : null}

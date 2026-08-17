@@ -26,7 +26,8 @@ const TOKEN_NAMES = [
   "brand", "brand-hover", "brand-bright", "on-brand",
   "ink-bright", "ink", "ink-soft", "ink-muted", "ink-dim", "ink-subtle", "ink-faint",
   "canvas", "surface", "surface-inset", "surface-alt", "surface-deep",
-  "warning", "danger",
+  "warning", "danger", "danger-soft", "warning-soft", "info", "success",
+  "control", "control-hover",
 ];
 
 /**
@@ -51,13 +52,30 @@ const RETIRED: Record<string, string> = {
   // replaced in `globals.css`.
 };
 
-/** Every token's current value, read from the stylesheet that renders. */
+/**
+ * Every value a token takes, in every theme, read from the stylesheet.
+ *
+ * `match` rather than `matchAll` was the gap: it returns the first declaration
+ * only, so the moment a second theme was added, `#166534`, `#ffffff` and
+ * `#f8fafc` — real token values on light — were absent from the forbidden
+ * table. A component could hardcode any of them and this suite would say
+ * nothing, which is exactly the fork the rewrite existed to close, reopened by
+ * the theme it was written for. (Found in review of #82.)
+ *
+ * `matchAll` with `/g` also means the count is a fact worth checking: see the
+ * assertion below that there are more values than there are tokens.
+ */
 function currentPalette(): Record<string, string> {
   const css = readFileSync("app/globals.css", "utf8");
   const found: Record<string, string> = {};
   for (const name of TOKEN_NAMES) {
-    const match = css.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`));
-    if (match) found[match[1].slice(1).toLowerCase()] = name;
+    for (const match of css.matchAll(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`, "g"))) {
+      const value = match[1].slice(1).toLowerCase();
+      // Two tokens can share a value across themes — light `--ink-bright` is
+      // `#0f172a`, which is dark `--surface-deep`. Keyed by value, the second
+      // one silently claimed the first's coverage and reported it unreadable.
+      found[value] = found[value] ? `${found[value]} / ${name}` : name;
+    }
   }
   return found;
 }
@@ -76,18 +94,17 @@ function forbidden(): Record<string, string> {
  * counted rather than forbidden.
  */
 const BUDGET: Record<string, number> = {
-  "app/[locale]/dashboard-preview/page.tsx": 44,
+  "app/[locale]/dashboard-preview/page.tsx": 39,
   "src/features/dashboard/data.ts": 22,
   "src/design-system/tokens.ts": 12,
   // Restored to its pre-token form; see EXEMPT.
   "app/[locale]/page.tsx": 174,
   "src/components/ui/StratonMark.tsx": 6,
   "components/settings/SettingsHub.tsx": 6,
-  "src/components/ui/Button.tsx": 3,
+  "src/components/ui/Button.tsx": 1,
   "src/components/charts/Charts.tsx": 3,
   "src/features/teams/data.ts": 1,
   "src/features/teams/components/TeamForm.tsx": 1,
-  "src/components/forms/Fields.tsx": 1,
   "components/sites/SitePartners.tsx": 1,
   "components/sites/SiteNotificationAudience.tsx": 1,
   "components/sites/SiteAreas.tsx": 1,
@@ -97,7 +114,6 @@ const BUDGET: Record<string, number> = {
   "components/availability/AvailabilityForm.tsx": 1,
   "components/agenda/RescheduleForm.tsx": 1,
   "components/agenda/AssignmentForm.tsx": 1,
-  "components/agenda/AgendaWeek.tsx": 1,
 };
 
 /**
@@ -147,8 +163,21 @@ describe("colour tokens", () => {
     // moment its value changed, and nothing would say so. If this regex ever
     // matches nothing, every check below silently passes.
     const palette = currentPalette();
-    const uncovered = TOKEN_NAMES.filter((name) => !Object.values(palette).includes(name));
+    const claimed = new Set(Object.values(palette).flatMap((names) => names.split(" / ")));
+    const uncovered = TOKEN_NAMES.filter((name) => !claimed.has(name));
     expect(uncovered, "tokens whose value could not be read from globals.css").toEqual([]);
+  });
+
+  it("reads both themes, not just the first one declared", () => {
+    // The failure this replaced returned exactly one value per token and looked
+    // completely healthy. A second theme means strictly more distinct values
+    // than tokens, so the count is what tells the two apart.
+    const css = readFileSync("app/globals.css", "utf8");
+    expect(css).toMatch(/@media \(prefers-color-scheme: light\)/);
+    expect(
+      Object.keys(currentPalette()).length,
+      "distinct token values found across every theme",
+    ).toBeGreaterThan(TOKEN_NAMES.length);
   });
 
   it("never draws an edge with translucent white", () => {

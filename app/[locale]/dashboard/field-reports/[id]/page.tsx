@@ -39,7 +39,7 @@ export default async function FieldReportDetailPage({ params }: { params: Promis
             <div><dt className="text-sm text-ink-muted">{t("end")}</dt><dd className="mt-1 font-semibold text-ink">{report.endsAt ?? "—"}</dd></div>
           </dl>
           {report.notes ? <p className="mt-5 border-t border-edge-10 pt-5 text-sm leading-6 text-ink-muted">{report.notes}</p> : null}
-          {report.rejectionReason ? <p className="mt-5 rounded-lg bg-amber-400/10 p-4 text-sm leading-6 text-amber-300">{report.rejectionReason}</p> : null}
+          {report.rejectionReason ? <p className="mt-5 rounded-lg bg-amber-400/10 p-4 text-sm leading-6 text-warning-soft">{report.rejectionReason}</p> : null}
         </div>
 
         {report.templateFields.length > 0 ? (

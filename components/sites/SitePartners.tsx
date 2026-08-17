@@ -11,7 +11,7 @@ const field =
   "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 
 const statusTone: Record<SitePartner["status"], string> = {
-  invited: "bg-amber-400/10 text-amber-300",
+  invited: "bg-amber-400/10 text-warning-soft",
   accepted: "bg-brand/10 text-brand-bright",
   declined: "bg-edge-10 text-ink-muted",
   revoked: "bg-edge-10 text-ink-muted",
@@ -93,7 +93,7 @@ export default function SitePartners({
         ) : null}
 
         {feedback ? (
-          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-red-300"}`}>
+          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-danger-soft"}`}>
             {t(feedback.messageKey)}
           </p>
         ) : null}

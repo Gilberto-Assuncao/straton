@@ -58,8 +58,19 @@ function contrast(a: string, b: string): number {
 /** Anything a foreground can sit on. */
 const SURFACES = ["canvas", "surface", "surface-inset", "surface-alt", "surface-deep"];
 
-/** Read as prose, so 4.5:1. */
-const PROSE = ["ink-bright", "ink", "ink-soft", "ink-muted", "ink-dim", "brand", "brand-bright", "warning", "danger"];
+/**
+ * Read as prose, so 4.5:1.
+ *
+ * The four status foregrounds are here because they carry the sentences that
+ * matter most — the validation error, the rejected timesheet, the warning on a
+ * site. 104 of those were written as `text-red-300` and friends, Tailwind's
+ * pale shades picked to read on navy: 1.90:1, 1.44:1 and 1.67:1 on white. They
+ * are the reason a theme cannot be judged by looking at it in one mode.
+ */
+const PROSE = [
+  "ink-bright", "ink", "ink-soft", "ink-muted", "ink-dim", "brand", "brand-bright",
+  "warning", "danger", "danger-soft", "warning-soft", "info", "success",
+];
 
 /** Captions and metadata. The identity puts these below AA; see globals.css. */
 const SUPPORTING = ["ink-subtle", "ink-faint"];
@@ -114,6 +125,21 @@ describe("colour contrast", () => {
     // because it is the one the eye does not catch: a ring nobody can see is
     // the same as no ring for anyone navigating by keyboard.
     expect(failures("brand", 3), "focus ring below 3:1").toEqual([]);
+  });
+
+  it("keeps the label legible on a control fill", () => {
+    // The secondary button and the switch track. Not a surface in the list
+    // above — nothing else sits on it — but `text-ink` does, and it was written
+    // as `bg-[#374151]`, a fixed dark grey that stayed put while `--ink`
+    // inverted: dark label on a dark button, at 1.5:1.
+    for (const theme of THEMES) {
+      for (const fill of ["control", "control-hover"]) {
+        expect(
+          contrast(token("ink", theme), token(fill, theme)),
+          `ink on ${fill} (${theme})`,
+        ).toBeGreaterThanOrEqual(4.5);
+      }
+    }
   });
 
   it("keeps the label legible on a brand fill", () => {

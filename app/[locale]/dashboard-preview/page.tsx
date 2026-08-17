@@ -278,7 +278,7 @@ export default function DashboardPreviewPage() {
 
               <nav className="flex flex-1 flex-col gap-5">
                 <div>
-                  <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Geral</div>
+                  <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Geral</div>
                   <div className="flex flex-col gap-0.5">
                     <div className="flex items-center gap-2.5 rounded-[9px] bg-brand/10 px-3 py-2.5 text-sm font-semibold text-brand-bright">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5" /><rect x="14" y="3" width="7" height="5" rx="1.5" /><rect x="14" y="12" width="7" height="9" rx="1.5" /><rect x="3" y="16" width="7" height="5" rx="1.5" /></svg>
@@ -290,7 +290,7 @@ export default function DashboardPreviewPage() {
 
                 {showApprovals ? (
                   <div>
-                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Operações</div>
+                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Operações</div>
                     <div className="flex flex-col gap-0.5">
                       <NavItem badge={7} label="Aprovações" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2" /><path d="M3 9h18M8 3v3M16 3v3" /></svg>} />
                       <NavItem label="Equipas" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="3.2" /><circle cx="17" cy="9" r="2.6" /><path d="M2.5 20c0-3.3 2.5-6 5.5-6s5.5 2.7 5.5 6" /></svg>} />
@@ -302,7 +302,7 @@ export default function DashboardPreviewPage() {
 
                 {showPayroll ? (
                   <div>
-                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Financeiro</div>
+                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Financeiro</div>
                     <div className="flex flex-col gap-0.5">
                       <NavItem badge={6} label="Folha & Contabilidade" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-5 3 3 5-7" /></svg>} />
                       <NavItem label="Despesas" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>} />
@@ -313,7 +313,7 @@ export default function DashboardPreviewPage() {
 
                 {showAdminHealth ? (
                   <div>
-                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Empresa</div>
+                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Empresa</div>
                     <div className="flex flex-col gap-0.5">
                       <NavItem label="Clientes" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>} />
                       <NavItem label="Configurações" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z" /></svg>} />
@@ -462,7 +462,7 @@ export default function DashboardPreviewPage() {
                         <span className={`${styles.mono} text-sm`}>{row.hours}</span>
                         <span className={`justify-self-start rounded-md px-2.5 py-1 text-xs font-bold ${row.badgeColor} ${row.badgeBg}`}>{row.badgeText}</span>
                         {support ? (
-                          <span className="text-[13px] text-[#475569]">bloqueado</span>
+                          <span className="text-[13px] text-ink-faint">bloqueado</span>
                         ) : (
                           <div className="flex gap-2">
                             <button type="button" className="h-[30px] w-[30px] rounded-lg bg-brand/15 text-brand-bright">✓</button>

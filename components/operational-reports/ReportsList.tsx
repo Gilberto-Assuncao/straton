@@ -4,11 +4,11 @@ import type { OperationalReportListItem } from "@/lib/types/operational-reports"
 
 const statusStyles: Record<string, string> = {
   draft: "bg-edge-10 text-ink-muted",
-  submitted: "bg-sky-400/10 text-sky-300",
-  under_review: "bg-sky-400/10 text-sky-300",
+  submitted: "bg-sky-400/10 text-info",
+  under_review: "bg-sky-400/10 text-info",
   approved: "bg-brand/10 text-brand-bright",
-  rejected: "bg-red-400/10 text-red-300",
-  changes_requested: "bg-amber-400/10 text-amber-300",
+  rejected: "bg-red-400/10 text-danger-soft",
+  changes_requested: "bg-amber-400/10 text-warning-soft",
 };
 
 export default async function ReportsList({ reports }: { reports: OperationalReportListItem[] }) {

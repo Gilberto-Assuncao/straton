@@ -125,7 +125,7 @@ export default function AvailabilityForm({
       {state.message && !touched ? (
         <p
           role="status"
-          className={`mt-4 text-sm ${state.status === "success" ? "text-brand-bright" : "text-red-300"}`}
+          className={`mt-4 text-sm ${state.status === "success" ? "text-brand-bright" : "text-danger-soft"}`}
         >
           {t(`message_${state.message}` as "message_created")}
         </p>

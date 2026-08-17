@@ -48,7 +48,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
 
   return (
     <div className="grid gap-6">
-      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
+      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-danger-soft">{t(error)}</p> : null}
 
       <section className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-7">
         <h2 className="text-lg font-semibold text-ink">{t("fieldsTitle")}</h2>
@@ -63,7 +63,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-ink">
                     {item.label}
-                    {item.required ? <span className="ml-1.5 text-red-300" title={t("requiredLabel")}>*</span> : null}
+                    {item.required ? <span className="ml-1.5 text-danger-soft" title={t("requiredLabel")}>*</span> : null}
                   </p>
                   <p className="mt-1 font-mono text-xs text-ink-subtle">
                     {item.key} · {t(`type_${item.fieldType}` as "type_text")}
@@ -74,7 +74,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
                   <button type="button" aria-label={t("moveUp")} disabled={pending || index === 0} onClick={() => run(() => moveFieldAction(templateId, item.id, "up"))} className="min-h-11 min-w-11 rounded-lg text-ink-muted hover:bg-edge-5 hover:text-ink disabled:opacity-30">↑</button>
                   <button type="button" aria-label={t("moveDown")} disabled={pending || index === fields.length - 1} onClick={() => run(() => moveFieldAction(templateId, item.id, "down"))} className="min-h-11 min-w-11 rounded-lg text-ink-muted hover:bg-edge-5 hover:text-ink disabled:opacity-30">↓</button>
                   <Link href={`/dashboard/field-reports/templates/${templateId}?field=${item.id}`} className="flex min-h-11 items-center px-3 text-sm font-semibold text-brand hover:text-brand-hover">{t("edit")}</Link>
-                  <button type="button" disabled={pending} onClick={() => { if (window.confirm(t("removeFieldConfirm"))) run(() => removeFieldAction(templateId, item.id)); }} className="min-h-11 px-3 text-sm font-semibold text-red-300 hover:text-red-200 disabled:opacity-50">{t("remove")}</button>
+                  <button type="button" disabled={pending} onClick={() => { if (window.confirm(t("removeFieldConfirm"))) run(() => removeFieldAction(templateId, item.id)); }} className="min-h-11 px-3 text-sm font-semibold text-danger-soft hover:text-danger-soft disabled:opacity-50">{t("remove")}</button>
                 </div>
               </li>
             ))}
@@ -138,7 +138,7 @@ export default function TemplateFieldEditor({ templateId, fields, editing }: { t
         {/* Keyed off the message, not the status: `messageKey` is null while
             idle, and testing it is what tells the compiler there is a key here. */}
         {state.messageKey && !touched ? (
-          <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
+          <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-danger-soft">{t(state.messageKey)}</p>
         ) : null}
 
         <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

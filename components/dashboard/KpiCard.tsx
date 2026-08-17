@@ -10,13 +10,13 @@ const iconPaths: Record<KpiIcon, string> = {
 const stateStyles = {
   positive: "text-brand",
   neutral: "text-ink-muted",
-  attention: "text-amber-300",
+  attention: "text-warning-soft",
 };
 
 const badgeStyles = {
   positive: "bg-brand/10 text-brand",
   neutral: "bg-edge-10 text-ink-muted",
-  attention: "bg-amber-400/10 text-amber-300",
+  attention: "bg-amber-400/10 text-warning-soft",
 };
 
 const borderStyles = {

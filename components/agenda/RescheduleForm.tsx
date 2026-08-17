@@ -76,15 +76,15 @@ export default function RescheduleForm({
       </label>
 
       {message ? (
-        <p role="status" className={`text-xs ${message.ok ? "text-brand-bright" : "text-red-300"}`}>
+        <p role="status" className={`text-xs ${message.ok ? "text-brand-bright" : "text-danger-soft"}`}>
           {t(`message_${message.key}` as "message_failed")}
         </p>
       ) : null}
 
       {warnings.length > 0 ? (
         <div className="rounded-lg border border-amber-400/30 bg-amber-400/5 p-2">
-          <p className="text-[11px] font-semibold text-amber-300">{t("conflictTitle")}</p>
-          <ul className="mt-1 grid gap-0.5 text-[11px] text-amber-200/80">
+          <p className="text-[11px] font-semibold text-warning-soft">{t("conflictTitle")}</p>
+          <ul className="mt-1 grid gap-0.5 text-[11px] text-warning-soft">
             {warnings.map((warning, index) => (
               <li key={`${warning.name}-${index}`}>
                 {t("conflictLine", {

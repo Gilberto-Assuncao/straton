@@ -80,7 +80,7 @@ export default function EmployeeEditForm({ employee, teams }: { employee: Employ
       {/* Keyed off the message, not the status: `messageKey` is null while
           idle, and testing it is what tells the compiler there is a key here. */}
       {state.messageKey && !touched ? (
-        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
+        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-danger-soft">{t(state.messageKey)}</p>
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

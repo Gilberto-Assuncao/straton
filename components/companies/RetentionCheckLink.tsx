@@ -30,7 +30,7 @@ export default function RetentionCheckLink({
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className={className ?? "inline-flex min-h-11 w-fit items-center gap-2 rounded-lg border border-amber-400/40 bg-amber-400/10 px-4 text-sm font-semibold text-amber-200 transition hover:bg-amber-400/20 focus-visible:outline-2 focus-visible:outline-amber-300"}
+        className={className ?? "inline-flex min-h-11 w-fit items-center gap-2 rounded-lg border border-amber-400/40 bg-amber-400/10 px-4 text-sm font-semibold text-warning-soft transition hover:bg-amber-400/20 focus-visible:outline-2 focus-visible:outline-amber-300"}
       >
         {t("checkAction")}
         <span aria-hidden="true">↗</span>

@@ -8,7 +8,7 @@ import TaskSelector from "@/components/time/TaskSelector";
 import type { Task } from "@/lib/types/time";
 
 type Props = { tasks: Task[]; sites: TrackerSite[]; feedback: string; action: (formData: FormData) => void };
-const inputClass = "min-h-11 w-full rounded-xl border border-edge-10 bg-surface-alt px-3 text-sm text-ink outline-none transition [color-scheme:dark] focus:border-brand focus:ring-2 focus:ring-brand/20";
+const inputClass = "min-h-11 w-full rounded-xl border border-edge-10 bg-surface-alt px-3 text-sm text-ink outline-none transition focus:border-brand focus:ring-2 focus:ring-brand/20";
 export default function ManualEntryForm({ tasks, sites, feedback, action }: Props) {
   const t = useTranslations("time");
   const [taskId, setTaskId] = useState(tasks[0]?.id ?? "");

@@ -14,9 +14,9 @@ import type { CompanyDirectoryEntry, PartnerRelationship, RelationshipType } fro
 const RELATIONSHIP_TYPES: RelationshipType[] = ["client", "contractor", "subcontractor", "partner"];
 
 const statusStyles: Record<string, string> = {
-  pending: "bg-amber-400/10 text-amber-300",
+  pending: "bg-amber-400/10 text-warning-soft",
   active: "bg-brand/10 text-brand-bright",
-  rejected: "bg-red-400/10 text-red-300",
+  rejected: "bg-red-400/10 text-danger-soft",
 };
 
 export default function PartnersPanel({ relationships }: { relationships: PartnerRelationship[] }) {
@@ -142,7 +142,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
                     type="button"
                     disabled={pending}
                     onClick={() => respond(r.id, false)}
-                    className="min-h-11 rounded-lg border border-red-400/30 px-3 text-xs font-semibold text-red-300"
+                    className="min-h-11 rounded-lg border border-red-400/30 px-3 text-xs font-semibold text-danger-soft"
                   >
                     {t("reject")}
                   </button>

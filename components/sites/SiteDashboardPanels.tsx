@@ -19,11 +19,11 @@ function time(iso: string): string {
 
 const statusTone: Record<string, string> = {
   draft: "bg-edge-10 text-ink-muted",
-  submitted: "bg-amber-400/10 text-amber-300",
-  under_review: "bg-amber-400/10 text-amber-300",
+  submitted: "bg-amber-400/10 text-warning-soft",
+  under_review: "bg-amber-400/10 text-warning-soft",
   approved: "bg-brand/10 text-brand-bright",
-  rejected: "bg-red-400/10 text-red-300",
-  changes_requested: "bg-red-400/10 text-red-300",
+  rejected: "bg-red-400/10 text-danger-soft",
+  changes_requested: "bg-red-400/10 text-danger-soft",
 };
 
 function Badge({ status, label }: { status: string; label: string }) {
@@ -89,7 +89,7 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
               {site.latitude != null && site.longitude != null ? (
                 <span className="text-brand-bright">{t("locationConfirmed")}</span>
               ) : (
-                <span className="text-amber-300">{t("locationMissing")}</span>
+                <span className="text-warning-soft">{t("locationMissing")}</span>
               )}
             </dd>
           </div>
@@ -127,7 +127,7 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
                     total: money(site.budgetAmount, site.budgetCurrency),
                   })}
                   {budgetShare !== null ? (
-                    <span className={`ml-2 text-xs ${budgetShare > 100 ? "text-red-300" : "text-ink-muted"}`}>{budgetShare}%</span>
+                    <span className={`ml-2 text-xs ${budgetShare > 100 ? "text-danger-soft" : "text-ink-muted"}`}>{budgetShare}%</span>
                   ) : null}
                 </dd>
               </div>
@@ -193,7 +193,7 @@ export async function WeatherPanel({ weather }: { weather: SiteWeather | null })
               <span>{day.precipitationMm} mm</span>
               <span>{day.windSpeedMaxKmh} km/h</span>
               {day.alert.level !== "none" ? (
-                <span className={`inline-flex min-h-7 items-center rounded-full px-3 font-semibold ${day.alert.level === "delay-risk" ? "bg-red-400/10 text-red-300" : "bg-amber-400/10 text-amber-300"}`}>
+                <span className={`inline-flex min-h-7 items-center rounded-full px-3 font-semibold ${day.alert.level === "delay-risk" ? "bg-red-400/10 text-danger-soft" : "bg-amber-400/10 text-warning-soft"}`}>
                   {tWeather(day.alert.reasonKey)}
                 </span>
               ) : null}

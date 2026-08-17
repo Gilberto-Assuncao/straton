@@ -102,7 +102,7 @@ export default function LiveOperationsMap({ sites }: { sites: LivePresenceSite[]
             className={`rounded-xl border p-4 ${site.siteId ? "border-edge-10 bg-surface" : "border-amber-400/25 bg-amber-400/[0.04]"}`}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <p className={`font-semibold ${site.siteId ? "text-ink" : "text-amber-200"}`}>
+              <p className={`font-semibold ${site.siteId ? "text-ink" : "text-warning-soft"}`}>
                 {site.siteName ?? t("noSite")}
               </p>
               <p className="text-xs text-ink-muted">

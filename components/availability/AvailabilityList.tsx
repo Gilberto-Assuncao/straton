@@ -7,8 +7,8 @@ import type { AvailabilityRecord } from "@/src/features/availability/types";
 
 const reasonTone: Record<string, string> = {
   holiday: "bg-brand/10 text-brand-bright",
-  sick: "bg-red-400/10 text-red-300",
-  training: "bg-sky-400/10 text-sky-300",
+  sick: "bg-red-400/10 text-danger-soft",
+  training: "bg-sky-400/10 text-info",
   personal: "bg-edge-10 text-ink-muted",
   other: "bg-edge-10 text-ink-muted",
 };
@@ -55,7 +55,7 @@ export default function AvailabilityList({ records }: { records: AvailabilityRec
           <div className="flex items-center gap-3">
             <span
               className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs font-semibold ${
-                record.kind === "available" ? "bg-sky-400/10 text-sky-300" : reasonTone[record.reason ?? "other"]
+                record.kind === "available" ? "bg-sky-400/10 text-info" : reasonTone[record.reason ?? "other"]
               }`}
             >
               {record.kind === "available"

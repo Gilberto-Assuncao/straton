@@ -127,7 +127,7 @@ export default function AcceptCompanyInvite({ token }: { token: string | null })
       </div>
 
       {error ? (
-        <p role="status" className="mt-4 text-sm text-red-300">
+        <p role="status" className="mt-4 text-sm text-danger-soft">
           {t(`accept_${error}` as "accept_invalid")}
         </p>
       ) : null}

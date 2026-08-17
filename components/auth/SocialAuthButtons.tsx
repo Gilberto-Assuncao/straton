@@ -84,7 +84,7 @@ export default function SocialAuthButtons() {
       ))}
 
       {failure ? (
-        <p role="alert" className="rounded-lg border border-amber-400/30 bg-amber-400/5 px-3 py-2 text-center text-xs text-amber-200">
+        <p role="alert" className="rounded-lg border border-amber-400/30 bg-amber-400/5 px-3 py-2 text-center text-xs text-warning-soft">
           {t(failure.key, { provider: failure.provider })}
         </p>
       ) : null}

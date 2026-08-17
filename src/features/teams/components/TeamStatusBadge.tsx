@@ -3,7 +3,7 @@ import { useTranslations } from "next-intl";
 import type { TeamStatus } from "../types";
 
 const styles: Record<TeamStatus, string> = {
-  active: "border-green-400/30 bg-green-400/10 text-green-200",
+  active: "border-green-400/30 bg-green-400/10 text-success",
   inactive: "border-slate-400/30 bg-slate-400/10 text-slate-200",
   archived: "border-purple-400/30 bg-purple-400/10 text-purple-200",
 };

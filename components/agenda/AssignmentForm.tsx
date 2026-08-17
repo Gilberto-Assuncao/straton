@@ -115,7 +115,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
       </div>
 
       {message ? (
-        <p role="status" className={`mt-4 text-sm ${message.ok ? "text-brand-bright" : "text-red-300"}`}>
+        <p role="status" className={`mt-4 text-sm ${message.ok ? "text-brand-bright" : "text-danger-soft"}`}>
           {t(`message_${message.key}` as "message_created")}
         </p>
       ) : null}
@@ -125,8 +125,8 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
         // volunteers, and a supervisor who knows something the system does not
         // should not be stopped by it. Booking *blind* is the thing to prevent.
         <div className="mt-4 rounded-xl border border-amber-400/30 bg-amber-400/5 p-4">
-          <p className="text-sm font-semibold text-amber-300">{t("conflictTitle")}</p>
-          <ul className="mt-2 grid gap-1 text-xs text-amber-200/80">
+          <p className="text-sm font-semibold text-warning-soft">{t("conflictTitle")}</p>
+          <ul className="mt-2 grid gap-1 text-xs text-warning-soft">
             {warnings.map((warning, index) => (
               <li key={`${warning.name}-${index}`}>
                 {t("conflictLine", {

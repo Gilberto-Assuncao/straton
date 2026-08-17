@@ -91,7 +91,7 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
             type="button"
             onClick={() => review("rejected")}
             disabled={busy || !selected.size}
-            className="min-h-11 rounded-lg border border-red-400/30 px-4 text-sm font-semibold text-red-300 hover:bg-red-400/10 disabled:opacity-40"
+            className="min-h-11 rounded-lg border border-red-400/30 px-4 text-sm font-semibold text-danger-soft hover:bg-red-400/10 disabled:opacity-40"
           >
             {t("queueRejectSelected", { count: selected.size })}
           </button>
@@ -116,12 +116,12 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
                 />
                 <span className="min-w-40 text-sm font-medium text-ink">{sheet.employee}</span>
                 <span className="text-xs text-ink-muted">{sheet.label}</span>
-                <span className="font-mono text-sm text-amber-300">{sheetHours}</span>
+                <span className="font-mono text-sm text-warning-soft">{sheetHours}</span>
                 <span className="text-xs text-ink-subtle">{t("queueEntries", { count: sheet.entryCount })}</span>
                 {sheet.isMine ? <span className="text-xs text-ink-subtle">{t("queueYourOwn")}</span> : null}
               </label>
               {failure ? (
-                <p role="alert" className="mt-2 text-xs text-red-300">
+                <p role="alert" className="mt-2 text-xs text-danger-soft">
                   {t(`result_${failure.message}`)}
                 </p>
               ) : null}

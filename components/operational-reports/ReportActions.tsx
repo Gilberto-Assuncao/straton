@@ -46,8 +46,8 @@ export default function ReportActions({ reportId, status, isOwner, isReviewer }:
         {isReviewer && reviewable.includes(status) ? (
           <>
             <button type="button" disabled={pending} onClick={() => run(() => approveOperationalReportAction(reportId))} className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover disabled:opacity-60">{t("approve")}</button>
-            <button type="button" disabled={pending || !reason.trim()} onClick={() => run(() => requestChangesOperationalReportAction(reportId, reason))} className="min-h-11 rounded-lg border border-amber-400/30 px-5 text-sm font-semibold text-amber-300 hover:bg-amber-400/10 disabled:opacity-60">{t("requestChanges")}</button>
-            <button type="button" disabled={pending || !reason.trim()} onClick={() => run(() => rejectOperationalReportAction(reportId, reason))} className="min-h-11 rounded-lg border border-red-400/30 px-5 text-sm font-semibold text-red-300 hover:bg-red-400/10 disabled:opacity-60">{t("reject")}</button>
+            <button type="button" disabled={pending || !reason.trim()} onClick={() => run(() => requestChangesOperationalReportAction(reportId, reason))} className="min-h-11 rounded-lg border border-amber-400/30 px-5 text-sm font-semibold text-warning-soft hover:bg-amber-400/10 disabled:opacity-60">{t("requestChanges")}</button>
+            <button type="button" disabled={pending || !reason.trim()} onClick={() => run(() => rejectOperationalReportAction(reportId, reason))} className="min-h-11 rounded-lg border border-red-400/30 px-5 text-sm font-semibold text-danger-soft hover:bg-red-400/10 disabled:opacity-60">{t("reject")}</button>
           </>
         ) : null}
       </div>

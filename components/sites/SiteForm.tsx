@@ -168,7 +168,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
             <p className="mt-2 text-xs leading-5 text-ink-muted">{t("geocodeNeedsAddress")}</p>
           ) : null}
           {geocodeNote ? (
-            <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-brand-bright" : "text-amber-300"}`}>{geocodeNote.text}</p>
+            <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-brand-bright" : "text-warning-soft"}`}>{geocodeNote.text}</p>
           ) : null}
 
           {/*
@@ -182,7 +182,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           <input type="hidden" name="latitude" value={fields.latitude} />
           <input type="hidden" name="longitude" value={fields.longitude} />
 
-          <p className={`mt-4 text-xs font-semibold ${located ? "text-brand-bright" : "text-amber-300"}`}>
+          <p className={`mt-4 text-xs font-semibold ${located ? "text-brand-bright" : "text-warning-soft"}`}>
             {located ? t("locationConfirmed") : t("locationMissing")}
           </p>
           {!located ? <p className="mt-1 text-xs leading-5 text-ink-subtle">{t("locationMissingHelp")}</p> : null}
@@ -257,7 +257,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           while idle, and testing it is what tells the compiler there is a key
           to translate here (#104). */}
       {state.messageKey && !touched ? (
-        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
+        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-danger-soft">{t(state.messageKey)}</p>
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

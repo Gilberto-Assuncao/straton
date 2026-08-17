@@ -130,7 +130,7 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
             </div>
           ) : null}
 
-          {error ? <p role="alert" className="mt-4 rounded-lg bg-red-400/10 p-3 text-xs text-red-300">{t(error)}</p> : null}
+          {error ? <p role="alert" className="mt-4 rounded-lg bg-red-400/10 p-3 text-xs text-danger-soft">{t(error)}</p> : null}
         </div>
       ) : null}
     </div>

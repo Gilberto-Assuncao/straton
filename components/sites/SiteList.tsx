@@ -10,8 +10,8 @@ import type { SiteRecord } from "@/src/features/sites/types";
 
 const tone: Record<string, string> = {
   active: "bg-brand/10 text-brand-bright",
-  paused: "bg-amber-400/10 text-amber-300",
-  completed: "bg-sky-400/10 text-sky-300",
+  paused: "bg-amber-400/10 text-warning-soft",
+  completed: "bg-sky-400/10 text-info",
   archived: "bg-edge-10 text-ink-muted",
 };
 
@@ -43,7 +43,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
 
   return (
     <div className="grid gap-4">
-      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
+      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-danger-soft">{t(error)}</p> : null}
       {sites.map((site) => {
         const parts = [site.address.street, site.address.postal_code, site.address.city].filter(Boolean);
         return (
@@ -68,7 +68,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
             {site.latitude != null && site.longitude != null ? (
               <p className="mt-3 text-xs text-brand-bright">{t("locationPin")}</p>
             ) : (
-              <p className="mt-3 text-xs text-amber-300">{t("noCoordinatesWarning")}</p>
+              <p className="mt-3 text-xs text-warning-soft">{t("noCoordinatesWarning")}</p>
             )}
           </article>
         );

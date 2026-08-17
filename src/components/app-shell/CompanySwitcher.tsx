@@ -32,7 +32,7 @@ export function CompanySwitcher({ companies, value }: { companies: AppCompanyOpt
         {companies.length === 0 ? <option value="">{tShell("noCompany")}</option> : null}
         {companies.map((company) => <option key={company.id} value={company.id}>{company.name}</option>)}
       </select>
-      {error ? <span id="company-switcher-error" role="alert" className="absolute right-0 top-12 w-64 rounded-lg border border-red-400/30 bg-surface p-2 text-xs text-red-200 shadow-xl">{t(error)}</span> : null}
+      {error ? <span id="company-switcher-error" role="alert" className="absolute right-0 top-12 w-64 rounded-lg border border-red-400/30 bg-surface p-2 text-xs text-danger-soft shadow-xl">{t(error)}</span> : null}
     </div>
   );
 }

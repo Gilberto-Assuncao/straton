@@ -49,7 +49,7 @@ export default function StaleSessionPrompt({
 
   return (
     <section aria-labelledby="stale-session-title" className="rounded-2xl border border-amber-400/40 bg-amber-400/[0.06] p-5">
-      <h3 id="stale-session-title" className="text-sm font-semibold text-amber-200">
+      <h3 id="stale-session-title" className="text-sm font-semibold text-warning-soft">
         {t("staleTitle")}
       </h3>
       <p className="mt-2 text-sm text-ink-soft">{t("staleBody", { started: startedLabel })}</p>

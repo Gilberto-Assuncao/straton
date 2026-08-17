@@ -161,7 +161,7 @@ export default async function WorkedHoursReport({
           invoice.
         */}
         {filtering ? (
-          <p className="mt-4 rounded-lg border border-amber-400/25 bg-amber-400/[0.06] px-3 py-2 text-xs text-amber-200">
+          <p className="mt-4 rounded-lg border border-amber-400/25 bg-amber-400/[0.06] px-3 py-2 text-xs text-warning-soft">
             {t("filteredNotice", { count: report.siteIds.length })}
           </p>
         ) : null}
@@ -182,7 +182,7 @@ export default async function WorkedHoursReport({
             <p className="text-xs text-ink-muted">
               {t("submitted")} · {t("draft")}
             </p>
-            <p className="mt-2 font-mono text-[28px] font-bold text-amber-300">{formatMinutes(pendingMinutes)}</p>
+            <p className="mt-2 font-mono text-[28px] font-bold text-warning-soft">{formatMinutes(pendingMinutes)}</p>
             <p className="mt-1 text-xs text-ink-subtle">{t("pendingHint")}</p>
           </div>
         </div>
@@ -210,7 +210,7 @@ export default async function WorkedHoursReport({
                     <td className={`${cell} font-medium text-ink`}>{person.name}</td>
                     <td className={`${cell} text-ink-muted`}>{person.jobTitle ?? "—"}</td>
                     <td className={`${cell} text-right font-mono text-brand-bright`}>{formatMinutes(person.approvedMinutes)}</td>
-                    <td className={`${cell} text-right font-mono text-amber-300`}>
+                    <td className={`${cell} text-right font-mono text-warning-soft`}>
                       {person.submittedMinutes ? formatMinutes(person.submittedMinutes) : "—"}
                     </td>
                     <td className={`${cell} text-right font-mono text-ink-subtle`}>
@@ -225,7 +225,7 @@ export default async function WorkedHoursReport({
                   <td className={cell}>{t("colTotal")}</td>
                   <td className={cell} />
                   <td className={`${cell} text-right font-mono text-brand-bright`}>{formatMinutes(report.totals.approvedMinutes)}</td>
-                  <td className={`${cell} text-right font-mono text-amber-300`}>{formatMinutes(report.totals.submittedMinutes)}</td>
+                  <td className={`${cell} text-right font-mono text-warning-soft`}>{formatMinutes(report.totals.submittedMinutes)}</td>
                   <td className={`${cell} text-right font-mono text-ink-subtle`}>{formatMinutes(report.totals.draftMinutes)}</td>
                   <td className={cell} />
                 </tr>
@@ -265,7 +265,7 @@ export default async function WorkedHoursReport({
                     <td className={`${cell} text-ink-muted`}>{area.siteName}</td>
                     {/* Unattributed in amber, like the location table's "no
                         chantier" row: it is a gap to be closed, not a place. */}
-                    <td className={`${cell} font-medium ${area.areaId ? "text-ink" : "text-amber-300"}`}>
+                    <td className={`${cell} font-medium ${area.areaId ? "text-ink" : "text-warning-soft"}`}>
                       {area.areaId === null
                         ? t("noAreaRow")
                         : area.isDefault
@@ -273,7 +273,7 @@ export default async function WorkedHoursReport({
                           : area.areaName}
                     </td>
                     <td className={`${cell} text-right font-mono text-brand-bright`}>{formatMinutes(area.approvedMinutes)}</td>
-                    <td className={`${cell} text-right font-mono text-amber-300`}>
+                    <td className={`${cell} text-right font-mono text-warning-soft`}>
                       {area.pendingMinutes ? formatMinutes(area.pendingMinutes) : "—"}
                     </td>
                     <td className={`${cell} text-right font-mono text-ink-muted`}>{area.peopleCount}</td>
@@ -301,9 +301,9 @@ export default async function WorkedHoursReport({
               <tbody>
                 {report.sites.map((site) => (
                   <tr key={site.siteId} className="border-b border-edge-5">
-                    <td className={`${cell} font-medium ${site.siteId ? "text-ink" : "text-amber-300"}`}>{site.siteName ?? t("noSiteRow")}</td>
+                    <td className={`${cell} font-medium ${site.siteId ? "text-ink" : "text-warning-soft"}`}>{site.siteName ?? t("noSiteRow")}</td>
                     <td className={`${cell} text-right font-mono text-brand-bright`}>{formatMinutes(site.approvedMinutes)}</td>
-                    <td className={`${cell} text-right font-mono text-amber-300`}>
+                    <td className={`${cell} text-right font-mono text-warning-soft`}>
                       {site.pendingMinutes ? formatMinutes(site.pendingMinutes) : "—"}
                     </td>
                     <td className={`${cell} text-right font-mono text-ink-muted`}>{site.peopleCount}</td>
