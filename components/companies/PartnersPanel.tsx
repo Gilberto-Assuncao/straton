@@ -14,9 +14,9 @@ import type { CompanyDirectoryEntry, PartnerRelationship, RelationshipType } fro
 const RELATIONSHIP_TYPES: RelationshipType[] = ["client", "contractor", "subcontractor", "partner"];
 
 const statusStyles: Record<string, string> = {
-  pending: "bg-amber-400/10 text-amber-300",
+  pending: "bg-amber-400/10 text-warning-soft",
   active: "bg-brand/10 text-brand-bright",
-  rejected: "bg-red-400/10 text-red-300",
+  rejected: "bg-red-400/10 text-danger-soft",
 };
 
 export default function PartnersPanel({ relationships }: { relationships: PartnerRelationship[] }) {
@@ -65,7 +65,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
   const others = relationships.filter((r) => !(r.direction === "incoming" && r.status === "pending"));
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
+    <div className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6">
       <div>
         <h3 className="text-lg font-semibold text-ink">{t("partnersTitle")}</h3>
         <p className="mt-1 text-sm text-ink-muted">{t("partnersSubtitle")}</p>
@@ -77,10 +77,10 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
             value={query}
             onChange={(event) => runSearch(event.target.value)}
             placeholder={t("searchPlaceholder")}
-            className="min-h-11 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-sm text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20"
+            className="min-h-11 w-full rounded-lg border border-edge-10 bg-surface-alt px-4 text-sm text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20"
           />
           {query.trim().length >= 2 ? (
-            <div className="absolute z-10 mt-1 w-full rounded-lg border border-white/10 bg-surface-alt p-1 shadow-xl">
+            <div className="absolute z-10 mt-1 w-full rounded-lg border border-edge-10 bg-surface-alt p-1 shadow-xl">
               {searching ? <p className="px-3 py-2 text-sm text-ink-subtle">{t("searching")}</p> : null}
               {!searching && results.length === 0 ? (
                 <p className="px-3 py-2 text-sm text-ink-subtle">{t("noCompaniesFound")}</p>
@@ -91,7 +91,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
                   type="button"
                   disabled={pending}
                   onClick={() => request(company.id)}
-                  className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-ink hover:bg-white/5 disabled:opacity-60"
+                  className="flex w-full items-center justify-between rounded-md px-3 py-2 text-left text-sm text-ink hover:bg-edge-5 disabled:opacity-60"
                 >
                   <span>{company.name}</span>
                   <span className="text-xs text-brand-bright">{t("inviteAs", { type: typeLabel(relationshipType) })}</span>
@@ -103,7 +103,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
         <select
           value={relationshipType}
           onChange={(event) => setRelationshipType(event.target.value as RelationshipType)}
-          className="min-h-11 rounded-lg border border-white/10 bg-surface-alt px-3 text-sm text-ink"
+          className="min-h-11 rounded-lg border border-edge-10 bg-surface-alt px-3 text-sm text-ink"
         >
           {RELATIONSHIP_TYPES.map((type) => (
             <option key={type} value={type}>
@@ -142,7 +142,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
                     type="button"
                     disabled={pending}
                     onClick={() => respond(r.id, false)}
-                    className="min-h-11 rounded-lg border border-red-400/30 px-3 text-xs font-semibold text-red-300"
+                    className="min-h-11 rounded-lg border border-red-400/30 px-3 text-xs font-semibold text-danger-soft"
                   >
                     {t("reject")}
                   </button>

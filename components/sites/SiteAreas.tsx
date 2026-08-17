@@ -11,11 +11,11 @@ import {
 } from "@/src/features/sites/actions";
 import type { SiteAreaRecord } from "@/src/features/sites/types";
 
-const card = "rounded-2xl border border-white/10 bg-surface p-5 sm:p-6";
+const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 const secondaryButton =
-  "min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand";
 
 export default function SiteAreas({ siteId, areas }: { siteId: string; areas: SiteAreaRecord[] }) {
   const t = useTranslations("sites");
@@ -95,7 +95,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
         </div>
 
         {feedback ? (
-          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-red-300"}`}>
+          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-danger-soft"}`}>
             {t(feedback.messageKey)}
           </p>
         ) : null}
@@ -103,7 +103,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
 
       <div className={card}>
         <h3 className="text-sm font-semibold text-ink">{t("areasListTitle")}</h3>
-        <ul className="mt-4 divide-y divide-white/10">
+        <ul className="mt-4 divide-y divide-edge-10">
           {areas.map((area) => (
             // Carries its id so a test can act on one row rather than on
             // whichever the buttons happen to match — every row here has the
@@ -149,7 +149,7 @@ export default function SiteAreas({ siteId, areas }: { siteId: string; areas: Si
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     {!area.isActive ? (
-                      <span className="inline-flex min-h-7 items-center rounded-full bg-white/10 px-3 text-xs font-semibold text-ink-muted">
+                      <span className="inline-flex min-h-7 items-center rounded-full bg-edge-10 px-3 text-xs font-semibold text-ink-muted">
                         {t("areaClosed")}
                       </span>
                     ) : null}

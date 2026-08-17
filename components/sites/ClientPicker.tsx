@@ -10,7 +10,7 @@ import {
 } from "@/src/features/sites/actions";
 import type { ClientOption } from "@/src/features/sites/types";
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-edge-10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20";
 const label = "text-sm font-medium text-ink";
 
 /**
@@ -72,14 +72,14 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
         <button
           type="button"
           onClick={() => setCreating((current) => !current)}
-          className="mt-2 min-h-12 shrink-0 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink transition hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
+          className="mt-2 min-h-12 shrink-0 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink transition hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
         >
           {creating ? t("cancel") : t("newClient")}
         </button>
       </div>
 
       {creating ? (
-        <div className="mt-4 rounded-xl border border-white/10 bg-surface-inset p-4">
+        <div className="mt-4 rounded-xl border border-edge-10 bg-surface-inset p-4">
           <p className="text-sm font-semibold text-ink">{t("newClientTitle")}</p>
           <p className="mt-1 text-xs leading-5 text-ink-muted">{t("newClientHelp")}</p>
 
@@ -108,7 +108,7 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
                     type="button"
                     onClick={() => add({ displayName: hit.name, registrationNumber: hit.enterpriseNumber, city: hit.city, postalCode: hit.postalCode })}
                     disabled={pending}
-                    className="flex w-full min-h-12 items-center justify-between gap-3 rounded-lg bg-canvas px-4 py-3 text-left transition hover:bg-white/5 disabled:opacity-50"
+                    className="flex w-full min-h-12 items-center justify-between gap-3 rounded-lg bg-canvas px-4 py-3 text-left transition hover:bg-edge-5 disabled:opacity-50"
                   >
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-medium text-ink">{hit.name}</span>
@@ -124,13 +124,13 @@ export default function ClientPicker({ clients, defaultValue }: { clients: Clien
           {suggestions?.length === 0 ? (
             <div className="mt-4 rounded-lg bg-canvas p-4">
               <p className="text-xs leading-5 text-ink-muted">{t("clientNoResults")}</p>
-              <button type="button" onClick={() => add({ displayName: query })} disabled={pending} className="mt-3 min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink hover:bg-white/5 disabled:opacity-50">
+              <button type="button" onClick={() => add({ displayName: query })} disabled={pending} className="mt-3 min-h-11 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink hover:bg-edge-5 disabled:opacity-50">
                 {t("clientAddManually", { name: query })}
               </button>
             </div>
           ) : null}
 
-          {error ? <p role="alert" className="mt-4 rounded-lg bg-red-400/10 p-3 text-xs text-red-300">{t(error)}</p> : null}
+          {error ? <p role="alert" className="mt-4 rounded-lg bg-red-400/10 p-3 text-xs text-danger-soft">{t(error)}</p> : null}
         </div>
       ) : null}
     </div>

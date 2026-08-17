@@ -6,7 +6,7 @@ import { editTimeEntryAction } from "@/src/features/timesheets/actions";
 import type { Option, TimesheetEntry } from "@/lib/types/timesheet";
 
 const field =
-  "mt-2 min-h-11 w-full rounded-lg border border-white/10 bg-surface-alt px-3 text-sm text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
+  "mt-2 min-h-11 w-full rounded-lg border border-edge-10 bg-surface-alt px-3 text-sm text-ink outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
 
 /**
  * Correcting an entry that came in wrong from the field (#56).
@@ -89,7 +89,7 @@ export default function EditEntryModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-entry-title"
-        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl border border-white/10 bg-surface p-5 shadow-2xl sm:max-w-2xl sm:rounded-2xl sm:p-6"
+        className="max-h-[92dvh] w-full overflow-y-auto rounded-t-2xl border border-edge-10 bg-surface p-5 shadow-2xl sm:max-w-2xl sm:rounded-2xl sm:p-6"
       >
         <div className="flex items-center justify-between gap-4">
           <div>
@@ -105,7 +105,7 @@ export default function EditEntryModal({
             type="button"
             onClick={onClose}
             aria-label={t("editEntryClose")}
-            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-xl text-ink-muted hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
+            className="flex min-h-11 min-w-11 items-center justify-center rounded-lg text-xl text-ink-muted hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
           >
             ×
           </button>
@@ -154,7 +154,7 @@ export default function EditEntryModal({
                 value={startTime}
                 onChange={(event) => setStartTime(event.target.value)}
                 required
-                className={`${field} [color-scheme:dark]`}
+                className={`${field}`}
               />
             </div>
             <div>
@@ -167,7 +167,7 @@ export default function EditEntryModal({
                 value={endTime}
                 onChange={(event) => setEndTime(event.target.value)}
                 required
-                className={`${field} [color-scheme:dark]`}
+                className={`${field}`}
               />
             </div>
             <div>
@@ -202,7 +202,7 @@ export default function EditEntryModal({
           </div>
 
           {error ? (
-            <p role="alert" className="text-sm text-red-300">
+            <p role="alert" className="text-sm text-danger-soft">
               {error}
             </p>
           ) : null}
@@ -211,7 +211,7 @@ export default function EditEntryModal({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-11 rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
+              className="min-h-11 rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
             >
               {t("cancel")}
             </button>

@@ -36,7 +36,7 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
   const total = sites.reduce((sum, site) => sum + site.people.length, 0);
 
   return (
-    <section aria-labelledby="live-map-preview-title" className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
+    <section aria-labelledby="live-map-preview-title" className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6">
       <div className="flex items-center justify-between gap-4">
         <div>
           <h3 id="live-map-preview-title" className="text-lg font-semibold text-ink">
@@ -50,17 +50,17 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
       </div>
 
       {total === 0 ? (
-        <div className="mt-6 flex h-40 items-center justify-center rounded-xl border border-dashed border-white/10 text-center text-sm text-ink-subtle">
+        <div className="mt-6 flex h-40 items-center justify-center rounded-xl border border-dashed border-edge-10 text-center text-sm text-ink-subtle">
           {t("liveMapEmpty")}
         </div>
       ) : (
         <>
           {placed.length ? (
-            <div className="relative mt-5 h-40 overflow-visible rounded-xl border border-white/10 bg-surface-deep">
+            <div className="relative mt-5 h-40 overflow-visible rounded-xl border border-edge-10 bg-surface-deep">
               <div
                 className="absolute inset-0 overflow-hidden rounded-xl opacity-20"
                 style={{
-                  backgroundImage: "linear-gradient(#22C55E 1px,transparent 1px),linear-gradient(90deg,#22C55E 1px,transparent 1px)",
+                  backgroundImage: "linear-gradient(var(--brand) 1px,transparent 1px),linear-gradient(90deg,var(--brand) 1px,transparent 1px)",
                   backgroundSize: "1.5rem 1.5rem",
                 }}
               />
@@ -79,7 +79,7 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
                       <span className="relative inline-flex h-3 w-3 rounded-full bg-brand-bright" />
                     </span>
                     {isSelected ? (
-                      <span className="whitespace-nowrap rounded-lg border border-white/15 bg-canvas px-2.5 py-1.5 text-xs font-semibold text-ink-bright shadow-lg shadow-black/40">
+                      <span className="whitespace-nowrap rounded-lg border border-edge-15 bg-canvas px-2.5 py-1.5 text-xs font-semibold text-ink-bright shadow-lg shadow-black/40">
                         {site.siteName} · {t("liveMapPeople", { count: site.people.length })}
                       </span>
                     ) : null}
@@ -95,7 +95,7 @@ export default function LiveMapPreview({ sites }: { sites: LivePresenceSite[] })
                 key={site.siteId ?? "no-site"}
                 type="button"
                 onClick={() => setSelected(selected === site.siteId ? null : site.siteId)}
-                className="flex items-center justify-between rounded-lg px-1.5 py-1 text-left hover:bg-white/5"
+                className="flex items-center justify-between rounded-lg px-1.5 py-1 text-left hover:bg-edge-5"
               >
                 <span className="flex items-center gap-2 text-xs font-medium text-ink">
                   <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-bright" />

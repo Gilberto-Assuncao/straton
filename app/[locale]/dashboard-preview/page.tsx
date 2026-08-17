@@ -33,9 +33,9 @@ const subheadlines: Record<Role, string> = {
 const allKpis: Kpi[] = [
   { key: "approvals", label: "Aguardando aprovação", value: "7", color: "text-warning", border: "border-warning/30", cta: "Rever agora", iconBg: "bg-warning/12", icon: "clock", trend: "+2 desde ontem", trendColor: "text-warning" },
   { key: "approvals", label: "Sem registo hoje", value: "3", color: "text-danger", border: "border-[#EF4444]/30", cta: "Ver quem falta", iconBg: "bg-danger/12", icon: "alert", trend: "-1 vs. ontem", trendColor: "text-brand-bright" },
-  { key: "adminHealth", label: "Equipas ativas hoje", value: "9/11", color: "text-brand-bright", border: "border-white/10", cta: "Ver mapa", iconBg: "bg-brand/12", icon: "team", trend: "82% em campo", trendColor: "text-ink-dim" },
-  { key: "adminHealth", label: "Pendências administrativas", value: "12", color: "text-warning", border: "border-white/10", cta: "Resolver", iconBg: "bg-warning/12", icon: "alert", trend: "4 urgentes", trendColor: "text-warning" },
-  { key: "payroll", label: "Horas aprovadas (período)", value: "4.812h", color: "text-ink-bright", border: "border-white/10", cta: "Ver detalhe", iconBg: "bg-white/10", icon: "clock", trend: "+4,2% vs. anterior", trendColor: "text-brand-bright" },
+  { key: "adminHealth", label: "Equipas ativas hoje", value: "9/11", color: "text-brand-bright", border: "border-edge-10", cta: "Ver mapa", iconBg: "bg-brand/12", icon: "team", trend: "82% em campo", trendColor: "text-ink-dim" },
+  { key: "adminHealth", label: "Pendências administrativas", value: "12", color: "text-warning", border: "border-edge-10", cta: "Resolver", iconBg: "bg-warning/12", icon: "alert", trend: "4 urgentes", trendColor: "text-warning" },
+  { key: "payroll", label: "Horas aprovadas (período)", value: "4.812h", color: "text-ink-bright", border: "border-edge-10", cta: "Ver detalhe", iconBg: "bg-edge-10", icon: "clock", trend: "+4,2% vs. anterior", trendColor: "text-brand-bright" },
   { key: "payroll", label: "Divergências de horas", value: "6", color: "text-danger", border: "border-danger/30", cta: "Rever", iconBg: "bg-danger/12", icon: "money", trend: "precisa revisão", trendColor: "text-warning" },
 ];
 
@@ -153,7 +153,7 @@ export default function DashboardPreviewPage() {
   return (
     <div className={`${styles.page} min-h-screen bg-canvas text-ink-bright`}>
       {/* Simulation controls — not part of the product UI, only this prototype */}
-      <div className="sticky top-0 z-[200] flex flex-wrap items-center gap-5 border-b border-white/10 bg-surface-deep px-7 py-4">
+      <div className="sticky top-0 z-[200] flex flex-wrap items-center gap-5 border-b border-edge-10 bg-surface-deep px-7 py-4">
         <span className="text-xs font-bold uppercase tracking-wide text-ink-faint">Simulação de permissões</span>
         <ToggleGroup options={[{ value: "mobile", label: "Mobile" }, { value: "desktop", label: "Desktop" }]} value={device} onChange={setDevice} />
         {device === "desktop" ? (
@@ -172,7 +172,7 @@ export default function DashboardPreviewPage() {
             </button>
           </>
         ) : null}
-        <button type="button" onClick={() => setEmpty((e) => !e)} className="ml-auto whitespace-nowrap rounded-[9px] border border-white/20 bg-transparent px-4 py-2 text-xs font-bold text-ink-bright">
+        <button type="button" onClick={() => setEmpty((e) => !e)} className="ml-auto whitespace-nowrap rounded-[9px] border border-edge-20 bg-transparent px-4 py-2 text-xs font-bold text-ink-bright">
           Dados: {empty ? "Vazio" : "Com dados"}
         </button>
       </div>
@@ -180,7 +180,7 @@ export default function DashboardPreviewPage() {
       {/* ===================== MOBILE SHELL (worker) ===================== */}
       {device === "mobile" ? (
         <div className="flex justify-center px-4 py-8">
-          <div className="w-[390px] rounded-[32px] border border-white/10 bg-surface-deep p-5 shadow-2xl shadow-black/50">
+          <div className="w-[390px] rounded-[32px] border border-edge-10 bg-surface-deep p-5 shadow-2xl shadow-black/50">
             {empty ? (
               <div className="px-6 py-16 text-center">
                 <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-[18px] bg-brand/10">
@@ -262,13 +262,13 @@ export default function DashboardPreviewPage() {
           ) : null}
 
           <div className="grid grid-cols-[260px_1fr]">
-            <aside className="flex min-h-[calc(100vh-60px)] flex-col border-r border-white/10 bg-surface-deep px-[16px] py-6">
+            <aside className="flex min-h-[calc(100vh-60px)] flex-col border-r border-edge-10 bg-surface-deep px-[16px] py-6">
               <div className="mb-5 flex items-center gap-2.5 px-2">
                 <StratonMark />
                 <span className="text-[17px] font-extrabold tracking-wide">STRATON</span>
               </div>
 
-              <button type="button" className="mb-6 flex items-center justify-between gap-2 rounded-[10px] border border-white/10 bg-surface-inset px-3 py-2.5 text-ink-bright">
+              <button type="button" className="mb-6 flex items-center justify-between gap-2 rounded-[10px] border border-edge-10 bg-surface-inset px-3 py-2.5 text-ink-bright">
                 <span className="flex min-w-0 items-center gap-2.5">
                   <span className="flex h-[26px] w-[26px] shrink-0 items-center justify-center rounded-[7px] bg-gradient-to-br from-brand-bright to-brand-hover text-[11px] font-extrabold text-[#06210F]">BC</span>
                   <span className="truncate text-[13px] font-semibold">BuildCo SA</span>
@@ -278,7 +278,7 @@ export default function DashboardPreviewPage() {
 
               <nav className="flex flex-1 flex-col gap-5">
                 <div>
-                  <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Geral</div>
+                  <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Geral</div>
                   <div className="flex flex-col gap-0.5">
                     <div className="flex items-center gap-2.5 rounded-[9px] bg-brand/10 px-3 py-2.5 text-sm font-semibold text-brand-bright">
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5" /><rect x="14" y="3" width="7" height="5" rx="1.5" /><rect x="14" y="12" width="7" height="9" rx="1.5" /><rect x="3" y="16" width="7" height="5" rx="1.5" /></svg>
@@ -290,7 +290,7 @@ export default function DashboardPreviewPage() {
 
                 {showApprovals ? (
                   <div>
-                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Operações</div>
+                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Operações</div>
                     <div className="flex flex-col gap-0.5">
                       <NavItem badge={7} label="Aprovações" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="17" rx="2" /><path d="M3 9h18M8 3v3M16 3v3" /></svg>} />
                       <NavItem label="Equipas" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="8" r="3.2" /><circle cx="17" cy="9" r="2.6" /><path d="M2.5 20c0-3.3 2.5-6 5.5-6s5.5 2.7 5.5 6" /></svg>} />
@@ -302,7 +302,7 @@ export default function DashboardPreviewPage() {
 
                 {showPayroll ? (
                   <div>
-                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Financeiro</div>
+                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Financeiro</div>
                     <div className="flex flex-col gap-0.5">
                       <NavItem badge={6} label="Folha & Contabilidade" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M7 15l4-5 3 3 5-7" /></svg>} />
                       <NavItem label="Despesas" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="M3 7l9 6 9-6" /></svg>} />
@@ -313,7 +313,7 @@ export default function DashboardPreviewPage() {
 
                 {showAdminHealth ? (
                   <div>
-                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-[#475569]">Empresa</div>
+                    <div className="mb-2 px-3 text-[10.5px] font-bold uppercase tracking-wide text-ink-faint">Empresa</div>
                     <div className="flex flex-col gap-0.5">
                       <NavItem label="Clientes" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>} />
                       <NavItem label="Configurações" icon={<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.6 1.6 0 0 0-1-1.5 1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.6 1.6 0 0 0 1.5-1 1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z" /></svg>} />
@@ -337,14 +337,14 @@ export default function DashboardPreviewPage() {
               <div className="relative mb-7 flex items-center justify-between gap-5">
                 <div className="relative max-w-[340px] flex-1">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#64748B" strokeWidth="2" strokeLinecap="round" className="absolute left-[13px] top-1/2 -translate-y-1/2"><circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" /></svg>
-                  <input placeholder="Pesquisar colaborador, projeto, site…" className="w-full rounded-[9px] border border-white/10 bg-surface-deep py-2.5 pl-9 pr-3.5 text-[13px] text-ink-bright placeholder:text-ink-faint" />
+                  <input placeholder="Pesquisar colaborador, projeto, site…" className="w-full rounded-[9px] border border-edge-10 bg-surface-deep py-2.5 pl-9 pr-3.5 text-[13px] text-ink-bright placeholder:text-ink-faint" />
                 </div>
                 <div className="flex shrink-0 items-center gap-4.5">
                   <div className="relative">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.7 21a2 2 0 0 1-3.4 0" /></svg>
                     <span className="absolute -right-0.5 -top-0.5 h-[7px] w-[7px] rounded-full border-2 border-surface-deep bg-brand" />
                   </div>
-                  <div className="h-6 w-px bg-white/10" />
+                  <div className="h-6 w-px bg-edge-10" />
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-bright to-brand-hover text-xs font-bold text-[#06210F]">SV</div>
                 </div>
               </div>
@@ -366,7 +366,7 @@ export default function DashboardPreviewPage() {
               </div>
 
               {empty ? (
-                <div className="rounded-2xl border border-white/10 bg-surface-deep px-10 py-20 text-center">
+                <div className="rounded-2xl border border-edge-10 bg-surface-deep px-10 py-20 text-center">
                   <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand/10">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
                   </div>
@@ -396,7 +396,7 @@ export default function DashboardPreviewPage() {
                   </div>
 
                   {/* ATTENTION LIST: same component, filtered by permission */}
-                  <div className="mb-6 rounded-2xl border border-white/10 bg-surface-deep p-6">
+                  <div className="mb-6 rounded-2xl border border-edge-10 bg-surface-deep p-6">
                     <div className="mb-4.5 text-base font-semibold">Precisa da sua atenção</div>
                     <div className="flex flex-col gap-2.5">
                       {visibleAttention.map((item) => (
@@ -413,7 +413,7 @@ export default function DashboardPreviewPage() {
 
                   {/* CHART + MAP: richer secondary widgets */}
                   <div className="mb-6 grid grid-cols-[1.6fr_1fr] gap-5">
-                    <div className="rounded-2xl border border-white/10 bg-surface-deep p-6.5">
+                    <div className="rounded-2xl border border-edge-10 bg-surface-deep p-6.5">
                       <div className="mb-6 flex items-center justify-between">
                         <span className="text-[15px] font-semibold">Horas por dia</span>
                         <span className="text-xs text-ink-faint">17 – 23 julho</span>
@@ -427,7 +427,7 @@ export default function DashboardPreviewPage() {
                         ))}
                       </div>
                     </div>
-                    <div className="flex flex-col rounded-2xl border border-white/10 bg-surface-deep p-5.5">
+                    <div className="flex flex-col rounded-2xl border border-edge-10 bg-surface-deep p-5.5">
                       <div className="mb-4 flex items-center justify-between">
                         <span className="text-[15px] font-semibold">Mapa ao vivo</span>
                         <span className="flex items-center gap-1.5 text-[11px] font-bold text-brand-bright">
@@ -444,8 +444,8 @@ export default function DashboardPreviewPage() {
                   </div>
 
                   {/* SHARED TABLE: rows adapt to approval or payroll type */}
-                  <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface-deep">
-                    <div className="flex items-center justify-between border-b border-white/5 px-6 py-4.5 text-[15px] font-bold">
+                  <div className="overflow-hidden rounded-2xl border border-edge-10 bg-surface-deep">
+                    <div className="flex items-center justify-between border-b border-edge-5 px-6 py-4.5 text-[15px] font-bold">
                       {tableTitle}
                       {support ? <span className="text-[11px] font-bold text-warning">Edição bloqueada — ative acima para alterar</span> : null}
                     </div>
@@ -453,7 +453,7 @@ export default function DashboardPreviewPage() {
                       <span>Nome</span><span>Contexto</span><span>Horas</span><span>Estado</span><span />
                     </div>
                     {visibleRows.map((row) => (
-                      <div key={row.name} className={`grid grid-cols-[1.6fr_1.2fr_1fr_1.2fr_1fr] items-center border-t border-white/5 px-6 py-4 transition hover:bg-surface-inset ${support ? "opacity-70" : ""}`}>
+                      <div key={row.name} className={`grid grid-cols-[1.6fr_1.2fr_1fr_1.2fr_1fr] items-center border-t border-edge-5 px-6 py-4 transition hover:bg-surface-inset ${support ? "opacity-70" : ""}`}>
                         <span className="flex items-center gap-2.5 text-sm font-medium">
                           <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-bright to-brand-hover text-[10px] font-bold text-[#06210F]">{row.initials}</span>
                           {row.name}
@@ -462,7 +462,7 @@ export default function DashboardPreviewPage() {
                         <span className={`${styles.mono} text-sm`}>{row.hours}</span>
                         <span className={`justify-self-start rounded-md px-2.5 py-1 text-xs font-bold ${row.badgeColor} ${row.badgeBg}`}>{row.badgeText}</span>
                         {support ? (
-                          <span className="text-[13px] text-[#475569]">bloqueado</span>
+                          <span className="text-[13px] text-ink-faint">bloqueado</span>
                         ) : (
                           <div className="flex gap-2">
                             <button type="button" className="h-[30px] w-[30px] rounded-lg bg-brand/15 text-brand-bright">✓</button>

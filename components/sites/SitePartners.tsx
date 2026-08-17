@@ -6,15 +6,15 @@ import type { SiteMessageKey } from "@/src/features/sites/messages";
 import { invitePartnerAction, revokePartnerAction } from "@/src/features/sites/actions";
 import type { SitePartner } from "@/src/features/sites/partners";
 
-const card = "rounded-2xl border border-white/10 bg-surface p-5 sm:p-6";
+const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 
 const statusTone: Record<SitePartner["status"], string> = {
-  invited: "bg-amber-400/10 text-amber-300",
+  invited: "bg-amber-400/10 text-warning-soft",
   accepted: "bg-brand/10 text-brand-bright",
-  declined: "bg-white/10 text-ink-muted",
-  revoked: "bg-white/10 text-ink-muted",
+  declined: "bg-edge-10 text-ink-muted",
+  revoked: "bg-edge-10 text-ink-muted",
 };
 
 export default function SitePartners({
@@ -93,7 +93,7 @@ export default function SitePartners({
         ) : null}
 
         {feedback ? (
-          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-red-300"}`}>
+          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-danger-soft"}`}>
             {t(feedback.messageKey)}
           </p>
         ) : null}
@@ -104,7 +104,7 @@ export default function SitePartners({
         {active.length === 0 ? (
           <p className="mt-4 text-sm text-ink-subtle">{t("partnersEmpty")}</p>
         ) : (
-          <ul className="mt-4 divide-y divide-white/10">
+          <ul className="mt-4 divide-y divide-edge-10">
             {active.map((partner) => (
               <li key={partner.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
                 <div className="min-w-0">
@@ -123,7 +123,7 @@ export default function SitePartners({
                     type="button"
                     onClick={() => revoke(partner.id)}
                     disabled={pending}
-                    className="min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                    className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
                   >
                     {t("partnerRemove")}
                   </button>
@@ -134,7 +134,7 @@ export default function SitePartners({
         )}
 
         {past.length > 0 ? (
-          <ul className="mt-5 border-t border-white/10 pt-4 grid gap-2">
+          <ul className="mt-5 border-t border-edge-10 pt-4 grid gap-2">
             {past.map((partner) => (
               <li key={partner.id} className="flex flex-wrap items-center justify-between gap-3 text-xs text-ink-subtle">
                 <span>{partner.companyName}</span>

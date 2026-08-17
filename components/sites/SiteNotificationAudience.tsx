@@ -6,11 +6,11 @@ import type { SiteMessageKey } from "@/src/features/sites/messages";
 import { subscribeToSiteAction, unsubscribeFromSiteAction } from "@/src/features/sites/actions";
 import type { SiteAudience } from "@/src/features/sites/notifications";
 
-const card = "rounded-2xl border border-white/10 bg-surface p-5 sm:p-6";
+const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 const secondaryButton =
-  "min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand";
 
 /**
  * Quem é avisado quando este local muda (#83).
@@ -107,7 +107,7 @@ export default function SiteNotificationAudience({
         </div>
 
         {feedback ? (
-          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-red-300"}`}>
+          <p role="status" className={`mt-4 text-sm ${feedback.ok ? "text-brand-bright" : "text-danger-soft"}`}>
             {t(feedback.messageKey)}
           </p>
         ) : null}
@@ -118,7 +118,7 @@ export default function SiteNotificationAudience({
         {audience.subscribers.length === 0 ? (
           <p className="mt-4 text-sm text-ink-muted">{t("audienceMineEmpty")}</p>
         ) : (
-          <ul className="mt-4 divide-y divide-white/10">
+          <ul className="mt-4 divide-y divide-edge-10">
             {audience.subscribers.map((subscriber) => (
               <li
                 key={subscriber.id}
@@ -154,7 +154,7 @@ export default function SiteNotificationAudience({
             precisamente a coisa que não pode ser arranjada.
           */}
           <p className="mt-1 text-sm text-ink-muted">{t("audienceCompaniesSubtitle")}</p>
-          <ul className="mt-4 divide-y divide-white/10">
+          <ul className="mt-4 divide-y divide-edge-10">
             {audience.companies.map((company) => (
               <li key={company.companyId} className="flex items-center justify-between gap-3 py-3">
                 <p className="text-sm text-ink">{company.companyName}</p>

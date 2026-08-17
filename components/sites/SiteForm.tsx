@@ -7,7 +7,7 @@ import { createSiteAction, geocodeSiteAddressAction, updateSiteAction, type Site
 import { SITE_PRIORITIES, SITE_STATUSES, type ClientOption, type SiteRecord } from "@/src/features/sites/types";
 import ClientPicker from "./ClientPicker";
 
-const field = "mt-2 min-h-12 w-full rounded-lg border border-white/10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
+const field = "mt-2 min-h-12 w-full rounded-lg border border-edge-10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
 const label = "text-sm font-medium text-ink";
 
 type Fields = Record<string, string>;
@@ -114,7 +114,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
   }
 
   return (
-    <form action={formAction} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
+    <form action={formAction} className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-7">
       {site ? <input type="hidden" name="siteId" value={site.id} /> : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
@@ -146,7 +146,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           <input id="site-postal" name="postal_code" value={fields.postal_code} onChange={(event) => set("postal_code", event.target.value)} className={field} />
         </div>
 
-        <div className="sm:col-span-2 rounded-xl border border-white/10 bg-surface-inset p-4">
+        <div className="sm:col-span-2 rounded-xl border border-edge-10 bg-surface-inset p-4">
           <p className="text-sm font-semibold text-ink">{t("locationTitle")}</p>
           <p className="mt-1 text-xs leading-5 text-ink-muted">{t("locationHelp")}</p>
           <button
@@ -168,7 +168,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
             <p className="mt-2 text-xs leading-5 text-ink-muted">{t("geocodeNeedsAddress")}</p>
           ) : null}
           {geocodeNote ? (
-            <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-brand-bright" : "text-amber-300"}`}>{geocodeNote.text}</p>
+            <p role="status" className={`mt-3 text-xs leading-5 ${geocodeNote.kind === "ok" ? "text-brand-bright" : "text-warning-soft"}`}>{geocodeNote.text}</p>
           ) : null}
 
           {/*
@@ -182,7 +182,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           <input type="hidden" name="latitude" value={fields.latitude} />
           <input type="hidden" name="longitude" value={fields.longitude} />
 
-          <p className={`mt-4 text-xs font-semibold ${located ? "text-brand-bright" : "text-amber-300"}`}>
+          <p className={`mt-4 text-xs font-semibold ${located ? "text-brand-bright" : "text-warning-soft"}`}>
             {located ? t("locationConfirmed") : t("locationMissing")}
           </p>
           {!located ? <p className="mt-1 text-xs leading-5 text-ink-subtle">{t("locationMissingHelp")}</p> : null}
@@ -257,11 +257,11 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           while idle, and testing it is what tells the compiler there is a key
           to translate here (#104). */}
       {state.messageKey && !touched ? (
-        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-red-300">{t(state.messageKey)}</p>
+        <p role="alert" className="mt-6 rounded-lg bg-red-400/10 p-4 text-sm leading-6 text-danger-soft">{t(state.messageKey)}</p>
       ) : null}
 
       <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-        <Link href="/dashboard/sites" className="flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
+        <Link href="/dashboard/sites" className="flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand">{t("cancel")}</Link>
         <button type="submit" className="min-h-11 rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand">{site ? t("saveChanges") : t("createSite")}</button>
       </div>
     </form>

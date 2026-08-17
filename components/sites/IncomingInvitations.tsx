@@ -30,7 +30,7 @@ export default function IncomingInvitations({ invitations }: { invitations: Inco
     <section aria-label={t("invitationsTitle")} className="mb-6 rounded-2xl border border-brand/30 bg-surface p-5 sm:p-6">
       <h2 className="text-lg font-semibold text-ink">{t("invitationsTitle")}</h2>
       <p className="mt-1 text-sm text-ink-muted">{t("invitationsSubtitle")}</p>
-      <ul className="mt-5 divide-y divide-white/10">
+      <ul className="mt-5 divide-y divide-edge-10">
         {open.map((invitation) => (
           <li key={invitation.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">
@@ -52,7 +52,7 @@ export default function IncomingInvitations({ invitations }: { invitations: Inco
                 type="button"
                 onClick={() => respond(invitation.id, false)}
                 disabled={pending}
-                className="min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                className="min-h-11 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
               >
                 {t("invitationDecline")}
               </button>

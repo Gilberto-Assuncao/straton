@@ -70,7 +70,7 @@ export default async function SiteDashboardPage({
           title={site.name}
           description={[site.address.street, site.address.postal_code, site.address.city].filter(Boolean).join(", ") || t("noAddress")}
           actions={
-            <Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center rounded-lg border border-white/15 px-5 text-sm font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand">{t("edit")}</Link>
+            <Link href={`/dashboard/sites/${site.id}/edit`} className="flex min-h-11 items-center rounded-lg border border-edge-15 px-5 text-sm font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand">{t("edit")}</Link>
           }
         />
       </div>

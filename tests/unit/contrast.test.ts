@@ -23,9 +23,23 @@ import { describe, expect, it } from "vitest";
  */
 const css = readFileSync("app/globals.css", "utf8");
 
-function token(name: string): string {
-  const match = css.match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`));
-  if (!match) throw new Error(`no --${name} in globals.css`);
+/**
+ * The two themes, read separately.
+ *
+ * A single regex over the whole file returns the first match, which is the
+ * dark value — so a light palette could be entirely unreadable and every
+ * assertion here would still pass, checking dark twice. The blocks are split
+ * first, and `finds both themes` below refuses to let either come back empty.
+ */
+function block(theme: "dark" | "light"): string {
+  if (theme === "dark") return css.slice(0, css.indexOf("@media (prefers-color-scheme: light)"));
+  const start = css.indexOf("@media (prefers-color-scheme: light)");
+  return start === -1 ? "" : css.slice(start, css.indexOf("@theme inline", start));
+}
+
+function token(name: string, theme: "dark" | "light"): string {
+  const match = block(theme).match(new RegExp(`--${name}:\\s*(#[0-9a-fA-F]{6})`));
+  if (!match) throw new Error(`no --${name} in the ${theme} palette`);
   return match[1];
 }
 
@@ -44,17 +58,32 @@ function contrast(a: string, b: string): number {
 /** Anything a foreground can sit on. */
 const SURFACES = ["canvas", "surface", "surface-inset", "surface-alt", "surface-deep"];
 
-/** Read as prose, so 4.5:1. */
-const PROSE = ["ink-bright", "ink", "ink-soft", "ink-muted", "ink-dim", "brand", "brand-bright", "warning", "danger"];
+/**
+ * Read as prose, so 4.5:1.
+ *
+ * The four status foregrounds are here because they carry the sentences that
+ * matter most — the validation error, the rejected timesheet, the warning on a
+ * site. 104 of those were written as `text-red-300` and friends, Tailwind's
+ * pale shades picked to read on navy: 1.90:1, 1.44:1 and 1.67:1 on white. They
+ * are the reason a theme cannot be judged by looking at it in one mode.
+ */
+const PROSE = [
+  "ink-bright", "ink", "ink-soft", "ink-muted", "ink-dim", "brand", "brand-bright",
+  "warning", "danger", "danger-soft", "warning-soft", "info", "success",
+];
 
 /** Captions and metadata. The identity puts these below AA; see globals.css. */
 const SUPPORTING = ["ink-subtle", "ink-faint"];
 
+const THEMES = ["dark", "light"] as const;
+
 function failures(name: string, floor: number) {
-  return SURFACES.map((surface) => ({
-    surface,
-    ratio: Number(contrast(token(name), token(surface)).toFixed(2)),
-  })).filter((pair) => pair.ratio < floor);
+  return THEMES.flatMap((theme) =>
+    SURFACES.map((surface) => ({
+      pair: `${name} on ${surface} (${theme})`,
+      ratio: Number(contrast(token(name, theme), token(surface, theme)).toFixed(2)),
+    })),
+  ).filter((entry) => entry.ratio < floor);
 }
 
 describe("colour contrast", () => {
@@ -65,15 +94,22 @@ describe("colour contrast", () => {
     expect(contrast("#ffffff", "#ffffff")).toBeCloseTo(1, 5);
   });
 
-  it("reads the palette out of globals.css", () => {
-    // A regex that quietly matched nothing would compare undefined to
-    // undefined for every pair below.
-    expect(SURFACES.map(token).every((v) => /^#[0-9a-f]{6}$/i.test(v))).toBe(true);
-    expect(new Set(SURFACES.map(token)).size).toBeGreaterThan(1);
+  it("finds both themes in globals.css", () => {
+    // The failure this guards is specific: if the light block went missing, or
+    // the split returned an empty string, `token` would throw — but if the
+    // split silently returned the *whole* file for both, every light assertion
+    // would quietly re-check dark and pass.
+    for (const theme of THEMES) {
+      const values = SURFACES.map((s) => token(s, theme));
+      expect(values.every((v) => /^#[0-9a-f]{6}$/i.test(v)), `${theme} surfaces`).toBe(true);
+      expect(new Set(values).size, `${theme} surfaces are not all one colour`).toBeGreaterThan(1);
+    }
+    // And the two palettes are genuinely different, which is the whole point.
+    expect(token("surface", "dark")).not.toBe(token("surface", "light"));
   });
 
   for (const name of PROSE) {
-    it(`reads ${name} on every surface`, () => {
+    it(`reads ${name} on every surface, in both themes`, () => {
       expect(failures(name, 4.5), `${name} below 4.5:1`).toEqual([]);
     });
   }
@@ -91,9 +127,26 @@ describe("colour contrast", () => {
     expect(failures("brand", 3), "focus ring below 3:1").toEqual([]);
   });
 
+  it("keeps the label legible on a control fill", () => {
+    // The secondary button and the switch track. Not a surface in the list
+    // above — nothing else sits on it — but `text-ink` does, and it was written
+    // as `bg-[#374151]`, a fixed dark grey that stayed put while `--ink`
+    // inverted: dark label on a dark button, at 1.5:1.
+    for (const theme of THEMES) {
+      for (const fill of ["control", "control-hover"]) {
+        expect(
+          contrast(token("ink", theme), token(fill, theme)),
+          `ink on ${fill} (${theme})`,
+        ).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  });
+
   it("keeps the label legible on a brand fill", () => {
     // The one pair that is not foreground-on-surface: the primary button.
-    expect(contrast(token("on-brand"), token("brand"))).toBeGreaterThanOrEqual(4.5);
-    expect(contrast(token("on-brand"), token("brand-hover"))).toBeGreaterThanOrEqual(4.5);
+    for (const theme of THEMES) {
+      expect(contrast(token("on-brand", theme), token("brand", theme)), `button label (${theme})`).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(token("on-brand", theme), token("brand-hover", theme)), `hover label (${theme})`).toBeGreaterThanOrEqual(4.5);
+    }
   });
 });

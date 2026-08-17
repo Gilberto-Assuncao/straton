@@ -26,7 +26,7 @@ export default function TemplateList({ templates }: { templates: ManagedTemplate
 
   if (templates.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-white/15 bg-surface px-6 py-16 text-center">
+      <div className="rounded-2xl border border-dashed border-edge-15 bg-surface px-6 py-16 text-center">
         <p className="text-sm font-medium text-ink-muted">{t("empty")}</p>
         <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-ink-subtle">{t("emptyHelp")}</p>
         <Link href="/dashboard/field-reports/templates/new" className="mt-6 inline-flex min-h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover">{t("newTemplate")}</Link>
@@ -36,18 +36,18 @@ export default function TemplateList({ templates }: { templates: ManagedTemplate
 
   return (
     <div className="grid gap-4">
-      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-red-300">{t(error)}</p> : null}
+      {error ? <p role="alert" className="rounded-lg bg-red-400/10 p-4 text-sm text-danger-soft">{t(error)}</p> : null}
       {templates.map((template) => (
-        <article key={template.id} className={`rounded-2xl border border-white/10 bg-surface p-5 ${template.active ? "" : "opacity-60"}`}>
+        <article key={template.id} className={`rounded-2xl border border-edge-10 bg-surface p-5 ${template.active ? "" : "opacity-60"}`}>
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-2.5">
                 <h3 className="font-semibold text-ink">{template.name}</h3>
-                <span className="inline-flex min-h-7 items-center rounded-full bg-white/5 px-3 text-xs font-medium text-ink-muted">
+                <span className="inline-flex min-h-7 items-center rounded-full bg-edge-5 px-3 text-xs font-medium text-ink-muted">
                   {t(`segment_${template.segment}` as "segment_construction")}
                 </span>
                 {template.active ? null : (
-                  <span className="inline-flex min-h-7 items-center rounded-full bg-white/10 px-3 text-xs font-semibold text-ink-muted">{t("inactive")}</span>
+                  <span className="inline-flex min-h-7 items-center rounded-full bg-edge-10 px-3 text-xs font-semibold text-ink-muted">{t("inactive")}</span>
                 )}
               </div>
               {template.description ? <p className="mt-1.5 text-sm text-ink-muted">{template.description}</p> : null}

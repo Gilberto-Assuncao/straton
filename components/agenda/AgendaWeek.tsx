@@ -7,12 +7,12 @@ import type { AgendaDay, AssignmentRecord, AssignmentStatus } from "@/src/featur
 import RescheduleForm from "./RescheduleForm";
 
 const statusTone: Record<AssignmentStatus, string> = {
-  planned: "bg-white/10 text-ink-muted",
-  sent: "bg-amber-400/10 text-amber-300",
-  accepted: "bg-sky-400/10 text-sky-300",
+  planned: "bg-edge-10 text-ink-muted",
+  sent: "bg-amber-400/10 text-warning-soft",
+  accepted: "bg-sky-400/10 text-info",
   in_progress: "bg-brand/10 text-brand-bright",
   done: "bg-brand/20 text-brand-bright",
-  cancelled: "bg-red-400/10 text-red-300",
+  cancelled: "bg-red-400/10 text-danger-soft",
 };
 
 function time(iso: string): string {
@@ -51,7 +51,7 @@ export default function AgendaWeek({
   return (
     <div>
       {error ? (
-        <p role="status" className="mb-4 text-sm text-red-300">
+        <p role="status" className="mb-4 text-sm text-danger-soft">
           {t(`message_${error}` as "message_failed")}
         </p>
       ) : null}
@@ -64,7 +64,7 @@ export default function AgendaWeek({
             key={day.date}
             aria-label={day.date}
             className={`rounded-2xl border p-4 ${
-              day.date === today ? "border-brand/40 bg-surface" : "border-white/10 bg-surface/60"
+              day.date === today ? "border-brand/40 bg-surface" : "border-edge-10 bg-surface/60"
             }`}
           >
             <h3 className="text-xs font-semibold uppercase tracking-wide text-ink-subtle">
@@ -72,7 +72,7 @@ export default function AgendaWeek({
             </h3>
 
             {day.assignments.length === 0 ? (
-              <p className="mt-4 text-xs text-[#4B5563]">{t("dayEmpty")}</p>
+              <p className="mt-4 text-xs text-ink-subtle">{t("dayEmpty")}</p>
             ) : (
               <ul className="mt-4 grid gap-3">
                 {day.assignments.map((assignment) => (
@@ -105,7 +105,7 @@ export default function AgendaWeek({
                           type="button"
                           onClick={() => move(assignment.id, next)}
                           disabled={pending}
-                          className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                          className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
                         >
                           {t(`action_${next}` as "action_accepted")}
                         </button>
@@ -116,7 +116,7 @@ export default function AgendaWeek({
                             type="button"
                             onClick={() => setEditing(editing === assignment.id ? null : assignment.id)}
                             disabled={pending}
-                            className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                            className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
                           >
                             {t("reschedule")}
                           </button>
@@ -124,7 +124,7 @@ export default function AgendaWeek({
                             type="button"
                             onClick={() => remove(assignment.id)}
                             disabled={pending}
-                            className="min-h-11 rounded-lg px-2 text-xs font-semibold text-ink-subtle hover:text-red-300 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                            className="min-h-11 rounded-lg px-2 text-xs font-semibold text-ink-subtle hover:text-danger-soft disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
                           >
                             {t("remove")}
                           </button>

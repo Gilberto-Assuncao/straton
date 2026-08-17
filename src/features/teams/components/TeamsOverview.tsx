@@ -73,7 +73,7 @@ export function TeamsOverview({ teams, permissions }: { teams: TeamSummary[]; pe
       {filtered.length ? (
         <section aria-label={t("title")} className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {filtered.map((team) => (
-            <article key={team.id} className="rounded-2xl border border-white/10 bg-surface p-5">
+            <article key={team.id} className="rounded-2xl border border-edge-10 bg-surface p-5">
               <div className="flex items-start justify-between gap-3">
                 <span className="h-10 w-2 rounded-full" style={{ backgroundColor: team.color }} aria-hidden="true" />
                 <div className="min-w-0 flex-1">
@@ -102,7 +102,7 @@ export function TeamsOverview({ teams, permissions }: { teams: TeamSummary[]; pe
           ))}
         </section>
       ) : (
-        <section className="rounded-2xl border border-dashed border-white/15 bg-surface p-8 text-center">
+        <section className="rounded-2xl border border-dashed border-edge-15 bg-surface p-8 text-center">
           <h2 className="text-xl font-semibold">{t("emptyTitle")}</h2>
           <p className="mt-2 text-sm text-ink-muted">{t("emptyBody")}</p>
         </section>

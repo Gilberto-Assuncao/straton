@@ -1,1 +1,1 @@
-export function AppFooter() { return <footer className="border-t border-white/10 px-4 py-4 text-center text-xs text-ink-subtle"><span className="font-semibold text-ink-muted">STRATON</span><span aria-hidden="true"> · </span>Time Well Managed</footer>; }
+export function AppFooter() { return <footer className="border-t border-edge-10 px-4 py-4 text-center text-xs text-ink-subtle"><span className="font-semibold text-ink-muted">STRATON</span><span aria-hidden="true"> · </span>Time Well Managed</footer>; }

@@ -27,7 +27,7 @@ export function LanguageSwitcher() {
         value={locale}
         disabled={isPending}
         onChange={(event) => onChange(event.target.value)}
-        className="min-h-11 rounded-lg border border-white/10 bg-surface-alt px-3 text-sm text-ink outline-none focus:border-brand disabled:opacity-60"
+        className="min-h-11 rounded-lg border border-edge-10 bg-surface-alt px-3 text-sm text-ink outline-none focus:border-brand disabled:opacity-60"
       >
         {languages.map((language) => (
           <option key={language.id} value={language.id}>{language.label}</option>

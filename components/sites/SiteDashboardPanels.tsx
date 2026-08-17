@@ -4,8 +4,8 @@ import { share } from "@/src/features/sites/planning";
 import type { SiteRecord } from "@/src/features/sites/types";
 import type { SiteWeather } from "@/src/features/weather/data";
 
-const card = "rounded-2xl border border-white/10 bg-surface p-5 sm:p-6";
-const empty = "rounded-xl border border-dashed border-white/15 px-4 py-10 text-center text-sm text-ink-subtle";
+const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
+const empty = "rounded-xl border border-dashed border-edge-15 px-4 py-10 text-center text-sm text-ink-subtle";
 
 function hours(minutes: number): string {
   const h = Math.floor(minutes / 60);
@@ -18,12 +18,12 @@ function time(iso: string): string {
 }
 
 const statusTone: Record<string, string> = {
-  draft: "bg-white/10 text-ink-muted",
-  submitted: "bg-amber-400/10 text-amber-300",
-  under_review: "bg-amber-400/10 text-amber-300",
+  draft: "bg-edge-10 text-ink-muted",
+  submitted: "bg-amber-400/10 text-warning-soft",
+  under_review: "bg-amber-400/10 text-warning-soft",
   approved: "bg-brand/10 text-brand-bright",
-  rejected: "bg-red-400/10 text-red-300",
-  changes_requested: "bg-red-400/10 text-red-300",
+  rejected: "bg-red-400/10 text-danger-soft",
+  changes_requested: "bg-red-400/10 text-danger-soft",
 };
 
 function Badge({ status, label }: { status: string; label: string }) {
@@ -89,7 +89,7 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
               {site.latitude != null && site.longitude != null ? (
                 <span className="text-brand-bright">{t("locationConfirmed")}</span>
               ) : (
-                <span className="text-amber-300">{t("locationMissing")}</span>
+                <span className="text-warning-soft">{t("locationMissing")}</span>
               )}
             </dd>
           </div>
@@ -127,7 +127,7 @@ export async function OverviewPanel({ site, data }: { site: SiteRecord; data: Si
                     total: money(site.budgetAmount, site.budgetCurrency),
                   })}
                   {budgetShare !== null ? (
-                    <span className={`ml-2 text-xs ${budgetShare > 100 ? "text-red-300" : "text-ink-muted"}`}>{budgetShare}%</span>
+                    <span className={`ml-2 text-xs ${budgetShare > 100 ? "text-danger-soft" : "text-ink-muted"}`}>{budgetShare}%</span>
                   ) : null}
                 </dd>
               </div>
@@ -153,7 +153,7 @@ export async function PresencePanel({ data }: { data: SiteDashboard }) {
     <div className={card}>
       <h2 className="text-lg font-semibold text-ink">{t("tab_presence")}</h2>
       <p className="mt-1 text-sm text-ink-muted">{t("presenceSubtitle")}</p>
-      <ul className="mt-5 divide-y divide-white/10">
+      <ul className="mt-5 divide-y divide-edge-10">
         {data.presentToday.map((person) => (
           <li key={person.userId} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <span className="flex items-center gap-2.5 text-sm font-medium text-ink">
@@ -193,7 +193,7 @@ export async function WeatherPanel({ weather }: { weather: SiteWeather | null })
               <span>{day.precipitationMm} mm</span>
               <span>{day.windSpeedMaxKmh} km/h</span>
               {day.alert.level !== "none" ? (
-                <span className={`inline-flex min-h-7 items-center rounded-full px-3 font-semibold ${day.alert.level === "delay-risk" ? "bg-red-400/10 text-red-300" : "bg-amber-400/10 text-amber-300"}`}>
+                <span className={`inline-flex min-h-7 items-center rounded-full px-3 font-semibold ${day.alert.level === "delay-risk" ? "bg-red-400/10 text-danger-soft" : "bg-amber-400/10 text-warning-soft"}`}>
                   {tWeather(day.alert.reasonKey)}
                 </span>
               ) : null}
@@ -232,7 +232,7 @@ export async function HoursPanel({ data }: { data: SiteDashboard }) {
         total two lines above, with nothing to explain the difference.
       */}
       {data.hours.byArea.length > 1 ? (
-        <ul className="mt-5 grid gap-2 border-b border-white/10 pb-5">
+        <ul className="mt-5 grid gap-2 border-b border-edge-10 pb-5">
           {data.hours.byArea.map((area) => (
             <li key={area.areaId ?? "unattributed"} className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface-inset px-4 py-3">
               <span className="text-sm text-ink">
@@ -250,7 +250,7 @@ export async function HoursPanel({ data }: { data: SiteDashboard }) {
           ))}
         </ul>
       ) : null}
-      <ul className="mt-5 divide-y divide-white/10">
+      <ul className="mt-5 divide-y divide-edge-10">
         {data.hours.entries.map((entry) => (
           <li key={entry.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">
@@ -275,7 +275,7 @@ export async function ReportsPanel({ data }: { data: SiteDashboard }) {
   return (
     <div className={card}>
       <h2 className="text-lg font-semibold text-ink">{t("tab_reports")}</h2>
-      <ul className="mt-5 divide-y divide-white/10">
+      <ul className="mt-5 divide-y divide-edge-10">
         {data.reports.map((report) => (
           <li key={report.id} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">
@@ -300,7 +300,7 @@ export async function TeamPanel({ data }: { data: SiteDashboard }) {
     <div className={card}>
       <h2 className="text-lg font-semibold text-ink">{t("tab_team")}</h2>
       <p className="mt-1 text-sm text-ink-muted">{t("teamSubtitle")}</p>
-      <ul className="mt-5 divide-y divide-white/10">
+      <ul className="mt-5 divide-y divide-edge-10">
         {data.team.map((member) => (
           <li key={member.membershipId} className="flex flex-wrap items-center justify-between gap-3 py-4">
             <div className="min-w-0">

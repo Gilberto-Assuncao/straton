@@ -7,10 +7,10 @@ import type { AvailabilityRecord } from "@/src/features/availability/types";
 
 const reasonTone: Record<string, string> = {
   holiday: "bg-brand/10 text-brand-bright",
-  sick: "bg-red-400/10 text-red-300",
-  training: "bg-sky-400/10 text-sky-300",
-  personal: "bg-white/10 text-ink-muted",
-  other: "bg-white/10 text-ink-muted",
+  sick: "bg-red-400/10 text-danger-soft",
+  training: "bg-sky-400/10 text-info",
+  personal: "bg-edge-10 text-ink-muted",
+  other: "bg-edge-10 text-ink-muted",
 };
 
 function day(iso: string): string {
@@ -33,14 +33,14 @@ export default function AvailabilityList({ records }: { records: AvailabilityRec
 
   if (visible.length === 0) {
     return (
-      <p className="rounded-xl border border-dashed border-white/15 px-4 py-10 text-center text-sm text-ink-subtle">
+      <p className="rounded-xl border border-dashed border-edge-15 px-4 py-10 text-center text-sm text-ink-subtle">
         {t("empty")}
       </p>
     );
   }
 
   return (
-    <ul className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-surface">
+    <ul className="divide-y divide-edge-10 rounded-2xl border border-edge-10 bg-surface">
       {visible.map((record) => (
         <li key={record.id} className="flex flex-wrap items-center justify-between gap-3 px-5 py-4 sm:px-6">
           <div className="min-w-0">
@@ -55,7 +55,7 @@ export default function AvailabilityList({ records }: { records: AvailabilityRec
           <div className="flex items-center gap-3">
             <span
               className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs font-semibold ${
-                record.kind === "available" ? "bg-sky-400/10 text-sky-300" : reasonTone[record.reason ?? "other"]
+                record.kind === "available" ? "bg-sky-400/10 text-info" : reasonTone[record.reason ?? "other"]
               }`}
             >
               {record.kind === "available"
@@ -67,7 +67,7 @@ export default function AvailabilityList({ records }: { records: AvailabilityRec
                 type="button"
                 onClick={() => remove(record.id)}
                 disabled={pending}
-                className="min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
+                className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-brand"
               >
                 {t("remove")}
               </button>

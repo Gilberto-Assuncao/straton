@@ -20,9 +20,9 @@ function ApprovalStatCards({ entries }: { entries: TimesheetEntry[] }) {
   const rejected = entries.filter((entry) => entry.status === "rejected").length;
   const cards = [
     { label: t("statAwaitingApproval"), value: submitted, color: "text-warning", border: "border-amber-400/30" },
-    { label: t("statApprovedThisWeek"), value: approved, color: "text-brand-bright", border: "border-white/10" },
+    { label: t("statApprovedThisWeek"), value: approved, color: "text-brand-bright", border: "border-edge-10" },
     { label: t("statNeedsCorrection"), value: rejected, color: "text-danger", border: "border-danger/30" },
-    { label: t("statTotalEntries"), value: entries.length, color: "text-ink", border: "border-white/10" },
+    { label: t("statTotalEntries"), value: entries.length, color: "text-ink", border: "border-edge-10" },
   ];
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">

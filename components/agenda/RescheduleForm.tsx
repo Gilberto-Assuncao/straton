@@ -6,7 +6,7 @@ import { rescheduleAssignmentAction, type ConflictWarning } from "@/src/features
 import type { AssignmentRecord } from "@/src/features/assignments/types";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-canvas px-2 text-xs text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-canvas px-2 text-xs text-ink focus-visible:outline-2 focus-visible:outline-brand";
 
 /**
  * Moving a job, from the card it is on (#49).
@@ -51,7 +51,7 @@ export default function RescheduleForm({
   }
 
   return (
-    <form action={submit} className="mt-3 grid gap-2 rounded-lg border border-white/10 bg-canvas p-3">
+    <form action={submit} className="mt-3 grid gap-2 rounded-lg border border-edge-10 bg-canvas p-3">
       <input type="hidden" name="assignmentId" value={assignment.id} />
       <p className="text-xs font-semibold text-ink">{t("rescheduleTitle")}</p>
 
@@ -76,15 +76,15 @@ export default function RescheduleForm({
       </label>
 
       {message ? (
-        <p role="status" className={`text-xs ${message.ok ? "text-brand-bright" : "text-red-300"}`}>
+        <p role="status" className={`text-xs ${message.ok ? "text-brand-bright" : "text-danger-soft"}`}>
           {t(`message_${message.key}` as "message_failed")}
         </p>
       ) : null}
 
       {warnings.length > 0 ? (
         <div className="rounded-lg border border-amber-400/30 bg-amber-400/5 p-2">
-          <p className="text-[11px] font-semibold text-amber-300">{t("conflictTitle")}</p>
-          <ul className="mt-1 grid gap-0.5 text-[11px] text-amber-200/80">
+          <p className="text-[11px] font-semibold text-warning-soft">{t("conflictTitle")}</p>
+          <ul className="mt-1 grid gap-0.5 text-[11px] text-warning-soft">
             {warnings.map((warning, index) => (
               <li key={`${warning.name}-${index}`}>
                 {t("conflictLine", {
@@ -108,7 +108,7 @@ export default function RescheduleForm({
         <button
           type="button"
           onClick={onDone}
-          className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-brand"
+          className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-brand"
         >
           {t("rescheduleCancel")}
         </button>

@@ -49,7 +49,7 @@ export default function StaleSessionPrompt({
 
   return (
     <section aria-labelledby="stale-session-title" className="rounded-2xl border border-amber-400/40 bg-amber-400/[0.06] p-5">
-      <h3 id="stale-session-title" className="text-sm font-semibold text-amber-200">
+      <h3 id="stale-session-title" className="text-sm font-semibold text-warning-soft">
         {t("staleTitle")}
       </h3>
       <p className="mt-2 text-sm text-ink-soft">{t("staleBody", { started: startedLabel })}</p>
@@ -62,7 +62,7 @@ export default function StaleSessionPrompt({
               type="time"
               value={endTime}
               onChange={(event) => setEndTime(event.target.value)}
-              className="min-h-11 rounded-lg border border-white/15 bg-surface-alt px-3 text-sm text-ink"
+              className="min-h-11 rounded-lg border border-edge-15 bg-surface-alt px-3 text-sm text-ink"
             />
           </label>
           <button
@@ -87,7 +87,7 @@ export default function StaleSessionPrompt({
             type="button"
             onClick={() => startTransition(async () => void (await confirmSessionAction()))}
             disabled={confirming || busy}
-            className="min-h-11 rounded-lg border border-white/15 px-4 text-sm font-semibold text-ink hover:bg-white/5 disabled:opacity-50"
+            className="min-h-11 rounded-lg border border-edge-15 px-4 text-sm font-semibold text-ink hover:bg-edge-5 disabled:opacity-50"
           >
             {t("staleStillWorking")}
           </button>

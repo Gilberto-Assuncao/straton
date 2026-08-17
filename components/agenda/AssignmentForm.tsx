@@ -6,7 +6,7 @@ import { createAssignmentAction, type ConflictWarning } from "@/src/features/ass
 import type { AssignmentOptions } from "@/src/features/assignments/data";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 const labelText = "text-xs text-ink-muted";
 
 export default function AssignmentForm({ options }: { options: AssignmentOptions }) {
@@ -25,7 +25,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
   }
 
   return (
-    <form action={submit} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
+    <form action={submit} className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6">
       <h2 className="text-lg font-semibold text-ink">{t("formTitle")}</h2>
       <p className="mt-1 text-sm text-ink-muted">{t("formHint")}</p>
 
@@ -72,7 +72,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
                 className={`min-h-11 rounded-lg border px-4 text-sm font-semibold ${
                   mode === option
                     ? "border-brand bg-brand/10 text-brand-bright"
-                    : "border-white/15 text-ink-muted hover:bg-white/5"
+                    : "border-edge-15 text-ink-muted hover:bg-edge-5"
                 }`}
               >
                 {t(`assignBy_${option}` as "assignBy_people")}
@@ -97,7 +97,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
         ) : (
           <fieldset className="grid gap-1.5">
             <legend className={labelText}>{t("peopleLabel")}</legend>
-            <div className="mt-1 grid max-h-56 gap-1 overflow-y-auto rounded-lg border border-white/10 p-2">
+            <div className="mt-1 grid max-h-56 gap-1 overflow-y-auto rounded-lg border border-edge-10 p-2">
               {options.people.map((person) => (
                 <label key={person.membershipId} className="flex min-h-11 items-center gap-3 px-2 text-sm text-ink-soft">
                   <input type="checkbox" name="assigneeIds" value={person.membershipId} className="size-4" />
@@ -115,7 +115,7 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
       </div>
 
       {message ? (
-        <p role="status" className={`mt-4 text-sm ${message.ok ? "text-brand-bright" : "text-red-300"}`}>
+        <p role="status" className={`mt-4 text-sm ${message.ok ? "text-brand-bright" : "text-danger-soft"}`}>
           {t(`message_${message.key}` as "message_created")}
         </p>
       ) : null}
@@ -125,8 +125,8 @@ export default function AssignmentForm({ options }: { options: AssignmentOptions
         // volunteers, and a supervisor who knows something the system does not
         // should not be stopped by it. Booking *blind* is the thing to prevent.
         <div className="mt-4 rounded-xl border border-amber-400/30 bg-amber-400/5 p-4">
-          <p className="text-sm font-semibold text-amber-300">{t("conflictTitle")}</p>
-          <ul className="mt-2 grid gap-1 text-xs text-amber-200/80">
+          <p className="text-sm font-semibold text-warning-soft">{t("conflictTitle")}</p>
+          <ul className="mt-2 grid gap-1 text-xs text-warning-soft">
             {warnings.map((warning, index) => (
               <li key={`${warning.name}-${index}`}>
                 {t("conflictLine", {

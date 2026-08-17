@@ -6,7 +6,7 @@ import { declareAvailabilityAction, type AvailabilityState } from "@/src/feature
 import { AVAILABILITY_REASONS } from "@/src/features/availability/types";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 const label = "grid gap-1.5 text-sm";
 const labelText = "text-xs text-ink-muted";
 
@@ -55,7 +55,7 @@ export default function AvailabilityForm({
   }
 
   return (
-    <form action={formAction} className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
+    <form action={formAction} className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6">
       <h2 className="text-lg font-semibold text-ink">{t("formTitle")}</h2>
       <p className="mt-1 text-sm text-ink-muted">{isManager ? t("formHintManager") : t("formHintWorker")}</p>
 
@@ -125,7 +125,7 @@ export default function AvailabilityForm({
       {state.message && !touched ? (
         <p
           role="status"
-          className={`mt-4 text-sm ${state.status === "success" ? "text-brand-bright" : "text-red-300"}`}
+          className={`mt-4 text-sm ${state.status === "success" ? "text-brand-bright" : "text-danger-soft"}`}
         >
           {t(`message_${state.message}` as "message_created")}
         </p>

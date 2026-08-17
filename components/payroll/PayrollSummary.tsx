@@ -8,8 +8,8 @@ function hours(minutes: number) { return `${Math.floor(minutes / 60)}h ${minutes
 export default function PayrollSummary({ summary }: { summary: PayrollPeriodSummary }) {
   const t = useTranslations("payroll");
   const cards = [
-    { label: t("statApprovedHours"), value: hours(summary.totalMinutes), color: "text-ink", border: "border-white/10" },
-    { label: t("statNightHours"), value: hours(summary.nightMinutes), color: "text-brand-bright", border: "border-white/10" },
+    { label: t("statApprovedHours"), value: hours(summary.totalMinutes), color: "text-ink", border: "border-edge-10" },
+    { label: t("statNightHours"), value: hours(summary.nightMinutes), color: "text-brand-bright", border: "border-edge-10" },
     { label: t("statWeekendHours"), value: hours(summary.weekendMinutes), color: "text-warning", border: "border-amber-400/30" },
   ];
 
@@ -29,10 +29,10 @@ export default function PayrollSummary({ summary }: { summary: PayrollPeriodSumm
         ))}
       </div>
 
-      <div className="overflow-hidden rounded-2xl border border-white/10 bg-surface">
-        <div className="border-b border-white/5 p-4.5 text-sm font-bold text-ink">{t("tableTitle")}</div>
+      <div className="overflow-hidden rounded-2xl border border-edge-10 bg-surface">
+        <div className="border-b border-edge-5 p-4.5 text-sm font-bold text-ink">{t("tableTitle")}</div>
         {summary.employees.length ? (
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-edge-5">
             <div className="grid grid-cols-4 gap-2 px-4.5 py-3 text-[11px] uppercase tracking-wide text-ink-faint">
               <span>{t("colEmployee")}</span>
               <span>{t("colRegular")}</span>

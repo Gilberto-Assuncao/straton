@@ -74,7 +74,7 @@ export default function SocialAuthButtons() {
           type="button"
           onClick={() => continueWith(provider, name)}
           disabled={!configured || pending !== null}
-          className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-white/15 bg-surface-alt px-4 py-3 text-sm font-semibold text-ink transition hover:border-white/30 hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-lg border border-edge-15 bg-surface-alt px-4 py-3 text-sm font-semibold text-ink transition hover:border-edge-30 hover:bg-edge-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-60"
         >
           <span aria-hidden="true" className="flex h-5 w-5 items-center justify-center font-bold text-ink">
             {mark}
@@ -84,7 +84,7 @@ export default function SocialAuthButtons() {
       ))}
 
       {failure ? (
-        <p role="alert" className="rounded-lg border border-amber-400/30 bg-amber-400/5 px-3 py-2 text-center text-xs text-amber-200">
+        <p role="alert" className="rounded-lg border border-amber-400/30 bg-amber-400/5 px-3 py-2 text-center text-xs text-warning-soft">
           {t(failure.key, { provider: failure.provider })}
         </p>
       ) : null}

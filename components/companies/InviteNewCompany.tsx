@@ -7,7 +7,7 @@ import { searchClientSuggestionsAction, type CompanySuggestion } from "@/src/fea
 import type { CompanyInvite } from "@/src/features/partners/invites";
 
 const field =
-  "min-h-11 w-full rounded-lg border border-white/15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
+  "min-h-11 w-full rounded-lg border border-edge-15 bg-surface-inset px-3 text-sm text-ink focus-visible:outline-2 focus-visible:outline-brand";
 const labelText = "text-xs text-ink-muted";
 
 export default function InviteNewCompany({ invites }: { invites: CompanyInvite[] }) {
@@ -71,7 +71,7 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
   const open = invites.filter((invite) => invite.status === "pending" && !revoked.includes(invite.id));
 
   return (
-    <div className="rounded-2xl border border-white/10 bg-surface p-5 sm:p-6">
+    <div className="rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6">
       <h3 className="text-lg font-semibold text-ink">{t("title")}</h3>
       <p className="mt-1 text-sm text-ink-muted">{t("subtitle")}</p>
 
@@ -91,13 +91,13 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
             autoComplete="off"
           />
           {suggestions.length > 0 ? (
-            <ul className="absolute top-full z-10 mt-1 w-full rounded-lg border border-white/10 bg-surface-alt p-1 shadow-xl">
+            <ul className="absolute top-full z-10 mt-1 w-full rounded-lg border border-edge-10 bg-surface-alt p-1 shadow-xl">
               {suggestions.map((suggestion) => (
                 <li key={suggestion.enterpriseNumber}>
                   <button
                     type="button"
                     onClick={() => choose(suggestion)}
-                    className="flex w-full flex-col items-start rounded-md px-3 py-2 text-left text-sm text-ink hover:bg-white/5"
+                    className="flex w-full flex-col items-start rounded-md px-3 py-2 text-left text-sm text-ink hover:bg-edge-5"
                   >
                     <span>{suggestion.name}</span>
                     <span className="text-xs text-ink-subtle">
@@ -166,11 +166,11 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
 
       {result ? (
         <div className="mt-4">
-          <p role="status" className={`text-sm ${result.ok ? "text-brand-bright" : "text-red-300"}`}>
+          <p role="status" className={`text-sm ${result.ok ? "text-brand-bright" : "text-danger-soft"}`}>
             {t(`message_${result.key}` as "message_sent")}
           </p>
           {result.link ? (
-            <div className="mt-3 rounded-xl border border-white/10 bg-surface-inset p-3">
+            <div className="mt-3 rounded-xl border border-edge-10 bg-surface-inset p-3">
               <p className="text-xs text-ink-muted">{t("linkHint")}</p>
               <div className="mt-2 flex flex-wrap items-center gap-2">
                 <code className="min-w-0 flex-1 truncate rounded bg-black/30 px-2 py-1 text-xs text-ink-soft">
@@ -182,13 +182,13 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
                     navigator.clipboard.writeText(result.link ?? "");
                     setCopied(true);
                   }}
-                  className="min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5"
+                  className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5"
                 >
                   {copied ? t("copied") : t("copy")}
                 </button>
               </div>
               {/* Said once, plainly: this link is the credential. */}
-              <p className="mt-2 text-xs text-amber-300/80">{t("linkWarning")}</p>
+              <p className="mt-2 text-xs text-warning-soft">{t("linkWarning")}</p>
             </div>
           ) : null}
         </div>
@@ -211,7 +211,7 @@ export default function InviteNewCompany({ invites }: { invites: CompanyInvite[]
                   type="button"
                   onClick={() => revoke(invite.id)}
                   disabled={pending}
-                  className="min-h-11 rounded-lg border border-white/15 px-4 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-50"
+                  className="min-h-11 rounded-lg border border-edge-15 px-4 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-50"
                 >
                   {t("revoke")}
                 </button>
