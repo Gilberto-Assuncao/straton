@@ -48,7 +48,7 @@ export default async function Home() {
   return (
     <div className={`${styles.page} min-h-screen bg-[#0B1220] text-[#F1F5F9]`}>
       {/* Fixed top navbar */}
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0B1220]/85 backdrop-blur">
+      <header className="sticky top-0 z-50 border-b border-edge-10 bg-[#0B1220]/85 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5 sm:px-10">
           <div className="flex items-center gap-3">
             <StratonMark className="h-11 w-11" />
@@ -65,7 +65,7 @@ export default async function Home() {
             <Link href="/register" className="inline-flex min-h-11 items-center rounded-lg bg-[#22C55E] px-5 text-base font-semibold text-[#07110B] transition hover:bg-[#16A34A]">{t("nav.cta")}</Link>
           </div>
           <details className="group md:hidden">
-            <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-lg border border-white/15 text-[#F1F5F9] [&::-webkit-details-marker]:hidden">
+            <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-lg border border-edge-15 text-[#F1F5F9] [&::-webkit-details-marker]:hidden">
               <span className="sr-only">Menu</span>
               <span aria-hidden="true" className="relative h-4 w-5">
                 <span className="absolute left-0 top-0 h-0.5 w-5 bg-current transition-transform group-open:translate-y-[7px] group-open:rotate-45" />
@@ -73,15 +73,15 @@ export default async function Home() {
                 <span className="absolute left-0 top-[14px] h-0.5 w-5 bg-current transition-transform group-open:-translate-y-[7px] group-open:-rotate-45" />
               </span>
             </summary>
-            <div className="absolute left-5 right-5 top-[64px] overflow-hidden rounded-2xl border border-white/10 bg-[#0F172A] p-3 shadow-2xl shadow-black/40">
+            <div className="absolute left-5 right-5 top-[64px] overflow-hidden rounded-2xl border border-edge-10 bg-[#0F172A] p-3 shadow-2xl shadow-black/40">
               <nav className="grid">
-                <a href="#funcionalidades" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.features")}</a>
-                <a href="#georreferenciamento" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.geolocation")}</a>
-                <a href="#painel" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.dashboard")}</a>
-                <a href="#cadeia" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-white/5 hover:text-white">{t("nav.chain")}</a>
+                <a href="#funcionalidades" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-edge-5 hover:text-white">{t("nav.features")}</a>
+                <a href="#georreferenciamento" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-edge-5 hover:text-white">{t("nav.geolocation")}</a>
+                <a href="#painel" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-edge-5 hover:text-white">{t("nav.dashboard")}</a>
+                <a href="#cadeia" className="rounded-lg px-3 py-2.5 text-sm font-medium text-[#94A3B8] hover:bg-edge-5 hover:text-white">{t("nav.chain")}</a>
               </nav>
-              <div className="mt-3 grid grid-cols-2 gap-2 border-t border-white/10 pt-3">
-                <Link href="/login" className="inline-flex min-h-11 items-center justify-center rounded-lg border border-white/15 px-3 text-sm font-semibold text-[#F1F5F9]">{t("nav.login")}</Link>
+              <div className="mt-3 grid grid-cols-2 gap-2 border-t border-edge-10 pt-3">
+                <Link href="/login" className="inline-flex min-h-11 items-center justify-center rounded-lg border border-edge-15 px-3 text-sm font-semibold text-[#F1F5F9]">{t("nav.login")}</Link>
                 <Link href="/register" className="inline-flex min-h-11 items-center justify-center rounded-lg bg-[#22C55E] px-3 text-sm font-semibold text-[#07110B]">{t("nav.cta")}</Link>
               </div>
             </div>
@@ -124,7 +124,7 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className={`${styles.floatCard} relative rounded-2xl border border-white/10 bg-[#0F172A]/80 p-6 shadow-2xl shadow-black/40 backdrop-blur`}>
+          <div className={`${styles.floatCard} relative rounded-2xl border border-edge-10 bg-[#0F172A]/80 p-6 shadow-2xl shadow-black/40 backdrop-blur`}>
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-base font-semibold text-[#F1F5F9]">{t("live.title")}</p>
@@ -194,7 +194,7 @@ export default async function Home() {
             <p className="mt-6 inline-flex items-center gap-1.5 text-base font-semibold text-[#4ADE80]">{t("presence.cta")} <span aria-hidden="true">→</span></p>
           </div>
 
-          <div className={`${styles.floatCard} rounded-2xl border border-white/10 bg-[#0F172A]/80 p-7 shadow-2xl shadow-black/40 backdrop-blur`}>
+          <div className={`${styles.floatCard} rounded-2xl border border-edge-10 bg-[#0F172A]/80 p-7 shadow-2xl shadow-black/40 backdrop-blur`}>
             <div className="flex items-center justify-between">
               <p className="text-base font-semibold text-[#F1F5F9]">{t("presence.timerTitle")}</p>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[#22C55E]/10 px-3 py-1 text-xs font-semibold text-[#4ADE80]">
@@ -239,8 +239,8 @@ export default async function Home() {
           </ul>
         </div>
 
-        <div className={`${styles.floatCard} overflow-hidden rounded-2xl border border-white/10 bg-[#0F172A] shadow-2xl shadow-black/50`}>
-          <div className="flex items-center gap-2 border-b border-white/5 bg-[#0a0f1c] px-5 py-3.5">
+        <div className={`${styles.floatCard} overflow-hidden rounded-2xl border border-edge-10 bg-[#0F172A] shadow-2xl shadow-black/50`}>
+          <div className="flex items-center gap-2 border-b border-edge-5 bg-[#0a0f1c] px-5 py-3.5">
             <span className="h-3 w-3 rounded-full bg-red-400/70" />
             <span className="h-3 w-3 rounded-full bg-amber-400/70" />
             <span className="h-3 w-3 rounded-full bg-[#22C55E]/70" />
@@ -272,7 +272,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="mt-7 overflow-x-auto rounded-xl border border-white/5">
+            <div className="mt-7 overflow-x-auto rounded-xl border border-edge-5">
               <table className="w-full min-w-[560px] text-left text-sm">
                 <thead className="bg-white/[0.02] text-xs uppercase tracking-wide text-[#64748B]">
                   <tr>
@@ -284,7 +284,7 @@ export default async function Home() {
                     <th className="px-5 py-3.5 font-medium">{t("dashboardMock.colStatus")}</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/5">
+                <tbody className="divide-y divide-edge-5">
                   {timesheetRows.map((row) => (
                     <tr key={row.name}>
                       <td className="px-5 py-3.5 font-medium text-[#F1F5F9]">{row.name}</td>
@@ -315,7 +315,7 @@ export default async function Home() {
             <p className="mt-4 text-base leading-7 text-[#94A3B8]">{t("map.description")}</p>
           </div>
 
-          <div className={`${styles.mapGrid} relative h-80 overflow-hidden rounded-2xl border border-white/10 bg-[#0a1120]`}>
+          <div className={`${styles.mapGrid} relative h-80 overflow-hidden rounded-2xl border border-edge-10 bg-[#0a1120]`}>
             <span className={`${styles.mono} absolute left-4 top-4 text-xs text-[#64748B]`}>50.8503° N 4.3517° E</span>
             <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
               <polyline
@@ -336,7 +336,7 @@ export default async function Home() {
                 <span className="absolute left-5 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-[#0F172A] px-2.5 py-1.5 text-sm font-medium text-[#F1F5F9] shadow">
                   {site.name} <span className="text-xs font-normal text-[#94A3B8]">· {site.status === "active" ? t("map.activeState") : t("map.finishedState")}</span>
                 </span>
-                <div className="pointer-events-none absolute left-5 top-full mt-2 w-max max-w-[220px] rounded-md border border-white/10 bg-[#111C33] px-3 py-2 text-xs text-[#F1F5F9] opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
+                <div className="pointer-events-none absolute left-5 top-full mt-2 w-max max-w-[220px] rounded-md border border-edge-10 bg-[#111C33] px-3 py-2 text-xs text-[#F1F5F9] opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100">
                   <p className="font-semibold text-[#94A3B8]">{t("map.whoWorkedHere")}</p>
                   {site.workers.map((worker) => (
                     <p key={worker}>{worker}</p>
@@ -355,7 +355,7 @@ export default async function Home() {
       {/* Subcontracting chain: A delegates to B, B staffs it, and the hours
           land back on A's timesheet. This is the capability competitors built
           for single organisations do not have, so it gets its own section. */}
-      <section id="cadeia" className="scroll-mt-24 border-y border-white/10 bg-[#0F172A]/40">
+      <section id="cadeia" className="scroll-mt-24 border-y border-edge-10 bg-[#0F172A]/40">
         <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
           <div className="mx-auto max-w-2xl text-center">
             <span className="inline-flex rounded-full border border-[#22C55E]/30 bg-[#22C55E]/10 px-4 py-1.5 text-sm font-semibold text-[#4ADE80]">{t("chain.badge")}</span>
@@ -365,7 +365,7 @@ export default async function Home() {
 
           <ol className="mt-16 grid gap-6 md:grid-cols-3">
             {["one", "two", "three"].map((step, index) => (
-              <li key={step} className="relative rounded-2xl border border-white/10 bg-[#0B1220] p-7">
+              <li key={step} className="relative rounded-2xl border border-edge-10 bg-[#0B1220] p-7">
                 <span className={`${styles.mono} inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#22C55E]/10 text-sm font-bold text-[#4ADE80]`}>{index + 1}</span>
                 <h3 className="mt-5 text-xl font-semibold text-white">{t(`chain.${step}Title`)}</h3>
                 <p className="mt-3 text-base leading-7 text-[#94A3B8]">{t(`chain.${step}Body`)}</p>
@@ -373,14 +373,14 @@ export default async function Home() {
             ))}
           </ol>
 
-          <div className="mt-10 rounded-2xl border border-white/10 bg-[#0B1220] p-7 sm:p-9">
+          <div className="mt-10 rounded-2xl border border-edge-10 bg-[#0B1220] p-7 sm:p-9">
             <div className="flex flex-col items-stretch gap-4 lg:flex-row lg:items-center">
               <div className="flex-1 rounded-xl border border-[#22C55E]/25 bg-[#22C55E]/[0.06] p-5 text-center">
                 <p className={`${styles.mono} text-xs uppercase tracking-wide text-[#4ADE80]`}>{t("chain.flowYou")}</p>
                 <p className="mt-2 text-base font-semibold text-white">{t("chain.flowYouLabel")}</p>
               </div>
               <span aria-hidden="true" className="self-center text-2xl text-[#4ADE80] lg:rotate-0 rotate-90">→</span>
-              <div className="flex-1 rounded-xl border border-white/15 bg-[#111C33] p-5 text-center">
+              <div className="flex-1 rounded-xl border border-edge-15 bg-[#111C33] p-5 text-center">
                 <p className={`${styles.mono} text-xs uppercase tracking-wide text-[#94A3B8]`}>{t("chain.flowPartner")}</p>
                 <p className="mt-2 text-base font-semibold text-white">{t("chain.flowPartnerLabel")}</p>
               </div>
@@ -390,7 +390,7 @@ export default async function Home() {
                 <p className="mt-2 text-base font-semibold text-white">{t("chain.flowBackLabel")}</p>
               </div>
             </div>
-            <p className="mt-7 border-t border-white/10 pt-6 text-sm leading-7 text-[#94A3B8]">
+            <p className="mt-7 border-t border-edge-10 pt-6 text-sm leading-7 text-[#94A3B8]">
               <span className="font-semibold text-[#E5E7EB]">{t("chain.privacyLabel")}</span> {t("chain.privacyBody")}
             </p>
           </div>
@@ -430,7 +430,7 @@ export default async function Home() {
       </section>
 
       {/* Capability grid */}
-      <section className="border-y border-white/10 bg-[#0F172A]/40">
+      <section className="border-y border-edge-10 bg-[#0F172A]/40">
         <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-4xl font-bold sm:text-5xl">{t("capability.title")}</h2>
@@ -440,7 +440,7 @@ export default async function Home() {
             {(["card1", "card2", "card3", "card4", "card5", "card6"] as const).map((cardKey, index) => {
               const Icon = [BriefcaseIcon, GlobeIcon, CloudIcon, TrendIcon, MailIcon, ShieldIcon][index];
               return (
-                <div key={cardKey} className="rounded-2xl border border-white/10 bg-[#0F172A]/80 p-6">
+                <div key={cardKey} className="rounded-2xl border border-edge-10 bg-[#0F172A]/80 p-6">
                   <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#22C55E]/10 text-[#4ADE80]">
                     <Icon className="h-5 w-5" />
                   </span>
@@ -459,12 +459,12 @@ export default async function Home() {
         <p className="mx-auto mt-4 max-w-md text-base text-[#94A3B8] sm:text-lg">{t("finalCta.description")}</p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
           <Link href="/register" className="inline-flex min-h-14 items-center rounded-lg bg-[#22C55E] px-7 text-base font-semibold text-[#07110B] transition hover:bg-[#16A34A]">{t("finalCta.ctaPrimary")}</Link>
-          <a href={`mailto:${SUPPORT_EMAIL}`} className="inline-flex min-h-14 items-center rounded-lg border border-white/15 px-7 text-base font-semibold text-[#F1F5F9] transition hover:bg-white/5">{t("finalCta.ctaSecondary")}</a>
+          <a href={`mailto:${SUPPORT_EMAIL}`} className="inline-flex min-h-14 items-center rounded-lg border border-edge-15 px-7 text-base font-semibold text-[#F1F5F9] transition hover:bg-edge-5">{t("finalCta.ctaSecondary")}</a>
         </div>
       </section>
 
       {/* Footer with menu columns */}
-      <footer className="border-t border-white/10 px-6 py-16 sm:px-10">
+      <footer className="border-t border-edge-10 px-6 py-16 sm:px-10">
         <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
@@ -626,8 +626,8 @@ function MailIcon({ className }: IconProps) {
 function PhoneMock({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center gap-3">
-      <div className="h-72 w-40 rounded-[2rem] border-4 border-white/10 bg-[#0F172A] p-3 shadow-2xl shadow-black/40">
-        <div className="mx-auto mb-2 h-1.5 w-10 rounded-full bg-white/20" />
+      <div className="h-72 w-40 rounded-[2rem] border-4 border-edge-10 bg-[#0F172A] p-3 shadow-2xl shadow-black/40">
+        <div className="mx-auto mb-2 h-1.5 w-10 rounded-full bg-edge-20" />
         <div className="h-full rounded-xl bg-white/[0.02] p-2">{children}</div>
       </div>
       <p className="text-sm text-[#94A3B8]">{label}</p>

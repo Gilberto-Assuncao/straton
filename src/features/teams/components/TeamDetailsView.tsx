@@ -26,7 +26,7 @@ export function TeamDetailsView({ team }: { team: TeamDetails }) {
           {canManage ? (
             <Link
               href={`/dashboard/teams/${team.id}/edit`}
-              className="inline-flex min-h-11 items-center rounded-lg border border-white/15 px-4 font-semibold"
+              className="inline-flex min-h-11 items-center rounded-lg border border-edge-15 px-4 font-semibold"
             >
               {t("editTeam")}
             </Link>

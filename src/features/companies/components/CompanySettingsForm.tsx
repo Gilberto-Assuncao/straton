@@ -83,7 +83,7 @@ export function CompanySettingsForm({
         />
       </fieldset>
 
-      <fieldset disabled={!canEdit} className="grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-2 disabled:opacity-75">
+      <fieldset disabled={!canEdit} className="grid gap-5 border-t border-edge-10 pt-6 sm:grid-cols-2 disabled:opacity-75">
         <div className="sm:col-span-2">
           <h3 className="text-sm font-semibold text-ink">{t("punctualityReminders")}</h3>
           <p className="mt-1 text-xs text-ink-muted">{t("punctualityHint")}</p>

@@ -49,7 +49,7 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
 
   if (!pending.length) {
     return (
-      <div className="rounded-2xl border border-white/10 bg-surface p-5">
+      <div className="rounded-2xl border border-edge-10 bg-surface p-5">
         <h3 className="text-sm font-semibold text-ink">{t("queueTitle")}</h3>
         <p className="mt-2 text-sm text-ink-subtle">{t("queueEmpty")}</p>
       </div>
@@ -75,7 +75,7 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
             type="button"
             onClick={toggleAll}
             disabled={!selectable.length}
-            className="min-h-11 rounded-lg border border-white/15 px-3 text-xs font-semibold text-ink hover:bg-white/5 disabled:opacity-40"
+            className="min-h-11 rounded-lg border border-edge-15 px-3 text-xs font-semibold text-ink hover:bg-edge-5 disabled:opacity-40"
           >
             {allSelected ? t("queueSelectNone") : t("queueSelectAll")}
           </button>
@@ -105,7 +105,7 @@ export default function ApprovalQueue({ pending, canReview }: { pending: Pending
           const failure = outcomes.find((outcome) => outcome.timesheetId === sheet.timesheetId);
           const sheetHours = `${Math.floor(sheet.workedMinutes / 60)}h${sheet.workedMinutes % 60 ? String(sheet.workedMinutes % 60).padStart(2, "0") : ""}`;
           return (
-            <li key={sheet.timesheetId} className="rounded-xl border border-white/10 px-3 py-3">
+            <li key={sheet.timesheetId} className="rounded-xl border border-edge-10 px-3 py-3">
               <label className="flex flex-wrap items-center gap-3">
                 <input
                   type="checkbox"

@@ -35,6 +35,31 @@
  * the rest recorded here rather than silently passing.
  */
 :root {
+  /*
+   * Edges and raised fills, as whole colours rather than a colour plus an
+   * opacity modifier.
+   *
+   * 412 of these were written as `border-white/10`. Translucent white is how an
+   * edge is drawn on a dark surface and is *nothing at all* on a light one, so
+   * they are what a theme has to deal with before any value changes.
+   *
+   * `border-edge/10` would read better, and it is wrong: Tailwind can only
+   * pre-compute the no-`color-mix` fallback for a literal colour. Given a theme
+   * variable it emits `border-color: var(--edge)` — fully opaque — and repairs
+   * it inside `@supports`. Every current browser takes the repair, so it is
+   * invisible today and a bright white outline on every card in anything older.
+   * Baking the alpha in gives one literal value and no `@supports` pair.
+   *
+   * The percentages are the ones actually in use, no more.
+   */
+  --edge-5: rgb(255 255 255 / 0.05);
+  --edge-8: rgb(255 255 255 / 0.08);
+  --edge-10: rgb(255 255 255 / 0.1);
+  --edge-15: rgb(255 255 255 / 0.15);
+  --edge-20: rgb(255 255 255 / 0.2);
+  --edge-25: rgb(255 255 255 / 0.25);
+  --edge-30: rgb(255 255 255 / 0.3);
+
   /* Brand. */
   --brand: #22c55e;
   --brand-hover: #16a34a;
@@ -76,6 +101,14 @@
 }
 
 @theme inline {
+  --color-edge-5: var(--edge-5);
+  --color-edge-8: var(--edge-8);
+  --color-edge-10: var(--edge-10);
+  --color-edge-15: var(--edge-15);
+  --color-edge-20: var(--edge-20);
+  --color-edge-25: var(--edge-25);
+  --color-edge-30: var(--edge-30);
+
   --color-brand: var(--brand);
   --color-brand-hover: var(--brand-hover);
   --color-brand-bright: var(--brand-bright);

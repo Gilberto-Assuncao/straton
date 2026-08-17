@@ -12,7 +12,7 @@ const tone: Record<string, string> = {
   active: "bg-brand/10 text-brand-bright",
   paused: "bg-amber-400/10 text-amber-300",
   completed: "bg-sky-400/10 text-sky-300",
-  archived: "bg-white/10 text-ink-muted",
+  archived: "bg-edge-10 text-ink-muted",
 };
 
 export default function SiteList({ sites }: { sites: SiteRecord[] }) {
@@ -34,7 +34,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
 
   if (sites.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-white/15 bg-surface px-6 py-16 text-center">
+      <div className="rounded-2xl border border-dashed border-edge-15 bg-surface px-6 py-16 text-center">
         <p className="text-sm font-medium text-ink-muted">{t("empty")}</p>
         <Link href="/dashboard/sites/new" className="mt-5 inline-flex min-h-11 items-center rounded-lg bg-brand px-5 text-sm font-semibold text-on-brand hover:bg-brand-hover">{t("newSite")}</Link>
       </div>
@@ -47,7 +47,7 @@ export default function SiteList({ sites }: { sites: SiteRecord[] }) {
       {sites.map((site) => {
         const parts = [site.address.street, site.address.postal_code, site.address.city].filter(Boolean);
         return (
-          <article key={site.id} className="rounded-2xl border border-white/10 bg-surface p-5">
+          <article key={site.id} className="rounded-2xl border border-edge-10 bg-surface p-5">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2.5">

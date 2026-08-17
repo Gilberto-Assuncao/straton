@@ -23,7 +23,7 @@ export default function SettingsHub({ cards }: { cards: SettingsHubCard[] }) {
   return (
     <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {cards.map((card) => (
-        <div key={card.key} className="rounded-2xl border border-white/10 bg-surface p-6">
+        <div key={card.key} className="rounded-2xl border border-edge-10 bg-surface p-6">
           <div className="mb-3.5">{card.icon}</div>
           <div className="mb-2 text-base font-semibold text-ink">{card.title}</div>
           <p className="mb-3.5 text-[13px] text-ink-dim">{card.description}</p>

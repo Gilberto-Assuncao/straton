@@ -2,7 +2,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import type { ChainSide, CompanyNetwork as Network, NetworkCompany } from "@/src/features/partners/network";
 
-const card = "rounded-2xl border border-white/10 bg-surface p-5 sm:p-6";
+const card = "rounded-2xl border border-edge-10 bg-surface p-5 sm:p-6";
 
 const statusTone: Record<string, string> = {
   pending: "bg-amber-400/10 text-amber-300",
@@ -14,7 +14,7 @@ async function CompanyCard({ company }: { company: NetworkCompany }) {
   const t = await getTranslations("network");
 
   return (
-    <li className="rounded-xl border border-white/10 bg-surface-inset p-4">
+    <li className="rounded-xl border border-edge-10 bg-surface-inset p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-sm font-semibold text-ink">{company.name}</p>
@@ -33,7 +33,7 @@ async function CompanyCard({ company }: { company: NetworkCompany }) {
             <li key={location.id}>
               <span
                 className={`inline-flex min-h-7 items-center rounded-full px-3 text-xs ${
-                  location.yoursTheirs ? "bg-brand/10 text-brand-bright" : "bg-white/10 text-ink-muted"
+                  location.yoursTheirs ? "bg-brand/10 text-brand-bright" : "bg-edge-10 text-ink-muted"
                 }`}
                 title={location.yoursTheirs ? t("projectYours") : t("projectTheirs")}
               >
@@ -79,7 +79,7 @@ export default async function CompanyNetwork({ network }: { network: Network }) 
 
   if (network.companies.length === 0) {
     return (
-      <p className="rounded-xl border border-dashed border-white/15 px-4 py-10 text-center text-sm text-ink-subtle">
+      <p className="rounded-xl border border-dashed border-edge-15 px-4 py-10 text-center text-sm text-ink-subtle">
         {t("empty")}
       </p>
     );
@@ -106,7 +106,7 @@ export default async function CompanyNetwork({ network }: { network: Network }) 
         ever sees the two ends of its own relationships, so the chain does not
         continue on this screen even when it continues in reality.
       */}
-      <p className="rounded-xl border border-white/10 px-4 py-3 text-xs text-ink-subtle">
+      <p className="rounded-xl border border-edge-10 px-4 py-3 text-xs text-ink-subtle">
         {t("depthNote")}{" "}
         <Link href="/dashboard/sites" className="font-semibold text-ink-muted underline hover:text-ink">
           {t("depthNoteLink")}

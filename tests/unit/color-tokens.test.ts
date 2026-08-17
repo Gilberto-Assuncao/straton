@@ -153,6 +153,21 @@ describe("colour tokens", () => {
     expect(uncovered, "tokens whose value could not be read from globals.css").toEqual([]);
   });
 
+  it("never draws an edge with translucent white", () => {
+    // `border-white/10` is how a card is outlined on a dark surface and is
+    // nothing at all on a light one. 412 of them were what stood between this
+    // palette and a second theme; the `edge` scale carries the same ratios
+    // through both, so writing `white/N` again re-breaks it.
+    const offenders: string[] = [];
+    for (const file of files) {
+      if (EXEMPT.has(file)) continue;
+      for (const match of readFileSync(file, "utf8").matchAll(/-white\/(\d+)/g)) {
+        offenders.push(`${file}: white/${match[1]} is \`edge-${match[1]}\``);
+      }
+    }
+    expect(offenders, "translucent white where an edge token belongs").toEqual([]);
+  });
+
   it("never writes a hexadecimal that already has a token", () => {
     const table = forbidden();
     const offenders: string[] = [];

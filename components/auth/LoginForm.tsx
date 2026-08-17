@@ -43,7 +43,7 @@ export default function LoginForm({
       <AuthInput key={formKey} id="login-email" name="email" type="email" label={t("email")} autoComplete="email" placeholder={tAuth("emailPlaceholder")} defaultValue={state.values?.email ?? ""} onInput={onInput} required />
       <PasswordInput id="login-password" name="password" label={t("password")} autoComplete="current-password" placeholder={tAuth("passwordPlaceholder")} onInput={onInput} />
       <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
-        <label className="flex min-h-11 cursor-pointer items-center gap-3 text-ink-soft"><input type="checkbox" name="remember" className="h-5 w-5 rounded border-white/20 accent-brand" />{t("rememberMe")}</label>
+        <label className="flex min-h-11 cursor-pointer items-center gap-3 text-ink-soft"><input type="checkbox" name="remember" className="h-5 w-5 rounded border-edge-20 accent-brand" />{t("rememberMe")}</label>
         <Link href="/forgot-password" className="inline-flex min-h-11 items-center font-medium text-brand hover:text-brand-hover focus-visible:outline-2 focus-visible:outline-brand">{t("forgotPassword")}</Link>
       </div>
       {touched ? null : <AuthStatus state={state} />}

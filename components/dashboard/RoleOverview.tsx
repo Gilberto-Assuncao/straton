@@ -14,7 +14,7 @@ export default function RoleOverview({ overview }: { overview: RoleDashboardOver
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {kpis.map((kpi) => (
-          <div key={kpi.id} className="rounded-2xl border border-white/10 bg-surface p-5">
+          <div key={kpi.id} className="rounded-2xl border border-edge-10 bg-surface p-5">
             <p className="text-xs text-ink-dim">{kpi.label}</p>
             <p className="mt-3 font-mono text-[28px] font-bold" style={{ color: kpi.color }}>{kpi.value}</p>
             <div className="mt-2.5 flex items-center justify-between">
@@ -26,7 +26,7 @@ export default function RoleOverview({ overview }: { overview: RoleDashboardOver
       </div>
 
       {attention.length ? (
-        <div className="rounded-2xl border border-white/10 bg-surface p-5">
+        <div className="rounded-2xl border border-edge-10 bg-surface p-5">
           <p className="mb-3.5 text-sm font-semibold text-ink">{attentionTitle}</p>
           <div className="grid gap-2.5">
             {attention.map((item) => (
