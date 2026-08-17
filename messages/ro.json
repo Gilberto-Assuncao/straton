@@ -329,7 +329,13 @@
     "noMembers": "Încă nu există membri activi.",
     "updated": "Actualizat.",
     "updateError": "Nu s-a putut actualiza această funcție.",
-    "permissionError": "Doar proprietarii și administratorii pot gestiona repartizarea funcțiilor."
+    "permissionError": "Doar proprietarii și administratorii pot gestiona repartizarea funcțiilor.",
+    "errNoPermission": "Doar proprietarii și administratorii pot gestiona echipa.",
+    "errUnknownRole": "Rol necunoscut.",
+    "errMemberNotFound": "Membrul nu a fost găsit în această companie.",
+    "errRoleNotResolved": "Rolul nu a putut fi determinat.",
+    "errRoleUpdateFailed": "Rolul nu a putut fi actualizat. Încercați din nou.",
+    "okUpdated": "Actualizat."
   },
   "login": {
     "title": "Bine ai revenit",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "VIES este momentan inaccesibil. Introduceți manual datele companiei.",
     "vatNotFound": "Acest număr de TVA nu a fost găsit.",
     "vatNotValidated": "Acest număr de TVA nu a putut fi validat.",
-    "vatNoCompanyName": "VIES a confirmat numărul de TVA, dar nu a returnat numele companiei."
+    "vatNoCompanyName": "VIES a confirmat numărul de TVA, dar nu a returnat numele companiei.",
+    "errNoPermissionRequest": "Doar proprietarii și administratorii pot solicita un parteneriat.",
+    "errNoPermissionRespond": "Doar proprietarii și administratorii pot răspunde la cererile de parteneriat.",
+    "errSelfPartnership": "O companie nu poate fi partener cu ea însăși.",
+    "errRelationshipExists": "Există deja o relație cu această companie.",
+    "errRequestFailed": "Cererea nu a putut fi trimisă. Încercați din nou.",
+    "errRequestNotFound": "Cererea nu a fost găsită.",
+    "errNotTheInvitedCompany": "Doar compania invitată poate răspunde la această cerere.",
+    "errAlreadyAnswered": "La această cerere s-a răspuns deja.",
+    "errAnswerFailed": "Răspunsul nu a putut fi salvat. Încercați din nou.",
+    "okRequestSent": "Cerere de parteneriat trimisă.",
+    "okPartnershipAccepted": "Parteneriat acceptat.",
+    "okPartnershipRejected": "Parteneriat refuzat."
   },
   "notifications": {
     "assignmentAssigned_title": "Lucrare nouă repartizată",

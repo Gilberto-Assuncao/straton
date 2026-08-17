@@ -329,7 +329,13 @@
     "noMembers": "Nog geen actieve leden.",
     "updated": "Bijgewerkt.",
     "updateError": "Kan deze functie niet bijwerken.",
-    "permissionError": "Alleen eigenaren en beheerders kunnen het functieoverzicht beheren."
+    "permissionError": "Alleen eigenaren en beheerders kunnen het functieoverzicht beheren.",
+    "errNoPermission": "Alleen eigenaars en beheerders kunnen het personeelsbestand beheren.",
+    "errUnknownRole": "Onbekende rol.",
+    "errMemberNotFound": "Lid niet gevonden in dit bedrijf.",
+    "errRoleNotResolved": "De rol kon niet worden bepaald.",
+    "errRoleUpdateFailed": "De rol kon niet worden bijgewerkt. Probeer het opnieuw.",
+    "okUpdated": "Bijgewerkt."
   },
   "login": {
     "title": "Welkom terug",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "VIES is momenteel onbereikbaar. Vul de bedrijfsgegevens handmatig in.",
     "vatNotFound": "Dit btw-nummer is niet gevonden.",
     "vatNotValidated": "Dit btw-nummer kon niet worden gevalideerd.",
-    "vatNoCompanyName": "VIES bevestigde het btw-nummer maar gaf geen bedrijfsnaam terug."
+    "vatNoCompanyName": "VIES bevestigde het btw-nummer maar gaf geen bedrijfsnaam terug.",
+    "errNoPermissionRequest": "Alleen eigenaars en beheerders kunnen een samenwerking aanvragen.",
+    "errNoPermissionRespond": "Alleen eigenaars en beheerders kunnen op samenwerkingsverzoeken antwoorden.",
+    "errSelfPartnership": "Een bedrijf kan geen partner van zichzelf zijn.",
+    "errRelationshipExists": "Er bestaat al een relatie met dit bedrijf.",
+    "errRequestFailed": "Het verzoek kon niet worden verzonden. Probeer het opnieuw.",
+    "errRequestNotFound": "Verzoek niet gevonden.",
+    "errNotTheInvitedCompany": "Alleen het uitgenodigde bedrijf kan op dit verzoek antwoorden.",
+    "errAlreadyAnswered": "Dit verzoek is al beantwoord.",
+    "errAnswerFailed": "Het antwoord kon niet worden opgeslagen. Probeer het opnieuw.",
+    "okRequestSent": "Samenwerkingsverzoek verzonden.",
+    "okPartnershipAccepted": "Samenwerking aanvaard.",
+    "okPartnershipRejected": "Samenwerking geweigerd."
   },
   "notifications": {
     "assignmentAssigned_title": "Nieuwe opdracht toegewezen",

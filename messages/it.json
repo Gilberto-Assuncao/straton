@@ -329,7 +329,13 @@
     "noMembers": "Ancora nessun membro attivo.",
     "updated": "Aggiornato.",
     "updateError": "Impossibile aggiornare questa funzione.",
-    "permissionError": "Solo i proprietari e gli amministratori possono gestire l’assegnazione delle funzioni."
+    "permissionError": "Solo i proprietari e gli amministratori possono gestire l’assegnazione delle funzioni.",
+    "errNoPermission": "Solo proprietari e amministratori possono gestire il team.",
+    "errUnknownRole": "Ruolo sconosciuto.",
+    "errMemberNotFound": "Membro non trovato in questa azienda.",
+    "errRoleNotResolved": "Non è stato possibile determinare il ruolo.",
+    "errRoleUpdateFailed": "Non è stato possibile aggiornare il ruolo. Riprova.",
+    "okUpdated": "Aggiornato."
   },
   "login": {
     "title": "Bentornato",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "VIES non è raggiungibile in questo momento. Inserisci manualmente i dati dell'azienda.",
     "vatNotFound": "Questa partita IVA non è stata trovata.",
     "vatNotValidated": "Non è stato possibile validare questa partita IVA.",
-    "vatNoCompanyName": "VIES ha confermato la partita IVA ma non ha restituito il nome dell'azienda."
+    "vatNoCompanyName": "VIES ha confermato la partita IVA ma non ha restituito il nome dell'azienda.",
+    "errNoPermissionRequest": "Solo proprietari e amministratori possono richiedere una partnership.",
+    "errNoPermissionRespond": "Solo proprietari e amministratori possono rispondere alle richieste di partnership.",
+    "errSelfPartnership": "Un'azienda non può essere partner di sé stessa.",
+    "errRelationshipExists": "Esiste già una relazione con questa azienda.",
+    "errRequestFailed": "Non è stato possibile inviare la richiesta. Riprova.",
+    "errRequestNotFound": "Richiesta non trovata.",
+    "errNotTheInvitedCompany": "Solo l'azienda invitata può rispondere a questa richiesta.",
+    "errAlreadyAnswered": "Questa richiesta ha già ricevuto risposta.",
+    "errAnswerFailed": "Non è stato possibile salvare la risposta. Riprova.",
+    "okRequestSent": "Richiesta di partnership inviata.",
+    "okPartnershipAccepted": "Partnership accettata.",
+    "okPartnershipRejected": "Partnership rifiutata."
   },
   "notifications": {
     "assignmentAssigned_title": "Nuovo lavoro assegnato",

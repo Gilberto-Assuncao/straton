@@ -329,7 +329,13 @@
     "noMembers": "No active members yet.",
     "updated": "Updated.",
     "updateError": "Unable to update this role.",
-    "permissionError": "Only owners and administrators can manage the roster."
+    "permissionError": "Only owners and administrators can manage the roster.",
+    "errNoPermission": "Only owners and administrators can manage the roster.",
+    "errUnknownRole": "Unknown role.",
+    "errMemberNotFound": "Member not found in this company.",
+    "errRoleNotResolved": "The role could not be resolved.",
+    "errRoleUpdateFailed": "The role could not be updated. Please try again.",
+    "okUpdated": "Updated."
   },
   "login": {
     "title": "Welcome back",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "VIES is unreachable right now. Enter the company details manually.",
     "vatNotFound": "This VAT number was not found.",
     "vatNotValidated": "This VAT number could not be validated.",
-    "vatNoCompanyName": "VIES confirmed the VAT number but did not return a company name."
+    "vatNoCompanyName": "VIES confirmed the VAT number but did not return a company name.",
+    "errNoPermissionRequest": "Only owners and administrators can request a partnership.",
+    "errNoPermissionRespond": "Only owners and administrators can respond to partnership requests.",
+    "errSelfPartnership": "A company cannot partner with itself.",
+    "errRelationshipExists": "A relationship with this company already exists.",
+    "errRequestFailed": "The request could not be sent. Please try again.",
+    "errRequestNotFound": "Request not found.",
+    "errNotTheInvitedCompany": "Only the invited company can respond to this request.",
+    "errAlreadyAnswered": "This request was already answered.",
+    "errAnswerFailed": "The answer could not be saved. Please try again.",
+    "okRequestSent": "Partnership request sent.",
+    "okPartnershipAccepted": "Partnership accepted.",
+    "okPartnershipRejected": "Partnership rejected."
   },
   "notifications": {
     "assignmentAssigned_title": "New job assigned",

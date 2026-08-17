@@ -25,7 +25,6 @@ const BUDGET: Record<string, number> = {
   "time-tracking/actions.ts": 1,
   "timesheets/actions.ts": 3,
   "projects/actions.ts": 1,
-  "roster/actions.ts": 1,
   "account/actions.ts": 1,
 };
 

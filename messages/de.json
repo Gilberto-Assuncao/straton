@@ -329,7 +329,13 @@
     "noMembers": "Noch keine aktiven Mitglieder.",
     "updated": "Aktualisiert.",
     "updateError": "Diese Funktion konnte nicht aktualisiert werden.",
-    "permissionError": "Nur Eigentümer und Administratoren können die Funktionsübersicht verwalten."
+    "permissionError": "Nur Eigentümer und Administratoren können die Funktionsübersicht verwalten.",
+    "errNoPermission": "Nur Eigentümer und Administratoren können das Team verwalten.",
+    "errUnknownRole": "Unbekannte Rolle.",
+    "errMemberNotFound": "Mitglied in diesem Unternehmen nicht gefunden.",
+    "errRoleNotResolved": "Die Rolle konnte nicht ermittelt werden.",
+    "errRoleUpdateFailed": "Die Rolle konnte nicht aktualisiert werden. Bitte erneut versuchen.",
+    "okUpdated": "Aktualisiert."
   },
   "login": {
     "title": "Willkommen zurück",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "VIES ist derzeit nicht erreichbar. Geben Sie die Firmendaten manuell ein.",
     "vatNotFound": "Diese USt-IdNr. wurde nicht gefunden.",
     "vatNotValidated": "Diese USt-IdNr. konnte nicht validiert werden.",
-    "vatNoCompanyName": "VIES hat die USt-IdNr. bestätigt, aber keinen Firmennamen zurückgegeben."
+    "vatNoCompanyName": "VIES hat die USt-IdNr. bestätigt, aber keinen Firmennamen zurückgegeben.",
+    "errNoPermissionRequest": "Nur Eigentümer und Administratoren können eine Partnerschaft anfragen.",
+    "errNoPermissionRespond": "Nur Eigentümer und Administratoren können auf Partnerschaftsanfragen antworten.",
+    "errSelfPartnership": "Ein Unternehmen kann keine Partnerschaft mit sich selbst eingehen.",
+    "errRelationshipExists": "Zu diesem Unternehmen besteht bereits eine Beziehung.",
+    "errRequestFailed": "Die Anfrage konnte nicht gesendet werden. Bitte erneut versuchen.",
+    "errRequestNotFound": "Anfrage nicht gefunden.",
+    "errNotTheInvitedCompany": "Nur das eingeladene Unternehmen kann auf diese Anfrage antworten.",
+    "errAlreadyAnswered": "Diese Anfrage wurde bereits beantwortet.",
+    "errAnswerFailed": "Die Antwort konnte nicht gespeichert werden. Bitte erneut versuchen.",
+    "okRequestSent": "Partnerschaftsanfrage gesendet.",
+    "okPartnershipAccepted": "Partnerschaft angenommen.",
+    "okPartnershipRejected": "Partnerschaft abgelehnt."
   },
   "notifications": {
     "assignmentAssigned_title": "Neue Arbeit zugewiesen",
