@@ -329,7 +329,13 @@
     "noMembers": "Ainda não há membros ativos.",
     "updated": "Atualizado.",
     "updateError": "Não foi possível atualizar esta função.",
-    "permissionError": "Apenas proprietários e administradores podem gerir o quadro de funções."
+    "permissionError": "Apenas proprietários e administradores podem gerir o quadro de funções.",
+    "errNoPermission": "Só proprietários e administradores podem gerir a equipa.",
+    "errUnknownRole": "Função desconhecida.",
+    "errMemberNotFound": "Membro não encontrado nesta empresa.",
+    "errRoleNotResolved": "Não foi possível determinar a função.",
+    "errRoleUpdateFailed": "Não foi possível atualizar a função. Tente novamente.",
+    "okUpdated": "Atualizado."
   },
   "login": {
     "title": "Bem-vindo de volta",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "O VIES está inacessível neste momento. Introduza os dados da empresa manualmente.",
     "vatNotFound": "Este número de IVA não foi encontrado.",
     "vatNotValidated": "Não foi possível validar este número de IVA.",
-    "vatNoCompanyName": "O VIES confirmou o número de IVA mas não devolveu o nome da empresa."
+    "vatNoCompanyName": "O VIES confirmou o número de IVA mas não devolveu o nome da empresa.",
+    "errNoPermissionRequest": "Só proprietários e administradores podem pedir uma parceria.",
+    "errNoPermissionRespond": "Só proprietários e administradores podem responder a pedidos de parceria.",
+    "errSelfPartnership": "Uma empresa não pode ser parceira de si própria.",
+    "errRelationshipExists": "Já existe uma relação com esta empresa.",
+    "errRequestFailed": "Não foi possível enviar o pedido. Tente novamente.",
+    "errRequestNotFound": "Pedido não encontrado.",
+    "errNotTheInvitedCompany": "Só a empresa convidada pode responder a este pedido.",
+    "errAlreadyAnswered": "Este pedido já foi respondido.",
+    "errAnswerFailed": "Não foi possível guardar a resposta. Tente novamente.",
+    "okRequestSent": "Pedido de parceria enviado.",
+    "okPartnershipAccepted": "Parceria aceite.",
+    "okPartnershipRejected": "Parceria recusada."
   },
   "notifications": {
     "assignmentAssigned_title": "Novo trabalho atribuído",

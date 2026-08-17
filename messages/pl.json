@@ -329,7 +329,13 @@
     "noMembers": "Brak jeszcze aktywnych członków.",
     "updated": "Zaktualizowano.",
     "updateError": "Nie udało się zaktualizować tej funkcji.",
-    "permissionError": "Tylko właściciele i administratorzy mogą zarządzać przydziałem funkcji."
+    "permissionError": "Tylko właściciele i administratorzy mogą zarządzać przydziałem funkcji.",
+    "errNoPermission": "Tylko właściciele i administratorzy mogą zarządzać zespołem.",
+    "errUnknownRole": "Nieznana rola.",
+    "errMemberNotFound": "Nie znaleziono członka w tej firmie.",
+    "errRoleNotResolved": "Nie udało się ustalić roli.",
+    "errRoleUpdateFailed": "Nie udało się zaktualizować roli. Spróbuj ponownie.",
+    "okUpdated": "Zaktualizowano."
   },
   "login": {
     "title": "Witamy ponownie",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "VIES jest teraz niedostępny. Wprowadź dane firmy ręcznie.",
     "vatNotFound": "Nie znaleziono tego numeru VAT.",
     "vatNotValidated": "Nie udało się zweryfikować tego numeru VAT.",
-    "vatNoCompanyName": "VIES potwierdził numer VAT, ale nie zwrócił nazwy firmy."
+    "vatNoCompanyName": "VIES potwierdził numer VAT, ale nie zwrócił nazwy firmy.",
+    "errNoPermissionRequest": "Tylko właściciele i administratorzy mogą prosić o współpracę.",
+    "errNoPermissionRespond": "Tylko właściciele i administratorzy mogą odpowiadać na prośby o współpracę.",
+    "errSelfPartnership": "Firma nie może być partnerem samej siebie.",
+    "errRelationshipExists": "Relacja z tą firmą już istnieje.",
+    "errRequestFailed": "Nie udało się wysłać prośby. Spróbuj ponownie.",
+    "errRequestNotFound": "Nie znaleziono prośby.",
+    "errNotTheInvitedCompany": "Tylko zaproszona firma może odpowiedzieć na tę prośbę.",
+    "errAlreadyAnswered": "Na tę prośbę już odpowiedziano.",
+    "errAnswerFailed": "Nie udało się zapisać odpowiedzi. Spróbuj ponownie.",
+    "okRequestSent": "Prośba o współpracę wysłana.",
+    "okPartnershipAccepted": "Współpraca przyjęta.",
+    "okPartnershipRejected": "Współpraca odrzucona."
   },
   "notifications": {
     "assignmentAssigned_title": "Przydzielono nową pracę",

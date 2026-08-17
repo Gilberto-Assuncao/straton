@@ -329,7 +329,13 @@
     "noMembers": "Aucun membre actif pour l’instant.",
     "updated": "Mis à jour.",
     "updateError": "Impossible de mettre à jour ce rôle.",
-    "permissionError": "Seuls les propriétaires et administrateurs peuvent gérer la répartition des rôles."
+    "permissionError": "Seuls les propriétaires et administrateurs peuvent gérer la répartition des rôles.",
+    "errNoPermission": "Seuls les propriétaires et administrateurs peuvent gérer l'équipe.",
+    "errUnknownRole": "Rôle inconnu.",
+    "errMemberNotFound": "Membre introuvable dans cette entreprise.",
+    "errRoleNotResolved": "Le rôle n'a pas pu être déterminé.",
+    "errRoleUpdateFailed": "Le rôle n'a pas pu être mis à jour. Réessayez.",
+    "okUpdated": "Mis à jour."
   },
   "login": {
     "title": "Content de vous revoir",
@@ -1581,7 +1587,19 @@
     "vatServiceUnreachable": "VIES est injoignable pour le moment. Saisissez les données de l'entreprise manuellement.",
     "vatNotFound": "Ce numéro de TVA est introuvable.",
     "vatNotValidated": "Ce numéro de TVA n'a pas pu être validé.",
-    "vatNoCompanyName": "VIES a confirmé le numéro de TVA mais n'a pas renvoyé de nom d'entreprise."
+    "vatNoCompanyName": "VIES a confirmé le numéro de TVA mais n'a pas renvoyé de nom d'entreprise.",
+    "errNoPermissionRequest": "Seuls les propriétaires et administrateurs peuvent demander un partenariat.",
+    "errNoPermissionRespond": "Seuls les propriétaires et administrateurs peuvent répondre aux demandes de partenariat.",
+    "errSelfPartnership": "Une entreprise ne peut pas être partenaire d'elle-même.",
+    "errRelationshipExists": "Une relation avec cette entreprise existe déjà.",
+    "errRequestFailed": "La demande n'a pas pu être envoyée. Réessayez.",
+    "errRequestNotFound": "Demande introuvable.",
+    "errNotTheInvitedCompany": "Seule l'entreprise invitée peut répondre à cette demande.",
+    "errAlreadyAnswered": "Cette demande a déjà reçu une réponse.",
+    "errAnswerFailed": "La réponse n'a pas pu être enregistrée. Réessayez.",
+    "okRequestSent": "Demande de partenariat envoyée.",
+    "okPartnershipAccepted": "Partenariat accepté.",
+    "okPartnershipRejected": "Partenariat refusé."
   },
   "notifications": {
     "assignmentAssigned_title": "Nouveau travail attribué",

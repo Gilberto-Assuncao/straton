@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import type { RosterMessageKey } from "@/src/features/roster/messages";
 import { toggleRosterRoleAction } from "@/src/features/roster/actions";
 import type { RosterMember, RosterRoleKey } from "@/lib/types/roster";
 
@@ -16,7 +17,7 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
   const t = useTranslations("roster");
   const [members, setMembers] = useState(initialMembers);
   const [pending, startTransition] = useTransition();
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState<RosterMessageKey | null>(null);
 
   function toggle(membershipId: string, roleKey: RosterRoleKey, assign: boolean) {
     setMembers((current) => current.map((member) => {
@@ -26,7 +27,7 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
     }));
     startTransition(async () => {
       const result = await toggleRosterRoleAction(membershipId, roleKey, assign);
-      setFeedback(result.status === "error" ? result.message : t("updated"));
+      setFeedback(result.messageKey);
       if (result.status === "error") {
         setMembers((current) => current.map((member) => {
           if (member.membershipId !== membershipId) return member;
@@ -82,7 +83,7 @@ export default function RosterTable({ members: initialMembers, roleKeys }: { mem
           </tbody>
         </table>
       </div>
-      {feedback ? <p aria-live="polite" className="border-t border-white/10 px-5 py-3 text-sm text-brand-bright">{feedback}</p> : null}
+      {feedback ? <p aria-live="polite" className="border-t border-white/10 px-5 py-3 text-sm text-brand-bright">{t(feedback)}</p> : null}
     </div>
   );
 }

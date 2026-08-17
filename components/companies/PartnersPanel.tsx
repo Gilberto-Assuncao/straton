@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
+import type { PartnerMessageKey } from "@/src/features/partners/messages";
 import {
   acceptPartnershipAction,
   rejectPartnershipAction,
@@ -21,7 +22,7 @@ const statusStyles: Record<string, string> = {
 export default function PartnersPanel({ relationships }: { relationships: PartnerRelationship[] }) {
   const t = useTranslations("companies");
   const [pending, startTransition] = useTransition();
-  const [feedback, setFeedback] = useState("");
+  const [feedback, setFeedback] = useState<PartnerMessageKey | null>(null);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<CompanyDirectoryEntry[]>([]);
   const [searching, setSearching] = useState(false);
@@ -43,7 +44,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
       const result = await requestPartnershipAction(companyId, relationshipType);
       // These actions still return English sentences. Converting them is the
       // same job done for teams and companies — tracked in #28.
-      setFeedback(result.message);
+      setFeedback(result.messageKey);
       if (result.ok) {
         setQuery("");
         setResults([]);
@@ -54,7 +55,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
   function respond(relationshipId: string, accept: boolean) {
     startTransition(async () => {
       const result = accept ? await acceptPartnershipAction(relationshipId) : await rejectPartnershipAction(relationshipId);
-      setFeedback(result.message);
+      setFeedback(result.messageKey);
     });
   }
 
@@ -114,7 +115,7 @@ export default function PartnersPanel({ relationships }: { relationships: Partne
 
       {feedback ? (
         <p role="status" className="mt-4 text-sm text-ink-muted">
-          {feedback}
+          {t(feedback)}
         </p>
       ) : null}
 
