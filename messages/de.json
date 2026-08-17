@@ -904,7 +904,17 @@
     "okReportSubmitted": "Bericht zur Freigabe eingereicht.",
     "okReportApproved": "Bericht freigegeben.",
     "okReportRejected": "Bericht abgelehnt.",
-    "okChangesRequested": "Änderungen angefordert."
+    "okChangesRequested": "Änderungen angefordert.",
+    "backToList": "Zurück zu den Berichten",
+    "backToReport": "Zurück zum Bericht",
+    "genericReport": "Allgemeiner Bericht",
+    "history": "Verlauf",
+    "newReportTitle": "Neuer Baustellenbericht",
+    "newReportHelp": "Halten Sie fest, welche Arbeit wo und von wem geleistet wurde.",
+    "editReportTitle": "Baustellenbericht bearbeiten",
+    "editReportHelp": "Aktualisieren Sie den Bericht, bevor Sie ihn zur Freigabe einreichen.",
+    "yes": "Ja",
+    "no": "Nein"
   },
   "liveMap": {
     "metadataTitle": "Live-Karte",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Teamleitung",
     "teamRole_supervisor": "Vorarbeiter",
     "teamRole_member": "Mitglied",
-    "updatedLabel": "Aktualisiert"
+    "updatedLabel": "Aktualisiert",
+    "teamWillBelongTo": "Das Team gehört zu {company}.",
+    "teamInformation": "Teamdaten",
+    "teamInformationHelp": "Leitung und erste Mitglieder müssen zum aktiven Unternehmen gehören.",
+    "teamSettings": "Teameinstellungen",
+    "editNamed": "{name} bearbeiten"
   },
   "companies": {
     "eyebrow": "Unternehmensverwaltung",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "Die Antwort konnte nicht gespeichert werden. Bitte erneut versuchen.",
     "okRequestSent": "Partnerschaftsanfrage gesendet.",
     "okPartnershipAccepted": "Partnerschaft angenommen.",
-    "okPartnershipRejected": "Partnerschaft abgelehnt."
+    "okPartnershipRejected": "Partnerschaft abgelehnt.",
+    "companyManagement": "Unternehmensverwaltung",
+    "createCompanyHelp": "Die Erstellung ist transaktional: Arbeitsbereich und Ihre Eigentümerschaft entstehen gemeinsam.",
+    "companyProfileHelp": "Die Pflichtfelder legen die Standard-Regionaleinstellungen fest."
   },
   "notifications": {
     "assignmentAssigned_title": "Neue Arbeit zugewiesen",

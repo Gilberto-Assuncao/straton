@@ -904,7 +904,17 @@
     "okReportSubmitted": "Rapport ingediend ter goedkeuring.",
     "okReportApproved": "Rapport goedgekeurd.",
     "okReportRejected": "Rapport afgewezen.",
-    "okChangesRequested": "Wijzigingen gevraagd."
+    "okChangesRequested": "Wijzigingen gevraagd.",
+    "backToList": "Terug naar rapporten",
+    "backToReport": "Terug naar het rapport",
+    "genericReport": "Algemeen rapport",
+    "history": "Historiek",
+    "newReportTitle": "Nieuw werfrapport",
+    "newReportHelp": "Noteer het uitgevoerde werk, waar en door wie.",
+    "editReportTitle": "Werfrapport bewerken",
+    "editReportHelp": "Werk het rapport bij voordat u het ter goedkeuring indient.",
+    "yes": "Ja",
+    "no": "Nee"
   },
   "liveMap": {
     "metadataTitle": "Live kaart",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Teamleider",
     "teamRole_supervisor": "Supervisor",
     "teamRole_member": "Lid",
-    "updatedLabel": "Bijgewerkt"
+    "updatedLabel": "Bijgewerkt",
+    "teamWillBelongTo": "Het team hoort bij {company}.",
+    "teamInformation": "Teamgegevens",
+    "teamInformationHelp": "De leider en de eerste leden moeten tot het actieve bedrijf behoren.",
+    "teamSettings": "Teaminstellingen",
+    "editNamed": "{name} bewerken"
   },
   "companies": {
     "eyebrow": "Bedrijfsbeheer",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "Het antwoord kon niet worden opgeslagen. Probeer het opnieuw.",
     "okRequestSent": "Samenwerkingsverzoek verzonden.",
     "okPartnershipAccepted": "Samenwerking aanvaard.",
-    "okPartnershipRejected": "Samenwerking geweigerd."
+    "okPartnershipRejected": "Samenwerking geweigerd.",
+    "companyManagement": "Bedrijfsbeheer",
+    "createCompanyHelp": "Het aanmaken is transactioneel: de werkruimte en uw eigenaarschap worden samen aangemaakt.",
+    "companyProfileHelp": "De verplichte velden bepalen de standaard landinstellingen."
   },
   "notifications": {
     "assignmentAssigned_title": "Nieuwe opdracht toegewezen",

@@ -904,7 +904,17 @@
     "okReportSubmitted": "Report submitted for approval.",
     "okReportApproved": "Report approved.",
     "okReportRejected": "Report rejected.",
-    "okChangesRequested": "Changes requested."
+    "okChangesRequested": "Changes requested.",
+    "backToList": "Back to field reports",
+    "backToReport": "Back to report",
+    "genericReport": "Generic report",
+    "history": "History",
+    "newReportTitle": "New field report",
+    "newReportHelp": "Record the work performed, where, and by whom.",
+    "editReportTitle": "Edit field report",
+    "editReportHelp": "Update the report before submitting it for approval.",
+    "yes": "Yes",
+    "no": "No"
   },
   "liveMap": {
     "metadataTitle": "Live Map",
@@ -1445,7 +1455,12 @@
     "teamRole_leader": "Leader",
     "teamRole_supervisor": "Supervisor",
     "teamRole_member": "Member",
-    "updatedLabel": "Updated"
+    "updatedLabel": "Updated",
+    "teamWillBelongTo": "The team will belong to {company}.",
+    "teamInformation": "Team information",
+    "teamInformationHelp": "Leader and initial members must belong to the active company.",
+    "teamSettings": "Team settings",
+    "editNamed": "Edit {name}"
   },
   "companies": {
     "eyebrow": "Company management",
@@ -1599,7 +1614,10 @@
     "errAnswerFailed": "The answer could not be saved. Please try again.",
     "okRequestSent": "Partnership request sent.",
     "okPartnershipAccepted": "Partnership accepted.",
-    "okPartnershipRejected": "Partnership rejected."
+    "okPartnershipRejected": "Partnership rejected.",
+    "companyManagement": "Company management",
+    "createCompanyHelp": "Creation is transactional: the workspace and your owner membership are created together.",
+    "companyProfileHelp": "Required fields establish the tenant's localization defaults."
   },
   "notifications": {
     "assignmentAssigned_title": "New job assigned",
