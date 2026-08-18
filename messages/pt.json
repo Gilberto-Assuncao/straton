@@ -516,7 +516,8 @@
       "footerPrivacy": "Privacidade",
       "footerTerms": "Termos de utilização",
       "footerSecurity": "Segurança",
-      "copyright": "© {year} STRATON. Todos os direitos reservados."
+      "copyright": "© {year} STRATON. Todos os direitos reservados.",
+      "developedBy": "Desenvolvido por"
     },
     "chain": {
       "badge": "Cadeia de subcontratação",
@@ -1120,7 +1121,8 @@
     "themeDark": "Escuro",
     "themeLight": "Claro",
     "themeSystem": "Sistema",
-    "navigationGroup": "Navegação"
+    "navigationGroup": "Navegação",
+    "developedBy": "Desenvolvido por"
   },
   "retention": {
     "title": "Obrigação de retenção (art. 30bis)",

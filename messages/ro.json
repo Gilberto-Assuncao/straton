@@ -516,7 +516,8 @@
       "footerPrivacy": "Confidențialitate",
       "footerTerms": "Termeni de utilizare",
       "footerSecurity": "Securitate",
-      "copyright": "© {year} STRATON. Toate drepturile rezervate."
+      "copyright": "© {year} STRATON. Toate drepturile rezervate.",
+      "developedBy": "Dezvoltat de"
     },
     "chain": {
       "badge": "Lanț de subcontractare",
@@ -1120,7 +1121,8 @@
     "themeDark": "Întunecat",
     "themeLight": "Luminos",
     "themeSystem": "Sistem",
-    "navigationGroup": "Navigare"
+    "navigationGroup": "Navigare",
+    "developedBy": "Dezvoltat de"
   },
   "retention": {
     "title": "Obligația de reținere (art. 30bis)",

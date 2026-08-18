@@ -516,7 +516,8 @@
       "footerPrivacy": "Datenschutz",
       "footerTerms": "Nutzungsbedingungen",
       "footerSecurity": "Sicherheit",
-      "copyright": "© {year} STRATON. Alle Rechte vorbehalten."
+      "copyright": "© {year} STRATON. Alle Rechte vorbehalten.",
+      "developedBy": "Entwickelt von"
     },
     "chain": {
       "badge": "Subunternehmer-Kette",
@@ -1120,7 +1121,8 @@
     "themeDark": "Dunkel",
     "themeLight": "Hell",
     "themeSystem": "System",
-    "navigationGroup": "Navigation"
+    "navigationGroup": "Navigation",
+    "developedBy": "Entwickelt von"
   },
   "retention": {
     "title": "Einbehaltungspflicht (Art. 30bis)",

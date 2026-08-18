@@ -516,7 +516,8 @@
       "footerPrivacy": "Privacy",
       "footerTerms": "Gebruiksvoorwaarden",
       "footerSecurity": "Beveiliging",
-      "copyright": "© {year} STRATON. Alle rechten voorbehouden."
+      "copyright": "© {year} STRATON. Alle rechten voorbehouden.",
+      "developedBy": "Ontwikkeld door"
     },
     "chain": {
       "badge": "Onderaannemingsketen",
@@ -1120,7 +1121,8 @@
     "themeDark": "Donker",
     "themeLight": "Licht",
     "themeSystem": "Systeem",
-    "navigationGroup": "Navigatie"
+    "navigationGroup": "Navigatie",
+    "developedBy": "Ontwikkeld door"
   },
   "retention": {
     "title": "Inhoudingsplicht (art. 30bis)",

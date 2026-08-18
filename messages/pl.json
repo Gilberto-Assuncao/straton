@@ -516,7 +516,8 @@
       "footerPrivacy": "Prywatność",
       "footerTerms": "Warunki korzystania",
       "footerSecurity": "Bezpieczeństwo",
-      "copyright": "© {year} STRATON. Wszelkie prawa zastrzeżone."
+      "copyright": "© {year} STRATON. Wszelkie prawa zastrzeżone.",
+      "developedBy": "Stworzone przez"
     },
     "chain": {
       "badge": "Łańcuch podwykonawstwa",
@@ -1120,7 +1121,8 @@
     "themeDark": "Ciemny",
     "themeLight": "Jasny",
     "themeSystem": "Systemowy",
-    "navigationGroup": "Nawigacja"
+    "navigationGroup": "Nawigacja",
+    "developedBy": "Stworzone przez"
   },
   "retention": {
     "title": "Obowiązek potrącenia (art. 30bis)",

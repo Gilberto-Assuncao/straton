@@ -516,7 +516,8 @@
       "footerPrivacy": "Confidentialité",
       "footerTerms": "Conditions d'utilisation",
       "footerSecurity": "Sécurité",
-      "copyright": "© {year} STRATON. Tous droits réservés."
+      "copyright": "© {year} STRATON. Tous droits réservés.",
+      "developedBy": "Développé par"
     },
     "chain": {
       "badge": "Chaîne de sous-traitance",
@@ -1120,7 +1121,8 @@
     "themeDark": "Sombre",
     "themeLight": "Clair",
     "themeSystem": "Système",
-    "navigationGroup": "Navigation"
+    "navigationGroup": "Navigation",
+    "developedBy": "Développé par"
   },
   "retention": {
     "title": "Obligation de retenue (art. 30bis)",
