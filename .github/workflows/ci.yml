@@ -31,15 +31,19 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+      # Before the unit tests, not after: `theme-switch.test.ts` reads the
+      # prerendered HTML under `.next/server/app`, because the failure it guards
+      # — the App Router dropping a hand-written `<head>` — is invisible in the
+      # source and shows only in the output.
       - name: Build
         run: npm run build
-
-      - name: Unit tests
-        run: npm test
         env:
           NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
           NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
           SUPABASE_SERVICE_ROLE_KEY: placeholder-service-role-key
+
+      - name: Unit tests
+        run: npm test
 
   # A separate job because it needs a real Postgres carrying the Supabase auth
   # schema, and takes minutes rather than seconds.

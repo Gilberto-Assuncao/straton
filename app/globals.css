@@ -194,7 +194,6 @@
  */
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
-
     --edge-5: rgb(15 23 42 / 0.05);
     --edge-8: rgb(15 23 42 / 0.08);
     --edge-10: rgb(15 23 42 / 0.1);
@@ -257,7 +256,6 @@
 
 :root[data-theme="light"] {
   color-scheme: light;
-
 
   --edge-5: rgb(15 23 42 / 0.05);
   --edge-8: rgb(15 23 42 / 0.08);
