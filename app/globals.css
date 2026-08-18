@@ -176,8 +176,25 @@
  * Every pair is computed against every surface by
  * `tests/unit/contrast.test.ts`, in both themes.
  */
+/*
+ * Three states, not two (#82).
+ *
+ * `:root` above is dark, and dark stays the default. This block is what the
+ * system preference reaches — but only while the person has not said
+ * otherwise, which is what `:not([data-theme="dark"])` is for. Without it,
+ * choosing dark on a machine set to light would change nothing at all, and the
+ * switch would look broken in exactly one of the four combinations: the one
+ * nobody tests on.
+ *
+ * The same declarations appear twice, once per selector, because a media query
+ * and a plain selector cannot share a rule. They are generated from one source
+ * and `tests/unit/theme-switch.test.ts` fails if they ever stop being
+ * identical — the failure otherwise is a value fixed for the system preference
+ * and forgotten for the explicit choice, which nothing on screen would show.
+ */
 @media (prefers-color-scheme: light) {
-  :root {
+  :root:not([data-theme="dark"]) {
+
     --edge-5: rgb(15 23 42 / 0.05);
     --edge-8: rgb(15 23 42 / 0.08);
     --edge-10: rgb(15 23 42 / 0.1);
@@ -224,6 +241,69 @@
     --foreground: var(--ink);
     --primary: var(--brand);
   }
+}
+
+/*
+ * The explicit choice, which must win over the system preference above.
+ *
+ * `color-scheme` is repeated here rather than left at the `light dark` pair on
+ * `:root`: that pair means "the browser picks", and once somebody has picked
+ * for themselves the scrollbars and date pickers have to follow them, not the
+ * operating system.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+
+  --edge-5: rgb(15 23 42 / 0.05);
+  --edge-8: rgb(15 23 42 / 0.08);
+  --edge-10: rgb(15 23 42 / 0.1);
+  --edge-15: rgb(15 23 42 / 0.15);
+  --edge-20: rgb(15 23 42 / 0.2);
+  --edge-25: rgb(15 23 42 / 0.25);
+  --edge-30: rgb(15 23 42 / 0.3);
+
+  --brand: #166534;
+  --brand-hover: #14532d;
+  --brand-bright: #166534;
+  --on-brand: #ffffff;
+
+  --ink-bright: #0f172a;
+  --ink: #1e293b;
+  --ink-soft: #334155;
+  --ink-muted: #4b5563;
+  --ink-dim: #475569;
+  --ink-subtle: #4b5563;
+  --ink-faint: #475569;
+
+  --canvas: #f8fafc;
+  --surface: #ffffff;
+  --surface-inset: #f1f5f9;
+  --surface-alt: #f1f5f9;
+  --surface-deep: #e2e8f0;
+
+  --warning: #92400e;
+  --danger: #b91c1c;
+
+  /* The soft pair meets the strong one here: the two only differ on dark,
+     where one is a pale shade on navy and the other is not. */
+  --danger-soft: #b91c1c;
+  --warning-soft: #92400e;
+  --info: #075985;
+  --success: #166534;
+
+  --control: #e2e8f0;
+  --control-hover: #cbd5e1;
+
+  /* Read by `body` and `::selection`. */
+  --background: var(--canvas);
+  --background-deep: var(--surface);
+  --foreground: var(--ink);
+  --primary: var(--brand);
 }
 
 @theme inline {
