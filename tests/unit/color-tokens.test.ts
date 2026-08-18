@@ -95,7 +95,6 @@ function forbidden(): Record<string, string> {
  */
 const BUDGET: Record<string, number> = {
   "app/[locale]/dashboard-preview/page.tsx": 39,
-  "src/features/dashboard/data.ts": 22,
   "src/design-system/tokens.ts": 12,
   // Restored to its pre-token form; see EXEMPT.
   "app/[locale]/page.tsx": 174,
@@ -134,6 +133,23 @@ function sourceFiles(dir: string): string[] {
     if (statSync(full).isDirectory()) return sourceFiles(full);
     return /\.tsx?$/.test(full) ? [full.replace(/\\/g, "/")] : [];
   });
+}
+
+/**
+ * A file's code, with its prose removed.
+ *
+ * A comment explaining *why* four colours were retired counted as four
+ * colours, which put a file with none of them back on the offenders list. The
+ * scan cannot tell prose from code, so it is given no prose to read — the same
+ * fix, for the same reason, as in `raw-error-leaks.test.ts`. Nothing is lost:
+ * a hexadecimal inside a comment paints nothing.
+ *
+ * Measured before adopting: of the eighteen budgeted files, not one changes
+ * count. Only `src/features/dashboard/data.ts` moves, 4 to 0, and those four
+ * are the values its own note names.
+ */
+function code(file: string): string {
+  return readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "");
 }
 
 const files = ROOTS.flatMap(sourceFiles);
@@ -188,7 +204,7 @@ describe("colour tokens", () => {
     const offenders: string[] = [];
     for (const file of files) {
       if (EXEMPT.has(file)) continue;
-      for (const match of readFileSync(file, "utf8").matchAll(/-white\/(\d+)/g)) {
+      for (const match of code(file).matchAll(/-white\/(\d+)/g)) {
         offenders.push(`${file}: white/${match[1]} is \`edge-${match[1]}\``);
       }
     }
@@ -200,8 +216,7 @@ describe("colour tokens", () => {
     const offenders: string[] = [];
     for (const file of files) {
       if (EXEMPT.has(file)) continue;
-      const source = readFileSync(file, "utf8");
-      for (const match of source.matchAll(/-\[#([0-9A-Fa-f]{6})\]/g)) {
+      for (const match of code(file).matchAll(/-\[#([0-9A-Fa-f]{6})\]/g)) {
         const token = table[match[1].toLowerCase()];
         if (token) offenders.push(`${file}: #${match[1]} is \`${token}\``);
       }
@@ -211,14 +226,14 @@ describe("colour tokens", () => {
 
   it("never appears in a file that had none", () => {
     const fresh = files.filter(
-      (file) => !(file in BUDGET) && /#[0-9A-Fa-f]{6}/.test(readFileSync(file, "utf8")),
+      (file) => !(file in BUDGET) && /#[0-9A-Fa-f]{6}/.test(code(file)),
     );
     expect(fresh, "new files with a hardcoded colour").toEqual([]);
   });
 
   for (const [file, budget] of Object.entries(BUDGET)) {
     it(`does not grow in ${file}`, () => {
-      const found = (readFileSync(file, "utf8").match(/#[0-9A-Fa-f]{6}/g) ?? []).length;
+      const found = (code(file).match(/#[0-9A-Fa-f]{6}/g) ?? []).length;
       expect(found, `${file} went from ${budget} to ${found}`).toBeLessThanOrEqual(budget);
     });
   }
