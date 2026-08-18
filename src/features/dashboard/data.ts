@@ -12,11 +12,30 @@ const hrRoles = [...adminRoles, "hr", "finance", "accountant"];
 
 export type DashboardRoleView = "supervisor" | "admin" | "hr";
 
+/**
+ * What a number *means*, not what colour it is.
+ *
+ * These carried hexadecimals — `#F59E0B`, `#4ADE80`, `#F87171`, `#94A3B8` —
+ * straight from here onto `style={{ color }}`. All four are pale shades picked
+ * to read on navy, and against the light theme's white surface they measure
+ * 2.15:1, 1.74:1, 2.77:1 and 2.56:1. Every one of them fails.
+ *
+ * The sweep in #82 only reached `text-*-300` utilities written in JSX. Colour
+ * arriving as *data* went straight past it, which is the more interesting half
+ * of the lesson: a rule enforced by scanning class names cannot see a value
+ * that never was a class name.
+ *
+ * A tone is resolved to a token where it is rendered, the same way a message
+ * key is resolved to a sentence. The data layer has no business knowing what
+ * colour "needs attention" is in either theme.
+ */
+export type DashboardTone = "ok" | "warn" | "danger" | "neutral";
+
 export interface DashboardKpiCard {
-  id: string; label: string; value: string; color: string; cta: string; ctaHref: string; trend: string; trendColor: string;
+  id: string; label: string; value: string; tone: DashboardTone; cta: string; ctaHref: string; trend: string; trendTone: DashboardTone;
 }
 export interface DashboardAttentionItem {
-  id: string; text: string; cta: string; ctaHref: string; accent: string;
+  id: string; text: string; cta: string; ctaHref: string; tone: DashboardTone;
 }
 export interface RoleDashboardOverview {
   roleView: DashboardRoleView | null;
@@ -77,15 +96,15 @@ export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview>
   const attention: DashboardAttentionItem[] = [];
 
   if (isManager) {
-    kpis.push({ id: "approvals", label: t("kpiApprovalsLabel"), value: String(pendingApprovals ?? 0), color: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: t("kpiApprovalsCta"), ctaHref: "/dashboard/timesheets", trend: (pendingApprovals ?? 0) > 0 ? t("kpiApprovalsTrendAttention") : t("kpiApprovalsTrendOk"), trendColor: (pendingApprovals ?? 0) > 0 ? "#F59E0B" : "#4ADE80" });
-    kpis.push({ id: "no-checkin", label: t("kpiNoCheckinLabel"), value: String(noCheckinToday), color: noCheckinToday > 0 ? "#F87171" : "#4ADE80", cta: t("kpiNoCheckinCta"), ctaHref: "/dashboard/map", trend: t("kpiNoCheckinTrend", { active: activeUserIds.size }), trendColor: "#94A3B8" });
-    if ((pendingApprovals ?? 0) > 0) attention.push({ id: "att-approvals", text: t("attentionApprovals", { count: pendingApprovals ?? 0 }), cta: t("kpiApprovalsCta"), ctaHref: "/dashboard/timesheets", accent: "#F59E0B" });
-    if (noCheckinToday > 0) attention.push({ id: "att-no-checkin", text: t("attentionNoCheckin", { count: noCheckinToday }), cta: t("kpiNoCheckinCta"), ctaHref: "/dashboard/map", accent: "#F87171" });
+    kpis.push({ id: "approvals", label: t("kpiApprovalsLabel"), value: String(pendingApprovals ?? 0), tone: (pendingApprovals ?? 0) > 0 ? "warn" : "ok", cta: t("kpiApprovalsCta"), ctaHref: "/dashboard/timesheets", trend: (pendingApprovals ?? 0) > 0 ? t("kpiApprovalsTrendAttention") : t("kpiApprovalsTrendOk"), trendTone: (pendingApprovals ?? 0) > 0 ? "warn" : "ok" });
+    kpis.push({ id: "no-checkin", label: t("kpiNoCheckinLabel"), value: String(noCheckinToday), tone: noCheckinToday > 0 ? "danger" : "ok", cta: t("kpiNoCheckinCta"), ctaHref: "/dashboard/map", trend: t("kpiNoCheckinTrend", { active: activeUserIds.size }), trendTone: "neutral" });
+    if ((pendingApprovals ?? 0) > 0) attention.push({ id: "att-approvals", text: t("attentionApprovals", { count: pendingApprovals ?? 0 }), cta: t("kpiApprovalsCta"), ctaHref: "/dashboard/timesheets", tone: "warn" });
+    if (noCheckinToday > 0) attention.push({ id: "att-no-checkin", text: t("attentionNoCheckin", { count: noCheckinToday }), cta: t("kpiNoCheckinCta"), ctaHref: "/dashboard/map", tone: "danger" });
   }
   if (isAdmin) {
-    kpis.push({ id: "teams", label: t("kpiTeamsLabel"), value: `${teamActiveToday}/${totalTeams ?? 0}`, color: "#4ADE80", cta: t("kpiTeamsCta"), ctaHref: "/dashboard/teams", trend: (totalTeams ?? 0) > 0 ? t("kpiTeamsTrend", { pct: Math.round((teamActiveToday / (totalTeams ?? 1)) * 100) }) : t("kpiTeamsTrendEmpty"), trendColor: "#94A3B8" });
-    kpis.push({ id: "invites", label: t("kpiInvitesLabel"), value: String(pendingInvites ?? 0), color: (pendingInvites ?? 0) > 0 ? "#F59E0B" : "#4ADE80", cta: t("kpiInvitesCta"), ctaHref: "/dashboard/employees", trend: (pendingInvites ?? 0) > 0 ? t("kpiInvitesTrendPending") : t("kpiInvitesTrendNone"), trendColor: "#94A3B8" });
-    if ((pendingInvites ?? 0) > 0) attention.push({ id: "att-invites", text: t("attentionInvites", { count: pendingInvites ?? 0 }), cta: t("kpiInvitesCta"), ctaHref: "/dashboard/employees", accent: "#F59E0B" });
+    kpis.push({ id: "teams", label: t("kpiTeamsLabel"), value: `${teamActiveToday}/${totalTeams ?? 0}`, tone: "ok", cta: t("kpiTeamsCta"), ctaHref: "/dashboard/teams", trend: (totalTeams ?? 0) > 0 ? t("kpiTeamsTrend", { pct: Math.round((teamActiveToday / (totalTeams ?? 1)) * 100) }) : t("kpiTeamsTrendEmpty"), trendTone: "neutral" });
+    kpis.push({ id: "invites", label: t("kpiInvitesLabel"), value: String(pendingInvites ?? 0), tone: (pendingInvites ?? 0) > 0 ? "warn" : "ok", cta: t("kpiInvitesCta"), ctaHref: "/dashboard/employees", trend: (pendingInvites ?? 0) > 0 ? t("kpiInvitesTrendPending") : t("kpiInvitesTrendNone"), trendTone: "neutral" });
+    if ((pendingInvites ?? 0) > 0) attention.push({ id: "att-invites", text: t("attentionInvites", { count: pendingInvites ?? 0 }), cta: t("kpiInvitesCta"), ctaHref: "/dashboard/employees", tone: "warn" });
   }
   if (isHr) {
     const [{ totalMinutes, employees }, excessShifts] = await Promise.all([
@@ -93,9 +112,9 @@ export async function getRoleDashboardOverview(): Promise<RoleDashboardOverview>
       getExcessShiftsCount(),
     ]);
     const hours = `${Math.floor(totalMinutes / 60)}h`;
-    kpis.push({ id: "payroll-hours", label: t("kpiPayrollLabel"), value: hours, color: "#F1F5F9", cta: t("kpiPayrollCta"), ctaHref: "/dashboard/finance", trend: t("kpiPayrollTrend", { count: employees.length }), trendColor: "#94A3B8" });
-    kpis.push({ id: "excess-shifts", label: t("kpiExcessLabel"), value: String(excessShifts), color: excessShifts > 0 ? "#F87171" : "#4ADE80", cta: t("kpiExcessCta"), ctaHref: "/dashboard/finance", trend: excessShifts > 0 ? t("kpiExcessTrend") : t("kpiExcessTrendNone"), trendColor: excessShifts > 0 ? "#F59E0B" : "#4ADE80" });
-    if (excessShifts > 0) attention.push({ id: "att-excess", text: t("attentionExcess", { count: excessShifts }), cta: t("kpiExcessCta"), ctaHref: "/dashboard/finance", accent: "#F59E0B" });
+    kpis.push({ id: "payroll-hours", label: t("kpiPayrollLabel"), value: hours, tone: "neutral", cta: t("kpiPayrollCta"), ctaHref: "/dashboard/finance", trend: t("kpiPayrollTrend", { count: employees.length }), trendTone: "neutral" });
+    kpis.push({ id: "excess-shifts", label: t("kpiExcessLabel"), value: String(excessShifts), tone: excessShifts > 0 ? "danger" : "ok", cta: t("kpiExcessCta"), ctaHref: "/dashboard/finance", trend: excessShifts > 0 ? t("kpiExcessTrend") : t("kpiExcessTrendNone"), trendTone: excessShifts > 0 ? "warn" : "ok" });
+    if (excessShifts > 0) attention.push({ id: "att-excess", text: t("attentionExcess", { count: excessShifts }), cta: t("kpiExcessCta"), ctaHref: "/dashboard/finance", tone: "warn" });
   }
 
   const { headline, subheadline } = headlines[roleView];
