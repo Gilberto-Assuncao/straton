@@ -60,19 +60,50 @@ export const THEME_INIT_SCRIPT = `try{var t=localStorage.getItem("${THEME_STORAG
  * Reading it in an effect and calling `setState` is the obvious shape and the
  * React Compiler rejects it — correctly: this is state that lives outside
  * React, in `localStorage`, and `useSyncExternalStore` is the API for that.
- * Subscribing also buys the case nobody thinks to build: two tabs open, the
- * theme changed in one, and the other still showing `system` in its menu until
- * a reload. The `storage` event covers the other tabs; the local set has to
- * notify by hand, because a tab does not receive its own.
+ * Subscribing also reaches the case nobody thinks to build: two tabs open and
+ * the theme changed in one. The `storage` event covers the other tabs; the
+ * local set has to notify by hand, because a tab does not receive its own.
+ * Note what the event does *not* do on its own — see `onStorage` below.
  */
 const listeners = new Set<() => void>();
 
+/**
+ * Puts a stored value on screen: the attribute *and* the returned preference.
+ *
+ * Separate from the subscription so it can be tested without a browser, and
+ * because the two-tab case needs exactly this and nothing else.
+ */
+export function syncFromStorage(root: HTMLElement, raw: string | null): ThemePreference {
+  const preference = readPreference(raw);
+  applyPreference(root, preference);
+  return preference;
+}
+
 export function subscribeToPreference(onChange: () => void): () => void {
   listeners.add(onChange);
-  window.addEventListener("storage", onChange);
+
+  /*
+   * The other tab's `storePreference` set `data-theme` on *its* document, not
+   * this one. Re-reading the store only moves the select — found in review of
+   * #116, where the comment above promised this case was handled and only half
+   * of it was: the menu said "Dark" while the page stayed light until reload.
+   *
+   * A null key is `localStorage.clear()`, which concerns us too.
+   */
+  const onStorage = (event: StorageEvent) => {
+    if (event.key !== null && event.key !== THEME_STORAGE_KEY) return;
+    try {
+      syncFromStorage(document.documentElement, localStorage.getItem(THEME_STORAGE_KEY));
+    } catch {
+      // Storage blocked. Nothing to sync to.
+    }
+    onChange();
+  };
+
+  window.addEventListener("storage", onStorage);
   return () => {
     listeners.delete(onChange);
-    window.removeEventListener("storage", onChange);
+    window.removeEventListener("storage", onStorage);
   };
 }
 

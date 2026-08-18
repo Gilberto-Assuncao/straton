@@ -6,6 +6,8 @@ import {
   THEME_STORAGE_KEY,
   applyPreference,
   readPreference,
+  subscribeToPreference,
+  syncFromStorage,
   type ThemePreference,
 } from "@/src/components/app-shell/theme";
 
@@ -133,6 +135,69 @@ describe("theme preference", () => {
       return !(body < script && (content === -1 || script < content));
     });
     expect(tooLate.map((p) => p.name), "pages where the script runs after content").toEqual([]);
+  });
+
+  it("paints the other tab, not just its menu", () => {
+    /*
+     * Two tabs open, the theme changed in one. The `storage` event fires in the
+     * *other* tab, and re-reading the store there only moves the select — the
+     * document keeps the old palette, because the tab that wrote `data-theme`
+     * was the first one. The menu said "Dark" while the page stayed light.
+     * (Found in review of #116; the comment in `theme.ts` had claimed this case
+     * was handled.)
+     */
+    const root = { dataset: {} as Record<string, string> } as unknown as HTMLElement;
+    expect(syncFromStorage(root, "dark")).toBe("dark");
+    expect(root.dataset.theme).toBe("dark");
+    expect(syncFromStorage(root, null)).toBe("system");
+    expect(root.dataset.theme).toBeUndefined();
+  });
+
+  it("wires that into the storage event, for our key only", () => {
+    // The behaviour above is only worth anything if the listener calls it. This
+    // drives the real subscription against stubbed globals rather than trusting
+    // that the wiring looks right.
+    const root = { dataset: {} as Record<string, string> } as unknown as HTMLElement;
+    const handlers: ((event: StorageEvent) => void)[] = [];
+    const globals = globalThis as unknown as Record<string, unknown>;
+    const saved = { window: globals.window, document: globals.document, localStorage: globals.localStorage };
+    let stored: string | null = "dark";
+
+    globals.window = {
+      addEventListener: (type: string, fn: (event: StorageEvent) => void) => { if (type === "storage") handlers.push(fn); },
+      removeEventListener: () => {},
+    };
+    globals.document = { documentElement: root };
+    globals.localStorage = { getItem: () => stored };
+
+    try {
+      let notified = 0;
+      const unsubscribe = subscribeToPreference(() => { notified += 1; });
+      expect(handlers.length, "a storage listener was registered").toBe(1);
+
+      handlers[0]({ key: "straton-theme" } as StorageEvent);
+      expect(root.dataset.theme, "the receiving tab repaints").toBe("dark");
+      expect(notified).toBe(1);
+
+      // Somebody else's key. Not ours to act on.
+      root.dataset.theme = "dark";
+      stored = "light";
+      handlers[0]({ key: "some-other-product" } as StorageEvent);
+      expect(root.dataset.theme, "an unrelated key is ignored").toBe("dark");
+      expect(notified).toBe(1);
+
+      // `localStorage.clear()` arrives with a null key, and does concern us.
+      stored = null;
+      handlers[0]({ key: null } as StorageEvent);
+      expect(root.dataset.theme, "a cleared store falls back to the system").toBeUndefined();
+      expect(notified).toBe(2);
+
+      unsubscribe();
+    } finally {
+      globals.window = saved.window;
+      globals.document = saved.document;
+      globals.localStorage = saved.localStorage;
+    }
   });
 
   it("puts the switcher on a screen somebody can reach", () => {
