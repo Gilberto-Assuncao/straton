@@ -516,7 +516,8 @@
       "footerPrivacy": "Privacy",
       "footerTerms": "Terms of use",
       "footerSecurity": "Security",
-      "copyright": "© {year} STRATON. All rights reserved."
+      "copyright": "© {year} STRATON. All rights reserved.",
+      "developedBy": "Developed by"
     },
     "chain": {
       "badge": "Subcontracting chain",
@@ -1120,7 +1121,8 @@
     "themeDark": "Dark",
     "themeLight": "Light",
     "themeSystem": "System",
-    "navigationGroup": "Navigation"
+    "navigationGroup": "Navigation",
+    "developedBy": "Developed by"
   },
   "retention": {
     "title": "Retention obligation (art. 30bis)",

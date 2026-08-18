@@ -516,7 +516,8 @@
       "footerPrivacy": "Privacy",
       "footerTerms": "Termini di utilizzo",
       "footerSecurity": "Sicurezza",
-      "copyright": "© {year} STRATON. Tutti i diritti riservati."
+      "copyright": "© {year} STRATON. Tutti i diritti riservati.",
+      "developedBy": "Sviluppato da"
     },
     "chain": {
       "badge": "Catena di subappalto",
@@ -1120,7 +1121,8 @@
     "themeDark": "Scuro",
     "themeLight": "Chiaro",
     "themeSystem": "Sistema",
-    "navigationGroup": "Navigazione"
+    "navigationGroup": "Navigazione",
+    "developedBy": "Sviluppato da"
   },
   "retention": {
     "title": "Obbligo di ritenuta (art. 30bis)",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/src/i18n/navigation";
 import { routing } from "@/src/i18n/routing";
+import { AUTHOR } from "@/src/config/author";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = { title: "STRATON — Time well managed" };
@@ -501,7 +502,12 @@ export default async function Home() {
           </div>
         </div>
         <div className="mx-auto mt-14 flex max-w-6xl flex-wrap items-center justify-between gap-4">
-          <p className="text-xs text-[#64748B]">{t("footer.copyright", { year: currentYear })}</p>
+          <p className="text-xs text-[#64748B]">
+            {t("footer.copyright", { year: currentYear })}
+            <span aria-hidden="true"> · </span>
+            {t("footer.developedBy")}{" "}
+            <a href={AUTHOR.url} target="_blank" rel="noopener noreferrer" className="font-semibold underline underline-offset-2 hover:text-white">{AUTHOR.name}</a>
+          </p>
           <p className="text-xs text-[#64748B]">
             {routing.locales.map((loc, index) => (
               <span key={loc}>
