@@ -11,6 +11,11 @@ import { describe, expect, it } from "vitest";
  * 1826 hexadecimals written straight into 159 component files. The two written
  * down disagreed with the one in use *and* with each other.
  *
+ * Two of the three are gone. `globals.css` became the one that renders, and
+ * the `colors` object was deleted along with the eight other exports beside it
+ * that nothing imported — which is why `src/design-system/tokens.ts` no longer
+ * appears in the budget below.
+ *
  * That is why the background could not be made white. There was no lever —
  * changing a token changed nothing, and changing the components meant 159
  * files, with pale grey text left on white anywhere the sweep missed.
@@ -94,8 +99,6 @@ function forbidden(): Record<string, string> {
  * counted rather than forbidden.
  */
 const BUDGET: Record<string, number> = {
-  "app/[locale]/dashboard-preview/page.tsx": 39,
-  "src/design-system/tokens.ts": 12,
   // Restored to its pre-token form; see EXEMPT.
   "app/[locale]/page.tsx": 174,
   "src/components/ui/StratonMark.tsx": 6,

@@ -356,7 +356,8 @@
       "dashboard": "Übersicht",
       "login": "Anmelden",
       "cta": "Kostenlos starten",
-      "chain": "Subunternehmer"
+      "chain": "Subunternehmer",
+      "menu": "Menü"
     },
     "hero": {
       "badge": "Geolokalisierung in Echtzeit",

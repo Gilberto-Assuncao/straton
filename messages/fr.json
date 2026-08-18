@@ -356,7 +356,8 @@
       "dashboard": "Tableau de bord",
       "login": "Connexion",
       "cta": "Commencer gratuitement",
-      "chain": "Sous-traitance"
+      "chain": "Sous-traitance",
+      "menu": "Menu"
     },
     "hero": {
       "badge": "Géolocalisation en temps réel",

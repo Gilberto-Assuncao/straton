@@ -5,10 +5,11 @@
  *
  * There were three definitions of this product's colours and only one of them
  * rendered: a `:root` block used zero times, a `colors` object in
- * `src/design-system/tokens.ts` that nothing imports, and 1826 hexadecimals
+ * `src/design-system/tokens.ts` that nothing imported, and 1826 hexadecimals
  * written into 159 component files. The two written down disagreed with the one
  * in use *and* with each other. #108 named the one that renders, at its own
- * values, so that changing a colour became possible at all.
+ * values, so that changing a colour became possible at all; the `colors` object
+ * has since been deleted, so this file is now the only one.
  *
  * The values here are deliberately unchanged. Two alternatives were built and
  * rejected on purpose, and both are worth knowing about before touching this
@@ -142,15 +143,19 @@
   --control: #374151;
   --control-hover: #4b5563;
 
-  /* Superseded by the tokens above, kept because `body` and `::selection`
-     still read them. `--background` is a near-black that matches nothing else
-     on screen — it only shows where no surface covers it, which is why nobody
-     noticed it drifting from `--canvas`. Reconciling the two is a visible
-     change, so it belongs to the light-theme step, not this one. */
-  --background: #0b0f0e;
-  --background-deep: #070a09;
-  --foreground: #f4f7f6;
-  --primary: #22c55e;
+  /*
+   * Four tokens used to sit here — `--background`, `--background-deep`,
+   * `--foreground` and `--primary` — kept because `body` and `::selection`
+   * were the last things reading them. They were a fifth opinion on the
+   * palette: `--background` was `#0b0f0e`, a near-black matching nothing else
+   * on screen, and it only showed where no surface covered it, which is why
+   * nobody noticed it drifting from `--canvas`.
+   *
+   * Both rules now read the real tokens, so the four are gone rather than
+   * reconciled. `::selection` gains something by it: `--on-brand` on `--brand`
+   * is a pair `contrast.test.ts` already checks in both themes, where
+   * `--background-deep` on `--primary` was checked by nothing.
+   */
 }
 
 /*
@@ -233,12 +238,6 @@
 
     --control: #e2e8f0;
     --control-hover: #cbd5e1;
-
-    /* Read by `body` and `::selection`. */
-    --background: var(--canvas);
-    --background-deep: var(--surface);
-    --foreground: var(--ink);
-    --primary: var(--brand);
   }
 }
 
@@ -296,12 +295,6 @@
 
   --control: #e2e8f0;
   --control-hover: #cbd5e1;
-
-  /* Read by `body` and `::selection`. */
-  --background: var(--canvas);
-  --background-deep: var(--surface);
-  --foreground: var(--ink);
-  --primary: var(--brand);
 }
 
 @theme inline {
@@ -345,8 +338,8 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--canvas);
+  color: var(--ink);
   font-family: var(--font-poppins), sans-serif;
 }
 
@@ -355,6 +348,6 @@ html {
 }
 
 ::selection {
-  background: var(--primary);
-  color: var(--background-deep);
+  background: var(--brand);
+  color: var(--on-brand);
 }

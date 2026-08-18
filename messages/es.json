@@ -356,7 +356,8 @@
       "dashboard": "Panel",
       "login": "Iniciar sesión",
       "cta": "Empezar gratis",
-      "chain": "Subcontratación"
+      "chain": "Subcontratación",
+      "menu": "Menú"
     },
     "hero": {
       "badge": "Geolocalización en tiempo real",

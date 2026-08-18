@@ -356,7 +356,8 @@
       "dashboard": "Dashboard",
       "login": "Inloggen",
       "cta": "Gratis beginnen",
-      "chain": "Onderaanneming"
+      "chain": "Onderaanneming",
+      "menu": "Menu"
     },
     "hero": {
       "badge": "Realtime geolocatie",
