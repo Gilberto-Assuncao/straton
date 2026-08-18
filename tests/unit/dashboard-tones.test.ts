@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
@@ -67,10 +67,35 @@ describe("dashboard colour", () => {
   });
 
   it("builds tone classes Tailwind can see", () => {
-    // `text-${tone}` yields a class name that never exists at build time, so
-    // the utility is never generated and the colour is silently absent.
-    const map = code(RENDERERS[0]);
-    expect(map).not.toMatch(/`(text|bg|border)-\$\{/);
+    /*
+     * `text-${tone}` yields a class name that never exists at build time, so
+     * the utility is never generated and the colour is silently absent.
+     *
+     * The first version of this anchored to the backtick — `` /`(text|bg|border)-\$\{/ ``
+     * — and therefore saw only an interpolation at the very start of a template.
+     * It missed `` `mt-2 text-${tone}` ``, and it missed `` `border-l-${tone}` ``,
+     * which is the *exact* form this component uses. My own negative test
+     * passed because I broke it in the one shape the pattern happened to catch.
+     * (Found in review of #118.)
+     *
+     * Now: any utility-looking word ending in `-` immediately before an
+     * interpolation, anywhere in the template.
+     */
+    const DYNAMIC = /\b[a-z][a-z-]*-\$\{/;
+
+    // The pattern is checked against the cases it exists for, because a regex
+    // that matches nothing is the failure this whole file is about.
+    expect(DYNAMIC.test("`text-${tone}`"), "leading interpolation").toBe(true);
+    expect(DYNAMIC.test("`mt-2 text-${tone}`"), "mid-template interpolation").toBe(true);
+    expect(DYNAMIC.test("`border-l-${tone}`"), "side-specific prefix").toBe(true);
+    // And not on the legitimate shape this component actually uses, where the
+    // whole class name comes out of the lookup rather than being assembled.
+    expect(DYNAMIC.test("`${TONE[item.tone].edge} bg-surface-inset`"), "whole class from a lookup").toBe(false);
+    expect(DYNAMIC.test("`/dashboard/${id}`"), "a path, not a class").toBe(false);
+
+    for (const file of RENDERERS) {
+      expect(code(file), `${file} assembles a class name Tailwind cannot see`).not.toMatch(DYNAMIC);
+    }
   });
 });
 
@@ -83,33 +108,76 @@ describe("dashboard colour", () => {
  */
 describe("the dashboard page", () => {
   const page = code("app/[locale]/dashboard/page.tsx");
-  const MOVED = [
-    { component: "WeeklyHoursChart", href: "/dashboard/reports" },
+
+  /** Blocks that left, and the page every role can still reach them on. */
+  const RELOCATED = [
     { component: "LiveMapPreview", href: "/dashboard/map" },
     { component: "RecentTimesheets", href: "/dashboard/timesheets" },
-    { component: "TeamActivity", href: "/dashboard/teams" },
   ];
 
-  it("keeps the heavy blocks off it", () => {
-    const back = MOVED.filter(({ component }) => page.includes(component));
+  /**
+   * A menu entry and whether it is gated, in whatever form the gate is written.
+   *
+   * `defaultAppNavigation` is filtered by `item.roles` in `DashboardShell`
+   * before it reaches the sidebar, so an href appearing in the config is not
+   * the same as somebody being able to reach it.
+   *
+   * The value matters as much as the key. A first attempt matched only
+   * `roles: [ … ]` and reported `/dashboard/reports` as open to everybody; it
+   * is written `roles: managerRoles`, and that miscount is what produced the
+   * claim that this review was mistaken. It was not.
+   */
+  function navEntry(href: string): { found: boolean; gated: boolean } {
+    const nav = readFileSync("src/components/app-shell/config.ts", "utf8");
+    const block = nav.match(new RegExp(`\\{[^{}]*href:\\s*"${href}"[^{}]*\\}`));
+    return { found: Boolean(block), gated: block ? /\broles:/.test(block[0]) : false };
+  }
+
+  it("parses the navigation it is judging", () => {
+    // Both answers have to be reachable, or the assertions below are decoration:
+    // one entry with no gate, one with a gate written as an identifier.
+    expect(navEntry("/dashboard/map"), "an open entry").toEqual({ found: true, gated: false });
+    expect(navEntry("/dashboard/reports"), "an identifier-gated entry").toEqual({ found: true, gated: true });
+    expect(navEntry("/dashboard/nowhere").found, "a route that does not exist").toBe(false);
+  });
+
+  it("keeps the relocated blocks off the page", () => {
+    const back = RELOCATED.filter(({ component }) => page.includes(component));
     expect(back.map((b) => b.component), "blocks back on the dashboard").toEqual([]);
   });
 
-  for (const { component, href } of MOVED) {
-    it(`still reaches ${component} from the menu`, () => {
-      // Removing a block is only safe while its page is one click away. If a
-      // menu entry goes, the block became unreachable rather than relocated.
-      const nav = readFileSync("src/components/app-shell/config.ts", "utf8");
-      expect(nav, `no navigation entry for ${href}`).toContain(`"${href}"`);
-      const routeDir = join("app/[locale]", href.replace("/dashboard", "dashboard"));
-      expect(statSync(routeDir).isDirectory(), `${routeDir} does not exist`).toBe(true);
+  for (const { component, href } of RELOCATED) {
+    it(`still reaches ${component} from the menu, for every role`, () => {
+      // Relocating is only relocating while the destination is reachable by
+      // the person who lost the block. Gate this route and it becomes a
+      // removal, silently, for exactly the people least able to say so.
+      const entry = navEntry(href);
+      expect(entry.found, `no navigation entry for ${href}`).toBe(true);
+      expect(entry.gated, `${href} is gated by role, so ${component} is gone rather than moved`).toBe(false);
+      expect(statSync(join("app/[locale]", href.replace("/dashboard", "dashboard"))).isDirectory()).toBe(true);
     });
   }
 
-  it("finds the route tree it is checking against", () => {
-    const routes = readdirSync("app/[locale]/dashboard").filter((entry) =>
-      statSync(join("app/[locale]/dashboard", entry)).isDirectory(),
-    );
-    expect(routes.length, "dashboard routes found").toBeGreaterThan(10);
+  it("leaves a worker their own week", () => {
+    /*
+     * `/dashboard/reports` is `managerRoles`. Taking the chart off this page
+     * without noticing that left a worker with no hours and nowhere to see
+     * them — the one thing they open this screen for.
+     *
+     * So the chart stays on the non-role branch. If somebody removes it again,
+     * this fails and names the reason rather than leaving it to be rediscovered.
+     */
+    expect(navEntry("/dashboard/reports").gated, "reports is no longer gated — this test can be reconsidered").toBe(true);
+    // The rendered tag, not the identifier: the first version of this passed on
+    // the `import` line alone, so deleting the chart from the JSX left the
+    // guard green. A component that is imported and never rendered is exactly
+    // the shape of the defect this file was written for.
+    expect(page, "the weekly hours chart is a worker's only view of their week").toMatch(/<WeeklyHoursChart[\s/]/);
+  });
+
+  it("does not fetch what it no longer shows", () => {
+    // `getDashboardOverview()` runs six queries for blocks this page dropped.
+    // Left unconditional it did all of that on every load and discarded it.
+    expect(page).toMatch(/roleOverview\.roleView \? null : await getDashboardOverview\(\)/);
   });
 });
