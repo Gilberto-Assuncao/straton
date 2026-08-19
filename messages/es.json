@@ -538,6 +538,12 @@
       "flowBackLabel": "Las horas llegan a su hoja",
       "privacyLabel": "Privacidad desde el diseño.",
       "privacyBody": "Delegar le muestra el avance, no al personal. Los datos de sus empleados siguen siendo suyos — salvo que decidan unirse a su proyecto y asignar a su gente. El consentimiento es un acto explícito de la otra empresa, nunca un efecto secundario del contrato."
+    },
+    "builtBy": {
+      "eyebrow": "ORIGEN",
+      "title": "Creado por quienes trabajan en obra",
+      "company": "BELNEX Energy",
+      "line": "Instalaciones eléctricas, Bélgica. Creamos STRATON para gestionar nuestros propios equipos."
     }
   },
   "payroll": {

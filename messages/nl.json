@@ -538,6 +538,12 @@
       "flowBackLabel": "Uren komen op uw urenstaat",
       "privacyLabel": "Privacy by design.",
       "privacyBody": "Delegeren toont u voortgang, geen personeel. De gegevens van hun medewerkers blijven van hen — tenzij zij ervoor kiezen aan uw project deel te nemen en hun mensen eraan toe te voegen. Toestemming is een uitdrukkelijke keuze van het andere bedrijf, nooit een bijwerking van het contract."
+    },
+    "builtBy": {
+      "eyebrow": "OORSPRONG",
+      "title": "Gebouwd door mensen die op de werf staan",
+      "company": "BELNEX Energy",
+      "line": "Elektrotechniek, België. We bouwden STRATON om onze eigen ploegen te beheren."
     }
   },
   "payroll": {

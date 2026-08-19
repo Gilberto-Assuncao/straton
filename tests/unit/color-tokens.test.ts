@@ -99,8 +99,16 @@ function forbidden(): Record<string, string> {
  * counted rather than forbidden.
  */
 const BUDGET: Record<string, number> = {
-  // Restored to its pre-token form; see EXEMPT.
-  "app/[locale]/page.tsx": 174,
+  /*
+   * Restored to its pre-token form; see EXEMPT. This one number counts page
+   * *size*, not drift: the landing is hand-coloured by decision, so any section
+   * added to it raises the count. Raised from 174 when the origin band went in
+   * (`#050505`, `#1B1B1B`, `#E5E7EB` — the plate the BELNEX mark sits on, and
+   * the title colour the design specifies). Everywhere else in this table, a
+   * rise means somebody wrote a colour that should have been a token; here it
+   * means the page grew, and the honest reading needs the difference stated.
+   */
+  "app/[locale]/page.tsx": 180,
   "src/components/ui/StratonMark.tsx": 6,
   "components/settings/SettingsHub.tsx": 6,
   "src/components/ui/Button.tsx": 1,

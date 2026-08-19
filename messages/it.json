@@ -538,6 +538,12 @@
       "flowBackLabel": "Le ore arrivano da te",
       "privacyLabel": "Privacy by design.",
       "privacyBody": "Delegare ti mostra l'avanzamento, non il personale. I dati dei loro dipendenti restano loro — a meno che non scelgano di unirsi al tuo progetto e assegnarvi le proprie persone. Il consenso è un atto esplicito dell'altra azienda, mai un effetto collaterale del contratto."
+    },
+    "builtBy": {
+      "eyebrow": "ORIGINE",
+      "title": "Costruito da chi lavora in cantiere",
+      "company": "BELNEX Energy",
+      "line": "Impianti elettrici, Belgio. Abbiamo creato STRATON per gestire le nostre squadre."
     }
   },
   "payroll": {

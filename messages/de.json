@@ -538,6 +538,12 @@
       "flowBackLabel": "Stunden landen bei Ihnen",
       "privacyLabel": "Datenschutz von Anfang an.",
       "privacyBody": "Delegieren zeigt Ihnen den Fortschritt, nicht das Personal. Die Daten der Mitarbeitenden bleiben beim Partner — es sei denn, er tritt Ihrem Projekt bei und ordnet seine Leute zu. Die Einwilligung ist eine ausdrückliche Entscheidung des anderen Unternehmens, nie eine Nebenwirkung des Vertrags."
+    },
+    "builtBy": {
+      "eyebrow": "HERKUNFT",
+      "title": "Von Leuten gebaut, die auf der Baustelle stehen",
+      "company": "BELNEX Energy",
+      "line": "Elektroinstallation, Belgien. Wir haben STRATON gebaut, um unsere eigenen Teams zu führen."
     }
   },
   "payroll": {
