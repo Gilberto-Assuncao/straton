@@ -27,6 +27,7 @@ const UNIONS = [
   { file: "src/features/companies/types.ts", type: "VatLookupMessageKey", namespace: "companies" },
   { file: "src/features/partners/messages.ts", type: "PartnerMessageKey", namespace: "companies" },
   { file: "src/features/roster/messages.ts", type: "RosterMessageKey", namespace: "roster" },
+  { file: "src/features/assignments/feed-actions.ts", type: "AgendaFeedMessageKey", namespace: "agenda" },
 ];
 
 type Messages = Record<string, Record<string, string>>;

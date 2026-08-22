@@ -142,6 +142,20 @@ describe("colour contrast", () => {
     }
   });
 
+  it("keeps the label legible on a destructive fill", () => {
+    // The revoke button, added with the calendar feed. `--danger` inverts
+    // between themes — pale red on dark, deep red on light — and `--on-brand`
+    // inverts with it, which is the only reason one pair of classes works in
+    // both. Nothing was checking that, and a token change on either side would
+    // land a dark label on a dark button with nothing to catch it.
+    for (const theme of THEMES) {
+      expect(
+        contrast(token("on-brand", theme), token("danger", theme)),
+        `destructive label (${theme})`,
+      ).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
   it("keeps the label legible on a brand fill", () => {
     // The one pair that is not foreground-on-surface: the primary button.
     for (const theme of THEMES) {
