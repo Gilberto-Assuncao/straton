@@ -155,6 +155,52 @@ export default async function Home() {
         </div>
       </section>
 
+      {/*
+        Origin, not a customer list.
+
+        A logo strip headed "companies using the platform" with one entry —
+        which happens to be the developer's own company — reads as a customer
+        roster, and a Belgian contractor in the same trade will find that out.
+        Said plainly instead, it is the stronger argument: this was built by a
+        field company that needed it.
+
+        The layout is the answer to the hard part. BELNEX's mark is lime
+        `#8DFF00` against our `#22C55E` — 107, 58 and 94 apart per channel, two
+        different colours rather than two shades — and their manual forbids
+        recolouring it. So the logo gets a surface of its own, `#050505`, which
+        reads as *their* ground rather than ours, and the section keeps a dead
+        zone: no `#22C55E` element within 96px of it. Two greens that never
+        meet cannot argue.
+      */}
+      <section className="border-y border-white/10 bg-[#0F172A]/40">
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 sm:px-10 md:grid-cols-[1fr_400px] md:gap-20 md:px-36 md:py-24">
+          <div className="min-w-0">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#64748B]">{t("builtBy.eyebrow")}</p>
+            <h2 className={`${styles.heading} mt-4 text-3xl font-semibold leading-[1.15] tracking-tight text-[#E5E7EB] sm:text-[40px]`}>
+              {t("builtBy.title")}
+            </h2>
+            <p className="mt-5 max-w-xl text-[17px] leading-[1.65] text-[#94A3B8]">{t("builtBy.line")}</p>
+          </div>
+
+          {/*
+            Their ground, not ours. The plate is what keeps the lime mark from
+            sitting directly on a STRATON surface — and it is why nothing in
+            this section is our green.
+          */}
+          <div className="grid place-items-center rounded-[10px] border border-[#1B1B1B] bg-[#050505] px-11 py-10">
+            {/*
+              The wordmark stands in until the dark-background file lands. Not a
+              drawn approximation: their manual forbids altering the mark or the
+              typeface, and a hand-made lookalike would end up beside the real
+              one on vans and polo shirts.
+            */}
+            <p className="max-w-[280px] text-center text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+              {t("builtBy.company")}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Feature grid */}
       <section id="funcionalidades" className="scroll-mt-24 mx-auto max-w-6xl px-6 py-24 sm:px-10">
         <div className="mx-auto max-w-2xl text-center">

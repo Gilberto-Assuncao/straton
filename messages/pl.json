@@ -538,6 +538,12 @@
       "flowBackLabel": "Godziny trafiają do Ciebie",
       "privacyLabel": "Prywatność od podstaw.",
       "privacyBody": "Delegowanie pokazuje postęp, nie personel. Dane pracowników partnera pozostają jego — chyba że zdecyduje się dołączyć do Twojego projektu i przypisać do niego swoich ludzi. Zgoda to wyraźna decyzja drugiej firmy, nigdy skutek uboczny umowy."
+    },
+    "builtBy": {
+      "eyebrow": "POCHODZENIE",
+      "title": "Zbudowane przez ludzi pracujących na budowie",
+      "company": "BELNEX Energy",
+      "line": "Instalacje elektryczne, Belgia. Zbudowaliśmy STRATON, aby zarządzać własnymi ekipami."
     }
   },
   "payroll": {

@@ -538,6 +538,12 @@
       "flowBackLabel": "Les heures arrivent chez vous",
       "privacyLabel": "Confidentialité par conception.",
       "privacyBody": "Déléguer vous montre l'avancement, pas le personnel. Les données des employés du partenaire restent les siennes — sauf s'il choisit de rejoindre votre projet et d'y placer ses équipes. Le consentement est un acte explicite de l'autre entreprise, jamais une conséquence du contrat."
+    },
+    "builtBy": {
+      "eyebrow": "ORIGINE",
+      "title": "Conçu par ceux qui sont sur le terrain",
+      "company": "BELNEX Energy",
+      "line": "Installations électriques, Belgique. Nous avons créé STRATON pour gérer nos propres équipes."
     }
   },
   "payroll": {

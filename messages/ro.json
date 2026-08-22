@@ -538,6 +538,12 @@
       "flowBackLabel": "Orele ajung la dvs.",
       "privacyLabel": "Confidențialitate prin proiectare.",
       "privacyBody": "Delegarea vă arată progresul, nu personalul. Datele angajaților lor rămân ale lor — cu excepția cazului în care aleg să se alăture proiectului dvs. și să își repartizeze oamenii. Consimțământul este un act explicit al celeilalte firme, niciodată un efect secundar al contractului."
+    },
+    "builtBy": {
+      "eyebrow": "ORIGINE",
+      "title": "Construit de oameni care lucrează pe șantier",
+      "company": "BELNEX Energy",
+      "line": "Instalații electrice, Belgia. Am construit STRATON pentru a ne conduce propriile echipe."
     }
   },
   "payroll": {
