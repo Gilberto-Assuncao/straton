@@ -356,7 +356,8 @@
       "dashboard": "Panel",
       "login": "Zaloguj się",
       "cta": "Zacznij za darmo",
-      "chain": "Podwykonawstwo"
+      "chain": "Podwykonawstwo",
+      "menu": "Menu"
     },
     "hero": {
       "badge": "Geolokalizacja w czasie rzeczywistym",

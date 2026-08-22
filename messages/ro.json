@@ -356,7 +356,8 @@
       "dashboard": "Panou",
       "login": "Conectare",
       "cta": "Începe gratuit",
-      "chain": "Subcontractare"
+      "chain": "Subcontractare",
+      "menu": "Meniu"
     },
     "hero": {
       "badge": "Geolocalizare în timp real",

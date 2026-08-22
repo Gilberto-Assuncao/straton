@@ -356,7 +356,8 @@
       "dashboard": "Dashboard",
       "login": "Log in",
       "cta": "Start for free",
-      "chain": "Subcontracting"
+      "chain": "Subcontracting",
+      "menu": "Menu"
     },
     "hero": {
       "badge": "Real-time geolocation",

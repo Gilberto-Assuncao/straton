@@ -67,7 +67,7 @@ export default async function Home() {
           </div>
           <details className="group md:hidden">
             <summary className="flex min-h-11 min-w-11 cursor-pointer list-none items-center justify-center rounded-lg border border-white/15 text-[#F1F5F9] [&::-webkit-details-marker]:hidden">
-              <span className="sr-only">Menu</span>
+              <span className="sr-only">{t("nav.menu")}</span>
               <span aria-hidden="true" className="relative h-4 w-5">
                 <span className="absolute left-0 top-0 h-0.5 w-5 bg-current transition-transform group-open:translate-y-[7px] group-open:rotate-45" />
                 <span className="absolute left-0 top-[7px] h-0.5 w-5 bg-current transition-opacity group-open:opacity-0" />
