@@ -175,12 +175,22 @@ describeIfDb("what a token returns", () => {
       const { token } = mintFeedToken();
       const membership = await membershipOf(db, WORKER);
       await createFeed(db, membership, token);
-      await db.query(
+
+      // Written as the supervisor, because that is who writes them: a trigger
+      // refuses a change to the work itself from anyone else, and the fixture
+      // was silently the one thing in this file that could not have happened in
+      // production.
+      await actAs(db, ADMIN);
+      await assertRlsIsEnforced(db);
+      const written = await db.query(
         `update public.assignments a set instructions = 'Code du portail: 4471'
          from public.assignment_assignees aa
          where aa.assignment_id = a.id and aa.company_membership_id = $1`,
         [membership],
       );
+      // Without this the test passes on an assignment that never got the
+      // instruction — proving only that a string nobody wrote is absent.
+      expect(written.rowCount ?? 0, "assignments given an instruction").toBeGreaterThan(0);
 
       const payload = await readFeed(db, token);
       expect(JSON.stringify(payload)).not.toContain("4471");
