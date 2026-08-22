@@ -120,9 +120,23 @@ export default async function Home() {
                   </span>
                 ))}
               </div>
-              <p className="text-sm text-[#94A3B8]">
-                <span className="text-amber-300">★★★★★</span> {t("hero.socialProof")}
-              </p>
+              {/*
+                No star rating, and the line beside it no longer claims reach.
+
+                Five stars are an aggregate of reviews, and there are none —
+                fabricated ratings are named outright in the unfair-commercial-
+                practices list, and the Belgian contractor this page is aimed at
+                is exactly who checks. The sentence had the same problem from
+                the other side: it said the platform was used by field teams
+                across Belgium while the origin section two blocks down says we
+                built it to run our own crews. A visitor reading both catches
+                the contradiction, and it costs more than either half did alone.
+
+                What is left is what is true today. The initials stay: they are
+                the same roster as the live card beside them, so they read as
+                that screen rather than as customers.
+              */}
+              <p className="text-sm text-[#94A3B8]">{t("hero.socialProof")}</p>
             </div>
           </div>
 
