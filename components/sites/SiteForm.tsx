@@ -3,9 +3,17 @@
 import { useActionState, useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { createSiteAction, geocodeSiteAddressAction, updateSiteAction, type SiteFormState } from "@/src/features/sites/actions";
 import { SITE_PRIORITIES, SITE_STATUSES, type ClientOption, type SiteRecord } from "@/src/features/sites/types";
 import ClientPicker from "./ClientPicker";
+
+/*
+ * Loaded in the browser only. Leaflet reads `window` at import time, so it
+ * cannot be part of the server pass — `ssr: false` is allowed here because this
+ * file is already a Client Component.
+ */
+const SiteLocationPicker = dynamic(() => import("@/src/components/maps/SiteLocationPicker"), { ssr: false });
 
 const field = "mt-2 min-h-12 w-full rounded-lg border border-edge-10 bg-surface-alt px-4 text-base text-ink outline-none placeholder:text-ink-subtle focus:border-brand focus:ring-2 focus:ring-brand/20 user-invalid:border-red-400";
 const label = "text-sm font-medium text-ink";
@@ -87,6 +95,20 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
 
   const [geocoding, startGeocoding] = useTransition();
   const [geocodeNote, setGeocodeNote] = useState<{ kind: "ok" | "error"; text: string } | null>(null);
+  /*
+   * Where the geocoder last put it, which is what the reset button aims at.
+   *
+   * Seeded from the stored record on an edit: a site saved with a corrected pin
+   * has no geocode result in this session, and without a seed the button would
+   * be missing for exactly the sites most likely to have been dragged before.
+   * It is the stored value, so on first load there is nothing to undo — the
+   * button appears only once the pin moves away from it.
+   */
+  const [geocoded, setGeocoded] = useState<{ latitude: number; longitude: number } | undefined>(
+    site?.latitude != null && site?.longitude != null
+      ? { latitude: site.latitude, longitude: site.longitude }
+      : undefined,
+  );
 
   const canGeocode = Boolean(fields.postal_code.trim() || fields.city.trim());
   const located = Boolean(fields.latitude.trim() && fields.longitude.trim());
@@ -109,6 +131,9 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
         latitude: result.latitude.toString(),
         longitude: result.longitude.toString(),
       }));
+      // Kept so the pin has somewhere to go back to. Only the geocoder writes
+      // it — a drag must not become the thing a drag is undone against.
+      setGeocoded({ latitude: result.latitude, longitude: result.longitude });
       setGeocodeNote({ kind: "ok", text: t("geocodeFound", { address: result.matchedAddress }) });
     });
   }
@@ -181,6 +206,32 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
           */}
           <input type="hidden" name="latitude" value={fields.latitude} />
           <input type="hidden" name="longitude" value={fields.longitude} />
+
+          {/*
+            The half that was missing. Hiding the decimals answered "cannot
+            use"; nothing answered "cannot correct", and until now a wrong
+            geocode had no way out. The pin is aimed at a roof, and still no
+            number reaches the screen.
+
+            Only shown once there is a position: a pin on nothing is the loose
+            coordinate this product decided not to have.
+          */}
+          {located ? (
+            <div className="mt-4">
+              <SiteLocationPicker
+                latitude={Number(fields.latitude)}
+                longitude={Number(fields.longitude)}
+                geocoded={geocoded}
+                onChange={(latitude, longitude) =>
+                  setFields((current) => ({
+                    ...current,
+                    latitude: latitude.toString(),
+                    longitude: longitude.toString(),
+                  }))
+                }
+              />
+            </div>
+          ) : null}
 
           <p className={`mt-4 text-xs font-semibold ${located ? "text-brand-bright" : "text-warning-soft"}`}>
             {located ? t("locationConfirmed") : t("locationMissing")}

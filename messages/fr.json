@@ -841,7 +841,10 @@
     "errAddToListFailed": "Cette personne n'a pas pu être ajoutée à la liste.",
     "errRemoveFromListFailed": "Cette personne n'a pas pu être retirée de la liste.",
     "okAddedToList": "Ajouté à la liste.",
-    "okRemovedFromList": "Retiré de la liste."
+    "okRemovedFromList": "Retiré de la liste.",
+    "markerMapLabel": "Carte pour corriger l'emplacement du chantier",
+    "markerHelp": "L'adresse place le repère dans la rue. Faites-le glisser au bon endroit — le portail, le bâtiment, l'entrée du chantier.",
+    "markerReset": "Remettre où l'adresse l'indiquait"
   },
   "weather": {
     "errNoCoordinates": "Aucune coordonnée enregistrée pour ce chantier.",

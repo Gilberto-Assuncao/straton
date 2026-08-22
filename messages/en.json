@@ -841,7 +841,10 @@
     "errAddToListFailed": "That person could not be added to the list.",
     "errRemoveFromListFailed": "That person could not be removed from the list.",
     "okAddedToList": "Added to the list.",
-    "okRemovedFromList": "Removed from the list."
+    "okRemovedFromList": "Removed from the list.",
+    "markerMapLabel": "Map for correcting the site's position",
+    "markerHelp": "The address puts the pin on the street. Drag it to the right spot — the gate, the building, the site entrance.",
+    "markerReset": "Put it back where the address said"
   },
   "weather": {
     "errNoCoordinates": "No coordinates set for this site yet.",

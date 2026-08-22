@@ -841,7 +841,10 @@
     "errAddToListFailed": "Această persoană nu a putut fi adăugată pe listă.",
     "errRemoveFromListFailed": "Această persoană nu a putut fi eliminată de pe listă.",
     "okAddedToList": "Adăugat pe listă.",
-    "okRemovedFromList": "Eliminat de pe listă."
+    "okRemovedFromList": "Eliminat de pe listă.",
+    "markerMapLabel": "Hartă pentru corectarea locației șantierului",
+    "markerHelp": "Adresa pune reperul în stradă. Trage-l în locul potrivit — poarta, clădirea, intrarea în șantier.",
+    "markerReset": "Înapoi unde indica adresa"
   },
   "weather": {
     "errNoCoordinates": "Încă nu există coordonate pentru acest șantier.",

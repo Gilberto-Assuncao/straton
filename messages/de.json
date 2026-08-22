@@ -841,7 +841,10 @@
     "errAddToListFailed": "Diese Person konnte nicht zur Liste hinzugefügt werden.",
     "errRemoveFromListFailed": "Diese Person konnte nicht von der Liste entfernt werden.",
     "okAddedToList": "Zur Liste hinzugefügt.",
-    "okRemovedFromList": "Von der Liste entfernt."
+    "okRemovedFromList": "Von der Liste entfernt.",
+    "markerMapLabel": "Karte zur Korrektur des Baustellenstandorts",
+    "markerHelp": "Die Adresse setzt die Markierung auf die Straße. Ziehen Sie sie an die richtige Stelle — das Tor, das Gebäude, die Einfahrt.",
+    "markerReset": "Dorthin zurücksetzen, wo die Adresse lag"
   },
   "weather": {
     "errNoCoordinates": "Für diese Baustelle sind noch keine Koordinaten hinterlegt.",

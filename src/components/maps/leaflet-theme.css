@@ -1,0 +1,38 @@
+/*
+ * Leaflet, wearing this product's palette.
+ *
+ * Its stylesheet paints `.leaflet-container` `#ddd` and styles the zoom
+ * controls white-on-white. Both are reasonable defaults for a page that is
+ * light, and both are wrong here twice over: on the dark theme the map is a
+ * grey slab in the middle of a navy card, and on either theme the controls
+ * belong to Leaflet rather than to us.
+ *
+ * These are global on purpose. Leaflet's own CSS is global, so an override
+ * scoped to a module would lose to it on specificity and load order.
+ *
+ * The grey matters more than it looks: with no tile URL configured the
+ * container background is the *whole* map, so it is what a site manager sees
+ * while dragging the pin until the tiles are switched on (#54).
+ */
+.leaflet-container {
+  background: var(--surface-deep);
+  font: inherit;
+}
+
+.leaflet-control-zoom a {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--edge-15);
+}
+
+.leaflet-control-zoom a:hover {
+  background: var(--surface-inset);
+  color: var(--ink-bright);
+}
+
+/* Leaflet draws its own focus ring, which is not the one the rest of the
+   product uses — and a keyboard is how the pin is reached without a mouse. */
+.leaflet-container :focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}

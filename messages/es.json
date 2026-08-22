@@ -841,7 +841,10 @@
     "errAddToListFailed": "No se pudo añadir a esa persona a la lista.",
     "errRemoveFromListFailed": "No se pudo eliminar a esa persona de la lista.",
     "okAddedToList": "Añadido a la lista.",
-    "okRemovedFromList": "Eliminado de la lista."
+    "okRemovedFromList": "Eliminado de la lista.",
+    "markerMapLabel": "Mapa para corregir la ubicación de la obra",
+    "markerHelp": "La dirección pone el pin en la calle. Arrástrelo al sitio correcto — la puerta, el edificio, la entrada de la obra.",
+    "markerReset": "Volver a donde indicaba la dirección"
   },
   "weather": {
     "errNoCoordinates": "Todavía no hay coordenadas para esta obra.",
