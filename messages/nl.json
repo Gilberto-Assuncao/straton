@@ -841,7 +841,10 @@
     "errAddToListFailed": "Die persoon kon niet aan de lijst worden toegevoegd.",
     "errRemoveFromListFailed": "Die persoon kon niet van de lijst worden verwijderd.",
     "okAddedToList": "Toegevoegd aan de lijst.",
-    "okRemovedFromList": "Verwijderd van de lijst."
+    "okRemovedFromList": "Verwijderd van de lijst.",
+    "markerMapLabel": "Kaart om de locatie van de werf te corrigeren",
+    "markerHelp": "Het adres zet de speld op straat. Sleep hem naar de juiste plek — de poort, het gebouw, de ingang van de werf.",
+    "markerReset": "Terugzetten waar het adres aangaf"
   },
   "weather": {
     "errNoCoordinates": "Nog geen coördinaten ingesteld voor deze werf.",

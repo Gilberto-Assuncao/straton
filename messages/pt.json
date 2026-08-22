@@ -841,7 +841,10 @@
     "errAddToListFailed": "Não foi possível adicionar essa pessoa à lista.",
     "errRemoveFromListFailed": "Não foi possível remover essa pessoa da lista.",
     "okAddedToList": "Adicionado à lista.",
-    "okRemovedFromList": "Removido da lista."
+    "okRemovedFromList": "Removido da lista.",
+    "markerMapLabel": "Mapa para corrigir a localização do estaleiro",
+    "markerHelp": "A morada põe o pino na rua. Arraste-o até ao sítio certo — o portão, o edifício, a entrada da obra.",
+    "markerReset": "Repor onde a morada indicava"
   },
   "weather": {
     "errNoCoordinates": "Ainda não há coordenadas para esta obra.",

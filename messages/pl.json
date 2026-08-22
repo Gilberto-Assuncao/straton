@@ -841,7 +841,10 @@
     "errAddToListFailed": "Nie udało się dodać tej osoby do listy.",
     "errRemoveFromListFailed": "Nie udało się usunąć tej osoby z listy.",
     "okAddedToList": "Dodano do listy.",
-    "okRemovedFromList": "Usunięto z listy."
+    "okRemovedFromList": "Usunięto z listy.",
+    "markerMapLabel": "Mapa do poprawienia lokalizacji budowy",
+    "markerHelp": "Adres umieszcza pinezkę na ulicy. Przeciągnij ją we właściwe miejsce — brama, budynek, wjazd na budowę.",
+    "markerReset": "Przywróć tam, gdzie wskazywał adres"
   },
   "weather": {
     "errNoCoordinates": "Dla tej budowy nie ustawiono jeszcze współrzędnych.",
