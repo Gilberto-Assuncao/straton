@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/src/i18n/navigation";
+import Image from "next/image";
 import { routing } from "@/src/i18n/routing";
 import { AUTHOR } from "@/src/config/author";
 import styles from "./page.module.css";
@@ -189,14 +190,26 @@ export default async function Home() {
           */}
           <div className="grid place-items-center rounded-[10px] border border-[#1B1B1B] bg-[#050505] px-11 py-10">
             {/*
-              The wordmark stands in until the dark-background file lands. Not a
-              drawn approximation: their manual forbids altering the mark or the
-              typeface, and a hand-made lookalike would end up beside the real
-              one on vans and polo shirts.
+              Their file, unaltered. The horizontal lockup for dark backgrounds
+              — the light-background one is 1.01:1 against this plate, and their
+              manual says as much: "não usar em fundos sem contraste".
+              Transparent margins were cropped, which is framing and not a
+              change to the mark; nothing else was touched, because the manual
+              forbids recolouring it or redrawing the typeface.
+
+              Kept at its native 656px rather than upscaled: that covers the
+              280px it renders at on a 2.3x display, and enlarging a raster adds
+              weight without adding detail. Not quantised either — 64 colours
+              would halve the file and shift some pixels by 52/255, which the
+              gradient on the B would show as banding.
             */}
-            <p className="max-w-[280px] text-center text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-              {t("builtBy.company")}
-            </p>
+            <Image
+              src="/belnex-energy.png"
+              alt={t("builtBy.company")}
+              width={656}
+              height={230}
+              className="h-auto w-full max-w-[280px]"
+            />
           </div>
         </div>
       </section>
