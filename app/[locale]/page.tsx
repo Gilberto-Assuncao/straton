@@ -179,13 +179,21 @@ export default async function Home() {
         Said plainly instead, it is the stronger argument: this was built by a
         field company that needed it.
 
-        The layout is the answer to the hard part. BELNEX's mark is lime
-        `#8DFF00` against our `#22C55E` — 107, 58 and 94 apart per channel, two
-        different colours rather than two shades — and their manual forbids
-        recolouring it. So the logo gets a surface of its own, `#050505`, which
-        reads as *their* ground rather than ours, and the section keeps a dead
-        zone: no `#22C55E` element within 96px of it. Two greens that never
-        meet cannot argue.
+        The hard part is that BELNEX's mark is lime `#8DFF00` against our
+        `#22C55E` — 107, 58 and 94 apart per channel, two different colours
+        rather than two shades — and their manual forbids recolouring it.
+
+        This first shipped with the mark on a near-black plate of its own, so
+        that the lime never touched a STRATON surface. The owner's call was to
+        take the plate away and let the mark sit on the page's own ground, and
+        the file supports it: 85% of its pixels are fully transparent and all
+        four corners are alpha 0, so what lands here is the lockup and not a
+        rectangle.
+
+        Which leaves the dead zone doing the whole job on its own, and makes it
+        stricter rather than looser: no `#22C55E` element within 96px of the
+        mark. Two greens that never meet cannot argue — and with the plate gone
+        there is nothing else keeping them apart.
       */}
       <section className="border-y border-white/10 bg-[#0F172A]/40">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 sm:px-10 md:grid-cols-[1fr_400px] md:gap-20 md:px-36 md:py-24">
@@ -198,18 +206,21 @@ export default async function Home() {
           </div>
 
           {/*
-            Their ground, not ours. The plate is what keeps the lime mark from
-            sitting directly on a STRATON surface — and it is why nothing in
-            this section is our green.
+            No plate, and no padding standing in for one: the mark's own
+            transparent margins were cropped when the file was prepared, so the
+            spacing around it here is the section's `gap`, not a border nobody
+            can see.
           */}
-          <div className="grid place-items-center rounded-[10px] border border-[#1B1B1B] bg-[#050505] px-11 py-10">
+          <div className="grid place-items-center">
             {/*
-              Their file, unaltered. The horizontal lockup for dark backgrounds
-              — the light-background one is 1.01:1 against this plate, and their
-              manual says as much: "não usar em fundos sem contraste".
-              Transparent margins were cropped, which is framing and not a
-              change to the mark; nothing else was touched, because the manual
-              forbids recolouring it or redrawing the typeface.
+              Their file, unaltered. The horizontal lockup for dark
+              backgrounds, which is still the right one now that the ground is
+              this section rather than a plate: `#0F172A` at 40% over the page
+              is dark, and their manual asks for exactly that — "não usar em
+              fundos sem contraste". Transparent margins were cropped, which is
+              framing and not a change to the mark; nothing else was touched,
+              because the manual forbids recolouring it or redrawing the
+              typeface.
 
               Kept at its native 656px rather than upscaled: that covers the
               280px it renders at on a 2.3x display, and enlarging a raster adds
