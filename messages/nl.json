@@ -20,7 +20,8 @@
     "availability": "Beschikbaarheid",
     "employees": "Mensen",
     "sectionTeam": "Team",
-    "sectionTime": "Tijd en loon"
+    "sectionTime": "Tijd en loon",
+    "help": "Help"
   },
   "dashboard": {
     "eyebrow": "Overzicht",
@@ -1772,5 +1773,14 @@
     "backHome": "Terug naar de startpagina",
     "updatedOn": "Laatst bijgewerkt op {date}",
     "fallbackNotice": "Dit document is geschreven in het Engels, het Nederlands en het Frans. U leest de Engelse versie."
+  },
+  "help": {
+    "eyebrow": "HANDLEIDING",
+    "title": "Hoe STRATON werkt",
+    "description": "Vier korte gidsen, en de regels die bewust zijn maar op fouten lijken.",
+    "open": "Lezen",
+    "backToGuides": "Alle gidsen",
+    "fallbackToEnglish": "Deze gids is nog niet naar jouw taal vertaald. Wat volgt is de Engelse versie.",
+    "fallbackToPortuguese": "Deze gids is nog niet naar jouw taal vertaald. Wat volgt is de Europees-Portugese versie."
   }
 }
