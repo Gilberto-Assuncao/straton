@@ -18,17 +18,19 @@ const ADMIN = DEMO.belnex.adminUserId;
 const WORKER = DEMO.belnex.fieldUserId;
 
 describeIfDb("who can read a firm's clients", () => {
-  it("its own members can", async () => {
+  it("its own members can, and see both kinds", async () => {
     await withRollback(async (db) => {
       await actAs(db, ADMIN);
       await assertRlsIsEnforced(db);
-      const { rows } = await db.query<{ count: string }>(
-        "select count(*)::text as count from public.clients where company_id = $1",
+      const { rows } = await db.query<{ kind: string }>(
+        "select distinct kind from public.clients where company_id = $1 order by kind",
         [DEMO.belnex.companyId],
       );
-      // The seed gives Belnex two companies and one private client. A zero
-      // here would make every isolation assertion below meaningless.
-      expect(Number(rows[0].count), "Belnex clients in the demo data").toBeGreaterThan(2);
+      // Both kinds, not a count. An empty read would make every isolation
+      // assertion below meaningless, and a count would go stale the day the
+      // demo data grows — what matters is that a firm's book holds a company
+      // and a person at the same time, which is the whole point of the table.
+      expect(rows.map((row) => row.kind)).toEqual(["company", "individual"]);
     });
   });
 
