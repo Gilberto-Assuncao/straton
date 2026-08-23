@@ -1,3 +1,10 @@
+col:agenda_feeds.company_id
+col:agenda_feeds.company_membership_id
+col:agenda_feeds.created_at
+col:agenda_feeds.id
+col:agenda_feeds.last_fetched_at
+col:agenda_feeds.revoked_at
+col:agenda_feeds.token_digest
 col:assignment_assignees.assignment_id
 col:assignment_assignees.company_id
 col:assignment_assignees.company_membership_id
@@ -491,6 +498,7 @@ fn:private.validate_team_leader_company()
 fn:private.validate_team_membership_company()
 fn:private.validate_team_operational_membership()
 fn:public.accept_company_invite(p_token text, p_company_name text, p_registration_number text, p_vat_number text, p_address_line_1 text, p_postal_code text, p_city text, p_job_title text)
+fn:public.agenda_feed_events(p_token text, p_from timestamp with time zone, p_until timestamp with time zone)
 fn:public.availability_conflicts(p_membership_ids uuid[], p_starts_at timestamp with time zone, p_ends_at timestamp with time zone)
 fn:public.company_invite_preview(p_token text)
 fn:public.company_membership_exists(target_company_id uuid)
@@ -509,6 +517,9 @@ fn:public.update_team(team_id_input uuid, name_input text, description_input tex
 fn:public.worked_hours_by_person(p_from timestamp with time zone, p_to timestamp with time zone, p_site_ids uuid[])
 fn:public.worked_hours_by_site(p_from timestamp with time zone, p_to timestamp with time zone, p_site_ids uuid[])
 fn:public.worked_hours_by_subdivision(p_from timestamp with time zone, p_to timestamp with time zone, p_site_ids uuid[])
+pol:agenda_feeds.agenda_feeds_create
+pol:agenda_feeds.agenda_feeds_read
+pol:agenda_feeds.agenda_feeds_revoke
 pol:assignment_assignees.assignment_assignees_delete
 pol:assignment_assignees.assignment_assignees_read
 pol:assignment_assignees.assignment_assignees_write

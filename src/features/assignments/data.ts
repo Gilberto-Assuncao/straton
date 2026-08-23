@@ -206,3 +206,38 @@ export async function getAssignmentOptions(): Promise<AssignmentOptions> {
     })),
   };
 }
+
+/**
+ * Whether this person currently publishes their week, and when it was last read
+ * (#49, passo 2).
+ *
+ * The URL itself is not here and cannot be: only its digest was ever stored.
+ * What the screen can honestly show is that a subscription exists, and when a
+ * calendar client last collected it — which is the one thing that would make a
+ * leaked link visible to the person it belongs to.
+ */
+export interface AgendaFeedState {
+  active: boolean;
+  createdAt: string | null;
+  lastFetchedAt: string | null;
+}
+
+export async function getAgendaFeedState(): Promise<AgendaFeedState> {
+  const { session } = await requireActiveCompany();
+  const membershipId = session.activeCompany?.membershipId;
+  if (!membershipId) return { active: false, createdAt: null, lastFetchedAt: null };
+
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("agenda_feeds")
+    .select("created_at,last_fetched_at")
+    .eq("company_membership_id", membershipId)
+    .is("revoked_at", null)
+    .maybeSingle();
+
+  return {
+    active: Boolean(data),
+    createdAt: data?.created_at ?? null,
+    lastFetchedAt: data?.last_fetched_at ?? null,
+  };
+}
