@@ -4,7 +4,9 @@ import { useState, useTransition } from "react";
 import { useTranslations } from "next-intl";
 import { changeAssignmentStatusAction, deleteAssignmentAction } from "@/src/features/assignments/actions";
 import type { AgendaDay, AssignmentRecord, AssignmentStatus } from "@/src/features/assignments/types";
+import type { AgendaSwapContext } from "@/src/features/assignments/data";
 import RescheduleForm from "./RescheduleForm";
+import SwapPanel from "./SwapPanel";
 
 const statusTone: Record<AssignmentStatus, string> = {
   planned: "bg-edge-10 text-ink-muted",
@@ -23,11 +25,14 @@ export default function AgendaWeek({
   days,
   today,
   sites = [],
+  swaps,
 }: {
   days: AgendaDay[];
   today: string;
   /** Only supplied for supervisors — the reschedule form needs somewhere to move a job to. */
   sites?: { id: string; name: string }[];
+  /** Who the viewer is, and which shifts already have a swap being decided. */
+  swaps: AgendaSwapContext;
 }) {
   const t = useTranslations("agenda");
   const [pending, startTransition] = useTransition();
@@ -135,6 +140,12 @@ export default function AgendaWeek({
                     {editing === assignment.id ? (
                       <RescheduleForm assignment={assignment} sites={sites} onDone={() => setEditing(null)} />
                     ) : null}
+
+                    <SwapPanel
+                      assignment={assignment}
+                      swap={swaps.open[assignment.id] ?? null}
+                      context={swaps}
+                    />
                   </li>
                 ))}
               </ul>
