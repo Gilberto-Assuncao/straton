@@ -1734,5 +1734,10 @@
     "todaySoFar": "{hours} astăzi",
     "whereLabel": "Locație de lucru",
     "working": "O clipă…"
+  },
+  "legal": {
+    "backHome": "Înapoi la pagina principală",
+    "updatedOn": "Ultima actualizare: {date}",
+    "fallbackNotice": "Acest document este redactat în engleză, neerlandeză și franceză. Citiți versiunea în engleză."
   }
 }

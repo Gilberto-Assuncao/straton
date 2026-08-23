@@ -568,9 +568,9 @@ export default async function Home() {
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[#64748B]">{t("footer.legalHeading")}</p>
             <ul className="mt-4 space-y-2.5 text-sm text-[#94A3B8]">
-              <li><a href="#" className="hover:text-white">{t("footer.footerPrivacy")}</a></li>
-              <li><a href="#" className="hover:text-white">{t("footer.footerTerms")}</a></li>
-              <li><a href="#" className="hover:text-white">{t("footer.footerSecurity")}</a></li>
+              <li><Link href="/legal/privacy" className="hover:text-white">{t("footer.footerPrivacy")}</Link></li>
+              <li><Link href="/legal/terms" className="hover:text-white">{t("footer.footerTerms")}</Link></li>
+              <li><Link href="/legal/security" className="hover:text-white">{t("footer.footerSecurity")}</Link></li>
             </ul>
           </div>
         </div>

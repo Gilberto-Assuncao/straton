@@ -1734,5 +1734,10 @@
     "todaySoFar": "{hours} finora oggi",
     "whereLabel": "Luogo di lavoro",
     "working": "Un momento…"
+  },
+  "legal": {
+    "backHome": "Torna alla pagina iniziale",
+    "updatedOn": "Ultimo aggiornamento: {date}",
+    "fallbackNotice": "Questo documento è redatto in inglese, olandese e francese. Stai leggendo la versione inglese."
   }
 }

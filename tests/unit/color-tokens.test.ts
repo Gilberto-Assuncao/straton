@@ -109,6 +109,13 @@ const BUDGET: Record<string, number> = {
    * means the page grew, and the honest reading needs the difference stated.
    */
   "app/[locale]/page.tsx": 180,
+  /*
+   * One, and it cannot be a token. The browser paints the install splash and
+   * the status bar from the manifest before a stylesheet exists, so the value
+   * has to be a literal. It is held to the palette a different way:
+   * `tests/unit/manifest.test.ts` fails if it stops matching `--canvas`.
+   */
+  "app/manifest.ts": 1,
   "src/components/ui/StratonMark.tsx": 6,
   "components/settings/SettingsHub.tsx": 6,
   "src/components/ui/Button.tsx": 1,
