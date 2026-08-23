@@ -1734,5 +1734,10 @@
     "todaySoFar": "{hours} vandaag tot nu toe",
     "whereLabel": "Werklocatie",
     "working": "Een moment…"
+  },
+  "legal": {
+    "backHome": "Terug naar de startpagina",
+    "updatedOn": "Laatst bijgewerkt op {date}",
+    "fallbackNotice": "Dit document is geschreven in het Engels, het Nederlands en het Frans. U leest de Engelse versie."
   }
 }

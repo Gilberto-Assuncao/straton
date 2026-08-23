@@ -1734,5 +1734,10 @@
     "todaySoFar": "{hours} dzisiaj",
     "whereLabel": "Lokalizacja pracy",
     "working": "Chwileczkę…"
+  },
+  "legal": {
+    "backHome": "Powrót do strony głównej",
+    "updatedOn": "Ostatnia aktualizacja: {date}",
+    "fallbackNotice": "Ten dokument jest napisany po angielsku, niderlandzku i francusku. Czytasz wersję angielską."
   }
 }

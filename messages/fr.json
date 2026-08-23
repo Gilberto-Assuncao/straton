@@ -1734,5 +1734,10 @@
     "todaySoFar": "{hours} aujourd'hui",
     "whereLabel": "Site de travail",
     "working": "Un instant…"
+  },
+  "legal": {
+    "backHome": "Retour à la page d'accueil",
+    "updatedOn": "Dernière mise à jour le {date}",
+    "fallbackNotice": "Ce document est rédigé en anglais, néerlandais et français. Vous lisez la version anglaise."
   }
 }
