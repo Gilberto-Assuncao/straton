@@ -154,7 +154,7 @@ export default function SiteForm({ site, clients }: { site?: SiteRecord; clients
         </div>
 
         {/* Holds its own selection in state, so the reset does not reach it. */}
-        <ClientPicker clients={clients} defaultValue={site?.clientCompanyId} />
+        <ClientPicker clients={clients} defaultValue={site?.clientId} />
 
         <div className="sm:col-span-2">
           <label htmlFor="site-street" className={label}>{t("streetLabel")}</label>

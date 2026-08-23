@@ -844,7 +844,17 @@
     "okRemovedFromList": "Removido da lista.",
     "markerMapLabel": "Mapa para corrigir a localização do canteiro",
     "markerHelp": "O endereço põe o pino na rua. Arraste-o até o lugar certo — o portão, o prédio, a entrada da obra.",
-    "markerReset": "Restaurar onde o endereço indicava"
+    "markerReset": "Restaurar onde o endereço indicava",
+    "clientKindLabel": "Este cliente é",
+    "clientKindCompany": "Uma empresa",
+    "clientKindIndividual": "Uma pessoa",
+    "newClientHelpPerson": "Um cliente pessoa física não tem número de empresa, e não precisa ter.",
+    "personNameLabel": "Nome completo",
+    "personNamePlaceholder": "ex.: Sra. Claire Dupont",
+    "personEmailLabel": "E-mail (opcional)",
+    "personPhoneLabel": "Telefone (opcional)",
+    "personCityLabel": "Cidade (opcional)",
+    "personAdd": "Adicionar esta pessoa"
   },
   "weather": {
     "errNoCoordinates": "Ainda não há coordenadas para esta obra.",

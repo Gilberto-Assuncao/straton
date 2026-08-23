@@ -844,7 +844,17 @@
     "okRemovedFromList": "Eliminado de la lista.",
     "markerMapLabel": "Mapa para corregir la ubicación de la obra",
     "markerHelp": "La dirección pone el pin en la calle. Arrástrelo al sitio correcto — la puerta, el edificio, la entrada de la obra.",
-    "markerReset": "Volver a donde indicaba la dirección"
+    "markerReset": "Volver a donde indicaba la dirección",
+    "clientKindLabel": "Este cliente es",
+    "clientKindCompany": "Una empresa",
+    "clientKindIndividual": "Un particular",
+    "newClientHelpPerson": "Un cliente particular no tiene número de empresa, ni le hace falta.",
+    "personNameLabel": "Nombre completo",
+    "personNamePlaceholder": "p. ej. Sra. Claire Dupont",
+    "personEmailLabel": "Correo (opcional)",
+    "personPhoneLabel": "Teléfono (opcional)",
+    "personCityLabel": "Localidad (opcional)",
+    "personAdd": "Añadir a esta persona"
   },
   "weather": {
     "errNoCoordinates": "Todavía no hay coordenadas para esta obra.",

@@ -844,7 +844,17 @@
     "okRemovedFromList": "Retiré de la liste.",
     "markerMapLabel": "Carte pour corriger l'emplacement du chantier",
     "markerHelp": "L'adresse place le repère dans la rue. Faites-le glisser au bon endroit — le portail, le bâtiment, l'entrée du chantier.",
-    "markerReset": "Remettre où l'adresse l'indiquait"
+    "markerReset": "Remettre où l'adresse l'indiquait",
+    "clientKindLabel": "Ce client est",
+    "clientKindCompany": "Une entreprise",
+    "clientKindIndividual": "Un particulier",
+    "newClientHelpPerson": "Un client particulier n'a pas de numéro d'entreprise, et n'en a pas besoin.",
+    "personNameLabel": "Nom complet",
+    "personNamePlaceholder": "p. ex. Mme Claire Dupont",
+    "personEmailLabel": "E-mail (facultatif)",
+    "personPhoneLabel": "Téléphone (facultatif)",
+    "personCityLabel": "Commune (facultatif)",
+    "personAdd": "Ajouter cette personne"
   },
   "weather": {
     "errNoCoordinates": "Aucune coordonnée enregistrée pour ce chantier.",

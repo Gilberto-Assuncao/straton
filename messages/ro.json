@@ -844,7 +844,17 @@
     "okRemovedFromList": "Eliminat de pe listă.",
     "markerMapLabel": "Hartă pentru corectarea locației șantierului",
     "markerHelp": "Adresa pune reperul în stradă. Trage-l în locul potrivit — poarta, clădirea, intrarea în șantier.",
-    "markerReset": "Înapoi unde indica adresa"
+    "markerReset": "Înapoi unde indica adresa",
+    "clientKindLabel": "Acest client este",
+    "clientKindCompany": "O firmă",
+    "clientKindIndividual": "O persoană fizică",
+    "newClientHelpPerson": "Un client persoană fizică nu are număr de firmă și nici nu îi trebuie.",
+    "personNameLabel": "Nume complet",
+    "personNamePlaceholder": "ex.: dna Claire Dupont",
+    "personEmailLabel": "E-mail (opțional)",
+    "personPhoneLabel": "Telefon (opțional)",
+    "personCityLabel": "Localitate (opțional)",
+    "personAdd": "Adaugă această persoană"
   },
   "weather": {
     "errNoCoordinates": "Încă nu există coordonate pentru acest șantier.",
