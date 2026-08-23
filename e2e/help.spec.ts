@@ -22,10 +22,13 @@ test.describe("the manual", () => {
     await page.getByRole("link", { name: "Help", exact: true }).first().click();
     await expect(page).toHaveURL(/\/dashboard\/help$/);
 
-    const cards = page.getByRole("heading", { level: 2 });
+    // By destination, not by heading level: `PageHeader` renders the page
+    // title as an h2 as well, so counting h2s counts five things and finds the
+    // wrong one first.
+    const cards = page.locator('a[href*="/dashboard/help/"]');
     await expect(cards).toHaveCount(4);
     // Signed in as an owner/admin, so the company guide leads.
-    await expect(cards.first()).toHaveText("Running the company");
+    await expect(cards.first()).toContainText("Running the company");
 
     // And the cards lead somewhere. A grid of four links to nothing would
     // satisfy every assertion above.
