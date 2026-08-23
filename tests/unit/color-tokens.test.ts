@@ -102,13 +102,15 @@ const BUDGET: Record<string, number> = {
   /*
    * Restored to its pre-token form; see EXEMPT. This one number counts page
    * *size*, not drift: the landing is hand-coloured by decision, so any section
-   * added to it raises the count. Raised from 174 when the origin band went in
-   * (`#050505`, `#1B1B1B`, `#E5E7EB` — the plate the BELNEX mark sits on, and
-   * the title colour the design specifies). Everywhere else in this table, a
-   * rise means somebody wrote a colour that should have been a token; here it
-   * means the page grew, and the honest reading needs the difference stated.
+   * added to it raises the count. It went 174 → 180 when the origin band was
+   * added (`#050505`, `#1B1B1B`, `#E5E7EB` — the plate the BELNEX mark sat on,
+   * and the title colour the design specifies), and 180 → 178 when the owner
+   * asked for the plate to go and the mark to sit on the page's own ground.
+   * Everywhere else in this table, a rise means somebody wrote a colour that
+   * should have been a token; here it means the page grew, and the honest
+   * reading needs the difference stated.
    */
-  "app/[locale]/page.tsx": 180,
+  "app/[locale]/page.tsx": 178,
   /*
    * One, and it cannot be a token. The browser paints the install splash and
    * the status bar from the manifest before a stylesheet exists, so the value
