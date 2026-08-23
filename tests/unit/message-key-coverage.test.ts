@@ -28,6 +28,7 @@ const UNIONS = [
   { file: "src/features/partners/messages.ts", type: "PartnerMessageKey", namespace: "companies" },
   { file: "src/features/roster/messages.ts", type: "RosterMessageKey", namespace: "roster" },
   { file: "src/features/assignments/feed-actions.ts", type: "AgendaFeedMessageKey", namespace: "agenda" },
+  { file: "src/features/assignments/swap-actions.ts", type: "SwapMessageKey", namespace: "agenda" },
 ];
 
 type Messages = Record<string, Record<string, string>>;

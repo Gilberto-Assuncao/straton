@@ -5,7 +5,7 @@ import PageHeader from "@/components/dashboard/PageHeader";
 import AgendaWeek from "@/components/agenda/AgendaWeek";
 import AssignmentForm from "@/components/agenda/AssignmentForm";
 import AgendaSubscription from "@/components/agenda/AgendaSubscription";
-import { getAgenda, getAgendaFeedState, getAssignmentOptions } from "@/src/features/assignments/data";
+import { getAgenda, getAgendaFeedState, getAgendaSwapContext, getAssignmentOptions } from "@/src/features/assignments/data";
 
 export const metadata: Metadata = { title: "Agenda" };
 
@@ -17,9 +17,10 @@ function shiftWeek(weekStart: string, days: number): string {
 
 export default async function AgendaPage({ searchParams }: { searchParams: Promise<{ week?: string }> }) {
   const { week } = await searchParams;
-  const [agenda, feed, t, format] = await Promise.all([
+  const [agenda, feed, swaps, t, format] = await Promise.all([
     getAgenda(week),
     getAgendaFeedState(),
+    getAgendaSwapContext(),
     getTranslations("agenda"),
     getFormatter(),
   ]);
@@ -61,7 +62,7 @@ export default async function AgendaPage({ searchParams }: { searchParams: Promi
       />
 
       <div className="mt-8 grid gap-6">
-        <AgendaWeek days={agenda.days} today={agenda.today} sites={options?.sites ?? []} />
+        <AgendaWeek days={agenda.days} today={agenda.today} sites={options?.sites ?? []} swaps={swaps} />
         {options ? <AssignmentForm options={options} /> : null}
         <AgendaSubscription
           state={feed}

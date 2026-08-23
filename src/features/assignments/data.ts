@@ -117,9 +117,32 @@ export async function getAgenda(weekStartISO?: string): Promise<Agenda> {
     crews.set(row.assignment_id, crew);
   }
 
+  /**
+   * Shifts somebody has asked *you* to take (#25).
+   *
+   * Without this the feature has a hole with no bottom: the colleague gets an
+   * ACTION_REQUIRED notification pointing at /dashboard/agenda, opens it, and
+   * the shift is not there — because it is not theirs yet, and a worker's
+   * agenda shows only their own. They would have been asked, told to look, and
+   * shown nothing. The same shape as `nav.agenda`, one layer down.
+   *
+   * Only for people who are not managers; a manager already sees the week.
+   */
+  const askedOfMe = new Set<string>();
+  if (!isManager && myMembershipId) {
+    const { data: pending } = await supabase
+      .from("assignment_swaps")
+      .select("assignment_id")
+      .eq("to_membership_id", myMembershipId)
+      .in("status", ["proposed", "accepted_by_peer"]);
+    for (const row of (pending ?? []) as { assignment_id: string }[]) askedOfMe.add(row.assignment_id);
+  }
+
   const rows = weekAssignments.filter(
     (row) =>
-      isManager || (crews.get(row.id) ?? []).some((assignee) => assignee.company_membership_id === myMembershipId),
+      isManager
+      || askedOfMe.has(row.id)
+      || (crews.get(row.id) ?? []).some((assignee) => assignee.company_membership_id === myMembershipId),
   );
 
   const records: AssignmentRecord[] = rows.map((row) => {
@@ -239,5 +262,100 @@ export async function getAgendaFeedState(): Promise<AgendaFeedState> {
     active: Boolean(data),
     createdAt: data?.created_at ?? null,
     lastFetchedAt: data?.last_fetched_at ?? null,
+  };
+}
+
+/**
+ * The swap layer over the week (#25).
+ *
+ * Kept apart from `getAgenda` on purpose: the agenda is read by everyone on
+ * every visit, and most weeks have no swap in them at all. One extra query that
+ * usually returns nothing beats widening the query that always runs.
+ */
+export type SwapStatus = "proposed" | "accepted_by_peer" | "approved" | "rejected" | "cancelled";
+
+export interface AgendaSwap {
+  id: string;
+  assignmentId: string;
+  status: SwapStatus;
+  fromMembershipId: string;
+  fromName: string;
+  toMembershipId: string;
+  toName: string;
+  reason: string | null;
+}
+
+export interface AgendaSwapContext {
+  /** Who the viewer is, as a membership — the id every swap is keyed on. */
+  viewerMembershipId: string | null;
+  isManager: boolean;
+  /** Swaps still being decided, by assignment id. At most one per assignment. */
+  open: Record<string, AgendaSwap>;
+  /** Who can be asked: everyone active in the company except the viewer. */
+  colleagues: { membershipId: string; name: string }[];
+}
+
+export async function getAgendaSwapContext(): Promise<AgendaSwapContext> {
+  const { companyId, session } = await requireActiveCompany();
+  const membership = session.activeCompany;
+  const viewerMembershipId = membership?.membershipId ?? null;
+  const isManager = Boolean(membership?.roles.some((role) => MANAGER_ROLES.includes(role)));
+
+  const supabase = await createClient();
+
+  const [{ data: swapRows }, { data: peopleRows }] = await Promise.all([
+    supabase
+      .from("assignment_swaps")
+      .select("id,assignment_id,status,from_membership_id,to_membership_id,reason")
+      .eq("company_id", companyId)
+      .in("status", ["proposed", "accepted_by_peer"]),
+    supabase
+      .from("company_memberships")
+      .select("id,users!company_memberships_user_id_fkey(name)")
+      .eq("company_id", companyId)
+      .eq("status", "active"),
+  ]);
+
+  type PersonRow = { id: string; users: RelatedOne<{ name: string }> };
+  // Names are resolved from this one list rather than joined onto the swap
+  // twice. A swap points at two memberships and the join would be ambiguous;
+  // a map is also what the colleague picker needs anyway.
+  const names = new Map<string, string>();
+  for (const row of (peopleRows ?? []) as PersonRow[]) {
+    const name = first(row.users)?.name;
+    if (name) names.set(row.id, name);
+  }
+
+  type SwapRow = {
+    id: string;
+    assignment_id: string;
+    status: SwapStatus;
+    from_membership_id: string;
+    to_membership_id: string;
+    reason: string | null;
+  };
+
+  const open: Record<string, AgendaSwap> = {};
+  for (const row of (swapRows ?? []) as SwapRow[]) {
+    open[row.assignment_id] = {
+      id: row.id,
+      assignmentId: row.assignment_id,
+      status: row.status,
+      fromMembershipId: row.from_membership_id,
+      fromName: names.get(row.from_membership_id) ?? "",
+      toMembershipId: row.to_membership_id,
+      toName: names.get(row.to_membership_id) ?? "",
+      reason: row.reason,
+    };
+  }
+
+  return {
+    viewerMembershipId,
+    isManager,
+    open,
+    colleagues: [...names.entries()]
+      .filter(([id]) => id !== viewerMembershipId)
+      .map(([membershipId, name]) => ({ membershipId, name }))
+      .sort((a, b) => a.name.localeCompare(b.name)),
   };
 }
