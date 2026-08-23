@@ -12,8 +12,10 @@ export type SiteRecord = {
   longitude: number | null;
   poNumber: string | null;
   costCenter: string | null;
-  clientCompanyId: string | null;
+  clientId: string | null;
   clientName: string | null;
+  /** Null when the site has no client, which is allowed. */
+  clientKind: ClientKind | null;
   startsAt: string | null;
   endsAt: string | null;
   // What used to live on the project and now lives here (#77, migration
@@ -35,7 +37,10 @@ export type SiteStatus = (typeof SITE_STATUSES)[number];
 export const SITE_PRIORITIES = ["low", "medium", "high", "critical"] as const;
 export type SitePriority = (typeof SITE_PRIORITIES)[number];
 
-export type ClientOption = { id: string; name: string; city: string | null };
+/** A client is a person or a registered company (#85). */
+export type ClientKind = "individual" | "company";
+
+export type ClientOption = { id: string; name: string; kind: ClientKind; city: string | null };
 
 /**
  * A subdivision inside a work location — "1er étage", "Elétrica da Sala".

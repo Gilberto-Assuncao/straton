@@ -33,7 +33,7 @@ const managerRoles = ["owner", "admin", "administrator", "manager"];
 /** Every field `parseSite` reads, so nothing typed is dropped on a refusal. */
 const SITE_FIELDS = [
   "name", "reference", "status", "street", "city", "postal_code", "latitude", "longitude",
-  "poNumber", "costCenter", "clientCompanyId", "startsAt", "endsAt",
+  "poNumber", "costCenter", "clientId", "startsAt", "endsAt",
   "priority", "estimatedHours", "budgetAmount", "budgetCurrency", "description",
 ] as const;
 
@@ -47,7 +47,7 @@ type ParsedSite = {
   name: string; reference: string | null; status: string;
   address: Record<string, string>; latitude: number | null; longitude: number | null;
   po_number: string | null; cost_center: string | null;
-  client_company_id: string | null;
+  client_id: string | null;
   starts_at: string | null; ends_at: string | null;
   priority: string; estimated_hours: number | null;
   budget_amount: number | null; budget_currency: string;
@@ -116,7 +116,7 @@ function parseSite(formData: FormData): ParsedSite | { error: SiteMessageKey } {
     reference: text(formData, "reference") || null,
     po_number: text(formData, "poNumber") || null,
     cost_center: text(formData, "costCenter") || null,
-    client_company_id: text(formData, "clientCompanyId") || null,
+    client_id: text(formData, "clientId") || null,
     starts_at: startsAt || null,
     ends_at: endsAt || null,
     estimated_hours: estimatedHours.value,
@@ -289,8 +289,75 @@ export async function createClientCompanyAction(input: {
     return { ok: false, messageKey: "errClientAddFailed" };
   }
 
+  /**
+   * The company row is not the client (#85).
+   *
+   * `create_client_company` registers the entity and the relationship that
+   * justifies it — the VAT number, the legal form, the registered office. What
+   * a site points at now is a *client*, and a company client is a client row
+   * linked to that entity. Both exist, and each means one thing.
+   */
+  const { data: client, error: clientError } = await supabase
+    .from("clients")
+    .insert({ company_id: companyId, kind: "company", name: displayName, linked_company_id: data as string })
+    .select("id");
+
+  if (clientError || !client || client.length === 0) {
+    if (clientError) log.error({ event: "client_create_failed", source: "createClientCompanyAction", companyId, code: clientError.code });
+    return { ok: false, messageKey: "errClientAddFailed" };
+  }
+
   revalidatePath("/dashboard/sites");
-  return { ok: true, id: data as string, name: displayName };
+  return { ok: true, id: client[0].id as string, name: displayName };
+}
+
+/**
+ * A client who is a person (#85).
+ *
+ * No register lookup, because there is nothing to look up: a private client has
+ * no enterprise number and will never have an account here. Name, and whatever
+ * contact details the firm happens to have — which for a house owner is usually
+ * a mobile number and nothing else.
+ */
+export async function createIndividualClientAction(input: {
+  name: string;
+  email?: string;
+  phone?: string;
+  city?: string;
+}): Promise<CreateClientResult> {
+  const { allowed, companyId } = await guard();
+  if (!allowed) return { ok: false, messageKey: "errNoPermissionAddClient" };
+
+  const name = input.name.trim();
+  if (name.length < 2) return { ok: false, messageKey: "errClientNameRequired" };
+
+  const supabase = await createClient();
+  const city = input.city?.trim();
+  const { data, error } = await supabase
+    .from("clients")
+    .insert({
+      company_id: companyId,
+      kind: "individual",
+      name,
+      email: input.email?.trim() || null,
+      phone: input.phone?.trim() || null,
+      address: city ? { city } : {},
+    })
+    .select("id");
+
+  if (error) {
+    log.error({ event: "individual_client_create_failed", source: "createIndividualClientAction", companyId, code: error.code });
+    return { ok: false, messageKey: "errClientAddFailed" };
+  }
+  // A policy refuses by matching no rows. Reporting a client that was never
+  // written would put a name in the picker that vanishes on the next load.
+  if (!data || data.length === 0) {
+    log.error({ event: "individual_client_no_rows", source: "createIndividualClientAction", companyId });
+    return { ok: false, messageKey: "errClientAddFailed" };
+  }
+
+  revalidatePath("/dashboard/sites");
+  return { ok: true, id: data[0].id as string, name };
 }
 
 // --- Partner companies on a project (#33) --------------------------------

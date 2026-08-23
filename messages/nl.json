@@ -844,7 +844,17 @@
     "okRemovedFromList": "Verwijderd van de lijst.",
     "markerMapLabel": "Kaart om de locatie van de werf te corrigeren",
     "markerHelp": "Het adres zet de speld op straat. Sleep hem naar de juiste plek — de poort, het gebouw, de ingang van de werf.",
-    "markerReset": "Terugzetten waar het adres aangaf"
+    "markerReset": "Terugzetten waar het adres aangaf",
+    "clientKindLabel": "Deze klant is",
+    "clientKindCompany": "Een bedrijf",
+    "clientKindIndividual": "Een particulier",
+    "newClientHelpPerson": "Een particuliere klant heeft geen ondernemingsnummer, en heeft er ook geen nodig.",
+    "personNameLabel": "Volledige naam",
+    "personNamePlaceholder": "bv. Mevr. Claire Dupont",
+    "personEmailLabel": "E-mail (optioneel)",
+    "personPhoneLabel": "Telefoon (optioneel)",
+    "personCityLabel": "Gemeente (optioneel)",
+    "personAdd": "Deze persoon toevoegen"
   },
   "weather": {
     "errNoCoordinates": "Nog geen coördinaten ingesteld voor deze werf.",

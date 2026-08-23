@@ -844,7 +844,17 @@
     "okRemovedFromList": "Removido da lista.",
     "markerMapLabel": "Mapa para corrigir a localização do estaleiro",
     "markerHelp": "A morada põe o pino na rua. Arraste-o até ao sítio certo — o portão, o edifício, a entrada da obra.",
-    "markerReset": "Repor onde a morada indicava"
+    "markerReset": "Repor onde a morada indicava",
+    "clientKindLabel": "Este cliente é",
+    "clientKindCompany": "Uma empresa",
+    "clientKindIndividual": "Uma pessoa",
+    "newClientHelpPerson": "Um cliente particular não tem número de empresa, e não precisa de ter.",
+    "personNameLabel": "Nome completo",
+    "personNamePlaceholder": "ex.: Sra. Claire Dupont",
+    "personEmailLabel": "E-mail (opcional)",
+    "personPhoneLabel": "Telefone (opcional)",
+    "personCityLabel": "Localidade (opcional)",
+    "personAdd": "Adicionar esta pessoa"
   },
   "weather": {
     "errNoCoordinates": "Ainda não há coordenadas para esta obra.",

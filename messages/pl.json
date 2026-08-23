@@ -844,7 +844,17 @@
     "okRemovedFromList": "Usunięto z listy.",
     "markerMapLabel": "Mapa do poprawienia lokalizacji budowy",
     "markerHelp": "Adres umieszcza pinezkę na ulicy. Przeciągnij ją we właściwe miejsce — brama, budynek, wjazd na budowę.",
-    "markerReset": "Przywróć tam, gdzie wskazywał adres"
+    "markerReset": "Przywróć tam, gdzie wskazywał adres",
+    "clientKindLabel": "Ten klient to",
+    "clientKindCompany": "Firma",
+    "clientKindIndividual": "Osoba prywatna",
+    "newClientHelpPerson": "Klient prywatny nie ma numeru firmy i nie musi go mieć.",
+    "personNameLabel": "Imię i nazwisko",
+    "personNamePlaceholder": "np. Pani Claire Dupont",
+    "personEmailLabel": "E-mail (opcjonalnie)",
+    "personPhoneLabel": "Telefon (opcjonalnie)",
+    "personCityLabel": "Miejscowość (opcjonalnie)",
+    "personAdd": "Dodaj tę osobę"
   },
   "weather": {
     "errNoCoordinates": "Dla tej budowy nie ustawiono jeszcze współrzędnych.",

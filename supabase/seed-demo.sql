@@ -315,21 +315,35 @@ from (values
 -- ---------------------------------------------------------------------------
 -- 6. Projects, sites, memberships and tasks
 -- ---------------------------------------------------------------------------
+
+-- Clients (#85). Two registered companies and one private client, because the
+-- private client is the case the model could not hold until this release and
+-- the one a Brussels electrician meets most days.
+insert into public.clients (id, company_id, kind, name, email, phone, address, linked_company_id) values
+  ('d0000012-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','company','Résidence Le Parc',
+   null, null, '{}'::jsonb, 'd0000001-0000-4000-8000-000000000004'),
+  ('d0000012-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','individual','Mme Claire Dupont',
+   'claire.dupont@example.be','+32 479 55 66 77',
+   '{"street":"Avenue Louise 143","city":"Brussels","postal_code":"1050","country":"BE"}'::jsonb, null),
+  ('d0000012-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','company','Havenbedrijf Noord',
+   null, null, '{}'::jsonb, 'd0000001-0000-4000-8000-000000000005')
+on conflict (id) do nothing;
+
 insert into public.sites (
-  id, company_id, client_company_id, name, address, latitude, longitude,
+  id, company_id, client_id, name, address, latitude, longitude,
   po_number, cost_center, manager_id, starts_at, ends_at, status, reference
 ) values
-  ('d0000005-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000004',
+  ('d0000005-0000-4000-8000-000000000101','d0000001-0000-4000-8000-000000000001','d0000012-0000-4000-8000-000000000101',
    'Le Parc — Block A','{"street":"Chaussée de Dinant 410","city":"Namur","postal_code":"5000","country":"BE"}'::jsonb,
    50.4530, 4.8720,'PO-2026-0141','CC-SOLAR','d0000002-0000-4000-8000-000000000102', current_date - 90, current_date + 20,'active','SITE-BLX-A'),
-  ('d0000005-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d0000001-0000-4000-8000-000000000004',
+  ('d0000005-0000-4000-8000-000000000102','d0000001-0000-4000-8000-000000000001','d0000012-0000-4000-8000-000000000101',
    'Le Parc — Block C','{"street":"Chaussée de Dinant 414","city":"Namur","postal_code":"5000","country":"BE"}'::jsonb,
    50.4535, 4.8731,'PO-2026-0142','CC-SOLAR','d0000002-0000-4000-8000-000000000102', current_date - 40, current_date + 45,'active','SITE-BLX-C'),
-  ('d0000005-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001',null,
+  ('d0000005-0000-4000-8000-000000000103','d0000001-0000-4000-8000-000000000001','d0000012-0000-4000-8000-000000000102',
    'Louise MV Cabin','{"street":"Avenue Louise 143","city":"Brussels","postal_code":"1050","country":"BE"}'::jsonb,
    50.8270, 4.3610,'PO-2026-0155','CC-GRID','d0000002-0000-4000-8000-000000000102', current_date - 40, current_date + 20,'active','SITE-BLX-LOU'),
 
-  ('d0000005-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d0000001-0000-4000-8000-000000000005',
+  ('d0000005-0000-4000-8000-000000000201','d0000001-0000-4000-8000-000000000002','d0000012-0000-4000-8000-000000000201',
    'Haven Noord — Hall 3','{"street":"Scheldelaan 12","city":"Antwerp","postal_code":"2040","country":"BE"}'::jsonb,
    51.2960, 4.3210,'PO-2026-0088','CC-IND','d0000002-0000-4000-8000-000000000202', current_date - 200, current_date + 165,'active','SITE-NCL-H3'),
   ('d0000005-0000-4000-8000-000000000202','d0000001-0000-4000-8000-000000000002',null,

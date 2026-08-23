@@ -8,7 +8,10 @@ on conflict(id) do update set vat=excluded.vat, website=excluded.website, city=e
 insert into public.company_relationships (source_company_id,target_company_id,relationship_type) values ('00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000002','contractor') on conflict do nothing;
 insert into public.tasks (id,company_id,name,status) values ('00000000-0000-4000-8000-000000000401','00000000-0000-4000-8000-000000000001','Site inspection','active') on conflict(id) do nothing;
 insert into public.teams (id,company_id,name,description,status) values ('00000000-0000-4000-8000-000000000501','00000000-0000-4000-8000-000000000001','Field Operations','Electrical and HVAC installation crews.','active') on conflict(id) do nothing;
-insert into public.sites (id,company_id,client_company_id,name,address,latitude,longitude,status) values ('00000000-0000-4000-8000-000000000201','00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000002','GeoTech Main Site','{"city":"Liège","country":"Belgium"}',50.6326,5.5797,'open') on conflict(id) do update set latitude=excluded.latitude, longitude=excluded.longitude;
+-- The client of a site is a client row since #85, and a company client points
+-- at the registered entity rather than being it.
+insert into public.clients (id,company_id,kind,name,linked_company_id) values ('00000000-0000-4000-8000-000000000601','00000000-0000-4000-8000-000000000001','company','GeoTech','00000000-0000-4000-8000-000000000002') on conflict(id) do nothing;
+insert into public.sites (id,company_id,client_id,name,address,latitude,longitude,status) values ('00000000-0000-4000-8000-000000000201','00000000-0000-4000-8000-000000000001','00000000-0000-4000-8000-000000000601','GeoTech Main Site','{"city":"Liège","country":"Belgium"}',50.6326,5.5797,'open') on conflict(id) do update set latitude=excluded.latitude, longitude=excluded.longitude;
 
 insert into auth.users (
     instance_id,id,aud,role,email,encrypted_password,email_confirmed_at,

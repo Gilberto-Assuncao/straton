@@ -53,6 +53,16 @@ col:certificates.issued_at
 col:certificates.issuer
 col:certificates.name
 col:certificates.user_id
+col:clients.address
+col:clients.company_id
+col:clients.created_at
+col:clients.email
+col:clients.id
+col:clients.kind
+col:clients.linked_company_id
+col:clients.name
+col:clients.phone
+col:clients.updated_at
 col:companies.activity_start_date
 col:companies.address_line_1
 col:companies.address_line_2
@@ -330,7 +340,7 @@ col:sites.address
 col:sites.budget_amount
 col:sites.budget_currency
 col:sites.budget_spent
-col:sites.client_company_id
+col:sites.client_id
 col:sites.company_id
 col:sites.cost_center
 col:sites.description
@@ -535,6 +545,10 @@ pol:certificates.certificates_own_delete
 pol:certificates.certificates_own_insert
 pol:certificates.certificates_own_read
 pol:certificates.certificates_own_update
+pol:clients.clients_delete
+pol:clients.clients_read
+pol:clients.clients_update
+pol:clients.clients_write
 pol:companies.companies_owner_admin_update
 pol:companies.companies_read_invitation
 pol:companies.companies_read_member

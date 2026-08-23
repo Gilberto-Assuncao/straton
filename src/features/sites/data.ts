@@ -15,12 +15,12 @@ interface SiteRow {
   id: string; name: string; reference: string | null; status: string | null;
   address: SiteAddress | null; latitude: number | null; longitude: number | null;
   po_number: string | null; cost_center: string | null;
-  client_company_id: string | null;
+  client_id: string | null;
   starts_at: string | null; ends_at: string | null;
   description: string | null; priority: string | null;
   estimated_hours: number | null; budget_amount: number | null;
   budget_spent: number | null; budget_currency: string | null;
-  companies: RelatedOne<{ name: string }>;
+  clients: RelatedOne<{ name: string; kind: string }>;
 }
 
 function toRecord(row: SiteRow): SiteRecord {
@@ -28,7 +28,9 @@ function toRecord(row: SiteRow): SiteRecord {
     id: row.id, name: row.name, reference: row.reference, status: row.status ?? "active",
     address: row.address ?? {}, latitude: row.latitude, longitude: row.longitude,
     poNumber: row.po_number, costCenter: row.cost_center,
-    clientCompanyId: row.client_company_id, clientName: first(row.companies)?.name ?? null,
+    clientId: row.client_id,
+    clientName: first(row.clients)?.name ?? null,
+    clientKind: (first(row.clients)?.kind as SiteRecord["clientKind"]) ?? null,
     startsAt: row.starts_at, endsAt: row.ends_at,
     description: row.description,
     priority: (row.priority as SitePriority | null) ?? "medium",
@@ -41,7 +43,7 @@ function toRecord(row: SiteRow): SiteRecord {
   };
 }
 
-const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,client_company_id,starts_at,ends_at,description,priority,estimated_hours,budget_amount,budget_spent,budget_currency,companies!sites_client_company_id_fkey(name)";
+const SELECT = "id,name,reference,status,address,latitude,longitude,po_number,cost_center,client_id,starts_at,ends_at,description,priority,estimated_hours,budget_amount,budget_spent,budget_currency,clients(name,kind)";
 
 export async function getSites(): Promise<SiteRecord[]> {
   const { companyId } = await requireActiveCompany();
@@ -270,26 +272,34 @@ export async function getSiteDashboard(siteId: string): Promise<SiteDashboard> {
   return { presentToday, hours: { entries, totalMinutes, pendingApproval, byArea }, reports, team };
 }
 
-// Companies this one has an active relationship with — readable since the
-// companies_read_related policy (migration 202608010001). Before that a
-// client was invisible to the company that had it.
+/**
+ * The firm's own client book (#85).
+ *
+ * Read straight from `clients` now. It used to be derived from
+ * `company_relationships`, which had a defect nobody had reported: the query
+ * took *any* active relationship, so subcontractors and partners appeared in
+ * the client picker alongside actual clients. A client list assembled from
+ * "companies we are linked to somehow" was always going to say that.
+ */
 export async function getClientOptions(): Promise<ClientOption[]> {
   const { companyId } = await requireActiveCompany();
   const supabase = await createClient();
 
-  const { data: links } = await supabase
-    .from("company_relationships")
-    .select("source_company_id,target_company_id")
-    .eq("status", "active")
-    .or(`source_company_id.eq.${companyId},target_company_id.eq.${companyId}`);
+  const { data } = await supabase
+    .from("clients")
+    .select("id,name,kind,address")
+    .eq("company_id", companyId)
+    .order("name");
 
-  const otherIds = [...new Set(((links ?? []) as { source_company_id: string; target_company_id: string }[])
-    .map((row) => (row.source_company_id === companyId ? row.target_company_id : row.source_company_id)))];
-  if (otherIds.length === 0) return [];
-
-  const { data } = await supabase.from("companies").select("id,name,city").in("id", otherIds).order("name");
-  return ((data ?? []) as { id: string; name: string; city: string | null }[])
-    .map((row) => ({ id: row.id, name: row.name, city: row.city }));
+  type Row = { id: string; name: string; kind: ClientOption["kind"]; address: { city?: string } | null };
+  return ((data ?? []) as Row[]).map((row) => ({
+    id: row.id,
+    name: row.name,
+    kind: row.kind,
+    // A person's town is on their own row; a company client's lives on the
+    // `companies` row the CBE lookup filled in, and is not read here.
+    city: row.address?.city ?? null,
+  }));
 }
 
 /** One entry in the sidebar shortcut. */

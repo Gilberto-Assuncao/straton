@@ -115,8 +115,12 @@ describeIfDb("related-company visibility", () => {
     await withRollback(async (db) => {
       await actAs(db, DEMO.belnex.adminUserId);
       const { rows } = await db.query<{ name: string }>(
+        // Through `clients` since #85: a site points at a client, and a
+        // company client points at the entity. The relationship being probed
+        // is unchanged — this is the same company, one join further away.
         `select c.name from public.companies c
-         join public.sites p on p.client_company_id = c.id
+         join public.clients cl on cl.linked_company_id = c.id
+         join public.sites p on p.client_id = cl.id
          where p.id = $1`,
         [DEMO.belnex.siteId],
       );

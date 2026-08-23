@@ -844,7 +844,17 @@
     "okRemovedFromList": "Rimosso dall'elenco.",
     "markerMapLabel": "Mappa per correggere la posizione del cantiere",
     "markerHelp": "L'indirizzo mette il segnaposto sulla strada. Trascinalo nel punto giusto — il cancello, l'edificio, l'ingresso del cantiere.",
-    "markerReset": "Riportare dove indicava l'indirizzo"
+    "markerReset": "Riportare dove indicava l'indirizzo",
+    "clientKindLabel": "Questo cliente è",
+    "clientKindCompany": "Un'azienda",
+    "clientKindIndividual": "Un privato",
+    "newClientHelpPerson": "Un cliente privato non ha partita IVA, e non serve che ce l'abbia.",
+    "personNameLabel": "Nome completo",
+    "personNamePlaceholder": "es. Sig.ra Claire Dupont",
+    "personEmailLabel": "E-mail (facoltativo)",
+    "personPhoneLabel": "Telefono (facoltativo)",
+    "personCityLabel": "Comune (facoltativo)",
+    "personAdd": "Aggiungi questa persona"
   },
   "weather": {
     "errNoCoordinates": "Nessuna coordinata impostata per questo cantiere.",

@@ -844,7 +844,17 @@
     "okRemovedFromList": "Removed from the list.",
     "markerMapLabel": "Map for correcting the site's position",
     "markerHelp": "The address puts the pin on the street. Drag it to the right spot — the gate, the building, the site entrance.",
-    "markerReset": "Put it back where the address said"
+    "markerReset": "Put it back where the address said",
+    "clientKindLabel": "This client is",
+    "clientKindCompany": "A company",
+    "clientKindIndividual": "A person",
+    "newClientHelpPerson": "A private client has no enterprise number, and does not need one.",
+    "personNameLabel": "Full name",
+    "personNamePlaceholder": "e.g. Mrs Claire Dupont",
+    "personEmailLabel": "Email (optional)",
+    "personPhoneLabel": "Phone (optional)",
+    "personCityLabel": "Town (optional)",
+    "personAdd": "Add this person"
   },
   "weather": {
     "errNoCoordinates": "No coordinates set for this site yet.",
