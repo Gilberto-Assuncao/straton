@@ -222,18 +222,25 @@ export default async function Home() {
               because the manual forbids recolouring it or redrawing the
               typeface.
 
-              Kept at its native 656px rather than upscaled: that covers the
-              280px it renders at on a 2.3x display, and enlarging a raster adds
-              weight without adding detail. Not quantised either — 64 colours
-              would halve the file and shift some pixels by 52/255, which the
-              gradient on the B would show as banding.
+              328px on screen, which is where this file runs out. The mark is
+              656px wide, so 328 is exactly 2x — the last size that still draws
+              from real pixels on a retina display. It renders at 280 before,
+              and the owner asked for it to sit proportionally against the
+              40px heading beside it; 328 matches that heading's width and 360
+              would have started upscaling a raster, which adds weight without
+              adding detail. Going bigger than this needs the vector from their
+              brand pack, not a larger export of the same PNG.
+
+              Not quantised either — 64 colours would halve the file and shift
+              some pixels by 52/255, which the gradient on the B would show as
+              banding.
             */}
             <Image
               src="/belnex-energy.png"
               alt={t("builtBy.company")}
               width={656}
               height={230}
-              className="h-auto w-full max-w-[280px]"
+              className="h-auto w-full max-w-[328px]"
             />
           </div>
         </div>
