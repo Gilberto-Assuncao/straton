@@ -20,7 +20,8 @@
     "availability": "Disponibilitate",
     "employees": "Persoane",
     "sectionTeam": "Echipă",
-    "sectionTime": "Timp și salarizare"
+    "sectionTime": "Timp și salarizare",
+    "help": "Ajutor"
   },
   "dashboard": {
     "eyebrow": "Prezentare generală",
@@ -1772,5 +1773,14 @@
     "backHome": "Înapoi la pagina principală",
     "updatedOn": "Ultima actualizare: {date}",
     "fallbackNotice": "Acest document este redactat în engleză, neerlandeză și franceză. Citiți versiunea în engleză."
+  },
+  "help": {
+    "eyebrow": "MANUAL",
+    "title": "Cum funcționează STRATON",
+    "description": "Patru ghiduri scurte și regulile care sunt intenționate, dar par defecte.",
+    "open": "Citește",
+    "backToGuides": "Toate ghidurile",
+    "fallbackToEnglish": "Acest ghid nu a fost încă tradus în limba ta. Urmează versiunea în engleză.",
+    "fallbackToPortuguese": "Acest ghid nu a fost încă tradus în limba ta. Urmează versiunea în portugheza europeană."
   }
 }

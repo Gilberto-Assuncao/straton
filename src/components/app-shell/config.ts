@@ -49,6 +49,11 @@ export const defaultAppNavigation: AppNavigationItem[] = [
   { id: "finance", label: "Payroll & Accounting", href: "/dashboard/finance", icon: "chart", section: "time", roles: [...adminRoles, "hr", "finance"], badge: "divergences" },
   { id: "reports", label: "Reports", href: "/dashboard/reports", icon: "chart", section: "time", roles: managerRoles },
 
+  // Readable by everyone, and deliberately so: the guide that matters most is
+  // the worker's, and a help entry only admins can see helps the people who
+  // need it least.
+  { id: "help", label: "Help", href: "/dashboard/help", icon: "check", section: "company" },
+
   { id: "companies", label: "Companies & Partners", href: "/dashboard/companies", icon: "building", section: "company", roles: adminRoles },
   { id: "settings", label: "Settings", href: "/dashboard/settings", icon: "gear", section: "company", roles: adminRoles },
 ];

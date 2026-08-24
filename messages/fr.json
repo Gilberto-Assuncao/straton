@@ -20,7 +20,8 @@
     "availability": "Disponibilité",
     "employees": "Personnes",
     "sectionTeam": "Équipe",
-    "sectionTime": "Temps et paie"
+    "sectionTime": "Temps et paie",
+    "help": "Aide"
   },
   "dashboard": {
     "eyebrow": "Aperçu",
@@ -1772,5 +1773,14 @@
     "backHome": "Retour à la page d'accueil",
     "updatedOn": "Dernière mise à jour le {date}",
     "fallbackNotice": "Ce document est rédigé en anglais, néerlandais et français. Vous lisez la version anglaise."
+  },
+  "help": {
+    "eyebrow": "MANUEL",
+    "title": "Comment fonctionne STRATON",
+    "description": "Quatre guides courts, et les règles qui sont voulues mais ressemblent à des défauts.",
+    "open": "Lire",
+    "backToGuides": "Tous les guides",
+    "fallbackToEnglish": "Ce guide n'a pas encore été traduit dans ta langue. Ce qui suit est la version anglaise.",
+    "fallbackToPortuguese": "Ce guide n'a pas encore été traduit dans ta langue. Ce qui suit est la version en portugais européen."
   }
 }

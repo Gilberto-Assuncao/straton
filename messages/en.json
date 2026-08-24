@@ -20,7 +20,8 @@
     "availability": "Availability",
     "employees": "People",
     "sectionTeam": "Team",
-    "sectionTime": "Time & Payroll"
+    "sectionTime": "Time & Payroll",
+    "help": "Help"
   },
   "dashboard": {
     "eyebrow": "Overview",
@@ -1772,5 +1773,14 @@
     "backHome": "Back to the home page",
     "updatedOn": "Last updated on {date}",
     "fallbackNotice": "This document is written in English, Dutch and French. You are reading the English version."
+  },
+  "help": {
+    "eyebrow": "MANUAL",
+    "title": "How STRATON works",
+    "description": "Four short guides, and the rules that are deliberate but look like faults.",
+    "open": "Read",
+    "backToGuides": "All guides",
+    "fallbackToEnglish": "This guide has not been translated into your language yet. What follows is the English version.",
+    "fallbackToPortuguese": "This guide has not been translated into your language yet. What follows is the European Portuguese version."
   }
 }
