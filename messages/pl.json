@@ -1143,7 +1143,9 @@
     "themeLight": "Jasny",
     "themeSystem": "Systemowy",
     "navigationGroup": "Nawigacja",
-    "developedBy": "Stworzone przez"
+    "developedBy": "Stworzone przez",
+    "collapseNavigation": "Zwiń menu",
+    "expandNavigation": "Rozwiń menu"
   },
   "retention": {
     "title": "Obowiązek potrącenia (art. 30bis)",

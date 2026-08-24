@@ -1143,7 +1143,9 @@
     "themeLight": "Licht",
     "themeSystem": "Systeem",
     "navigationGroup": "Navigatie",
-    "developedBy": "Ontwikkeld door"
+    "developedBy": "Ontwikkeld door",
+    "collapseNavigation": "Het menu inklappen",
+    "expandNavigation": "Het menu uitklappen"
   },
   "retention": {
     "title": "Inhoudingsplicht (art. 30bis)",

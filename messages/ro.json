@@ -1143,7 +1143,9 @@
     "themeLight": "Luminos",
     "themeSystem": "Sistem",
     "navigationGroup": "Navigare",
-    "developedBy": "Dezvoltat de"
+    "developedBy": "Dezvoltat de",
+    "collapseNavigation": "Restrânge meniul",
+    "expandNavigation": "Extinde meniul"
   },
   "retention": {
     "title": "Obligația de reținere (art. 30bis)",

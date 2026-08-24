@@ -1143,7 +1143,9 @@
     "themeLight": "Hell",
     "themeSystem": "System",
     "navigationGroup": "Navigation",
-    "developedBy": "Entwickelt von"
+    "developedBy": "Entwickelt von",
+    "collapseNavigation": "Menü einklappen",
+    "expandNavigation": "Menü ausklappen"
   },
   "retention": {
     "title": "Einbehaltungspflicht (Art. 30bis)",
