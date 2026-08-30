@@ -195,7 +195,7 @@ export default async function Home() {
         mark. Two greens that never meet cannot argue — and with the plate gone
         there is nothing else keeping them apart.
       */}
-      <section className="border-y border-white/10 bg-[#0F172A]/40">
+      <section id="origem" className="scroll-mt-24 border-y border-white/10 bg-[#0F172A]/40">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 sm:px-10 md:grid-cols-[1fr_400px] md:gap-20 md:px-36 md:py-24">
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#64748B]">{t("builtBy.eyebrow")}</p>
@@ -577,9 +577,18 @@ export default async function Home() {
           <div>
             <p className="text-sm font-semibold uppercase tracking-wide text-[#64748B]">{t("footer.companyHeading")}</p>
             <ul className="mt-4 space-y-2.5 text-sm text-[#94A3B8]">
-              <li><a href="#" className="hover:text-white">{t("footer.footerAbout")}</a></li>
-              <li><a href="#" className="hover:text-white">{t("footer.footerBlog")}</a></li>
-              <li><a href="#" className="hover:text-white">{t("footer.footerCareers")}</a></li>
+              {/*
+                Two entries, because there are two places to send anybody.
+
+                "About us" points at the origin section, which is the about-us
+                text: a field company that built this to run its own crews.
+                Blog and Careers are gone rather than parked on `href="#"` —
+                same call as the three disabled menu entries in
+                `app-shell/config.ts`, and the same reason: a link that goes
+                nowhere teaches people to stop reading the ones that do. They
+                come back when there is a blog and there are jobs.
+              */}
+              <li><a href="#origem" className="hover:text-white">{t("footer.footerAbout")}</a></li>
               <li><a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-white">{t("footer.footerContact")}</a></li>
             </ul>
           </div>

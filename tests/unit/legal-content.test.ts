@@ -112,4 +112,23 @@ describe("the footer", () => {
       expect(landing, `footer does not link /legal/${kind}`).toContain(`href="/legal/${kind}"`);
     }
   });
+
+  it("has no link that goes nowhere at all", () => {
+    // The rest of them: About us, Blog and Careers sat on `href="#"` beside the
+    // legal ones. Two of the three had nothing to point at and were removed —
+    // the same call as the three disabled menu entries — and About us now
+    // points at the origin section. A page that teaches people its links do
+    // nothing has taught them about the links that work too.
+    //
+    // Comments are stripped first: this file explains the decision in prose
+    // that quotes the very string being forbidden.
+    const landing = readFileSync("app/[locale]/page.tsx", "utf8")
+      .replace(/\{\/\*[\s\S]*?\*\/\}/g, "")
+      .replace(/\/\*[\s\S]*?\*\//g, "");
+    expect(landing.match(/href="#"/g) ?? [], "links parked on href=\"#\"").toEqual([]);
+    // And the anchor it was given exists, because an anchor to nothing is the
+    // same dead link with a longer name.
+    expect(landing).toContain('href="#origem"');
+    expect(landing).toContain('id="origem"');
+  });
 });
