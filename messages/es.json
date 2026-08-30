@@ -1143,7 +1143,9 @@
     "themeLight": "Claro",
     "themeSystem": "Sistema",
     "navigationGroup": "Navegación",
-    "developedBy": "Desarrollado por"
+    "developedBy": "Desarrollado por",
+    "collapseNavigation": "Contraer el menú",
+    "expandNavigation": "Expandir el menú"
   },
   "retention": {
     "title": "Obligación de retención (art. 30bis)",

@@ -1143,7 +1143,9 @@
     "themeLight": "Light",
     "themeSystem": "System",
     "navigationGroup": "Navigation",
-    "developedBy": "Developed by"
+    "developedBy": "Developed by",
+    "collapseNavigation": "Collapse the menu",
+    "expandNavigation": "Expand the menu"
   },
   "retention": {
     "title": "Retention obligation (art. 30bis)",

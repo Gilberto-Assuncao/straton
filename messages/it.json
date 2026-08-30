@@ -1143,7 +1143,9 @@
     "themeLight": "Chiaro",
     "themeSystem": "Sistema",
     "navigationGroup": "Navigazione",
-    "developedBy": "Sviluppato da"
+    "developedBy": "Sviluppato da",
+    "collapseNavigation": "Riduci il menu",
+    "expandNavigation": "Espandi il menu"
   },
   "retention": {
     "title": "Obbligo di ritenuta (art. 30bis)",
