@@ -46,7 +46,17 @@ test.describe("platform support access", () => {
     // The banner is not decoration: it is the only thing on screen that says
     // whose data this is, so its absence is a defect of the same size as a
     // broken query.
-    await expect(page.getByText(/support access — nordclean services bv, read only/i)).toBeVisible();
+    //
+    // The name is read from the database rather than written here. The first
+    // version of this line hardcoded "Nordclean Services BV", which is the
+    // seed's `legal_name`; the banner shows `name`, "NORDCLEAN SERVICES". A
+    // test that spells the fixture out by hand is asserting the seed as much
+    // as the feature, and it fails on whichever of the two the author guessed
+    // wrong.
+    const { data: company } = await db.from("companies").select("name").eq("id", NORDCLEAN).single();
+    expect(company?.name, "the company the banner has to name").toBeTruthy();
+    const banner = page.getByRole("status").filter({ hasText: /read only/i });
+    await expect(banner).toContainText(company!.name as string);
 
     // Their data, not ours. Anouk Peeters is in Nordclean and in no company
     // Marc belongs to, so her name on this page can only have come through the
