@@ -21,7 +21,8 @@
     "employees": "Mensen",
     "sectionTeam": "Team",
     "sectionTime": "Tijd en loon",
-    "help": "Help"
+    "help": "Help",
+    "support": "Ondersteuning"
   },
   "dashboard": {
     "eyebrow": "Overzicht",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Alle gidsen",
     "fallbackToEnglish": "Deze gids is nog niet naar jouw taal vertaald. Wat volgt is de Engelse versie.",
     "fallbackToPortuguese": "Deze gids is nog niet naar jouw taal vertaald. Wat volgt is de Europees-Portugese versie."
+  },
+  "support": {
+    "eyebrow": "PLATFORM",
+    "title": "Ondersteuningstoegang",
+    "description": "Open een alleen-lezen sessie op de gegevens van een klant. Ze wordt vastgelegd in zijn eigen auditlog en ze verloopt.",
+    "searchLabel": "Een bedrijf zoeken",
+    "openSession": "Sessie openen",
+    "noDetails": "Geen gegevens vastgelegd",
+    "noMatches": "Geen enkel bedrijf komt overeen.",
+    "bannerTitle": "Ondersteuningstoegang — {company}, alleen lezen",
+    "bannerDetail": "Je hoort niet bij dit bedrijf. Hier kan niets gewijzigd worden, en de sessie eindigt om {time}.",
+    "endSession": "Sessie beëindigen",
+    "companyDescription": "Wat ondersteuning nodig heeft om een oproep te beantwoorden. Alleen lezen.",
+    "statClockedIn": "Nu aangemeld",
+    "statPending": "Staten die op goedkeuring wachten",
+    "statHours": "Uren deze week",
+    "peopleHeading": "Mensen",
+    "sitesHeading": "Werven",
+    "noPeople": "Nog niemand in dit bedrijf.",
+    "noSites": "Nog geen werven.",
+    "supportStarted": "Sessie geopend.",
+    "supportEnded": "Sessie beëindigd.",
+    "supportNotAllowed": "Je kunt geen ondersteuningssessie openen.",
+    "supportUnknownCompany": "Dat bedrijf bestaat niet.",
+    "supportFailed": "Dat is niet gelukt. Probeer opnieuw."
   }
 }

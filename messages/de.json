@@ -21,7 +21,8 @@
     "employees": "Personen",
     "sectionTeam": "Team",
     "sectionTime": "Zeit und Lohn",
-    "help": "Hilfe"
+    "help": "Hilfe",
+    "support": "Support"
   },
   "dashboard": {
     "eyebrow": "Übersicht",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Alle Anleitungen",
     "fallbackToEnglish": "Diese Anleitung ist noch nicht in deine Sprache übersetzt. Es folgt die englische Fassung.",
     "fallbackToPortuguese": "Diese Anleitung ist noch nicht in deine Sprache übersetzt. Es folgt die europäisch-portugiesische Fassung."
+  },
+  "support": {
+    "eyebrow": "PLATTFORM",
+    "title": "Support-Zugriff",
+    "description": "Öffnet eine Nur-Lese-Sitzung auf die Daten eines Kunden. Sie wird in dessen eigenem Auditlog festgehalten und läuft ab.",
+    "searchLabel": "Ein Unternehmen finden",
+    "openSession": "Sitzung öffnen",
+    "noDetails": "Keine Angaben erfasst",
+    "noMatches": "Kein Unternehmen passt dazu.",
+    "bannerTitle": "Support-Zugriff — {company}, nur Lesen",
+    "bannerDetail": "Du gehörst nicht zu diesem Unternehmen. Hier lässt sich nichts ändern, und die Sitzung endet um {time}.",
+    "endSession": "Sitzung beenden",
+    "companyDescription": "Was der Support braucht, um einen Anruf zu beantworten. Nur Lesen.",
+    "statClockedIn": "Gerade eingestempelt",
+    "statPending": "Stundenzettel zur Genehmigung",
+    "statHours": "Stunden diese Woche",
+    "peopleHeading": "Personen",
+    "sitesHeading": "Baustellen",
+    "noPeople": "Noch niemand in diesem Unternehmen.",
+    "noSites": "Noch keine Baustellen.",
+    "supportStarted": "Sitzung geöffnet.",
+    "supportEnded": "Sitzung beendet.",
+    "supportNotAllowed": "Du kannst keine Support-Sitzung öffnen.",
+    "supportUnknownCompany": "Dieses Unternehmen gibt es nicht.",
+    "supportFailed": "Das hat nicht geklappt. Versuch es noch einmal."
   }
 }

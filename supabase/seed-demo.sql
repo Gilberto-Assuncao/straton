@@ -312,6 +312,14 @@ from (values
   ('d0000004-0000-4000-8000-000000000302','d0000003-0000-4000-8000-000000000305')
 ) as v(team, leader) where t.id = v.team::uuid;
 
+-- Platform support access (#19). Marc Dubois is the platform owner in this
+-- dataset, so he is the one who can open a read-only support session on another
+-- company. Being on this list grants nothing through RLS — every policy still
+-- refuses him outside Belnex, which `tests/rls/support-access.test.ts` asserts.
+insert into public.platform_admins (user_id, note) values
+  ('d0000002-0000-4000-8000-000000000101','Platform owner — demo dataset')
+on conflict (user_id) do nothing;
+
 -- ---------------------------------------------------------------------------
 -- 6. Projects, sites, memberships and tasks
 -- ---------------------------------------------------------------------------

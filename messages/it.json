@@ -21,7 +21,8 @@
     "employees": "Persone",
     "sectionTeam": "Squadra",
     "sectionTime": "Tempo e paghe",
-    "help": "Guida"
+    "help": "Guida",
+    "support": "Assistenza"
   },
   "dashboard": {
     "eyebrow": "Panoramica",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Tutte le guide",
     "fallbackToEnglish": "Questa guida non è ancora stata tradotta nella tua lingua. Quella che segue è la versione inglese.",
     "fallbackToPortuguese": "Questa guida non è ancora stata tradotta nella tua lingua. Quella che segue è la versione in portoghese europeo."
+  },
+  "support": {
+    "eyebrow": "PIATTAFORMA",
+    "title": "Accesso assistenza",
+    "description": "Apre una sessione in sola lettura sui dati di un cliente. Viene registrata nel suo registro di audit, e scade.",
+    "searchLabel": "Trovare un'azienda",
+    "openSession": "Apri sessione",
+    "noDetails": "Nessun dato registrato",
+    "noMatches": "Nessuna azienda corrisponde.",
+    "bannerTitle": "Accesso assistenza — {company}, sola lettura",
+    "bannerDetail": "Non appartieni a questa azienda. Qui non si può modificare nulla, e la sessione termina alle {time}.",
+    "endSession": "Termina la sessione",
+    "companyDescription": "Quello che serve all'assistenza per rispondere a una chiamata. Sola lettura.",
+    "statClockedIn": "Timbrati adesso",
+    "statPending": "Fogli in attesa di approvazione",
+    "statHours": "Ore questa settimana",
+    "peopleHeading": "Persone",
+    "sitesHeading": "Cantieri",
+    "noPeople": "Ancora nessuno in questa azienda.",
+    "noSites": "Ancora nessun cantiere.",
+    "supportStarted": "Sessione aperta.",
+    "supportEnded": "Sessione terminata.",
+    "supportNotAllowed": "Non puoi aprire una sessione di assistenza.",
+    "supportUnknownCompany": "Quell'azienda non esiste.",
+    "supportFailed": "Non è stato possibile completare. Riprova."
   }
 }

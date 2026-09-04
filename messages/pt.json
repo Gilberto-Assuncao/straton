@@ -21,7 +21,8 @@
     "employees": "Pessoas",
     "sectionTeam": "Equipa",
     "sectionTime": "Tempo e Folha",
-    "help": "Ajuda"
+    "help": "Ajuda",
+    "support": "Suporte"
   },
   "dashboard": {
     "eyebrow": "Visão Geral",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Todos os guias",
     "fallbackToEnglish": "Este guia ainda não foi traduzido para a tua língua. O que se segue é a versão inglesa.",
     "fallbackToPortuguese": "Este guia ainda não foi traduzido para a tua língua. O que se segue é a versão em português europeu."
+  },
+  "support": {
+    "eyebrow": "PLATAFORMA",
+    "title": "Acesso de suporte",
+    "description": "Abre uma sessão só de leitura sobre os dados de um cliente. Fica registada no registo de auditoria dele, e expira.",
+    "searchLabel": "Encontrar uma empresa",
+    "openSession": "Abrir sessão",
+    "noDetails": "Sem dados registados",
+    "noMatches": "Nenhuma empresa corresponde.",
+    "bannerTitle": "Acesso de suporte — {company}, só leitura",
+    "bannerDetail": "Não pertences a esta empresa. Nada aqui pode ser alterado, e a sessão termina às {time}.",
+    "endSession": "Terminar a sessão",
+    "companyDescription": "O que o suporte precisa para responder a uma chamada. Só leitura.",
+    "statClockedIn": "Com o ponto aberto",
+    "statPending": "Folhas à espera de aprovação",
+    "statHours": "Horas esta semana",
+    "peopleHeading": "Pessoas",
+    "sitesHeading": "Estaleiros",
+    "noPeople": "Ainda ninguém nesta empresa.",
+    "noSites": "Ainda sem estaleiros.",
+    "supportStarted": "Sessão aberta.",
+    "supportEnded": "Sessão terminada.",
+    "supportNotAllowed": "Não podes abrir uma sessão de suporte.",
+    "supportUnknownCompany": "Essa empresa não existe.",
+    "supportFailed": "Não foi possível concluir. Tenta de novo."
   }
 }

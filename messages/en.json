@@ -21,7 +21,8 @@
     "employees": "People",
     "sectionTeam": "Team",
     "sectionTime": "Time & Payroll",
-    "help": "Help"
+    "help": "Help",
+    "support": "Support"
   },
   "dashboard": {
     "eyebrow": "Overview",
@@ -1782,5 +1783,30 @@
     "backToGuides": "All guides",
     "fallbackToEnglish": "This guide has not been translated into your language yet. What follows is the English version.",
     "fallbackToPortuguese": "This guide has not been translated into your language yet. What follows is the European Portuguese version."
+  },
+  "support": {
+    "eyebrow": "PLATFORM",
+    "title": "Support access",
+    "description": "Open a read-only session on a customer's data. It is recorded in their own audit log, and it expires.",
+    "searchLabel": "Find a company",
+    "openSession": "Open a session",
+    "noDetails": "No details recorded",
+    "noMatches": "No company matches that.",
+    "bannerTitle": "Support access — {company}, read only",
+    "bannerDetail": "You are not in this company. Nothing here can be changed, and the session ends at {time}.",
+    "endSession": "End the session",
+    "companyDescription": "What support needs to answer a call. Read only.",
+    "statClockedIn": "Clocked in now",
+    "statPending": "Timesheets awaiting approval",
+    "statHours": "Hours this week",
+    "peopleHeading": "People",
+    "sitesHeading": "Work locations",
+    "noPeople": "Nobody in this company yet.",
+    "noSites": "No work locations yet.",
+    "supportStarted": "Session opened.",
+    "supportEnded": "Session ended.",
+    "supportNotAllowed": "You cannot open a support session.",
+    "supportUnknownCompany": "That company does not exist.",
+    "supportFailed": "That could not be completed. Try again."
   }
 }
