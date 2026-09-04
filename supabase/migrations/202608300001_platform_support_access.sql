@@ -44,10 +44,22 @@ create table if not exists public.platform_admins (
 
 alter table public.platform_admins enable row level security;
 
--- No policy for `authenticated`, on purpose, and therefore no grant either.
+-- No policy for `authenticated`, on purpose — and *revoked*, not merely not
+-- granted. Those are not the same thing here: Supabase ships a default-
+-- privileges rule that hands `anon`, `authenticated` and `service_role` every
+-- privilege on new tables in `public`, so a table created and left alone is
+-- reachable by the anonymous role. RLS still returns no rows, but the grant
+-- layer is the other half of the wall and the first version of this migration
+-- only built one of them; `tests/rls/support-access.test.ts` caught it.
+--
+-- The repo's own rule, in the direction it had never been checked in: RLS
+-- decides which rows, a grant decides whether the table can be touched at all.
+-- `tests/rls/grants.test.ts` guards the missing-grant case. This is the mirror.
+--
 -- Nobody reads this list through the API — not even the people on it. The one
 -- question the application is allowed to ask is "am I on it?", and
 -- `is_platform_admin()` below answers that about the caller and nobody else.
+revoke all on public.platform_admins from anon, authenticated;
 grant select, insert, update, delete on public.platform_admins to service_role;
 
 /**
@@ -69,7 +81,14 @@ as $$
   )
 $$;
 
+-- `from public` is not enough, for the same reason as the table above: the
+-- default-privileges rule grants EXECUTE to `anon` and `authenticated` by name,
+-- and a revoke from PUBLIC does not touch a grant held by a named role. Without
+-- the second line an unauthenticated caller could reach this RPC — it would
+-- answer false, having no `auth.uid()`, but a security-definer function should
+-- not be callable by somebody who has not logged in at all.
 revoke all on function public.is_platform_admin() from public;
+revoke all on function public.is_platform_admin() from anon;
 grant execute on function public.is_platform_admin() to authenticated;
 grant execute on function public.is_platform_admin() to service_role;
 
@@ -99,8 +118,10 @@ create index if not exists support_sessions_company_idx on public.support_sessio
 
 alter table public.support_sessions enable row level security;
 
--- Same shape as above: the application reaches this through the service role
--- and nobody reaches it through a policy. The customer does not read this table
--- either — they read the audit entry, which is written into their own company's
--- log and which their existing policies already let them see.
+-- Same shape as above, revoke included: the application reaches this through
+-- the service role and nobody reaches it through a policy. The customer does
+-- not read this table either — they read the audit entry, which is written into
+-- their own company's log and which their existing policies already let them
+-- see.
+revoke all on public.support_sessions from anon, authenticated;
 grant select, insert, update on public.support_sessions to service_role;

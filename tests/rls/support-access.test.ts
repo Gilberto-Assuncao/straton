@@ -96,6 +96,45 @@ describeIfDb("the platform-admin list", () => {
     });
   });
 
+  it("is granted to the service role and to nobody else", async () => {
+    // The assertion that would have caught the first version of this migration
+    // directly instead of by inference. Not granting is not revoking: Supabase
+    // ships a default-privileges rule that hands `anon` and `authenticated`
+    // every privilege on a new table in `public`, so both tables arrived
+    // reachable by the anonymous role and the refusal above came back `true`.
+    // RLS still returned no rows — the wall had one layer of the two.
+    await withRollback(async (db) => {
+      await db.query("reset role");
+      const { rows } = await db.query<{ grantee: string; privileges: string }>(
+        `select grantee, string_agg(privilege_type, ', ' order by privilege_type) as privileges
+         from information_schema.role_table_grants
+         where table_schema = 'public' and table_name in ('platform_admins', 'support_sessions')
+           and grantee in ('anon', 'authenticated')
+         group by grantee
+         order by grantee`,
+      );
+      expect(
+        rows.map((row) => `${row.grantee}: ${row.privileges}`),
+        "privileges the browser-facing roles hold on the support tables",
+      ).toEqual([]);
+    });
+  });
+
+  it("is reachable by the service role, which is the only path there is", async () => {
+    // The counterpart, so the revoke above cannot be "fixed" by revoking from
+    // everybody: `src/features/support/data.ts` reads these tables, and a
+    // revoke that also took the service role's grant would break the feature
+    // while leaving every negative assertion in this file passing.
+    await withRollback(async (db) => {
+      await db.query("reset role");
+      const { rows } = await db.query<{ ok: boolean }>(
+        `select bool_and(has_table_privilege('service_role', t, 'select')) as ok
+         from unnest(array['public.platform_admins', 'public.support_sessions']) as t`,
+      );
+      expect(rows[0].ok, "the service role reading the support tables").toBe(true);
+    });
+  });
+
   it("has the person the demo dataset says it has", async () => {
     // The guard. Every assertion in this file about what a platform admin
     // cannot do would pass just as well if nobody were a platform admin.
