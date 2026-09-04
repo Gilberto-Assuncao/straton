@@ -21,7 +21,8 @@
     "employees": "Persoane",
     "sectionTeam": "Echipă",
     "sectionTime": "Timp și salarizare",
-    "help": "Ajutor"
+    "help": "Ajutor",
+    "support": "Asistență"
   },
   "dashboard": {
     "eyebrow": "Prezentare generală",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Toate ghidurile",
     "fallbackToEnglish": "Acest ghid nu a fost încă tradus în limba ta. Urmează versiunea în engleză.",
     "fallbackToPortuguese": "Acest ghid nu a fost încă tradus în limba ta. Urmează versiunea în portugheza europeană."
+  },
+  "support": {
+    "eyebrow": "PLATFORMĂ",
+    "title": "Acces de asistență",
+    "description": "Deschide o sesiune doar în citire pe datele unui client. Este consemnată în jurnalul lui de audit și expiră.",
+    "searchLabel": "Găsește o firmă",
+    "openSession": "Deschide sesiunea",
+    "noDetails": "Fără date înregistrate",
+    "noMatches": "Nicio firmă nu se potrivește.",
+    "bannerTitle": "Acces de asistență — {company}, doar citire",
+    "bannerDetail": "Nu faci parte din această firmă. Nimic de aici nu poate fi modificat, iar sesiunea se încheie la {time}.",
+    "endSession": "Încheie sesiunea",
+    "companyDescription": "Ce îi trebuie asistenței ca să răspundă la un apel. Doar citire.",
+    "statClockedIn": "Pontați acum",
+    "statPending": "Fișe care așteaptă aprobarea",
+    "statHours": "Ore săptămâna aceasta",
+    "peopleHeading": "Persoane",
+    "sitesHeading": "Șantiere",
+    "noPeople": "Încă nimeni în această firmă.",
+    "noSites": "Încă niciun șantier.",
+    "supportStarted": "Sesiune deschisă.",
+    "supportEnded": "Sesiune încheiată.",
+    "supportNotAllowed": "Nu poți deschide o sesiune de asistență.",
+    "supportUnknownCompany": "Firma aceea nu există.",
+    "supportFailed": "Nu s-a putut finaliza. Încearcă din nou."
   }
 }

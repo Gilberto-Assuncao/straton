@@ -21,7 +21,8 @@
     "employees": "Personas",
     "sectionTeam": "Equipo",
     "sectionTime": "Tiempo y nómina",
-    "help": "Ayuda"
+    "help": "Ayuda",
+    "support": "Soporte"
   },
   "dashboard": {
     "eyebrow": "Resumen",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Todas las guías",
     "fallbackToEnglish": "Esta guía todavía no se ha traducido a tu idioma. Lo que sigue es la versión en inglés.",
     "fallbackToPortuguese": "Esta guía todavía no se ha traducido a tu idioma. Lo que sigue es la versión en portugués europeo."
+  },
+  "support": {
+    "eyebrow": "PLATAFORMA",
+    "title": "Acceso de soporte",
+    "description": "Abre una sesión de solo lectura sobre los datos de un cliente. Queda registrada en su propio registro de auditoría, y caduca.",
+    "searchLabel": "Buscar una empresa",
+    "openSession": "Abrir sesión",
+    "noDetails": "Sin datos registrados",
+    "noMatches": "Ninguna empresa coincide.",
+    "bannerTitle": "Acceso de soporte — {company}, solo lectura",
+    "bannerDetail": "No perteneces a esta empresa. Aquí no se puede cambiar nada, y la sesión termina a las {time}.",
+    "endSession": "Terminar la sesión",
+    "companyDescription": "Lo que soporte necesita para atender una llamada. Solo lectura.",
+    "statClockedIn": "Fichados ahora",
+    "statPending": "Hojas pendientes de aprobación",
+    "statHours": "Horas esta semana",
+    "peopleHeading": "Personas",
+    "sitesHeading": "Obras",
+    "noPeople": "Todavía no hay nadie en esta empresa.",
+    "noSites": "Todavía no hay obras.",
+    "supportStarted": "Sesión abierta.",
+    "supportEnded": "Sesión terminada.",
+    "supportNotAllowed": "No puedes abrir una sesión de soporte.",
+    "supportUnknownCompany": "Esa empresa no existe.",
+    "supportFailed": "No se ha podido completar. Inténtalo de nuevo."
   }
 }

@@ -21,7 +21,8 @@
     "employees": "Personnes",
     "sectionTeam": "Équipe",
     "sectionTime": "Temps et paie",
-    "help": "Aide"
+    "help": "Aide",
+    "support": "Assistance"
   },
   "dashboard": {
     "eyebrow": "Aperçu",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Tous les guides",
     "fallbackToEnglish": "Ce guide n'a pas encore été traduit dans ta langue. Ce qui suit est la version anglaise.",
     "fallbackToPortuguese": "Ce guide n'a pas encore été traduit dans ta langue. Ce qui suit est la version en portugais européen."
+  },
+  "support": {
+    "eyebrow": "PLATEFORME",
+    "title": "Accès assistance",
+    "description": "Ouvre une session en lecture seule sur les données d'un client. Elle est consignée dans son propre journal d'audit, et elle expire.",
+    "searchLabel": "Trouver une entreprise",
+    "openSession": "Ouvrir une session",
+    "noDetails": "Aucune donnée enregistrée",
+    "noMatches": "Aucune entreprise ne correspond.",
+    "bannerTitle": "Accès assistance — {company}, lecture seule",
+    "bannerDetail": "Tu n'appartiens pas à cette entreprise. Rien ici ne peut être modifié, et la session se termine à {time}.",
+    "endSession": "Terminer la session",
+    "companyDescription": "Ce dont l'assistance a besoin pour répondre à un appel. Lecture seule.",
+    "statClockedIn": "Pointés en ce moment",
+    "statPending": "Feuilles en attente d'approbation",
+    "statHours": "Heures cette semaine",
+    "peopleHeading": "Personnes",
+    "sitesHeading": "Chantiers",
+    "noPeople": "Personne dans cette entreprise pour l'instant.",
+    "noSites": "Aucun chantier pour l'instant.",
+    "supportStarted": "Session ouverte.",
+    "supportEnded": "Session terminée.",
+    "supportNotAllowed": "Tu ne peux pas ouvrir de session d'assistance.",
+    "supportUnknownCompany": "Cette entreprise n'existe pas.",
+    "supportFailed": "Impossible d'aboutir. Réessaie."
   }
 }

@@ -21,7 +21,8 @@
     "employees": "Osoby",
     "sectionTeam": "Zespół",
     "sectionTime": "Czas i płace",
-    "help": "Pomoc"
+    "help": "Pomoc",
+    "support": "Wsparcie"
   },
   "dashboard": {
     "eyebrow": "Przegląd",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Wszystkie przewodniki",
     "fallbackToEnglish": "Ten przewodnik nie został jeszcze przetłumaczony na Twój język. Poniżej wersja angielska.",
     "fallbackToPortuguese": "Ten przewodnik nie został jeszcze przetłumaczony na Twój język. Poniżej wersja w portugalskim europejskim."
+  },
+  "support": {
+    "eyebrow": "PLATFORMA",
+    "title": "Dostęp wsparcia",
+    "description": "Otwiera sesję tylko do odczytu na danych klienta. Jest zapisywana w jego własnym dzienniku audytu i wygasa.",
+    "searchLabel": "Znajdź firmę",
+    "openSession": "Otwórz sesję",
+    "noDetails": "Brak zapisanych danych",
+    "noMatches": "Żadna firma nie pasuje.",
+    "bannerTitle": "Dostęp wsparcia — {company}, tylko odczyt",
+    "bannerDetail": "Nie należysz do tej firmy. Nic tu nie da się zmienić, a sesja kończy się o {time}.",
+    "endSession": "Zakończ sesję",
+    "companyDescription": "To, czego wsparcie potrzebuje, żeby odpowiedzieć na telefon. Tylko odczyt.",
+    "statClockedIn": "Obecnie zalogowani",
+    "statPending": "Karty czekające na zatwierdzenie",
+    "statHours": "Godziny w tym tygodniu",
+    "peopleHeading": "Osoby",
+    "sitesHeading": "Budowy",
+    "noPeople": "Nikogo jeszcze w tej firmie.",
+    "noSites": "Jeszcze żadnych budów.",
+    "supportStarted": "Sesja otwarta.",
+    "supportEnded": "Sesja zakończona.",
+    "supportNotAllowed": "Nie możesz otworzyć sesji wsparcia.",
+    "supportUnknownCompany": "Taka firma nie istnieje.",
+    "supportFailed": "Nie udało się. Spróbuj ponownie."
   }
 }

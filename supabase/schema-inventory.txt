@@ -258,6 +258,10 @@ col:permissions.id
 col:permissions.key
 col:permissions.resource
 col:permissions.scope
+col:platform_admins.granted_at
+col:platform_admins.granted_by
+col:platform_admins.note
+col:platform_admins.user_id
 col:professional_profiles.availability
 col:professional_profiles.bio
 col:professional_profiles.id
@@ -356,6 +360,12 @@ col:sites.priority
 col:sites.reference
 col:sites.starts_at
 col:sites.status
+col:support_sessions.admin_user_id
+col:support_sessions.company_id
+col:support_sessions.ended_at
+col:support_sessions.expires_at
+col:support_sessions.id
+col:support_sessions.started_at
 col:tasks.company_id
 col:tasks.created_at
 col:tasks.id
@@ -519,6 +529,7 @@ fn:public.enforce_assignment_chain()
 fn:public.enforce_assignment_swap()
 fn:public.enforce_assignment_update()
 fn:public.enforce_site_partner_transition()
+fn:public.is_platform_admin()
 fn:public.site_notification_audience(p_site_id uuid, p_site_area_id uuid)
 fn:public.site_subscriber_companies(p_site_id uuid)
 fn:public.touch_assignment()

@@ -21,7 +21,8 @@
     "employees": "Pessoas",
     "sectionTeam": "Equipe",
     "sectionTime": "Tempo e Folha",
-    "help": "Ajuda"
+    "help": "Ajuda",
+    "support": "Suporte"
   },
   "dashboard": {
     "eyebrow": "Visão Geral",
@@ -1782,5 +1783,30 @@
     "backToGuides": "Todos os guias",
     "fallbackToEnglish": "Este guia ainda não foi traduzido para o seu idioma. O que segue é a versão em inglês.",
     "fallbackToPortuguese": "Este guia ainda não foi traduzido para o seu idioma. O que segue é a versão em português europeu."
+  },
+  "support": {
+    "eyebrow": "PLATAFORMA",
+    "title": "Acesso de suporte",
+    "description": "Abre uma sessão somente de leitura sobre os dados de um cliente. Fica registrada no log de auditoria dele, e expira.",
+    "searchLabel": "Encontrar uma empresa",
+    "openSession": "Abrir sessão",
+    "noDetails": "Sem dados registrados",
+    "noMatches": "Nenhuma empresa corresponde.",
+    "bannerTitle": "Acesso de suporte — {company}, somente leitura",
+    "bannerDetail": "Você não pertence a esta empresa. Nada aqui pode ser alterado, e a sessão termina às {time}.",
+    "endSession": "Encerrar a sessão",
+    "companyDescription": "O que o suporte precisa para atender um chamado. Somente leitura.",
+    "statClockedIn": "Com ponto aberto",
+    "statPending": "Folhas aguardando aprovação",
+    "statHours": "Horas esta semana",
+    "peopleHeading": "Pessoas",
+    "sitesHeading": "Canteiros",
+    "noPeople": "Ainda ninguém nesta empresa.",
+    "noSites": "Ainda sem canteiros.",
+    "supportStarted": "Sessão aberta.",
+    "supportEnded": "Sessão encerrada.",
+    "supportNotAllowed": "Você não pode abrir uma sessão de suporte.",
+    "supportUnknownCompany": "Essa empresa não existe.",
+    "supportFailed": "Não foi possível concluir. Tente de novo."
   }
 }

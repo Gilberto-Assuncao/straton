@@ -7,9 +7,10 @@ import { SessionProvider } from "@/src/application/session/session-provider";
 import { getNotifications } from "@/src/features/notifications/data";
 import { getExcessShiftsCount, getPendingApprovalsCount } from "@/src/features/dashboard/data";
 import { getRecentWorkLocations } from "@/src/features/sites/data";
+import { isPlatformAdmin } from "@/src/features/support/data";
 
 export default async function DashboardShell({ children }: { children: ReactNode }) {
-  const [session, notifications, pendingApprovals, excessShifts, recentLocations] = await Promise.all([requireAuthenticatedSession(), getNotifications(), getPendingApprovalsCount(), getExcessShiftsCount(), getRecentWorkLocations()]);
+  const [session, notifications, pendingApprovals, excessShifts, recentLocations, platformAdmin] = await Promise.all([requireAuthenticatedSession(), getNotifications(), getPendingApprovalsCount(), getExcessShiftsCount(), getRecentWorkLocations(), isPlatformAdmin()]);
   const t = await getTranslations("nav");
   const roles = session.activeCompany?.roles ?? [];
   const navigation = defaultAppNavigation
@@ -37,6 +38,21 @@ export default async function DashboardShell({ children }: { children: ReactNode
         : item.badge === "divergences" ? (excessShifts > 0 ? String(excessShifts) : undefined)
         : item.badge,
     }));
+
+  /*
+   * Support access is not a company role (#19).
+   *
+   * Which is why it is appended here rather than declared in `config.ts` with a
+   * `roles` list: every entry there is filtered by what somebody is *inside a
+   * company*, and this privilege deliberately sits outside that model. Putting
+   * it in the same list would invite somebody to express it as a role one day.
+   *
+   * Hidden from everyone else, and the route 404s for them too — the menu is
+   * not the check.
+   */
+  if (platformAdmin) {
+    navigation.push({ id: "support", label: t("support"), href: "/dashboard/support", icon: "search", section: "company", children: undefined, badge: undefined });
+  }
   return (
     <SessionProvider value={session}>
       <AppShell navigation={navigation} breadcrumbs={[{ label: t("dashboard"), href: "/dashboard" }]} companies={session.companies.filter(({ status }) => status !== "archived").map(({ id, name }) => ({ id, name }))} currentCompany={session.activeCompany?.id} user={session.user} notifications={notifications}>
